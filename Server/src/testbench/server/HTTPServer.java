@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import javax.annotation.Resources;
+import testbench.server.res.RestResource;
 import java.net.URI;
 
 /**
@@ -12,8 +12,8 @@ import java.net.URI;
  */
 public class HTTPServer {
     public static void main (String args[]) throws Exception {
-        URI endpoint = new URI("http://localhost/");
-        ResourceConfig rc = new ResourceConfig(Resources.class);
+        URI endpoint = new URI("http://localhost:80/");
+        ResourceConfig rc = new ResourceConfig(RestResource.class);
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
     }
 }

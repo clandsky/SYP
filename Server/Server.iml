@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jax_server" level="project" />
     <orderEntry type="library" name="aopalliance-repackaged-2.4.0-b31" level="project" />
+    <orderEntry type="module" module-name="Bootloader" />
   </component>
 </module>
