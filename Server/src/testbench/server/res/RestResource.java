@@ -4,8 +4,9 @@ package testbench.server.res;
  * Created by Chrizzle Manizzle on 26.11.2015.
  */
 //import sun.plugin2.message.Message;
-import testbench.bootloader.protobuf.*;
 import com.google.protobuf.*;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+//import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,53 +46,53 @@ public class RestResource {
         System.out.println("Input: " + name);
         System.out.println();
     }
+
     /*-------------------------------------------------------------------------------------------------------------------------------*/
     @Provider
-    @Consumes("application/x-protobuf")
-    public static class ProtobufMessageBodyReader implements MessageBodyReader<Message> {
-        public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-            return Message.class.isAssignableFrom(type);
+    @Produces("application/protobuf")
+    @Consumes("application/protobuf")
+    public class WidgetProtocMessageBodyProvder
+            implements MessageBodyReader, MessageBodyWriter {
+
+        @Override
+        public boolean isReadable(Class type, Type type1,
+                                  Annotation[] antns, MediaType mt) {
+            return Massendaten.class.isAssignableFrom(type);
         }
 
-        public Message readFrom(Class<Message> type, Type genericType, Annotation[] annotations,
-                                MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
-                                InputStream entityStream) throws IOException, WebApplicationException {
-            try {
-                Method newBuilder = type.getMethod("newBuilder");
-                GeneratedMessage.Builder builder = (GeneratedMessage.Builder) newBuilder.invoke(type);
-                return builder.mergeFrom(entityStream).build();
-            } catch (Exception e) {
-                throw new WebApplicationException(e);
+        @Override
+        public Object readFrom(Class type, Type type1, Annotation[] antns,
+                               MediaType mt, MultivaluedMap mm, InputStream in)
+                throws IOException, WebApplicationException {
+            if (Massendaten.class.isAssignableFrom(type)) {
+                return Massendaten.parseFrom(in);
+            } else {
+                throw new BadRequestException("Can't Deserailize");
             }
         }
-    }
-    /*-------------------------------------------------------------------------------------------------------------------------------*/
-    @Provider
-    @Produces("application/x-protobuf")
-    public static class ProtobufMessageBodyWriter implements MessageBodyWriter<Message> {
-        public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-            return Message.class.isAssignableFrom(type);
+
+        @Override
+        public boolean isWriteable(Class type, Type type1,
+                                   Annotation[] antns, MediaType mt) {
+            return Massendaten.class.isAssignableFrom(type);
         }
 
-        private Map<Object, byte[]> buffer = new WeakHashMap<Object, byte[]>();
+        @Override
+        public long getSize(Object t, Class type, Type type1,
+                            Annotation[] antns, MediaType mt) {
+            return -1;
+        }
 
-        public long getSize(Message m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-                m.writeTo(baos);
-            } catch (IOException e) {
-                return -1;
+        @Override
+        public void writeTo(Object t, Class type, Type type1,
+                            Annotation[] antns, MediaType mt,
+                            MultivaluedMap mm, OutputStream out)
+                throws IOException, WebApplicationException {
+            if (t instanceof Massendaten) {
+                Massendaten md = (Massendaten) t;
+                md.writeTo(out);
             }
-            byte[] bytes = baos.toByteArray();
-            buffer.put(m, bytes);
-            return bytes.length;
         }
 
-        public void writeTo(Message m, Class type, Type genericType, Annotation[] annotations,
-                            MediaType mediaType, MultivaluedMap httpHeaders,
-                            OutputStream entityStream) throws IOException, WebApplicationException {
-            entityStream.write(buffer.remove(m));
-        }
     }
-
 }
