@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 public class HTTPClient {
     public static void main(String args[]) {
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://192.168.0.14/");
+        WebTarget target = client.target("http://localhost:80/");
 
         String response = target.path( "testlauf" ).request().accept(MediaType.TEXT_PLAIN).get(String.class);
 
