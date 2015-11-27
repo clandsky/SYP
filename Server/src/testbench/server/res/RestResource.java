@@ -1,7 +1,7 @@
 package testbench.server.res;
 
 /**
- * Created by Chrizzle Manizzle on 26.11.2015.
+ * Created by Chrizzle Manizzle on 26.11.2015. JAX Resource File
  */
 //import sun.plugin2.message.Message;
 import com.google.protobuf.*;
@@ -51,7 +51,7 @@ public class RestResource {
     @Provider
     @Produces("application/protobuf")
     @Consumes("application/protobuf")
-    public class WidgetProtocMessageBodyProvder
+    public class MessageBodyProvider
             implements MessageBodyReader, MessageBodyWriter {
 
         @Override
