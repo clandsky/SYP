@@ -54,16 +54,7 @@ public class RestResource {
         public boolean decider (Class type){
             boolean flag;
             flag =  Massendaten.class.isAssignableFrom(type)
-                    /*||Struktdaten.AIDName.class.isAssignableFrom(type)
-                    ||Struktdaten.AIDNameUnitID.class.isAssignableFrom(type)
-                    ||Struktdaten.JoinDef.class.isAssignableFrom(type)
-                    ||Struktdaten.LongLong.class.isAssignableFrom(type)
-                    ||Struktdaten.SelAIDNameUnitID.class.isAssignableFrom(type)
-                    ||Struktdaten.SelItem.class.isAssignableFrom(type)
-                    ||Struktdaten.SelOrder.class.isAssignableFrom(type)
-                    ||Struktdaten.SelValueExt.class.isAssignableFrom(type)
-                    ||Struktdaten.class.isAssignableFrom(type)
-                    ||Struktdaten.TS_Value.class.isAssignableFrom(type)*/;
+                    ||Struktdaten.class.isAssignableFrom(type);
 
             return flag;
         }
@@ -81,14 +72,9 @@ public class RestResource {
             if (Massendaten.class.isAssignableFrom(type)) {
                 return Massendaten.parseFrom(in);
             }
-            /*
-
-            else if (Struktdaten.class.isAssignableFrom(type))
-            {
+            else if (Struktdaten.class.isAssignableFrom(type)) {
                 return Struktdaten.parseFrom(in);
             }
-            [...]
-            */
             else {
                 throw new BadRequestException("Can't Deserailize");
             }
@@ -114,6 +100,10 @@ public class RestResource {
             if (t instanceof Massendaten) {
                 Massendaten md = (Massendaten) t;
                 md.writeTo(out);
+            }
+            if (t instanceof Struktdaten){
+                Struktdaten sd = (Struktdaten) t;
+                sd.writeTo(out);
             }
         }
 
