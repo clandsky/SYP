@@ -3,21 +3,17 @@ package testbench.server.res;
 /**
  * Created by Chrizzle Manizzle on 26.11.2015. JAX Resource File
  */
-//import sun.plugin2.message.Message;
+
 import com.google.protobuf.*;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-//import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
-import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -31,7 +27,7 @@ import javax.ws.rs.ext.Provider;
 public class RestResource {
     @GET
     @Path("testlauf")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces("application/protobuf")
     public String getTest() {
         System.out.println("GET /testlauf");
         System.out.println();
@@ -41,12 +37,13 @@ public class RestResource {
 
     @POST
     @Path("testlauf/{name}")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes("application/protobuf")
     public void insertTest(String name) {
         System.out.println("Input: " + name);
         System.out.println();
     }
 
+    //MessageBodyProvider-Definition
     /*-------------------------------------------------------------------------------------------------------------------------------*/
     @Provider
     @Produces("application/protobuf")
@@ -54,10 +51,27 @@ public class RestResource {
     public class MessageBodyProvider
             implements MessageBodyReader, MessageBodyWriter {
 
+        public boolean decider (Class type){
+            boolean flag;
+            flag =  Massendaten.class.isAssignableFrom(type)
+                    /*||Struktdaten.AIDName.class.isAssignableFrom(type)
+                    ||Struktdaten.AIDNameUnitID.class.isAssignableFrom(type)
+                    ||Struktdaten.JoinDef.class.isAssignableFrom(type)
+                    ||Struktdaten.LongLong.class.isAssignableFrom(type)
+                    ||Struktdaten.SelAIDNameUnitID.class.isAssignableFrom(type)
+                    ||Struktdaten.SelItem.class.isAssignableFrom(type)
+                    ||Struktdaten.SelOrder.class.isAssignableFrom(type)
+                    ||Struktdaten.SelValueExt.class.isAssignableFrom(type)
+                    ||Struktdaten.class.isAssignableFrom(type)
+                    ||Struktdaten.TS_Value.class.isAssignableFrom(type)*/;
+
+            return flag;
+        }
+
         @Override
         public boolean isReadable(Class type, Type type1,
                                   Annotation[] antns, MediaType mt) {
-            return Massendaten.class.isAssignableFrom(type);
+            return decider(type);
         }
 
         @Override
@@ -66,7 +80,16 @@ public class RestResource {
                 throws IOException, WebApplicationException {
             if (Massendaten.class.isAssignableFrom(type)) {
                 return Massendaten.parseFrom(in);
-            } else {
+            }
+            /*
+
+            else if (Struktdaten.class.isAssignableFrom(type))
+            {
+                return Struktdaten.parseFrom(in);
+            }
+            [...]
+            */
+            else {
                 throw new BadRequestException("Can't Deserailize");
             }
         }
@@ -74,7 +97,7 @@ public class RestResource {
         @Override
         public boolean isWriteable(Class type, Type type1,
                                    Annotation[] antns, MediaType mt) {
-            return Massendaten.class.isAssignableFrom(type);
+            return decider(type);
         }
 
         @Override
