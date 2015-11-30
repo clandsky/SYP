@@ -7,5 +7,45 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/aopalliance-repackaged-2.4.0-b31.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/asm-debug-all-5.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/hk2-api-2.4.0-b31.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/hk2-locator-2.4.0-b31.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/hk2-utils-2.4.0-b31.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javassist-3.18.1-GA.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javax.annotation-api-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javax.inject-2.4.0-b31.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javax.json-1.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javax.servlet-api-3.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/javax.ws.rs-api-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jaxb-api-2.2.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-client.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-common-2.22.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-common.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-container-jdk-http-2.22.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-container-servlet-core.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-container-servlet.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-entity-filtering-2.22.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-guava-2.22.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-guava-2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-media-jaxb.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-media-moxy-2.22.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/jersey-server.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/org.eclipse.persistence.core-2.6.0-M3.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/org.eclipse.persistence.moxy-2.6.0-M3.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/osgi-resource-locator-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/persistence-api-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/validation-api-1.1.0.Final.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/org.osgi.core-4.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/jaxrs/org.osgi.core-4.2.0.jar!/OSGI-OPT/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

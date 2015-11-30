@@ -1,28 +1,14 @@
 package testbench.server.res;
 
 /**
- * Created by Chrizzle Manizzle on 26.11.2015. JAX Resource File
+ *   Created by Christoph Landsky (30.11.2015)
  */
 
-import com.google.protobuf.*;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.bootloader.protobuf.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.MessageBodyReader;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
-
 
 
 @Path("/")
