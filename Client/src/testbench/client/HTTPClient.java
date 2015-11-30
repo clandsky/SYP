@@ -16,15 +16,13 @@ import java.util.List;
  */
 public class HTTPClient {
     public static void main(String args[]) {
-
         Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyReader.class).register(ProtoMessageBodyWriter.class).build();
         WebTarget target = client.target("http://localhost:80/");
 
         Massendaten response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
         List<Werte> liste = response.getValueList();
-        for (Werte w : liste)
-        {
-            System.out.println("Wert: "+w.getNumber());
+        for (int i=0 ; i<liste.size() ; i++) {
+            System.out.println("Wert: "+liste.get(i).getNumber());
         }
     }
 }
