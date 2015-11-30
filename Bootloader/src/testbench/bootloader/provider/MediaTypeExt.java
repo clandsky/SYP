@@ -1,4 +1,4 @@
-package testbench.bootloader.protobuf;
+package testbench.bootloader.provider;
 
 import javax.ws.rs.core.MediaType;
 /**

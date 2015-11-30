@@ -1,4 +1,4 @@
-package testbench.bootloader.protobuf;
+package testbench.bootloader.provider;
 
 import com.google.protobuf.Message;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
@@ -6,7 +6,6 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
