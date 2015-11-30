@@ -1,8 +1,7 @@
 package testbench.client;
 
 
-import testbench.bootloader.provider.ProtoMessageBodyReader;
-import testbench.bootloader.provider.ProtoMessageBodyWriter;
+import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class HTTPClient {
     public static void main(String args[]) {
-        Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyReader.class).register(ProtoMessageBodyWriter.class).build();
+        Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
         WebTarget target = client.target("http://localhost:80/");
 
         Massendaten response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);

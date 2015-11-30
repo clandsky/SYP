@@ -3,9 +3,7 @@ package testbench.server;
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-
-import testbench.bootloader.provider.ProtoMessageBodyReader;
-import testbench.bootloader.provider.ProtoMessageBodyWriter;
+import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.res.RestResource;
 import java.net.URI;
 
@@ -15,7 +13,7 @@ import java.net.URI;
 public class HTTPServer {
     public static void main (String args[]) throws Exception {
         URI endpoint = new URI("http://localhost:80/");
-        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyReader.class).register(ProtoMessageBodyWriter.class);
+        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class);
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
     }
 }
