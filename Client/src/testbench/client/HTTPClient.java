@@ -22,7 +22,7 @@ public class HTTPClient {
         Massendaten response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
         List<Werte> liste = response.getValueList();
         for (int i=0 ; i<liste.size() ; i++) {
-            System.out.println("Wert: "+liste.get(i).getNumber());
+            System.out.println("Wert "+i+": "+liste.get(i).getNumber());
         }
     }
 }
