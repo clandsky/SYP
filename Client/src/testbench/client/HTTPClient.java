@@ -1,16 +1,14 @@
 package testbench.client;
 
 
-import testbench.bootloader.protobuf.ProtoMessageBodyReader;
-import testbench.bootloader.protobuf.ProtoMessageBodyWriter;
-import testbench.bootloader.protobuf.MediaTypeExt;
+import testbench.bootloader.provider.ProtoMessageBodyReader;
+import testbench.bootloader.provider.ProtoMessageBodyWriter;
+import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**

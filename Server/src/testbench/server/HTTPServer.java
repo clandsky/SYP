@@ -4,8 +4,8 @@ import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import testbench.bootloader.protobuf.ProtoMessageBodyReader;
-import testbench.bootloader.protobuf.ProtoMessageBodyWriter;
+import testbench.bootloader.provider.ProtoMessageBodyReader;
+import testbench.bootloader.provider.ProtoMessageBodyWriter;
 import testbench.server.res.RestResource;
 import java.net.URI;
 

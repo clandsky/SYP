@@ -4,7 +4,7 @@ package testbench.server.res;
  *   Created by Christoph Landsky (30.11.2015)
  */
 
-import testbench.bootloader.protobuf.MediaTypeExt;
+import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
 
@@ -20,14 +20,10 @@ public class RestResource {
     public Massendaten getTest() {
         System.out.println("GET /testlauf");
         System.out.println();
-        Massendaten md = Massendaten.newBuilder()
+        return Massendaten.newBuilder()
                 .addValue(Massendaten.Werte.newBuilder().setNumber(0.123))
                 .addValue(Massendaten.Werte.newBuilder().setNumber(0.456))
                 .addValue(Massendaten.Werte.newBuilder().setNumber(0.789))
                 .build();
-
-
-        return md;
     }
-
 }
