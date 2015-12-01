@@ -9,6 +9,8 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 @Path("/")
@@ -20,10 +22,30 @@ public class RestResource {
     public Massendaten getTest() {
         System.out.println("GET /testlauf");
         System.out.println();
-        return Massendaten.newBuilder()
-                .addValue(Massendaten.Werte.newBuilder().setNumber(0.123))
-                .addValue(Massendaten.Werte.newBuilder().setNumber(0.456))
-                .addValue(Massendaten.Werte.newBuilder().setNumber(0.789))
-                .build();
+
+        Massendaten.Builder builder = Massendaten.newBuilder();
+
+        for(int i=0 ; i<1000000 ; i++) {
+            builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
+        }
+
+        Massendaten massendaten = builder.build();
+
+        return massendaten;
+    }
+
+    @POST
+    @Path("testlauf")
+    @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
+    public Response postTest(Massendaten massendaten) {
+        System.out.println("POST /testlauf");
+        System.out.println();
+
+        List<Massendaten.Werte> liste = massendaten.getValueList();
+    /*         for (int i=0 ; i<liste.size() ; i++) {
+            System.out.println("Wert "+i+": "+liste.get(i).getNumber());
+        } */
+
+        return Response.status(200).build();
     }
 }
