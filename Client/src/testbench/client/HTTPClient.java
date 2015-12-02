@@ -53,11 +53,6 @@ public class HTTPClient {
                     Massendaten response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
                     messEnde = System.currentTimeMillis();
 
-                    List<Werte> liste = response.getValueList();
-                 /*   for (int i=0 ; i<liste.size() ; i++) {
-                        System.out.println("Wert "+i+": "+liste.get(i).getNumber());
-                    } */
-
                     int serializedSize = response.getSerializedSize();
                     System.out.println("Groesse: "+serializedSize+" Byte");
                     System.out.println("Groesse: "+serializedSize/1000000+" MB");
