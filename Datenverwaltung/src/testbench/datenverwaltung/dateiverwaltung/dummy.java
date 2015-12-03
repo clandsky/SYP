@@ -1,8 +1,10 @@
 package testbench.datenverwaltung.dateiverwaltung;
 
 import testbench.datenverwaltung.dateiverwaltung.entities.Frequency;
+import testbench.datenverwaltung.dateiverwaltung.grenz.QueryStuctureExtGrenz;
 import testbench.datenverwaltung.dateiverwaltung.services.Generator;
 
+import javax.management.Query;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +24,9 @@ public class dummy
 
         double step = 0.1;
 
-        ArrayList<Object> d = gen.generatorMassData( step, arr, 500, 1 );
+        ArrayList<Object> d = gen.generatorMassData( step, arr, 500, Generator.dataType.dtInt16 );
+
+        QueryStuctureExtGrenz qse = gen.generatorDeepStructure( 1, 2, 3, 4, 5 );
 
         int i = 0;
         for( Object o : d )
