@@ -23,12 +23,6 @@ public class Generator
         dtFloat64
     }
 
-    /**
-     * @param sampleRate
-     * @param fileSize
-     * @param type
-     * @return
-     */
     /// @Todo Type hinzufügen
     public ArrayList<Object> generatorMassData(double sampleRate, ArrayList<Frequency> frequencies, int fileSize, dataType type)
     {
@@ -104,6 +98,76 @@ public class Generator
                 new SelOrderSequenceGrenz()
         );
 
+        AIdNameSequenceGrenz aIdNameSeq = qse.getaIdNameSequenceGrenz();
+        for( int i = 0; i < aIdNameCount; i++ )
+        {
+            aIdNameSeq.getGroupBy().add(
+                    new AIdNameGrenz(
+                            new LongLongGrenz( 1, 2 ), "AIdNameGrenz"
+                    ) );
+        }
+
+        JoinDefSequenceGrenz joinDefSeq = qse.getJoinDefSequenceGrenz();
+        for( int i = 0; i < joinDefCount; i++ )
+        {
+            joinDefSeq.getJoinSeq().add(
+                    new JoinDefGrenz(
+                            new LongLongGrenz( 4, 8 ),
+                            new LongLongGrenz( 16, 32 ),
+                            "JoinDefGrenz",
+                            JoinDefGrenz.JoinType.JTDEFAILT
+                    )
+            );
+        }
+
+        SelAIdNameUnitIdSequenceGrenz selAidNameUnitIdSeq = qse.getSelAIdNameUnitIdSequenceGrenz();
+        for( int i = 0; i < selAidNameUnitIdCount; i++ )
+        {
+            selAidNameUnitIdSeq.getAnuSeq().add(
+                    new SelAIdNameUnitIdGrenz(
+                            new AIdNameGrenz(
+                                    new LongLongGrenz( 64, 128 ), "AIdNameGrenz"
+                            ),
+                            new LongLongGrenz( 256, 512 ),
+                            SelAIdNameUnitIdGrenz.Aggregate.COUNT
+                    )
+            );
+        }
+
+        SelItemSequenceGrenz selItemSeq = qse.getSelItemSequenceGrenz();
+        for( int i = 0; i < selItemCount; i++ )
+        {
+            selItemSeq.getSelItem().add(
+                    new SelItemGrenz(
+                            SelOpCodeGrenz.CI_NOTINSET,
+                            new SelValueExtGrenz(
+                                    new SelAIdNameUnitIdGrenz(
+                                            new AIdNameGrenz(
+                                                    new LongLongGrenz( 3, 5 ),
+                                                    "AIdNameGrenz"
+                                            ),
+                                            new LongLongGrenz( 7, 10 ),
+                                            SelAIdNameUnitIdGrenz.Aggregate.POINT
+                                    ),
+                                    SelOpCodeGrenz.EQ,
+                                    new TS_ValueGrenz(
+                                            new TS_UnionGrenz( new Double( 1234.24 ), TS_UnionGrenz.DataType.DS_DOUBLE )
+                                    )
+                            )
+                    )
+            );
+        }
+
+        SelOrderSequenceGrenz selOrderSeq = qse.getSelOrderSequenceGrenz();
+        for( int i = 0; i < selOrderCount; i++ )
+        {
+            selOrderSeq.getOrderBy().add(
+                    new OrderByGrenz(
+                            new LongLongGrenz( 45, 23 ),
+                            "OrderByGrenz"
+                    )
+            );
+        }
         return qse;
     }
 }
