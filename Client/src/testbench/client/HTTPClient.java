@@ -6,6 +6,8 @@ import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
+import testbench.client.steuerungsklassen.ClientSteuer;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -24,6 +26,7 @@ public class HTTPClient {
     public static void main(String args[]) {
         Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
         WebTarget target = client.target("http://localhost:80/");
+        ClientSteuer clientSteuer = new ClientSteuer();
 
         long messStart;
         long messEnde;
@@ -62,8 +65,9 @@ public class HTTPClient {
                         messEnde = System.currentTimeMillis();
 
                         int serializedSizeGet = response.getSerializedSize();
+                        double groeßeMB = Math.round(serializedSizeGet/1000000);
                         System.out.println("Groesse in Byte: "+serializedSizeGet);
-                        System.out.println("Groesse in Megabyte: "+serializedSizeGet/1000000);
+                        System.out.println("Groesse in Megabyte: "+groeßeMB);
 
                         System.out.println("Benötigte Zeit: "+String.valueOf(messEnde-messStart)+" ms");
                     } catch (Exception e) {
@@ -73,28 +77,12 @@ public class HTTPClient {
                     break;
 
                 case "2":
-                    Massendaten.Builder builder = Massendaten.newBuilder();
-
-                    for(int i=0 ; i<10000000 ; i++) {
-                        builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
-                    }
-
-                    messStart = System.currentTimeMillis();
-                    Massendaten massendaten = builder.build();
-                    messEnde = System.currentTimeMillis();
-                    System.out.println("Benötigte Serialisierungszeit: "+String.valueOf(messEnde-messStart)+" ms");
-
-                    try{
-                        messStart = System.currentTimeMillis();
-                        target.path("testlauf").request().post(Entity.entity(massendaten, MediaTypeExt.APPLICATION_PROTOBUF), Massendaten.class);
-                        messEnde = System.currentTimeMillis();
-
-                        int serializedSizePost = massendaten.getSerializedSize();
-                        System.out.println("Groesse in Byte: "+serializedSizePost);
-                        System.out.println("Groesse in Megabyte: "+serializedSizePost/1000000);
-                        System.out.println("Benötigte Zeit: "+String.valueOf(messEnde-messStart)+" ms");
-                    } catch (Exception e) {
-                        System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
+                    long[] messArray = clientSteuer.switchCase2();
+                    if(messArray != null) {
+                        System.out.println("Benötigte Serialisierungszeit: "+messArray[0]+" ms");
+                        System.out.println("Benötigte Zeit: "+messArray[1]+" ms");
+                    } else {
+                        System.out.println("Fehler in Case 2!");
                     }
 
                     break;
