@@ -1,13 +1,18 @@
 package testbench.client.steuerungsklassen;
 
+import testbench.bootloader.entities.Messdaten;
+import testbench.bootloader.grenz.MassendatenGrenz;
+import testbench.bootloader.grenz.StruktdatenGrenz;
+import testbench.bootloader.protobuf.Splitter;
+import testbench.bootloader.protobuf.WerteListConverter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import testbench.bootloader.provider.MediaTypeExt;
-import testbench.bootloader.provider.ProtoMessageBodyProvider;
-import testbench.client.SendPostThread;
+import testbench.client.HTTPClient;
+import testbench.client.PrototypDatenbank;
+import testbench.client.grenzklassen.MassendatenListeGrenz;
+import testbench.client.grenzklassen.StruktdatenListeGrenz;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import java.util.ArrayList;
@@ -19,77 +24,115 @@ import java.util.List;
 
 
 public class ClientSteuer {
-    Client client;
-    WebTarget target;
 
-    public ClientSteuer() {
-        client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
-        target = client.target("http://localhost:8000/");
+    public List<Messdaten> holeMessdaten() {
+        return null;
     }
 
-    public long[] switchCase2() {
+    public MassendatenGrenz empfangeMassendaten(int id) {
+        WerteListConverter w = new WerteListConverter();
+        List<Werte> werteList = HTTPClient.getExemplar().empfangeMassendaten(id).getValueList();
+        return new MassendatenGrenz(w.werteListToDoubleList(werteList));
+    }
+
+    public StruktdatenGrenz empfangeStruktdaten(int id) {
+        return null;
+    }
+
+    public MassendatenListeGrenz empfangeMassenInfo() {
+        return null;
+    }
+
+    public StruktdatenListeGrenz empfangeStruktInfo() {
+        return null;
+    }
+
+    public boolean sendeMassendaten(int id) {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
         SendPostThread srt;
-        long[] messArray = new long[2];
-        long messStart;
-        long messEnde;
         int processors = Runtime.getRuntime().availableProcessors();
         int threads = (int)(processors*0.75);
         int threadCycle;
 
         System.out.println("Verfuegbare CPUs: "+processors);
-        System.out.println("Threads: "+threads);
+        System.out.println("Threads: " + threads);
 
-        Massendaten.Builder builder = Massendaten.newBuilder();
-        for (int i = 0; i < 15000000; i++) {
-            builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
-        }
-        messStart = System.currentTimeMillis();
-        Massendaten massendaten = builder.build();
-        messEnde = System.currentTimeMillis();
-        messArray[0] = messEnde - messStart;
+        List<Massendaten> massendatenList = new Splitter().splitMassendaten(PrototypDatenbank.getMassendaten(id), 10000);
 
-        Massendaten[] massendatenArray;
-        massendatenArray = new ClientSteuer().splitMassendaten1MB(massendaten.getValueList());
+        System.out.println("massendatenList.size(): " + massendatenList.size());
 
-        if(massendatenArray.length%threads == 0) threadCycle = massendatenArray.length/threads;
-        else threadCycle = massendatenArray.length/(threads)-1;
+        if(threads > massendatenList.size()) threads = massendatenList.size();
+
+        if(massendatenList.size()%threads == 0) threadCycle = massendatenList.size()/threads;
+        else threadCycle = massendatenList.size()/(threads)-1;
         System.out.println("threadCycle: "+threadCycle);
 
         try {
-            messStart = System.currentTimeMillis();
-
             for (int i = 0; i < threads; i++) {
                 int endIndex = i*threadCycle+threadCycle;
 
                 if(i == threads-1) {
-                    endIndex = massendatenArray.length-1;
+                    endIndex =massendatenList.size()-1;
                 }
 
                 System.out.println("endIndex: "+endIndex);
-                srt = new SendPostThread(target.getUriBuilder().toString(),massendatenArray,i*threadCycle,endIndex);
+                srt = new SendPostThread(massendatenList,i*threadCycle,endIndex);
                 sendRequestThreadArrayList.add(srt);
                 srt.start();
-               // target.path("testlauf").request().post(Entity.entity(massendatenArray[i], MediaTypeExt.APPLICATION_PROTOBUF), Massendaten.class);
+                // target.path("testlauf").request().post(Entity.entity(massendatenArray[i], MediaTypeExt.APPLICATION_PROTOBUF), Massendaten.class);
             }
 
             for(int cnt=0 ; cnt<sendRequestThreadArrayList.size() ; cnt++)
                 sendRequestThreadArrayList.get(cnt).join();
 
-            //target.path("testlauf").request().post(Entity.entity(massendaten, MediaTypeExt.APPLICATION_PROTOBUF), Massendaten.class);
-            messEnde = System.currentTimeMillis();
-            messArray[1] = messEnde - messStart;
-
-            return messArray;
         } catch (Exception e) {
             System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
         }
 
+            return true;
+    }
+
+    public boolean sendeStruktdaten(int id) {
+        return true;
+    }
+
+    public boolean connect(String adresse) {
+        HTTPClient.getExemplar().connect(adresse);
+        return true;
+    }
+
+    public void starteDatenverwaltung() {
+
+    }
+
+    public MassendatenGrenz erzeugeZufallsMassendaten() {
         return null;
     }
 
+
+    /*****************************************************************************************************************/
+    public class SendPostThread extends Thread {
+        private List<Massendaten> massendatenList;
+        private int startIndex;
+        private int endIndex;
+
+        public SendPostThread(List<Massendaten> massendatenList, int startIndex, int endIndex) {
+            this.massendatenList = massendatenList;
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+        }
+
+        public void run() {
+            for(int i=startIndex ; i<endIndex ; i++) {
+                HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+            }
+
+        }
+    }
+
+
     /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
-    public Massendaten[] splitMassendaten1MB(List<Werte> werteList) {
+   /* public Massendaten[] splitMassendaten1MB(List<Werte> werteList) {
         System.out.println("\nSPLIT MASSENDATEN 1MB");
         int divider = 90909;
 
@@ -115,14 +158,8 @@ public class ClientSteuer {
             massendatenArray[i] = builder.build();
         }
 
-  /*      int werte = 0;
-        for(int x=0 ; x<massendatenArray.length ; x++) {
-            werte += massendatenArray[x].getValueList().size();
-            System.out.println("Array["+x+"] size: "+(double)massendatenArray[x].getSerializedSize()/1000000);
-        }
-        System.out.println("Gesamtwerte in Array: "+werte); */
 
         return massendatenArray;
-    }
+    } */
 
 }

@@ -15,14 +15,26 @@ public class Splitter {
     public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB) {
         System.out.println("\nSPLIT MASSENDATEN 1MB");
         int divider = packetSizeKB*1000/11;
+
         List<Massendaten> splittedMassendatenList = new ArrayList<>();
         List<Werte> werteList = massendaten.getValueList();
 
-        int temp = (werteList.size() / divider)+1;
+        int temp;
+        if(werteList.size()%divider == 0) temp = werteList.size()/divider;
+        else temp = werteList.size()/divider+1;
+
+        System.out.println("temp: "+temp);
 
         for(int x=0 ; x<temp ; x++) {
             Massendaten.Builder builder = Massendaten.newBuilder();
-            List<Werte> chunkList = werteList.subList(x*divider,x*divider+divider-1);
+            List<Werte> chunkList;
+
+            if(x == temp-1) {
+                chunkList = werteList.subList(x*divider,werteList.size()-1);
+            } else {
+                chunkList = werteList.subList(x*divider,x*divider+divider-1);
+            }
+
 
             for(int i=0 ; i<chunkList.size() ; i++) {
                 builder.addValue(chunkList.get(i));
