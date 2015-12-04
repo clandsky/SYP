@@ -26,8 +26,6 @@ import java.lang.reflect.Type;
 @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
 @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
 public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, MessageBodyWriter<Message> {
-    private long messStart;
-    private long messEnde;
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
@@ -37,15 +35,11 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
     @Override
     public Message readFrom(Class<Message> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         if (MassendatenProtos.Massendaten.class.isAssignableFrom(aClass)) {
-            messStart = System.nanoTime();
             Message message = MassendatenProtos.Massendaten.parseFrom(inputStream);
-            messEnde = System.nanoTime();
             return message;
         }
         else if (StruktdatenProtos.Struktdaten.class.isAssignableFrom(aClass)) {
-            messStart = System.nanoTime();
             Message message = StruktdatenProtos.Struktdaten.parseFrom(inputStream);
-            messEnde = System.nanoTime();
             return message;
         }
         else {
@@ -66,12 +60,7 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
     @Override
     public void writeTo(Message m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-        messStart = System.nanoTime();
         entityStream.write(m.toByteArray());
-        messEnde = System.nanoTime();
     }
 
-    public long getMessZeit() {
-        return messEnde-messStart;
-    }
 }
