@@ -58,16 +58,20 @@ public class PrototypeMain {
 
                 case "2":
                     Massendaten.Builder builder = Massendaten.newBuilder();
-                    for (int i = 0; i < 8000000; i++) {
+                    for (int i=0; i < 6000000; i++) {
                         builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
                     }
                     messStart = System.currentTimeMillis();
                     Massendaten massendaten = builder.build();
                     messEnde = System.currentTimeMillis();
+                    System.out.println("Benötigte Serialisierungszeit: "+String.valueOf(messEnde-messStart)+" ms");
 
                     int id = PrototypDatenbank.addMassendaten(massendaten);
 
+                    messStart = System.currentTimeMillis();
                     new ClientSteuer().sendeMassendaten(id);
+                    messEnde = System.currentTimeMillis();
+                    System.out.println("Benötigte Übertragungszeit: "+String.valueOf(messEnde-messStart)+" ms");
 
                     break;
 
