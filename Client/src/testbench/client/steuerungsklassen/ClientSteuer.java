@@ -24,7 +24,7 @@ public class ClientSteuer {
 
     public ClientSteuer() {
         client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
-        target = client.target("http://localhost:80/");
+        target = client.target("http://localhost:8000/");
     }
 
     public long[] switchCase2() {
@@ -34,12 +34,15 @@ public class ClientSteuer {
         long messStart;
         long messEnde;
         int processors = Runtime.getRuntime().availableProcessors();
-        int threads = processors-1;
+        int threads = (int)(processors*0.75);
         int threadCycle;
 
+        System.out.println("Verfuegbare CPUs: "+processors);
+        System.out.println("Threads: "+threads);
+
         Massendaten.Builder builder = Massendaten.newBuilder();
-        for (int i = 0; i < 10000000; i++) {
-            builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
+        for (int i = 0; i < 15000000; i++) {
+            builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
         }
         messStart = System.currentTimeMillis();
         Massendaten massendaten = builder.build();

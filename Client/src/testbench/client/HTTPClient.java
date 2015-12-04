@@ -25,7 +25,7 @@ import java.util.List;
 public class HTTPClient {
     public static void main(String args[]) {
         Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
-        WebTarget target = client.target("http://localhost:80/");
+        WebTarget target = client.target("http://localhost:8000/");
         ClientSteuer clientSteuer = new ClientSteuer();
 
         long messStart;
