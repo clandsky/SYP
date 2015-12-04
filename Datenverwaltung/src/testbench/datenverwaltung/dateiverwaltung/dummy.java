@@ -24,19 +24,26 @@ public class dummy
         config.addFreqeuncy( new Frequency( 1.0, 1.0, 0.0 ) );
         config.addFreqeuncy( new Frequency( 3.0, 0.4, 0.0 ) );
         config.addFreqeuncy( new Frequency( 5.0, 0.2, 0.0 ) );
-        MassendatenProtos.Massendaten massendaten = gen.generatorMassData( config, 50000 );
+        MassendatenProtos.Massendaten massendaten = gen.generatorMassData( config, 50000000 );
 
         List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();
         double pos = 0.0;
         for( MassendatenProtos.Massendaten.Werte w : list )
         {
-            System.out.println( pos + "\t" + w.getNumber() );
+       //     System.out.println( pos + "\t" + w.getNumber() );
             pos += config.getAbtastrate();
         }
 
-        //QueryStuctureExtGrenz qse = gen.generatorDeepStructure( 1, 2, 3, 4, 5 );
         FileOutputStream output = new FileOutputStream("E:\\Test.dat");
         massendaten.writeTo(output);
+
+        try
+        {
+            gen.generatorDeepStructure(0, 0, 0, 0, 0);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return;
     }

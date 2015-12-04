@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.services;
 
+import com.sun.javafx.binding.StringFormatter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.datenverwaltung.dateiverwaltung.grenz.MassenDef;
@@ -12,6 +13,8 @@ import static java.lang.Math.*;
  */
 public class Generator
 {
+    final boolean _DEBUG = true;
+
     /***
      * Generiert anhand der
      *
@@ -26,6 +29,8 @@ public class Generator
         double pos = 0.0f;
         int typeSize = 8;
 
+        int procent = 0;
+
         MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
 
         // Schleife um die Daten zu generieren:
@@ -39,20 +44,42 @@ public class Generator
                 value += sin(f.getPhase() + f.getFrequency() * pos) * f.getAmplitude();
             }
 
+            if( _DEBUG )
+            {
+                if (procent != i * 100 / (fileSize / typeSize))
+                {
+                    procent = i * 100 / (fileSize / typeSize);
+                    String s = "";
+
+                    final int LEN = 40;
+                    for (int j = 0; j < LEN; j++)
+                    {
+                        if (j * 100 / LEN < procent)
+                            s += "#";
+                        else
+                            s += "-";
+                    }
+
+                    System.out.println("generiere " + s + "  " + (double) i * 100 / (fileSize / typeSize) + "%       \r");
+                }
+            }
+            
             builder.addValue(MassendatenProtos.Massendaten.Werte.newBuilder().setNumber(value));
 
             // erhöhen der Position der Abtastung
             pos += config.getAbtastrate();
         }
 
+        System.out.println("\nFertig!\n\n");
+
         MassendatenProtos.Massendaten massendaten = builder.build();
 
         return massendaten;
     }
 
-    public StruktdatenProtos.Struktdaten generatorDeepStructure(int aIdNameCount, int joinDefCount, int selAidNameUnitIdCount, int selItemCount, int selOrderCount)
+    public StruktdatenProtos.Struktdaten generatorDeepStructure(int aIdNameCount, int joinDefCount, int selAidNameUnitIdCount, int selItemCount, int selOrderCount) throws Exception
     {
         StruktdatenProtos.Struktdaten struct;
-        return null;
+        throw new Exception( "DeepStructure: NOT WORKING BY NOW!" );
     }
 }
