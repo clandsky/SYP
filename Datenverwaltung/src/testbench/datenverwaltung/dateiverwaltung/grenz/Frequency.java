@@ -1,4 +1,4 @@
-package testbench.datenverwaltung.dateiverwaltung.entities;
+package testbench.datenverwaltung.dateiverwaltung.grenz;
 
 /**
  * Created by CGrings on 29.11.2015.

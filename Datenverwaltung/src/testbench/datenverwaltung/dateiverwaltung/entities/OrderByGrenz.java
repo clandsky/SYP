@@ -1,14 +1,14 @@
-package testbench.datenverwaltung.dateiverwaltung.grenz;
+package testbench.datenverwaltung.dateiverwaltung.entities;
 
 /**
  * Created by CGrings on 03.12.2015.
  */
-public class GroupByGrenz
+public class OrderByGrenz
 {
     private LongLongGrenz aid;
     private String aaName;
 
-    public GroupByGrenz(LongLongGrenz aid, String aaName)
+    public OrderByGrenz(LongLongGrenz aid, String aaName)
     {
         this.aid = aid;
         this.aaName = aaName;

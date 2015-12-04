@@ -1,4 +1,4 @@
-package testbench.datenverwaltung.dateiverwaltung.grenz;
+package testbench.datenverwaltung.dateiverwaltung.entities;
 
 import java.util.ArrayList;
 
