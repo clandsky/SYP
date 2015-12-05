@@ -1,6 +1,6 @@
 package testbench.bootloader.entities;
 
-import testbench.datenverwaltung.dateiverwaltung.grenz.MassenDef;
+import testbench.bootloader.grenz.MassenDef;
 
 /**
  * Created by Sven Riedel on 04.12.2015.

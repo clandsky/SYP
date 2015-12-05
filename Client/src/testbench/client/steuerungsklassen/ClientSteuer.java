@@ -51,7 +51,7 @@ public class ClientSteuer {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
         SendPostThread srt;
         int processors = Runtime.getRuntime().availableProcessors();
-        int threads = (int)(processors*0.75);
+        int threads = (int)(processors*0.5);
         int threadCycle;
 
         System.out.println("Verfuegbare CPUs: "+processors);
@@ -79,7 +79,6 @@ public class ClientSteuer {
                 srt = new SendPostThread(massendatenList,i*threadCycle,endIndex);
                 sendRequestThreadArrayList.add(srt);
                 srt.start();
-                // target.path("testlauf").request().post(Entity.entity(massendatenArray[i], MediaTypeExt.APPLICATION_PROTOBUF), Massendaten.class);
             }
 
             for(int cnt=0 ; cnt<sendRequestThreadArrayList.size() ; cnt++)

@@ -1,8 +1,8 @@
 package testbench.datenverwaltung.dateiverwaltung;
 
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.datenverwaltung.dateiverwaltung.grenz.MassenDef;
-import testbench.datenverwaltung.dateiverwaltung.grenz.Frequency;
+import testbench.bootloader.grenz.MassenDef;
+import testbench.bootloader.grenz.Frequency;
 import testbench.datenverwaltung.dateiverwaltung.services.Generator;
 
 import java.io.FileOutputStream;

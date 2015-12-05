@@ -1,6 +1,6 @@
 package testbench.bootloader.entities;
 
-import testbench.datenverwaltung.dateiverwaltung.grenz.StruktDef;
+import testbench.bootloader.grenz.StruktDef;
 
 /**
  * Created by Sven Riedel on 04.12.2015.
