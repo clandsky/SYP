@@ -9,7 +9,9 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -34,12 +36,13 @@ public class HTTPClient {
         return true;
     }
 
-    public boolean sendeMassendaten(Massendaten m) {
-        return true;
+    public Response sendeMassendaten(Massendaten m) {
+        Response response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+        return response;
     }
 
-    public boolean sendeStruktdaten(Struktdaten s) {
-        return true;
+    public Response sendeStruktdaten(Struktdaten s) {
+        return null;
     }
 
     // ID NOCH NICHT IMPLEMENTIERT
@@ -59,4 +62,7 @@ public class HTTPClient {
         return null;
     }
 
+    public String getServerIP() {
+        return target.getUri().toString();
+    }
 }

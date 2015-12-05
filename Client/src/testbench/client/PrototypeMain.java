@@ -3,6 +3,7 @@ package testbench.client;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.client.steuerungsklassen.ClientSteuer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,27 +53,27 @@ public class PrototypeMain {
                         System.out.println("Benötigte Zeit: "+String.valueOf(messEnde-messStart)+" ms");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
+                        System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
                     }
                     break;
 
                 case "2":
-                    Massendaten.Builder builder = Massendaten.newBuilder();
-                    for (int i=0; i < 6000000; i++) {
-                        builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
+                    long uebertragZeit;
+
+                    if(PrototypDaten.mList.isEmpty()) {
+                        Massendaten.Builder builder = Massendaten.newBuilder();
+                        for (int i=0; i < 10000000; i++) {
+                            builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
+                        }
+                        PrototypDaten.mList.add( builder.build() );
                     }
-                    messStart = System.currentTimeMillis();
-                    Massendaten massendaten = builder.build();
-                    messEnde = System.currentTimeMillis();
-                    System.out.println("Benötigte Serialisierungszeit: "+String.valueOf(messEnde-messStart)+" ms");
-
-                    int id = PrototypDatenbank.addMassendaten(massendaten);
 
                     messStart = System.currentTimeMillis();
-                    new ClientSteuer().sendeMassendaten(id);
+                    new ClientSteuer().sendeMassendaten(0);
                     messEnde = System.currentTimeMillis();
-                    System.out.println("Benötigte Übertragungszeit: "+String.valueOf(messEnde-messStart)+" ms");
+                    uebertragZeit = messEnde-messStart;
 
+                    System.out.println("Benötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
                     break;
 
                 default:

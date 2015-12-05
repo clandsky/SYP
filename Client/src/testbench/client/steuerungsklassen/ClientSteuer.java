@@ -7,14 +7,12 @@ import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.WerteListConverter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
-import testbench.bootloader.provider.MediaTypeExt;
 import testbench.client.HTTPClient;
-import testbench.client.PrototypDatenbank;
+import testbench.client.PrototypDaten;
 import testbench.client.grenzklassen.MassendatenListeGrenz;
 import testbench.client.grenzklassen.StruktdatenListeGrenz;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,15 +49,17 @@ public class ClientSteuer {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
         SendPostThread srt;
         int processors = Runtime.getRuntime().availableProcessors();
-        int threads = (int)(processors*0.5);
+
+        int threads;
+        // Wenn Server+Client auf dem localhost genutzt werden, nur die hälfte der CPU's als Threads nutzen
+        if(HTTPClient.getExemplar().getServerIP().equals("http://localhost:8000/")) threads = (int)(processors*0.5);
+        else threads = processors-1;
         int threadCycle;
 
         System.out.println("Verfuegbare CPUs: "+processors);
         System.out.println("Threads: " + threads);
-
-        List<Massendaten> massendatenList = new Splitter().splitMassendaten(PrototypDatenbank.getMassendaten(id), 10000);
-
-        System.out.println("massendatenList.size(): " + massendatenList.size());
+        List<Massendaten> massendatenList = new Splitter().splitMassendaten(PrototypDaten.getMassendaten(id), 1000);
+        System.out.println("Massendaten in MassendatenListe: " + massendatenList.size());
 
         if(threads > massendatenList.size()) threads = massendatenList.size();
 
@@ -81,8 +81,13 @@ public class ClientSteuer {
                 srt.start();
             }
 
-            for(int cnt=0 ; cnt<sendRequestThreadArrayList.size() ; cnt++)
+            for(int cnt=0 ; cnt<sendRequestThreadArrayList.size() ; cnt++) {
                 sendRequestThreadArrayList.get(cnt).join();
+            }
+
+         /*   for (int i = 0; i < massendatenList.size(); i++) {
+                HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+            } */
 
         } catch (Exception e) {
             System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
@@ -123,7 +128,8 @@ public class ClientSteuer {
 
         public void run() {
             for(int i=startIndex ; i<endIndex ; i++) {
-                HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+                Response response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+            //    System.out.println(this.getName()+" - Response Code: "+response.getStatus());
             }
 
         }
