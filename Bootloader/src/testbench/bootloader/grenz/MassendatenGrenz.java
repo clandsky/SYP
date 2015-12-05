@@ -11,4 +11,8 @@ public class MassendatenGrenz {
     public MassendatenGrenz(List<Double> values) {
         this.values = values;
     }
+
+    public List<Double> getValues() {
+        return values;
+    }
 }

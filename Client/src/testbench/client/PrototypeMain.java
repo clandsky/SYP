@@ -26,7 +26,7 @@ public class PrototypeMain {
         System.out.println("||||-Protobuf Testbench-||||\n");
 
         do{
-            System.out.println("Bitte waehlen:");
+            System.out.println("\nBitte waehlen:");
             System.out.println("1: GET-Request an den Server (Daten downloaden)");
             System.out.println("2: POST-Request an den Server (Daten uploaden)");
             System.out.println("0: Programm beenden\n");
@@ -50,7 +50,7 @@ public class PrototypeMain {
                         messStart = System.currentTimeMillis();
                         MassendatenGrenz response = new ClientSteuer().empfangeMassendaten(0);
                         messEnde = System.currentTimeMillis();
-                        System.out.println("Benötigte Zeit: "+String.valueOf(messEnde-messStart)+" ms");
+                        System.out.println("Benötigte Empfangszeit: "+String.valueOf(messEnde-messStart)+" ms");
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
@@ -59,10 +59,11 @@ public class PrototypeMain {
 
                 case "2":
                     long uebertragZeit;
+                    System.out.println("\nPOST an Server...");
 
                     if(PrototypDaten.mList.isEmpty()) {
                         Massendaten.Builder builder = Massendaten.newBuilder();
-                        for (int i=0; i < 10000000; i++) {
+                        for (int i=0; i < 5000000; i++) {
                             builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
                         }
                         PrototypDaten.mList.add( builder.build() );
@@ -73,13 +74,11 @@ public class PrototypeMain {
                     messEnde = System.currentTimeMillis();
                     uebertragZeit = messEnde-messStart;
 
-                    System.out.println("Benötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
+                    System.out.println("\nBenötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
                     break;
 
                 default:
-                    System.out.println();
-                    System.out.println("Falsche Eingabe!");
-                    System.out.println();
+                    System.out.println("\nFalsche Eingabe!\n");
             }
 
             System.out.println();

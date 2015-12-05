@@ -45,7 +45,6 @@ public class HTTPClient {
         return null;
     }
 
-    // ID NOCH NICHT IMPLEMENTIERT
     public Massendaten empfangeMassendaten(int id) {
         return target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
     }

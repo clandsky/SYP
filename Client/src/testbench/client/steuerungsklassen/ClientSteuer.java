@@ -29,8 +29,8 @@ public class ClientSteuer {
 
     public MassendatenGrenz empfangeMassendaten(int id) {
         WerteListConverter w = new WerteListConverter();
-        List<Werte> werteList = HTTPClient.getExemplar().empfangeMassendaten(id).getValueList();
-        return new MassendatenGrenz(w.werteListToDoubleList(werteList));
+        Massendaten m = HTTPClient.getExemplar().empfangeMassendaten(id);
+        return new MassendatenGrenz(w.werteListToDoubleList(m.getValueList()));
     }
 
     public StruktdatenGrenz empfangeStruktdaten(int id) {
@@ -49,45 +49,39 @@ public class ClientSteuer {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
         SendPostThread srt;
         int processors = Runtime.getRuntime().availableProcessors();
-
         int threads;
+        int threadCycle;
+
+        Massendaten m = PrototypDaten.getMassendaten(id);
+        List<Massendaten> massendatenList = new Splitter().splitMassendaten(m, 1000);
+
         // Wenn Server+Client auf dem localhost genutzt werden, nur die hälfte der CPU's als Threads nutzen
         if(HTTPClient.getExemplar().getServerIP().equals("http://localhost:8000/")) threads = (int)(processors*0.5);
         else threads = processors-1;
-        int threadCycle;
 
-        System.out.println("Verfuegbare CPUs: "+processors);
+        System.out.println("\nVerfuegbare CPUs: "+processors);
         System.out.println("Threads: " + threads);
-        List<Massendaten> massendatenList = new Splitter().splitMassendaten(PrototypDaten.getMassendaten(id), 1000);
-        System.out.println("Massendaten in MassendatenListe: " + massendatenList.size());
 
         if(threads > massendatenList.size()) threads = massendatenList.size();
 
         if(massendatenList.size()%threads == 0) threadCycle = massendatenList.size()/threads;
         else threadCycle = massendatenList.size()/(threads)-1;
-        System.out.println("threadCycle: "+threadCycle);
 
         try {
             for (int i = 0; i < threads; i++) {
                 int endIndex = i*threadCycle+threadCycle;
 
                 if(i == threads-1) {
-                    endIndex =massendatenList.size()-1;
+                    endIndex = massendatenList.size()-1;
                 }
 
-                System.out.println("endIndex: "+endIndex);
                 srt = new SendPostThread(massendatenList,i*threadCycle,endIndex);
                 sendRequestThreadArrayList.add(srt);
                 srt.start();
             }
 
-            for(int cnt=0 ; cnt<sendRequestThreadArrayList.size() ; cnt++) {
-                sendRequestThreadArrayList.get(cnt).join();
-            }
-
-         /*   for (int i = 0; i < massendatenList.size(); i++) {
-                HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
-            } */
+            for(SendPostThread s : sendRequestThreadArrayList)
+                s.join();
 
         } catch (Exception e) {
             System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
