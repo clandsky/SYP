@@ -14,9 +14,4 @@ public class PrototypDaten {
     public static Massendaten getMassendaten(int id) {
         return mList.get(id);
     }
-
-    public static void replaceMassenDaten(Massendaten m) {
-        mList.remove(0);
-        mList.add(m);
-    }
 }

@@ -75,7 +75,7 @@ public class ClientSteuer {
                     endIndex = massendatenList.size()-1;
                 }
 
-                srt = new SendPostThread(massendatenList,i*threadCycle,endIndex);
+                srt = new SendPostThread(sendRequestThreadArrayList.size()+1,massendatenList,i*threadCycle,endIndex);
                 sendRequestThreadArrayList.add(srt);
                 srt.start();
             }
@@ -110,19 +110,36 @@ public class ClientSteuer {
 
     /*****************************************************************************************************************/
     public class SendPostThread extends Thread {
+        private int threadID;
         private List<Massendaten> massendatenList;
         private int startIndex;
         private int endIndex;
 
-        public SendPostThread(List<Massendaten> massendatenList, int startIndex, int endIndex) {
+        public SendPostThread(int threadID, List<Massendaten> massendatenList, int startIndex, int endIndex) {
+            this.threadID = threadID;
             this.massendatenList = massendatenList;
             this.startIndex = startIndex;
             this.endIndex = endIndex;
         }
 
         public void run() {
+            int work = endIndex-startIndex;
+            int[] progress = new int[9];
+            int progressCounter = 0;
+
+            for(int x=1 ; x<progress.length ; x++) {
+                progress[x-1] = work*x/10;
+                System.out.println(progress[x-1]);
+            }
+
+            int cnt = 0;
             for(int i=startIndex ; i<endIndex ; i++) {
-                Response response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+                if(cnt == progress[progressCounter]) {
+                    System.out.println("Thread "+threadID+" progress: "+progress[progressCounter]+"%");
+                    progressCounter++;
+                }
+                cnt++;
+              //  Response response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
             //    System.out.println(this.getName()+" - Response Code: "+response.getStatus());
             }
 
