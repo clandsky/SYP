@@ -139,21 +139,16 @@ public class ClientSteuer {
         public void run() {
             double work = endIndex-startIndex;
             double cnt = 0;
-            Response response = null;
 
             try{
                 for(int i=startIndex ; i<endIndex ; i++) {
                     cnt++;
                     progressList.set(threadID-1, cnt/work*100);
-                    response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
+                    HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
                 }
             } catch(Exception e) {
                 System.out.println("Thread "+threadID+": Fehler bei der Uebertragung!");
                 if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
-            }
-
-            if(response != null) {
-                if(response.getStatus() != 200) System.out.println("Thread "+threadID+" reported bad response: "+response.getStatus());
             }
         }
     }
