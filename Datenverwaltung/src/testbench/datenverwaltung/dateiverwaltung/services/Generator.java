@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.services;
 
+import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.grenz.MassenDef;
@@ -14,14 +15,6 @@ public class Generator
 {
     final boolean _DEBUG = true;
 
-    /***
-     * Generiert anhand der
-     *
-     * @param sampleRate
-     * @param frequencies
-     * @param fileSize
-     * @return
-     */
     public MassendatenProtos.Massendaten generatorMassData(MassenDef config, int fileSize)
     {
 
@@ -43,6 +36,7 @@ public class Generator
                 value += sin(f.getPhase() + f.getFrequency() * pos) * f.getAmplitude();
             }
 
+            // Prozentanzeige wenn im DEBUG-Modus
             if( _DEBUG )
             {
                 if (procent != i * 100 / (fileSize / typeSize))
@@ -76,9 +70,30 @@ public class Generator
         return massendaten;
     }
 
-    public StruktdatenProtos.Struktdaten generatorDeepStructure(int aIdNameCount, int joinDefCount, int selAidNameUnitIdCount, int selItemCount, int selOrderCount) throws Exception
+    public StruktdatenProtos.Struktdaten generatorDeepStructure( StruktDef struktDef )
     {
-        StruktdatenProtos.Struktdaten struct;
-        throw new Exception( "DeepStructure: NOT WORKING BY NOW!" );
+        StruktdatenProtos.Struktdaten.Builder structBuilder = StruktdatenProtos.Struktdaten.newBuilder();
+        StruktdatenProtos.Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder = StruktdatenProtos.Struktdaten.SelAIDNameUnitID.newBuilder();
+        StruktdatenProtos.Struktdaten.AIDName.Builder aIDNameBuilder = StruktdatenProtos.Struktdaten.AIDName.newBuilder();
+        StruktdatenProtos.Struktdaten.LongLong.Builder longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
+
+        longLong.setLow( 300 );
+        longLong.setHigh( 300 );
+
+        aIDNameBuilder.setAaName( "AName" );
+        aIDNameBuilder.setAid( longLong );
+
+        selAIDNameUnitIDBuilder.setAggregate( "Test" );
+        selAIDNameUnitIDBuilder.setAidname( aIDNameBuilder );
+
+
+        longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
+        longLong.setLow( 300 );
+        longLong.setHigh( 300 );
+        selAIDNameUnitIDBuilder.setUnitid( longLong );
+
+        structBuilder.addAnuSeq( selAIDNameUnitIDBuilder );
+
+        return structBuilder.build();
     }
 }
