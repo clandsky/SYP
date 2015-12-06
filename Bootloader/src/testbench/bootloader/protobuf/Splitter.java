@@ -53,8 +53,13 @@ public class Splitter {
     }
 
     public Massendaten mergeMassendaten(List<Massendaten> massendatenList) {
+        Massendaten.Builder builder = Massendaten.newBuilder();
 
-        return null;
+        for(Massendaten m : massendatenList) {
+            for(Werte w : m.getValueList())
+                builder.addValue(w);
+        }
+        return builder.build();
     }
 
     public List<Struktdaten> splitStruktddaten(Struktdaten struktdaten) {
