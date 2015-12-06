@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung;
 
+import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
@@ -34,8 +35,8 @@ public class dummy
 
         try
         {
-
-            StruktdatenProtos.Struktdaten stp = gen.generatorDeepStructure(0, 0, 0, 0, 0);
+            StruktDef struktDef = new StruktDef();
+            StruktdatenProtos.Struktdaten stp = gen.generatorDeepStructure(struktDef);
             FileOutputStream output2 = new FileOutputStream("E:\\Test2.dat");
             stp.writeTo(output2);
 
