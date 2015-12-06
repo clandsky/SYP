@@ -11,7 +11,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/protobuf-java-format-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/protobuf-java-format-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
