@@ -78,7 +78,7 @@ public class dummy
             }
         }
 
-
+/*
         try
         {
             gen.generatorDeepStructure(0, 0, 0, 0, 0);
@@ -86,7 +86,7 @@ public class dummy
         {
             e.printStackTrace();
         }
-
+*/
 
 
 
