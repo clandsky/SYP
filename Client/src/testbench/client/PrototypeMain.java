@@ -63,7 +63,7 @@ public class PrototypeMain {
 
                     if(PrototypDaten.mList.isEmpty()) {
                         Massendaten.Builder builder = Massendaten.newBuilder();
-                        for (int i=0; i < 5000000; i++) {
+                        for (int i=0; i < 10000000; i++) {
                             builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
                         }
                         PrototypDaten.mList.add( builder.build() );

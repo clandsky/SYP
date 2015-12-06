@@ -22,6 +22,10 @@ import java.util.List;
 
 
 public class ClientSteuer {
+    private int FORTSCHRITT_GENAUIGKEIT = 5;
+    private boolean PRINT_STACKTRACE_CONSOLE = true;
+    private boolean PRINT_DEBUG_INFO = true;
+
 
     public List<Messdaten> holeMessdaten() {
         return null;
@@ -48,19 +52,19 @@ public class ClientSteuer {
     public boolean sendeMassendaten(int id) {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
         SendPostThread srt;
-        int processors = Runtime.getRuntime().availableProcessors();
+        int processors;
         int threads;
         int threadCycle;
+        List<Double> progressList = new ArrayList<>();
 
         Massendaten m = PrototypDaten.getMassendaten(id);
         List<Massendaten> massendatenList = new Splitter().splitMassendaten(m, 1000);
 
-        // Wenn Server+Client auf dem localhost genutzt werden, nur die hälfte der CPU's als Threads nutzen
-        if(HTTPClient.getExemplar().getServerIP().equals("http://localhost:8000/")) threads = (int)(processors*0.5);
-        else threads = processors-1;
+        processors = Runtime.getRuntime().availableProcessors();
+        if(PRINT_DEBUG_INFO) System.out.println("\nVerfuegbare CPUs: "+processors);
 
-        System.out.println("\nVerfuegbare CPUs: "+processors);
-        System.out.println("Threads: " + threads);
+        threads = (int)(processors*0.5); // Nur die hälfte der CPU's als Threads nutzen
+        if(PRINT_DEBUG_INFO) System.out.println("Threads: " + threads);
 
         if(threads > massendatenList.size()) threads = massendatenList.size();
 
@@ -75,15 +79,23 @@ public class ClientSteuer {
                     endIndex = massendatenList.size()-1;
                 }
 
-                srt = new SendPostThread(sendRequestThreadArrayList.size()+1,massendatenList,i*threadCycle,endIndex);
+                srt = new SendPostThread(sendRequestThreadArrayList.size()+1,massendatenList,i*threadCycle,endIndex,progressList);
                 sendRequestThreadArrayList.add(srt);
                 srt.start();
+                progressList.add(0.0);
             }
+
+            ProgressThread pThread = new ProgressThread(progressList,FORTSCHRITT_GENAUIGKEIT);
+            pThread.start();
 
             for(SendPostThread s : sendRequestThreadArrayList)
                 s.join();
 
+            pThread.abbruch();
+            pThread.join();
+
         } catch (Exception e) {
+            if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
             System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
         }
 
@@ -108,74 +120,88 @@ public class ClientSteuer {
     }
 
 
-    /*****************************************************************************************************************/
+    /*************************************** THREADS ***************************************************/
     public class SendPostThread extends Thread {
         private int threadID;
         private List<Massendaten> massendatenList;
         private int startIndex;
         private int endIndex;
+        private List<Double> progressList;
 
-        public SendPostThread(int threadID, List<Massendaten> massendatenList, int startIndex, int endIndex) {
+        public SendPostThread(int threadID, List<Massendaten> massendatenList, int startIndex, int endIndex, List<Double> progressList) {
             this.threadID = threadID;
             this.massendatenList = massendatenList;
             this.startIndex = startIndex;
             this.endIndex = endIndex;
+            this.progressList = progressList;
         }
 
         public void run() {
-            int work = endIndex-startIndex;
-            int[] progress = new int[9];
-            int progressCounter = 0;
+            double work = endIndex-startIndex;
+            double cnt = 0;
+            Response response = null;
 
-            for(int x=1 ; x<progress.length ; x++) {
-                progress[x-1] = work*x/10;
-                System.out.println(progress[x-1]);
-            }
-
-            int cnt = 0;
-            for(int i=startIndex ; i<endIndex ; i++) {
-                if(cnt == progress[progressCounter]) {
-                    System.out.println("Thread "+threadID+" progress: "+progress[progressCounter]+"%");
-                    progressCounter++;
+            try{
+                for(int i=startIndex ; i<endIndex ; i++) {
+                    cnt++;
+                    progressList.set(threadID-1, cnt/work*100);
+                    response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
                 }
-                cnt++;
-              //  Response response = HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
-            //    System.out.println(this.getName()+" - Response Code: "+response.getStatus());
+            } catch(Exception e) {
+                System.out.println("Thread "+threadID+": Fehler bei der Uebertragung!");
+                if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
             }
 
+            if(response != null) {
+                if(response.getStatus() != 200) System.out.println("Thread "+threadID+" reported bad response: "+response.getStatus());
+            }
         }
     }
 
+    public class ProgressThread extends Thread {
+        private List<Double> progressList;
+        private boolean abbruch;
+        List<Integer> intList;
 
-    /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
-   /* public Massendaten[] splitMassendaten1MB(List<Werte> werteList) {
-        System.out.println("\nSPLIT MASSENDATEN 1MB");
-        int divider = 90909;
+        public ProgressThread(List<Double> progressList, int precision) {
+            this.progressList = progressList;
+            this.abbruch = false;
+            this.intList = new ArrayList<>();
 
-        Massendaten[] massendatenArray;
-        if(werteList.size()%divider == 0) massendatenArray = new Massendaten[werteList.size()/divider];
-        else massendatenArray = new Massendaten[werteList.size()/divider+1];
-
-        System.out.println("Listengroeße: "+werteList.size());
-        System.out.println("Arraygroeße: "+massendatenArray.length);
-
-        for(int i=0 ; i<massendatenArray.length ; i++) {
-            Massendaten.Builder builder = Massendaten.newBuilder();
-
-            if(i == massendatenArray.length-1) {
-                for(int j=0 ; j<werteList.size()-divider*i ; j++) {
-                    builder.addValue(Massendaten.Werte.newBuilder().setNumber(werteList.get(i*divider+j).getNumber()));
-                }
-            } else {
-                for(int j=0 ; j<divider ; j++) {
-                    builder.addValue(werteList.get(i*divider+j));
-                    }
-            }
-            massendatenArray[i] = builder.build();
+            for(int i=1 ; i<=100/precision ; i++) intList.add(i*precision);
         }
 
+        public void run() {
+            double progress = 0.0;
+            long rounded;
+            while(!abbruch){
+                for(Double d : progressList) {
+                    try {
+                        sleep(5);
+                    } catch (InterruptedException e) {
+                        if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
+                    }
 
-        return massendatenArray;
-    } */
+                    progress += d;
+                    rounded = Math.round(progress);
+                    if(rounded >= 100) abbruch = true;
+                    printProgress(rounded);
+                    progress = 0.0;
+                }
+            }
+        }
 
+        private void printProgress(long progress) {
+            if(intList.size() > 0) {
+                if(progress >= intList.get(0)) {
+                    System.out.println("Uebertragung: "+intList.get(0)+"%");
+                    intList.remove(0);
+                }
+            }
+        }
+
+        public void abbruch() {
+            abbruch = true;
+        }
+    }
 }
