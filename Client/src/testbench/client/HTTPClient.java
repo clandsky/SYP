@@ -1,103 +1,67 @@
 package testbench.client;
 
-
-import com.google.protobuf.CodedInputStream;
+import testbench.bootloader.entities.MassenInfo;
+import testbench.bootloader.entities.StruktInfo;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
-import testbench.client.steuerungsklassen.ClientSteuer;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
  *   Created by Sven Riedel (30.11.2015)
  */
 public class HTTPClient {
-    public static void main(String args[]) {
-        Client client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
-        WebTarget target = client.target("http://localhost:8000/");
-        ClientSteuer clientSteuer = new ClientSteuer();
+    private static HTTPClient httpClient;
+    private Client client;
+    private WebTarget target;
 
-        long messStart;
-        long messEnde;
-        boolean abbruch = false;
-        String input = null;
+    private HTTPClient(){}
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static HTTPClient getExemplar() {
+        if(httpClient == null) httpClient = new HTTPClient();
+        return httpClient;
+    }
 
-        System.out.println();
-        System.out.println("||||-Protobuf Testbench-||||\n");
+    public boolean connect(String adresse) {
+        client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
+        target = client.target(adresse);
 
-        do{
-            System.out.println("Bitte waehlen:");
-            System.out.println("1: GET-Request an den Server (Daten downloaden)");
-            System.out.println("2: POST-Request an den Server (Daten uploaden)");
-            System.out.println("0: Programm beenden\n");
-            System.out.print("Eingabe: ");
+        return true;
+    }
 
-            try {
-                do{
-                    input = br.readLine();
-                } while(input == null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public Response sendeMassendaten(Massendaten m) {
+        Response response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+        return response;
+    }
 
-            switch(input) {
-                case "0":
-                    abbruch = true;
-                    break;
+    public Response sendeStruktdaten(Struktdaten s) {
+        return null;
+    }
 
-                case "1":
-                    try{
-                        messStart = System.currentTimeMillis();
-                        Massendaten response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
-                        messEnde = System.currentTimeMillis();
+    public Massendaten empfangeMassendaten(int id) {
+        return target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
+    }
 
-                        int serializedSizeGet = response.getSerializedSize();
-                        double groeßeMB = Math.round(serializedSizeGet/1000000);
-                        System.out.println("Groesse in Byte: "+serializedSizeGet);
-                        System.out.println("Groesse in Megabyte: "+groeßeMB);
+    public Struktdaten empfangeStruktdaten(int id) {
+        return null;
+    }
 
-                        System.out.println("Benötigte Zeit: "+String.valueOf(messEnde-messStart)+" ms");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.out.println("\n !!! Verbindung zum Server fehlgeschlagen !!!");
-                    }
-                    break;
+    public List<MassenInfo> empfangeMassendatenInfoListe() {
+        return null;
+    }
 
-                case "2":
-                    long[] messArray = clientSteuer.switchCase2();
-                    if(messArray != null) {
-                        System.out.println("Benötigte Serialisierungszeit: "+messArray[0]+" ms");
-                        System.out.println("Benötigte Zeit: "+messArray[1]+" ms");
-                    } else {
-                        System.out.println("Fehler in Case 2!");
-                    }
+    public List<StruktInfo> empfangeStruktdatenInfoListe() {
+        return null;
+    }
 
-                    break;
-
-                default:
-                    System.out.println();
-                    System.out.println("Falsche Eingabe!");
-                    System.out.println();
-            }
-
-            System.out.println();
-
-        } while(!abbruch);
-
-
-
+    public String getServerIP() {
+        return target.getUri().toString();
     }
 }

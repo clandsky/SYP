@@ -1,10 +1,9 @@
 package testbench.datenverwaltung.dateiverwaltung.services;
 
-import com.sun.javafx.binding.StringFormatter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
-import testbench.datenverwaltung.dateiverwaltung.grenz.MassenDef;
-import testbench.datenverwaltung.dateiverwaltung.grenz.Frequency;
+import testbench.bootloader.grenz.MassenDef;
+import testbench.bootloader.grenz.Frequency;
 
 import static java.lang.Math.*;
 
