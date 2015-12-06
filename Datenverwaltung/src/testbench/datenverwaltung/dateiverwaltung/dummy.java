@@ -3,6 +3,7 @@ package testbench.datenverwaltung.dateiverwaltung;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.datenverwaltung.dateiverwaltung.services.Generator;
 
 import java.io.FileOutputStream;
@@ -19,31 +20,31 @@ public class dummy
         Generator gen = new Generator();
 
         // Konfiguration für den Generator füllen
-        MassenDef config = new MassenDef( 0.1 );
-        config.addFreqeuncy( new Frequency( 0.3, 4.0, 0.0 ) );
-        config.addFreqeuncy( new Frequency( 1.0, 1.0, 0.0 ) );
-        config.addFreqeuncy( new Frequency( 3.0, 0.4, 0.0 ) );
-        config.addFreqeuncy( new Frequency( 5.0, 0.2, 0.0 ) );
-        MassendatenProtos.Massendaten massendaten = gen.generatorMassData( config, 50000000 );
+        MassenDef config = new MassenDef(0.1);
+        config.addFreqeuncy(new Frequency(0.3, 4.0, 0.0));
+        config.addFreqeuncy(new Frequency(1.0, 1.0, 0.0));
+        config.addFreqeuncy(new Frequency(3.0, 0.4, 0.0));
+        config.addFreqeuncy(new Frequency(5.0, 0.2, 0.0));
+        MassendatenProtos.Massendaten massendaten = gen.generatorMassData(config, 50000000);
 
         List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();
-        double pos = 0.0;
-        for( MassendatenProtos.Massendaten.Werte w : list )
-        {
-       //     System.out.println( pos + "\t" + w.getNumber() );
-            pos += config.getAbtastrate();
-        }
 
         FileOutputStream output = new FileOutputStream("E:\\Test.dat");
         massendaten.writeTo(output);
 
         try
         {
-            gen.generatorDeepStructure(0, 0, 0, 0, 0);
+
+            StruktdatenProtos.Struktdaten stp = gen.generatorDeepStructure(0, 0, 0, 0, 0);
+            FileOutputStream output2 = new FileOutputStream("E:\\Test2.dat");
+            stp.writeTo(output2);
+
+
         } catch (Exception e)
         {
             e.printStackTrace();
         }
+
 
         return;
     }
