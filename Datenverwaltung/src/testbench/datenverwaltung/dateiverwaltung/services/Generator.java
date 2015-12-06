@@ -44,6 +44,7 @@ public class Generator
                 value += sin(f.getPhase() + f.getFrequency() * pos) * f.getAmplitude();
             }
 
+            // Prozentanzeige wenn im DEBUG-Modus
             if( _DEBUG )
             {
                 if (procent != i * 100 / (fileSize / typeSize))
@@ -79,7 +80,16 @@ public class Generator
 
     public StruktdatenProtos.Struktdaten generatorDeepStructure(int aIdNameCount, int joinDefCount, int selAidNameUnitIdCount, int selItemCount, int selOrderCount) throws Exception
     {
-        StruktdatenProtos.Struktdaten struct;
+        StruktdatenProtos.Struktdaten.Builder structBuilder = StruktdatenProtos.Struktdaten.newBuilder();
+        StruktdatenProtos.Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder = StruktdatenProtos.Struktdaten.SelAIDNameUnitID.newBuilder();
+
+        selAIDNameUnitIDBuilder.setAggregate( "Test" );
+        selAIDNameUnitIDBuilder.setAidname()
+
+        structBuilder.addAnuSeq( selAIDNameUnitIDOrBuilder );
+
+        return structBuilder.build();
+
         throw new Exception( "DeepStructure: NOT WORKING BY NOW!" );
     }
 }
