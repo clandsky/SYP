@@ -31,7 +31,7 @@ public class HTTPClient {
     }
 
     public boolean connect(String adresse) {
-        client = ClientBuilder.newBuilder().register(ByteMessageBodyProvider.class, ProtoMessageBodyProvider.class).build();
+        client = ClientBuilder.newBuilder().register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class).build();
         target = client.target(adresse);
 
         return true;
