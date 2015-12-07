@@ -115,7 +115,7 @@ public class dummy
 
                 case 3:
 
-                    Message.Builder builder = MassendatenProtos.Massendaten.newBuilder();
+                    MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
 
                     System.out.println("Laden der XML Datei");
                     File file2 = new File("massendaten.xml");
