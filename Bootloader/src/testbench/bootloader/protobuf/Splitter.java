@@ -3,6 +3,7 @@ package testbench.bootloader.protobuf;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
+import testbench.bootloader.Werkzeug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Splitter {
     /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
     public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB) {
         int divider = packetSizeKB*1000/11;
+        Werkzeug w = new Werkzeug();
         List<Massendaten> splittedMassendatenList = new ArrayList<>();
         List<Werte> werteList = massendaten.getValueList();
         int serializedSize = 0;
@@ -29,24 +31,21 @@ public class Splitter {
             Massendaten.Builder builder = Massendaten.newBuilder();
             List<Werte> chunkList;
 
-            if(x == temp-1) {
-                chunkList = werteList.subList(x*divider,werteList.size()-1);
-            } else {
-                chunkList = werteList.subList(x*divider,x*divider+divider-1);
-            }
+            if(x == temp-1)chunkList = werteList.subList(x*divider,werteList.size()-1);
+            else chunkList = werteList.subList(x*divider,x*divider+divider-1);
 
-            for(int i=0 ; i<chunkList.size() ; i++) {
-                builder.addValue(chunkList.get(i));
-            }
+            for(int i=0 ; i<chunkList.size() ; i++) builder.addValue(chunkList.get(i));
+
+            w.printProgressBar(((x+1)*100)/temp);
 
             splittedMassendatenList.add(builder.build());
         }
 
         System.out.println("Zahl der Massendaten nach splitten: " + splittedMassendatenList.size());
 
-        for(int x=0 ; x<splittedMassendatenList.size() ; x++) {
+        for(int x=0 ; x<splittedMassendatenList.size() ; x++)
             serializedSize += splittedMassendatenList.get(x).getSerializedSize();
-        }
+
         System.out.println("Groesse der aufgeteilten Daten (serialisiert): " + serializedSize/1000 +" KB");
 
         return splittedMassendatenList;
