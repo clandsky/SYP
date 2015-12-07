@@ -1,17 +1,24 @@
 package testbench.client.steuerungsklassen;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
+import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.Werkzeug;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.client.HTTPClient;
 import testbench.client.PrototypDaten;
 import testbench.client.grenzklassen.MassendatenListeGrenz;
 import testbench.client.grenzklassen.StruktdatenListeGrenz;
+import testbench.client.service.DatenService;
+import testbench.datenverwaltung.dateiverwaltung.impl.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,29 +27,28 @@ import java.util.List;
  */
 
 public class ClientSteuer {
-    private boolean PRINT_STACKTRACE_CONSOLE = true;
-    HTTPClient httpClient;
+    private HTTPClient httpClient;
+    private DatenService dServe;
 
     public ClientSteuer() {
         httpClient = HTTPClient.getExemplar();
+        dServe = new DatenService();
     }
 
     public List<Messdaten> holeMessdaten() {
         return null;
     }
 
-    public MassendatenGrenz empfangeMassendaten(int id) {
-        Werkzeug w = new Werkzeug();
-        Massendaten massendaten = null;
+    public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
+        Massendaten massendaten;
         MassendatenGrenz massendatenGrenz;
+
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
 
-        try
-        {
-            massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
+
+        System.out.println("Empfangene Massendaten werden verarbeitet...");
+        dServe.schreibeMassendaten(massendaten);
 
         massendatenGrenz = new MassendatenGrenz(massendaten);
 
@@ -64,19 +70,16 @@ public class ClientSteuer {
     public boolean sendeMassendaten(int id) {
         List<Massendaten> massendatenList;
 
-        Massendaten massendaten = PrototypDaten.getMassendaten(id);
+        Massendaten massendaten = dServe.ladeMassendaten(id);
         massendatenList = new Splitter().splitMassendaten(massendaten, 1000);
 
         System.out.println("\nSenden der Massendaten wird vorbereitet...\n");
 
         try {
             ByteMessage bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
-
-            System.out.println("Erster wert: "+massendaten.getValueList().get(0));
-            System.out.println("Letzter wert: "+massendaten.getValueList().get(massendaten.getValueList().size()-1));
             return httpClient.sendeMassendaten(bm).getStatus() == 200;
         } catch (Exception e) {
-            if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
+            e.printStackTrace();
             System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
         }
 
@@ -93,11 +96,8 @@ public class ClientSteuer {
     }
 
     public void starteDatenverwaltung() {
-
+        testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl iActivate = new testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl();
+        iActivate.startComponent();
+        iActivate.getComponentGui().setVisible(true);
     }
-
-    public MassendatenGrenz erzeugeZufallsMassendaten() {
-        return null;
-    }
-
 }

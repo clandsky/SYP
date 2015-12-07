@@ -1,5 +1,6 @@
 package testbench.client;
 
+import com.sun.deploy.util.SessionState;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.Werkzeug;
@@ -18,10 +19,11 @@ public class PrototypeMain {
         long messEnde;
         boolean abbruch = false;
         String input = null;
+        ClientSteuer cSteuer = new ClientSteuer();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        new ClientSteuer().connect("http://localhost:8000/");
+        cSteuer.connect("http://localhost:8000/");
 
         System.out.println();
         System.out.println("||||- Protobuf Testbench Client -||||\n");
@@ -30,6 +32,7 @@ public class PrototypeMain {
             System.out.println("\nBitte waehlen:");
             System.out.println("1: GET-Request an den Server (Daten downloaden)");
             System.out.println("2: POST-Request an den Server (Daten uploaden)");
+            System.out.println("5: Datenverwaltung starten");
             System.out.println("0: Programm beenden\n");
             System.out.print("Eingabe: ");
 
@@ -49,7 +52,7 @@ public class PrototypeMain {
                 case "1":
                     try{
                         messStart = System.currentTimeMillis();
-                        MassendatenGrenz response = new ClientSteuer().empfangeMassendaten(0);
+                        MassendatenGrenz response = cSteuer.empfangeMassendaten(0);
                         messEnde = System.currentTimeMillis();
                         System.out.println("Benötigte Empfangszeit: "+String.valueOf(messEnde-messStart)+" ms");
                     } catch (Exception e) {
@@ -60,31 +63,19 @@ public class PrototypeMain {
 
                 case "2":
                     long uebertragZeit;
-                    int doubleAnzahl = 10000000;
-                    int newProgress, oldProgress=-1;
                     System.out.println("\nPOST an Server...");
-                    Werkzeug w = new Werkzeug();
-
-                    if(PrototypDaten.mList.isEmpty()) {
-                        Massendaten.Builder builder = Massendaten.newBuilder();
-                        System.out.println("\nTest-Massendaten ("+doubleAnzahl+" Double-Werte) werden generiert...");
-                        for (int i=0; i < doubleAnzahl; i++) {
-                            builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
-                            long dingens=(i+1);
-                            newProgress = (int)(dingens*100/doubleAnzahl);
-                            if(newProgress != oldProgress) w.printProgressBar(newProgress);
-                            oldProgress = newProgress;
-                        }
-                        PrototypDaten.mList.add( builder.build() );
-                    }
 
                     messStart = System.currentTimeMillis();
-                    new ClientSteuer().sendeMassendaten(0);
+                    cSteuer.sendeMassendaten(1);
                     messEnde = System.currentTimeMillis();
                     uebertragZeit = messEnde-messStart;
 
                     System.out.println("\nBenötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
                     break;
+
+                case "5":
+                        cSteuer.starteDatenverwaltung();
+                        break;
 
                 default:
                     System.out.println("\nFalsche Eingabe!\n");
