@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
+import testbench.bootloader.Werkzeug;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
@@ -21,6 +22,7 @@ public class Generator
         double pos = 0.0f;
         int typeSize = 8;
 
+        Werkzeug w = new Werkzeug();
         int procent = 0;
 
         MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
@@ -39,22 +41,7 @@ public class Generator
             // Prozentanzeige wenn im DEBUG-Modus
             if( _DEBUG )
             {
-                if (procent != i * 100 / (fileSize / typeSize))
-                {
-                    procent = i * 100 / (fileSize / typeSize);
-                    String s = "";
-
-                    final int LEN = 40;
-                    for (int j = 0; j < LEN; j++)
-                    {
-                        if (j * 100 / LEN < procent)
-                            s += "#";
-                        else
-                            s += "-";
-                    }
-
-                    System.out.println("generiere " + s + "  " + (double) i * 100 / (fileSize / typeSize) + "%       \r");
-                }
+                w.printProgressBar( i * 100 / (fileSize / typeSize) );
             }
             
             builder.addValue(MassendatenProtos.Massendaten.Werte.newBuilder().setNumber(value));
@@ -63,8 +50,7 @@ public class Generator
             pos += config.getAbtastrate();
         }
 
-        System.out.println("\nFertig!\n\n");
-
+        w.printProgressBar( 100 );
         MassendatenProtos.Massendaten massendaten = builder.build();
 
         return massendaten;
