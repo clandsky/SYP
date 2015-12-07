@@ -7,6 +7,7 @@ import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     @Override
     public MassendatenProtos.Massendaten holeMassendaten(int id)
     {
-        return null;
+        DateiLaden dl = new DateiLaden();
+        return dl.ladeMassendaten( id );
     }
 
     @Override
