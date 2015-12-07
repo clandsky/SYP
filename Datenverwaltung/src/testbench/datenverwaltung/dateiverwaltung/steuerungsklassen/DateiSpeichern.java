@@ -19,20 +19,21 @@ public class DateiSpeichern
         File file;
 
         System.out.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
-        try {
+        try
+        {
             //Specify the file path here
             file = new File("massendaten.xml");
             fos = new FileOutputStream(file);
 
                     /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
-            if (!file.exists()) {
+            if (!file.exists())
+            {
                 file.createNewFile();
             }
 
-	                /* Strings können nicht direkt in ein File geschrieben werden.
-	                Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
-
-	                */
+            /* Strings können nicht direkt in ein File geschrieben werden.
+             * Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
+             */
             byte[] bytesArray = xmlFormat.getBytes();
 
             fos.write(bytesArray);
@@ -40,18 +41,22 @@ public class DateiSpeichern
             System.out.println("");
             System.out.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             ioe.printStackTrace();
             return false;
         }
-        finally {
-            try {
+        finally
+        {
+            try
+            {
                 if (fos != null)
                 {
                     fos.close();
                 }
             }
-            catch (IOException ioe) {
+            catch (IOException ioe)
+            {
                 System.out.println("Error in closing the Stream");
                 return false;
             }

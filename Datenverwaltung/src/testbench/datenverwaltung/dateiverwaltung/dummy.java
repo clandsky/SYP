@@ -5,6 +5,7 @@ import com.googlecode.protobuf.format.XmlFormat;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
+import testbench.datenverwaltung.dateiverwaltung.gui.GeneratorGUI;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
@@ -19,6 +20,9 @@ public class dummy
 {
     static public void main(String[] args) throws IOException
     {
+        GeneratorGUI g = new GeneratorGUI();
+        g.setVisible(true);
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         MassendatenProtos.Massendaten massendaten = null;
 
@@ -51,23 +55,6 @@ public class dummy
                     massendaten = gen.generatorMassData(config, 50000);
 
                     List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();
-                    double pos = 0.0;
-                    for (MassendatenProtos.Massendaten.Werte w : list)
-                    {
-                        //     System.out.println( pos + "\t" + w.getNumber() );
-                        pos += config.getAbtastrate();
-                    }
-
-                    /*
-                    try
-                    {
-                            gen.generatorDeepStructure(0, 0, 0, 0, 0);
-
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    */
                     break;
 
                 /*
@@ -95,10 +82,8 @@ public class dummy
                 default:
                     break;
             }
-
-
-            return;
         }
+        return;
     }
 }
 
