@@ -7,6 +7,9 @@ import testbench.client.steuerungsklassen.ClientSteuer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 
 /**
  * Created by Sven Riedel on 04.12.2015.
@@ -23,7 +26,7 @@ public class PrototypeMain {
         new ClientSteuer().connect("http://localhost:8000/");
 
         System.out.println();
-        System.out.println("||||-Protobuf Testbench-||||\n");
+        System.out.println("||||- Protobuf Testbench Client -||||\n");
 
         do{
             System.out.println("\nBitte waehlen:");
@@ -59,12 +62,21 @@ public class PrototypeMain {
 
                 case "2":
                     long uebertragZeit;
+                    int doubleAnzahl = 20000000;
+                    int newProgress, oldProgress=-1;
                     System.out.println("\nPOST an Server...");
 
                     if(PrototypDaten.mList.isEmpty()) {
                         Massendaten.Builder builder = Massendaten.newBuilder();
-                        for (int i=0; i < 10000000; i++) {
+                        System.out.println("\nTest-Massendaten ("+doubleAnzahl+" Double-Werte) werden generiert...");
+                        for (int i=0; i < doubleAnzahl; i++) {
                             builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
+
+
+                 //           System.out.println(bd.doubleValue());
+                            newProgress = (i+1)*100/doubleAnzahl;
+                            if(newProgress != oldProgress) printProgressBar(newProgress);
+                            oldProgress = newProgress;
                         }
                         PrototypDaten.mList.add( builder.build() );
                     }
@@ -84,5 +96,22 @@ public class PrototypeMain {
             System.out.println();
 
         } while(!abbruch);
+    }
+
+    public static void printProgressBar(int progress) {
+        StringBuffer progressBuffer = new StringBuffer();
+        progressBuffer.append('|');
+
+        for(int i=1 ; i<99 ; i++) {
+            if(i < progress) progressBuffer.append('=');
+            else progressBuffer.append(' ');
+        }
+        progressBuffer.append('|');
+
+        if(progress >= 100) {
+            System.out.print("\r"+progressBuffer+" 100%\n");
+            System.out.println("Fertig!");
+        }
+        else System.out.print("\r"+progressBuffer+" "+progress+"%");
     }
 }

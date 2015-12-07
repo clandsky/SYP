@@ -51,19 +51,20 @@ public class ClientSteuer {
 
     public boolean sendeMassendaten(int id) {
         ArrayList<SendPostThread> sendRequestThreadArrayList = new ArrayList<>();
+        List<Double> progressList = new ArrayList<>();
+        List<Massendaten> massendatenList;
+
         SendPostThread srt;
         int processors;
         int threads;
         int threadCycle;
-        List<Double> progressList = new ArrayList<>();
 
-        Massendaten m = PrototypDaten.getMassendaten(id);
-        List<Massendaten> massendatenList = new Splitter().splitMassendaten(m, 1000);
+        massendatenList = new Splitter().splitMassendaten(PrototypDaten.getMassendaten(id), 1000);
 
         processors = Runtime.getRuntime().availableProcessors();
         if(PRINT_DEBUG_INFO) System.out.println("\nVerfuegbare CPUs: "+processors);
 
-        threads = (int)(processors*0.5); // Nur die hälfte der CPU's als Threads nutzen
+        threads = (int)(processors*0.5); // Nur die haelfte der CPU's als Threads nutzen
         if(PRINT_DEBUG_INFO) System.out.println("Threads: " + threads);
 
         if(threads > massendatenList.size()) threads = massendatenList.size();
@@ -85,7 +86,8 @@ public class ClientSteuer {
                 progressList.add(0.0);
             }
 
-            ProgressThread pThread = new ProgressThread(progressList,FORTSCHRITT_GENAUIGKEIT);
+            System.out.println("\nMassendaten werden gesendet...");
+            ProgressThread pThread = new ProgressThread(sendRequestThreadArrayList,FORTSCHRITT_GENAUIGKEIT);
             pThread.start();
 
             for(SendPostThread s : sendRequestThreadArrayList)
@@ -119,6 +121,22 @@ public class ClientSteuer {
         return null;
     }
 
+    public void printProgressBar(int progress) {
+        StringBuffer progressBuffer = new StringBuffer();
+        progressBuffer.append('|');
+
+        for(int i=1 ; i<99 ; i++) {
+            if(i < progress) progressBuffer.append('=');
+            else progressBuffer.append(' ');
+        }
+        progressBuffer.append('|');
+
+        if(progress >= 100) {
+            System.out.print("\r"+progressBuffer+" 100%\n");
+            System.out.println("Fertig!");
+        }
+        else System.out.print("\r"+progressBuffer+" "+progress+"%");
+    }
 
     /*************************************** THREADS ***************************************************/
     public class SendPostThread extends Thread {
@@ -127,6 +145,7 @@ public class ClientSteuer {
         private int startIndex;
         private int endIndex;
         private List<Double> progressList;
+        private double progress;
 
         public SendPostThread(int threadID, List<Massendaten> massendatenList, int startIndex, int endIndex, List<Double> progressList) {
             this.threadID = threadID;
@@ -144,6 +163,7 @@ public class ClientSteuer {
                 for(int i=startIndex ; i<endIndex ; i++) {
                     cnt++;
                     progressList.set(threadID-1, cnt/work*100);
+                    progress = progressList.get(threadID-1);
                     HTTPClient.getExemplar().sendeMassendaten(massendatenList.get(i));
                 }
             } catch(Exception e) {
@@ -151,15 +171,20 @@ public class ClientSteuer {
                 if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
             }
         }
+
+        public double getProgress() {
+            return progress;
+        }
     }
 
     public class ProgressThread extends Thread {
-        private List<Double> progressList;
+        private int THREAD_SLEEP_MS = 100;
         private boolean abbruch;
-        List<Integer> intList;
+        private List<Integer> intList;
+        private List<SendPostThread> sendPostThreadList;
 
-        public ProgressThread(List<Double> progressList, int precision) {
-            this.progressList = progressList;
+        public ProgressThread(List<SendPostThread> sendPostThreadList, int precision) {
+            this.sendPostThreadList = sendPostThreadList;
             this.abbruch = false;
             this.intList = new ArrayList<>();
 
@@ -167,32 +192,32 @@ public class ClientSteuer {
         }
 
         public void run() {
-            double progress = 0.0;
-            long rounded;
-            while(!abbruch){
-                for(Double d : progressList) {
-                    try {
-                        sleep(5);
-                    } catch (InterruptedException e) {
-                        if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
-                    }
+            int progress = 0;
+            int lastProgress = 0;
 
-                    progress += d;
-                    rounded = Math.round(progress);
-                    if(rounded >= 100) abbruch = true;
-                    printProgress(rounded);
-                    progress = 0.0;
+            while(!abbruch){
+                try {
+                    sleep(THREAD_SLEEP_MS);
+                } catch (InterruptedException e) {
+                    if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
                 }
+
+                progress = (int)Math.round(getProgress());
+                if(progress != lastProgress) {
+                    printProgressBar(progress);
+                }
+                lastProgress = progress;
+                if(progress >= 100) abbruch = true;
             }
         }
 
-        private void printProgress(long progress) {
-            if(intList.size() > 0) {
-                if(progress >= intList.get(0)) {
-                    System.out.println("Uebertragung: "+intList.get(0)+"%");
-                    intList.remove(0);
-                }
-            }
+        private double getProgress() {
+            double progress = 0;
+
+            for (SendPostThread s : sendPostThreadList)
+                progress += s.getProgress();
+
+            return progress;
         }
 
         public void abbruch() {
