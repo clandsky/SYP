@@ -21,5 +21,5 @@ public interface IDatenVerwaltung
     ArrayList<Messdaten> ladeAlleMessdaten();
     boolean schreibeMessdaten( Messdaten messdaten );
     ArrayList<StruktInfo> ladeStruktInfo();
-    ArrayList<MassenInfo> ladeMassenInfo;
+    ArrayList<MassenInfo> ladeMassenInfo();
 }
