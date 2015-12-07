@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.impl;
 
+import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
@@ -8,6 +9,7 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     @Override
     public boolean schreibeMassendaten(MassendatenProtos.Massendaten m)
     {
-        return true;
+        DateiSpeichern save = new DateiSpeichern();
+        return save.speicherMasendaten(m);
     }
 
     @Override
@@ -77,5 +80,11 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     public ArrayList<StruktInfo> ladeStruktInfo()
     {
         return new ArrayList<StruktInfo>();
+    }
+
+    @Override
+    public ArrayList<MassenInfo> ladeMassenInfo()
+    {
+        return null;
     }
 }
