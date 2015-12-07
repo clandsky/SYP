@@ -4,8 +4,11 @@ package testbench.server.res;
  *   Created by Christoph Landsky (30.11.2015)
  */
 
+import testbench.bootloader.protobuf.Splitter;
+import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.server.steuerungsklassen.ServerSteuer;
 
 
 import javax.ws.rs.*;
@@ -16,10 +19,12 @@ import java.util.List;
 @Path("/")
 
 public class RestResource {
+
+
     @GET
     @Path("testlauf")
-    @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
-    public Massendaten getTest() {
+    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+    public Response getTest() {
         System.out.println("GET /testlauf");
         System.out.println();
 
@@ -29,9 +34,13 @@ public class RestResource {
             builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
         }
 
+        Splitter splitter = new Splitter();
+        List<Massendaten> data = splitter.splitMassendaten(builder.build(), 1000);
 
+        ByteMessage bm = new ByteMessage(splitter.combineByteArrays(data));
 
-        return builder.build();
+        return Response.status(200).entity(bm).build();
+
     }
 
     @POST
@@ -48,6 +57,8 @@ public class RestResource {
 
         return Response.status(200).build();
     }
+
+
 
 
 }
