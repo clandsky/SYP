@@ -14,7 +14,7 @@ import java.net.URI;
 public class HTTPServer {
     public static void main (String args[]) throws Exception {
         URI endpoint = new URI("http://localhost:8000/");
-        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class, ByteMessageBodyProvider.class);
+        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
     }
 }
