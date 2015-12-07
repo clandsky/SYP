@@ -1,4 +1,4 @@
-package testbench.datenverwaltung.dateiverwaltung.services;
+package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;

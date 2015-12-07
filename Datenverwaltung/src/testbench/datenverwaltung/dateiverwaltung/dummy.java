@@ -5,7 +5,7 @@ import com.googlecode.protobuf.format.XmlFormat;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
-import testbench.datenverwaltung.dateiverwaltung.services.Generator;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import java.io.*;
 import java.util.List;
