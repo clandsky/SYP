@@ -31,8 +31,8 @@ public class Splitter {
             Massendaten.Builder builder = Massendaten.newBuilder();
             List<Werte> chunkList;
 
-            if(x == temp-1)chunkList = werteList.subList(x*divider,werteList.size()-1);
-            else chunkList = werteList.subList(x*divider,x*divider+divider-1);
+            if(x == temp-1)chunkList = werteList.subList(x*divider,werteList.size());
+            else chunkList = werteList.subList(x*divider,x*divider+divider);
 
             for(int i=0 ; i<chunkList.size() ; i++) builder.addValue(chunkList.get(i));
 
