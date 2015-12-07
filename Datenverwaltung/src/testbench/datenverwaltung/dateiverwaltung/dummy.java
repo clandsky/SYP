@@ -6,6 +6,7 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import java.io.*;
@@ -24,7 +25,8 @@ public class dummy
         boolean exit = false;
         System.out.println(".......... Datenverwaltung ..........");
         System.out.println("  Bitte geben Sie eine Nummer ein");
-        while (!exit) {
+        while (!exit)
+        {
             System.out.println(".....................................");
             System.out.println("[1]" + " Massendaten generien");
             System.out.println("[2]" + " Generierte Daten Massendaten in XML schreiben");
@@ -33,23 +35,24 @@ public class dummy
 
 
             int n = Integer.parseInt(reader.readLine());
-            switch (n) {
+            switch (n)
+            {
                 /*
                  * Generiere Massendaten
                  */
                 case 1:
                     Generator gen = new Generator();
                     // Konfiguration für den Generator füllen
-                    MassenDef config = new MassenDef( 0.1 );
-                    config.addFreqeuncy( new Frequency( 0.3, 4.0, 0.0 ) );
-                    config.addFreqeuncy( new Frequency( 1.0, 1.0, 0.0 ) );
-                    config.addFreqeuncy( new Frequency( 3.0, 0.4, 0.0 ) );
-                    config.addFreqeuncy( new Frequency( 5.0, 0.2, 0.0 ) );
-                    massendaten = gen.generatorMassData( config, 50000 );
+                    MassenDef config = new MassenDef(0.1);
+                    config.addFreqeuncy(new Frequency(0.3, 4.0, 0.0));
+                    config.addFreqeuncy(new Frequency(1.0, 1.0, 0.0));
+                    config.addFreqeuncy(new Frequency(3.0, 0.4, 0.0));
+                    config.addFreqeuncy(new Frequency(5.0, 0.2, 0.0));
+                    massendaten = gen.generatorMassData(config, 50000);
 
                     List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();
                     double pos = 0.0;
-                    for( MassendatenProtos.Massendaten.Werte w : list )
+                    for (MassendatenProtos.Massendaten.Werte w : list)
                     {
                         //     System.out.println( pos + "\t" + w.getNumber() );
                         pos += config.getAbtastrate();
@@ -65,73 +68,36 @@ public class dummy
                         e.printStackTrace();
                     }
                     */
-                    continue;
+                    break;
+
                 /*
                  * Speichere in XML
                  */
                 case 2:
+                    DateiSpeichern save = new DateiSpeichern();
+                    save.speicherMasendaten(massendaten);
 
-                    String xmlFormat = XmlFormat.printToString(massendaten);
-                    FileOutputStream fos = null;
-                    File file;
+                    break;
 
-                    System.out.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
-                    try {
-                        //Specify the file path here
-                        file = new File("massendaten.xml");
-                        fos = new FileOutputStream(file);
-
-                    /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
-
-	                /* Strings können nicht direkt in ein File geschrieben werden.
-	                Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
-
-	                */
-                        byte[] bytesArray = xmlFormat.getBytes();
-
-                        fos.write(bytesArray);
-                        fos.flush();
-                        System.out.println("");
-                        System.out.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
-                    }
-                    catch (IOException ioe) {
-                        ioe.printStackTrace();
-                    }
-                    finally {
-                        try {
-                            if (fos != null)
-                            {
-                                fos.close();
-                            }
-                        }
-                        catch (IOException ioe) {
-                            System.out.println("Error in closing the Stream");
-                        }
-                    }
-
-                    continue;
-
+                /*
+                 * Lade aus XML
+                 */
                 case 3:
                     DateiLaden dl = new DateiLaden();
-                    dl.ladeMassendaten( 1 );
-                    continue;
+                    dl.ladeMassendaten(1);
+                    break;
 
                 case 4:
                     System.out.println("Die Datenverwaltung wurde beendet.");
                     exit = true;
+                    break;
+
                 default:
                     break;
             }
 
 
-
-
-
-
-        return;
+            return;
         }
     }
 }
