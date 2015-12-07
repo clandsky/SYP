@@ -2,12 +2,19 @@ package testbench.datenverwaltung.dateiverwaltung.gui;
 
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Created by CGrings on 07.12.2015.
@@ -23,6 +30,7 @@ public class GeneratorGUI extends JFrame
     private JTextField textFieldSize;
     private JTextField textFieldAbtastrate;
     private JSpinner spinner;
+    private JTable tableFrequencies;
 
     public GeneratorGUI()
     {
@@ -30,19 +38,69 @@ public class GeneratorGUI extends JFrame
         setSize( new Dimension( 500, 300 ) );
         setContentPane( panelCentral );
 
+        DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
+        model.setColumnCount( 3 );
+
         speichernButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 Generator generator = new Generator();
-                MassenDef config = new MassenDef( Double.parseDouble(textFieldAbtastrate.getText()));
+                MassenDef config = null;
 
-                config.addFreqeuncy( new Frequency( 1.0, 1.0, 0.0 ) );
-                config.addFreqeuncy( new Frequency( 0.5, 0.5, 0.0 ) );
-                config.addFreqeuncy( new Frequency( 0.2, 0.4, 0.0 ) );
+                DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
 
-                generator.generatorMassData( config, Integer.parseInt( textFieldSize.getText() ) );
+                try
+                {
+                    config = new MassenDef( Double.parseDouble(textFieldAbtastrate.getText()));
+                    int count = model.getRowCount();
+                    for( int i = 0; i < count; i++ )
+                    {
+                        config.addFreqeuncy(
+                                new Frequency(
+                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() ),
+                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() ),
+                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() )
+                                )
+                        );
+                    }
+                }
+                catch( Exception ex )
+                {
+                    ex.printStackTrace();
+
+                    JOptionPane.showConfirmDialog( panelCentral, "Massendaten Definition konnte nicht erstellt werden." );
+
+                    return;
+                }
+
+                MassendatenProtos.Massendaten massendaten;
+                massendaten = generator.generatorMassData( config, Integer.parseInt( textFieldSize.getText() ) );
+
+                DateiSpeichern ds = new DateiSpeichern();
+                ds.speicherMasendaten(massendaten);
+            }
+        });
+        spinner.addChangeListener(new ChangeListener()
+        {
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                System.out.println( "Spinner Value: " + spinner.getValue() );
+
+                DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
+
+                int count = model.getRowCount();
+                for( int i = 0; i < Integer.parseInt( spinner.getValue().toString() ) - count; i++ )
+                {
+                    model.addRow( new Object[]{ "1.0", "1.0", "0.0" } );
+                }
+
+                while( model.getRowCount() > Integer.parseInt( spinner.getValue().toString() ) )
+                {
+                    model.removeRow( model.getRowCount()-1 );
+                }
             }
         });
     }

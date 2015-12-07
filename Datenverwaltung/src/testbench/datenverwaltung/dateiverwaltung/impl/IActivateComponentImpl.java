@@ -28,6 +28,6 @@ public class IActivateComponentImpl implements IActivateComponent
     @Override
     public String getCompType()
     {
-        return null;
+        return "DATENVERWALUNG";
     }
 }
