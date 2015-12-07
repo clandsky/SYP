@@ -5,7 +5,8 @@ import com.googlecode.protobuf.format.XmlFormat;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
-import testbench.datenverwaltung.dateiverwaltung.services.Generator;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
 import java.io.*;
 import java.util.List;
@@ -114,42 +115,8 @@ public class dummy
                     continue;
 
                 case 3:
-
-                    Message.Builder builder = MassendatenProtos.Massendaten.newBuilder();
-
-                    System.out.println("Laden der XML Datei");
-                    File file2 = new File("massendaten.xml");
-                    FileInputStream fin = null;
-                    try {
-                        // create FileInputStream object
-                        fin = new FileInputStream(file2);
-                        byte fileContent[] = new byte[(int)file2.length()];
-                        fin.read(fileContent);
-                        xmlFormat = new String(fileContent);
-                        XmlFormat.merge(xmlFormat, builder);
-
-                        //Testweise Ausgebendes Inhalts
-                        //System.out.println("Inhalt: " + xmlFormat);
-                    }
-                    catch (FileNotFoundException e) {
-                        System.out.println("Datei nicht gefunden" + e);
-                    }
-                    catch (IOException ioe) {
-                        System.out.println("Fehler beim einlesen der Datei " + ioe);
-                    }
-
-                    finally {
-                        try {
-                            if (fin != null) {
-                                fin.close();
-                            }
-                        }
-                        catch (IOException ioe) {
-                            System.out.println("Fehler beim schließen des Dateistreams: " + ioe);
-                        }
-                    }
-                    System.out.println("");
-                    System.out.println("Massendaten wurden gefüttert");
+                    DateiLaden dl = new DateiLaden();
+                    dl.ladeMassendaten( 1 );
                     continue;
 
                 case 4:
