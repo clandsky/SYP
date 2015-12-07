@@ -4,10 +4,9 @@ import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.ByteMessage;
-import testbench.bootloader.provider.MyMessageBodyProvider;
-import testbench.bootloader.provider.ProtoMessageBodyProvider;
+import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.provider.ProtoMessageBodyProvider;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -32,7 +31,7 @@ public class HTTPClient {
     }
 
     public boolean connect(String adresse) {
-        client = ClientBuilder.newBuilder().register(MyMessageBodyProvider.class).build();
+        client = ClientBuilder.newBuilder().register(ByteMessageBodyProvider.class, ProtoMessageBodyProvider.class).build();
         target = client.target(adresse);
 
         return true;

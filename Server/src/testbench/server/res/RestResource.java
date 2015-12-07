@@ -29,9 +29,9 @@ public class RestResource {
             builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
         }
 
-        Massendaten massendaten = builder.build();
 
-        return massendaten;
+
+        return builder.build();
     }
 
     @POST
@@ -48,4 +48,6 @@ public class RestResource {
 
         return Response.status(200).build();
     }
+
+
 }

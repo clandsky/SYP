@@ -22,9 +22,9 @@ import java.lang.reflect.Type;
  *   Created by Christoph Landsky and Sven Riedel (30.11.2015)
  */
 @Provider
-@Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
-@Produces(MediaTypeExt.APPLICATION_PROTOBUF)
-public class MyMessageBodyProvider implements MessageBodyReader<ByteMessage>, MessageBodyWriter<ByteMessage> {
+@Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+@Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, MessageBodyWriter<ByteMessage> {
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
