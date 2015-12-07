@@ -14,4 +14,9 @@ public class PrototypDaten {
     public static Massendaten getMassendaten(int id) {
         return mList.get(id);
     }
+
+    public static boolean speichereMassendaten(Massendaten m) {
+        mList.set(0,m);
+        return true;
+    }
 }
