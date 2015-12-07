@@ -55,23 +55,6 @@ public class dummy
                     massendaten = gen.generatorMassData(config, 50000);
 
                     List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();
-                    double pos = 0.0;
-                    for (MassendatenProtos.Massendaten.Werte w : list)
-                    {
-                        //     System.out.println( pos + "\t" + w.getNumber() );
-                        pos += config.getAbtastrate();
-                    }
-
-                    /*
-                    try
-                    {
-                            gen.generatorDeepStructure(0, 0, 0, 0, 0);
-
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    */
                     break;
 
                 /*
@@ -99,10 +82,8 @@ public class dummy
                 default:
                     break;
             }
-
-
-            return;
         }
+        return;
     }
 }
 
