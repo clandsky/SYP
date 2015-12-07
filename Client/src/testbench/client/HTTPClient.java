@@ -38,8 +38,7 @@ public class HTTPClient {
     }
 
     public Response sendeMassendaten(ByteMessage m) {
-        Response response = target.path( "testlauf" ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
-        return response;
+        return target.path( "testlauf" ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
     }
 
     public Response sendeStruktdaten(Struktdaten s) {
@@ -47,7 +46,9 @@ public class HTTPClient {
     }
 
     public ByteMessage empfangeMassendaten(int id) {
-        return target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(ByteMessage.class);
+
+        Response res = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
+        return res.readEntity(ByteMessage.class);
     }
 
     public Struktdaten empfangeStruktdaten(int id) {

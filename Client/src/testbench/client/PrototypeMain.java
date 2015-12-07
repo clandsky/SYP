@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by Sven Riedel on 04.12.2015.
+ * Created by Sven Riedel on 04.12.2015
  */
 public class PrototypeMain {
     public static void main(String args[]) {
@@ -60,7 +60,7 @@ public class PrototypeMain {
 
                 case "2":
                     long uebertragZeit;
-                    int doubleAnzahl = 40000000;
+                    int doubleAnzahl = 10000000;
                     int newProgress, oldProgress=-1;
                     System.out.println("\nPOST an Server...");
                     Werkzeug w = new Werkzeug();
@@ -70,7 +70,8 @@ public class PrototypeMain {
                         System.out.println("\nTest-Massendaten ("+doubleAnzahl+" Double-Werte) werden generiert...");
                         for (int i=0; i < doubleAnzahl; i++) {
                             builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
-                            newProgress = (i+1)*100/doubleAnzahl;
+                            long dingens=(i+1);
+                            newProgress = (int)(dingens*100/doubleAnzahl);
                             if(newProgress != oldProgress) w.printProgressBar(newProgress);
                             oldProgress = newProgress;
                         }

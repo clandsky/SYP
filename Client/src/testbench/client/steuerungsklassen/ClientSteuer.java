@@ -33,9 +33,20 @@ public class ClientSteuer {
 
     public MassendatenGrenz empfangeMassendaten(int id) {
         Werkzeug w = new Werkzeug();
-        //Massendaten m = httpClient.empfangeMassendaten(id);
-        //return new MassendatenGrenz(w.werteListToDoubleList(m.getValueList()));
-        return null;
+        Massendaten massendaten = null;
+        MassendatenGrenz massendatenGrenz;
+        ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
+
+        try
+        {
+            massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        massendatenGrenz = new MassendatenGrenz(massendaten);
+
+        return massendatenGrenz;
     }
 
     public StruktdatenGrenz empfangeStruktdaten(int id) {
@@ -63,8 +74,7 @@ public class ClientSteuer {
 
             System.out.println("Erster wert: "+massendaten.getValueList().get(0));
             System.out.println("Letzter wert: "+massendaten.getValueList().get(massendaten.getValueList().size()-1));
-            if(httpClient.sendeMassendaten(bm).getStatus() == 200) return true;
-            else return false;
+            return httpClient.sendeMassendaten(bm).getStatus() == 200;
         } catch (Exception e) {
             if(PRINT_STACKTRACE_CONSOLE) e.printStackTrace();
             System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");

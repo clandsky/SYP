@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Chrizzle Manizzle on 26.11.2015.xD
  */
 public class ServerSteuer {
-    IDatenVerwaltungImpl idat;
+    IDatenVerwaltungImpl idat  = new IDatenVerwaltungImpl();
     public List<MassenInfo> ladeMassenListe() {
         return idat.ladeMassenInfo();
     }

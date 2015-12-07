@@ -1,7 +1,7 @@
 package testbench.server.res;
 
 /**
- *   Created by Christoph Landsky (30.11.2015)
+ * Created by Christoph Landsky (30.11.2015)
  */
 
 import testbench.bootloader.protobuf.Splitter;
@@ -13,6 +13,7 @@ import testbench.server.steuerungsklassen.ServerSteuer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -20,45 +21,43 @@ import java.util.List;
 
 public class RestResource {
 
+    ServerSteuer s = new ServerSteuer();
 
     @GET
     @Path("testlauf")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public Response getTest() {
-        System.out.println("GET /testlauf");
-        System.out.println();
+    public ByteMessage getTest() throws IOException {
+        Massendaten massendaten = s.ladeMassendaten(1);
 
-        Massendaten.Builder builder = Massendaten.newBuilder();
-
-        for(int i=0 ; i<1000000 ; i++) {
-            builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
-        }
+        System.out.println("/******************************/");
+        System.out.println("/*       GET /Massendaten     */");
+        System.out.println("/******************************/");
 
         Splitter splitter = new Splitter();
-        List<Massendaten> data = splitter.splitMassendaten(builder.build(), 1000);
-
-        ByteMessage bm = new ByteMessage(splitter.combineByteArrays(data));
-
-        return Response.status(200).entity(bm).build();
+        List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
+        return new ByteMessage(splitter.combineByteArrays(data));
 
     }
 
     @POST
     @Path("testlauf")
-    @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
-    public Response postTest(Massendaten massendaten) {
-        System.out.println("POST /testlauf");
-        System.out.println();
+    @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+    public Response postMassendaten(ByteMessage daten) {
+        System.out.println("******************************");
+        System.out.println("*      POST /Massendaten     *");
+        System.out.println("******************************");
+        Massendaten massendaten = null;
+        try {
+            massendaten = Massendaten.parseFrom(daten.getByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Runtime r = Runtime.getRuntime();
+        r.gc();
+        r.freeMemory();
 
-        List<Massendaten.Werte> liste = massendaten.getValueList();
-    /*         for (int i=0 ; i<liste.size() ; i++) {
-            System.out.println("Wert "+i+": "+liste.get(i).getNumber());
-        } */
-
-        return Response.status(200).build();
+        return Response.status(200).entity("Test...").build();
     }
-
-
 
 
 }
