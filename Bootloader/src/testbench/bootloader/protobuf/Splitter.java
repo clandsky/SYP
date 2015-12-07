@@ -71,4 +71,28 @@ public class Splitter {
         return null;
     }
 
+    public byte[] combineByteArrays(List<Massendaten> massendatenList) {
+        List<byte[]> byteArrayList = new ArrayList<>();
+        byte[] bigByte;
+        int counter = 0;
+
+        for(Massendaten m : massendatenList) {
+            byte[] byteArray = m.toByteArray();
+            byteArrayList.add(byteArray);
+            counter+=byteArray.length;
+        }
+
+        bigByte = new byte[counter];
+        counter = 0;
+
+        for(byte[] bArray : byteArrayList) {
+            for(int i=0 ; i<bArray.length ; i++) {
+                bigByte[counter] = bArray[i];
+                counter++;
+            }
+        }
+
+        return bigByte;
+    }
+
 }

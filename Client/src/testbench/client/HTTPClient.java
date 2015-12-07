@@ -3,6 +3,8 @@ package testbench.client;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
+import testbench.bootloader.provider.ByteMessage;
+import testbench.bootloader.provider.MyMessageBodyProvider;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
@@ -30,14 +32,14 @@ public class HTTPClient {
     }
 
     public boolean connect(String adresse) {
-        client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
+        client = ClientBuilder.newBuilder().register(MyMessageBodyProvider.class).build();
         target = client.target(adresse);
 
         return true;
     }
 
-    public Response sendeMassendaten(Massendaten m) {
-        Response response = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+    public Response sendeMassendaten(ByteMessage m) {
+        Response response = target.path( "testlauf" ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
         return response;
     }
 
@@ -45,8 +47,8 @@ public class HTTPClient {
         return null;
     }
 
-    public Massendaten empfangeMassendaten(int id) {
-        return target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Massendaten.class);
+    public ByteMessage empfangeMassendaten(int id) {
+        return target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(ByteMessage.class);
     }
 
     public Struktdaten empfangeStruktdaten(int id) {

@@ -60,7 +60,7 @@ public class PrototypeMain {
 
                 case "2":
                     long uebertragZeit;
-                    int doubleAnzahl = 20000000;
+                    int doubleAnzahl = 40000000;
                     int newProgress, oldProgress=-1;
                     System.out.println("\nPOST an Server...");
                     Werkzeug w = new Werkzeug();
@@ -69,7 +69,7 @@ public class PrototypeMain {
                         Massendaten.Builder builder = Massendaten.newBuilder();
                         System.out.println("\nTest-Massendaten ("+doubleAnzahl+" Double-Werte) werden generiert...");
                         for (int i=0; i < doubleAnzahl; i++) {
-                            builder.addValue(Massendaten.Werte.newBuilder().setNumber(1.111));
+                            builder.addValue(Massendaten.Werte.newBuilder().setNumber(Math.random()));
                             newProgress = (i+1)*100/doubleAnzahl;
                             if(newProgress != oldProgress) w.printProgressBar(newProgress);
                             oldProgress = newProgress;
