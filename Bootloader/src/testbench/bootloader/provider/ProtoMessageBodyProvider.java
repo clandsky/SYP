@@ -1,8 +1,8 @@
 package testbench.bootloader.provider;
 
 import com.google.protobuf.Message;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
@@ -34,12 +34,12 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
 
     @Override
     public Message readFrom(Class<Message> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
-        if (MassendatenProtos.Massendaten.class.isAssignableFrom(aClass)) {
-            Message message = MassendatenProtos.Massendaten.parseFrom(inputStream);
+        if (Massendaten.class.isAssignableFrom(aClass)) {
+            Message message = Massendaten.parseFrom(inputStream);
             return message;
         }
-        else if (StruktdatenProtos.Struktdaten.class.isAssignableFrom(aClass)) {
-            Message message = StruktdatenProtos.Struktdaten.parseFrom(inputStream);
+        else if (Struktdaten.class.isAssignableFrom(aClass)) {
+            Message message = Struktdaten.parseFrom(inputStream);
             return message;
         }
         else {
