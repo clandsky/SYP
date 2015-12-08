@@ -30,10 +30,10 @@ public class ServerSteuer {
         freq3=new Frequency(10, 1, 45);
 
         massenDef1=new MassenDef(50);
-        massenDef1.addFreqeuncy(freq1);
+        massenDef1.getFrequencies().add(freq1);
         massenDef2=new MassenDef(50);
-        massenDef2.addFreqeuncy(freq2);
-        massenDef2.addFreqeuncy(freq3);
+        massenDef2.getFrequencies().add(freq2);
+        massenDef2.getFrequencies().add(freq3);
 
         massenInfo1=new MassenInfo();
         massenInfo1.setId(1);

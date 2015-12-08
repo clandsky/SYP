@@ -59,7 +59,7 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
             double frequency = Math.random() * 3;
             double amplitude = Math.random() * 3;
             double phase = Math.random() * 3;
-            massenDef.addFreqeuncy( new Frequency( frequency, amplitude, phase ) );
+            massenDef.getFrequencies().add( new Frequency( frequency, amplitude, phase ) );
         }
 
         return gen.generatorMassData( massenDef, size );

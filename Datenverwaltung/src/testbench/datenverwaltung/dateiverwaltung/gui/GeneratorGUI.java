@@ -57,7 +57,7 @@ public class GeneratorGUI extends JFrame
                     int count = model.getRowCount();
                     for( int i = 0; i < count; i++ )
                     {
-                        config.addFreqeuncy(
+                        config.getFrequencies().add(
                                 new Frequency(
                                         Double.parseDouble( model.getValueAt( i, 0 ).toString() ),
                                         Double.parseDouble( model.getValueAt( i, 0 ).toString() ),

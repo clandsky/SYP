@@ -49,10 +49,10 @@ public class dummy
                     Generator gen = new Generator();
                     // Konfiguration für den Generator füllen
                     MassenDef config = new MassenDef(0.1);
-                    config.addFreqeuncy(new Frequency(0.3, 4.0, 0.0));
-                    config.addFreqeuncy(new Frequency(1.0, 1.0, 0.0));
-                    config.addFreqeuncy(new Frequency(3.0, 0.4, 0.0));
-                    config.addFreqeuncy(new Frequency(5.0, 0.2, 0.0));
+                    config.getFrequencies().add(new Frequency(0.3, 4.0, 0.0));
+                    config.getFrequencies().add(new Frequency(1.0, 1.0, 0.0));
+                    config.getFrequencies().add(new Frequency(3.0, 0.4, 0.0));
+                    config.getFrequencies().add(new Frequency(5.0, 0.2, 0.0));
                     massendaten = gen.generatorMassData(config, 50000);
 
                     List<MassendatenProtos.Massendaten.Werte> list = massendaten.getValueList();

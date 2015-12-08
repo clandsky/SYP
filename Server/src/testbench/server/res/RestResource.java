@@ -28,7 +28,7 @@ public class RestResource {
 
     @GET
     @Path("massendaten")
-    @Produces(MediaTypeExt.APPLICATION_XML)
+    @Produces(MediaTypeExt.TEXT_XML)
     public List<MassenInfo> getTest() throws IOException {
 
         p.printlnWithDate("[GET] Massendaten/");
