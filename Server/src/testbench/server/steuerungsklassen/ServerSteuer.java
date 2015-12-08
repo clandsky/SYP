@@ -8,7 +8,10 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -66,6 +69,19 @@ public class ServerSteuer {
     }
     public boolean schreibeStruktdaten (Struktdaten struktdaten) {
         return idat.schreibeStrukturierteDaten(struktdaten);
+    }
+
+    public void createOutput (String s)
+    {
+        Calendar cal = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+        String output="";
+        output+=df.format(cal.getTime());
+        output+=" : "+s;
+        System.out.println(output);
+
+
     }
 
 

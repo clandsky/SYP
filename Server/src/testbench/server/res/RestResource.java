@@ -15,6 +15,7 @@ import testbench.server.steuerungsklassen.ServerSteuer;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -23,7 +24,7 @@ import java.util.List;
 public class RestResource {
 
     ServerSteuer s = new ServerSteuer();
-
+/*
     @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
@@ -37,12 +38,13 @@ public class RestResource {
         return list;
 
     }
-
+*/
     @GET
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public ByteMessage getTest(@PathParam("id")String number) throws IOException {
-        int id=0;
+
+        int id=1;
         try
         {
             id=Integer.parseInt(number);
@@ -50,9 +52,11 @@ public class RestResource {
         {
             e.printStackTrace();
         }
-        if (id>0) {
-            Massendaten massendaten = s.ladeMassendaten(id);
 
+
+        if (id>0) {
+            Massendaten massendaten = s.ladeMassendaten(1);
+            System.out.println(Calendar.getInstance().getTime());
             System.out.println("******************************");
             System.out.println("*         GET /Header        *");
             System.out.println("******************************");
@@ -69,19 +73,17 @@ public class RestResource {
     @Path("testlauf")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
-        System.out.println("******************************");
-        System.out.println("*      POST /Massendaten     *");
-        System.out.println("******************************");
-        System.out.println();
+        s.createOutput("[POST] on /Massendaten");
+
         Massendaten massendaten = null;
         try {
             massendaten = Massendaten.parseFrom(daten.getByteArray());
-            System.out.println(massendaten.getValueList().get(massendaten.getValueCount()-1));
+            double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
+            s.createOutput("Last recieved Item: "+d);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
-        System.out.println("******************************");
-        System.out.println();
+        s.createOutput("[SUCCESS] Massendaten created... Response 'Test'");
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
