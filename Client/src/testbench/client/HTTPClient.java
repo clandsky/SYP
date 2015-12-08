@@ -41,7 +41,7 @@ public class HTTPClient {
     }
 
     public Response sendeMassendaten(ByteMessage m) {
-        return target.path( "testlauf" ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
+        return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
     }
 
     public Response sendeStruktdaten(Struktdaten s) {
