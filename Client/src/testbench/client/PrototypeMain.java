@@ -1,9 +1,6 @@
 package testbench.client;
 
-import com.sun.deploy.util.SessionState;
 import testbench.bootloader.grenz.MassendatenGrenz;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.Werkzeug;
 import testbench.client.gui.ClientGUI;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
@@ -23,7 +20,7 @@ public class PrototypeMain {
         String input = null;
         ClientSteuer cSteuer = new ClientSteuer();
 
-        /*
+
         ClientGUI clientGUI = new ClientGUI();
         clientGUI.setLocationRelativeTo(null);
         clientGUI.setResizable(false);
@@ -31,7 +28,7 @@ public class PrototypeMain {
         d.setSize(700,500);
         clientGUI.setMinimumSize(d);
         clientGUI.setVisible(true);
-        */
+
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -49,6 +46,7 @@ public class PrototypeMain {
             System.out.println("0: Programm beenden\n");
             System.out.print("Eingabe: ");
 
+            input = ""; //wegen null-pointer warnung intellij
             try {
                 do{
                     input = br.readLine();

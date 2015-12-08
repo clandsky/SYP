@@ -1,64 +1,123 @@
 package testbench.client.gui;
 
-import com.sun.corba.se.spi.orbutil.fsm.Input;
+import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
-import java.util.Scanner;
+import java.util.List;
 
 /**
- * Created by Sven Riedel on 26.11.2015.
+ * Created by Sven Riedel on 08.12.2015
  */
 public class ClientGUI extends JFrame {
+    private JPanel formPanel;
+    private JPanel cardPanel;
+    private JButton einstellungenButton;
+    private JPanel menuPanel;
+    private JPanel connectPanel;
+    private JPanel inputIpPanel;
     private JButton verbindenButton;
-    private JTextField IPAdresseDesServersTextField;
-    private JButton xButton;
-    private JButton settingsButton;
-    private JTextArea consoleTextArea;
-    private JPanel consolePanel;
+    private JTextField ipTextField;
     private JPanel mainPanel;
+    private JTabbedPane tabbedPane1;
+    private JPanel splitpanePanel;
+    private JPanel leftPanelDownload;
+    private JPanel rightPanelDownload;
+    private JPanel massenLabelPanelDown;
+    private JPanel struktLabelPanelDown;
+    private JButton herunterladenButton;
+    private JTable massenTableDownload;
+    private JTable struktTableDownload;
+    private JPanel leftPanelUpload;
+    private JPanel rightPanelUpload;
+    private JPanel massenLabelPanelUp;
+    private JPanel struktLabelPanelUp;
+    private JTable massenTableUpload;
+    private JTable struktTableUpload;
 
-    /* ######################################## */
-    private ClientSteuer steuer = new ClientSteuer();
-    JFrame frame = new JFrame();
+    /* OBEN -> automatisch generiert */
 
-
-    /* ######################################## */
+    ClientSteuer cSteuer = new ClientSteuer();
+    CardLayout cl = (CardLayout) cardPanel.getLayout();
+    JFrame frame = new JFrame(); //fuer popups
+    boolean isIpTextFirstClicked = false;
 
     public ClientGUI() {
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(formPanel);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
-        IPAdresseDesServersTextField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                IPAdresseDesServersTextField.setText("");
+
+        verbindenButton.addActionListener(new ActionListener() {
+            @Override // Listener für verbindenButton-Klick
+            public void actionPerformed(ActionEvent e) {
+                verbindenButtonAction();
             }
         });
-        verbindenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(IPAdresseDesServersTextField.getText().equals("")) JOptionPane.showMessageDialog(frame, "Bitte das IP-Adresse Feld ausfüllen!");
-                else if(IPAdresseDesServersTextField.getText() == null) JOptionPane.showMessageDialog(frame, "Bitte das IP-Adresse Feld ausfüllen!");
-                else {
-                    String text = IPAdresseDesServersTextField.getText();
-                    if(!text.startsWith("http://")) text = "http://"+text;
-                    if(!text.endsWith("/")) text = text+"/";
-
-                    boolean isConnected = steuer.connect(text);
-                    if (!isConnected) JOptionPane.showMessageDialog(frame, "IP-Adresse ungültig!");
+        ipTextField.addMouseListener(new MouseAdapter() {
+            @Override //Listener für Maus-Klick auf ipTextField
+            public void mouseClicked(MouseEvent e) {
+                if(!isIpTextFirstClicked) {
+                    ipTextField.setText("");
+                    isIpTextFirstClicked = true;
                 }
             }
         });
+        ipTextField.addActionListener(new ActionListener() {
+            @Override //Listener für Enter auf ipTextField
+            public void actionPerformed(ActionEvent e) {
+                verbindenButtonAction();
+            }
+        });
+    }
+
+    private void fillMassendatenList(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
+        DefaultTableModel model;
+
+        Object[][] data = new Object[mInfoGrenzList.size()][2];
+        String[] columnNames = {"ID", "Größe"};
+
+        if (!mInfoGrenzList.isEmpty()) {
+            for (int i = 0; i < mInfoGrenzList.size(); i++) {
+                data[i][0] = mInfoGrenzList.get(i).getId();
+                data[i][1] = mInfoGrenzList.get(i).getPaketGroesseKB();
+            }
+
+            model = new DefaultTableModel(data, columnNames) {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            table.setModel(model);
+        }
+    }
+
+    private void verbindenButtonAction() {
+        if(ipTextField.getText() != null) {
+            if(!ipTextField.getText().equals("")) {
+                if(!ipTextField.getText().contains(" ")) {
+                    String ip = ipTextField.getText();
+                    boolean isConnected = false;
+
+                    if(!ip.startsWith("http://")) ip = "http://"+ip;
+                    if(!ip.endsWith("/")) ip += "/";
+                    System.out.println(ip);
+                   // isConnected = cSteuer.connect(ip);
+                    isConnected = true;
+
+                    if(!isConnected) JOptionPane.showMessageDialog(frame, "Server konnte nicht gefunden werden!");
+                    else {
+                        fillMassendatenList(massenTableUpload, cSteuer.holeLokaleMassenInfoGrenzList());
+                        cl.show(cardPanel, "mainCard");
+                    }
+                } else JOptionPane.showMessageDialog(frame, "Bitte Leerstellen aus der IP entfernen!");
+            } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
+        } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
     }
 }

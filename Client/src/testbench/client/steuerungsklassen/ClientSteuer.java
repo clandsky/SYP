@@ -7,23 +7,18 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.Splitter;
-import testbench.bootloader.Werkzeug;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.client.HTTPClient;
-import testbench.client.PrototypDaten;
-import testbench.client.grenzklassen.MassendatenListeGrenz;
-import testbench.client.grenzklassen.StruktdatenListeGrenz;
+import testbench.client.grenzklassen.MassenInfoGrenz;
+import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.DatenService;
-import testbench.datenverwaltung.dateiverwaltung.impl.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sven Riedel on 26.11.2015.
+ * Created by Sven Riedel on 26.11.2015
  */
 
 public class ClientSteuer {
@@ -59,14 +54,6 @@ public class ClientSteuer {
         return null;
     }
 
-    public MassendatenListeGrenz empfangeMassenInfo() {
-        return null;
-    }
-
-    public StruktdatenListeGrenz empfangeStruktInfo() {
-        return null;
-    }
-
     public boolean sendeMassendaten(int id) {
         List<Massendaten> massendatenList;
 
@@ -83,12 +70,50 @@ public class ClientSteuer {
             System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
         }
 
-            return true;
+        return true;
     }
 
     public boolean sendeStruktdaten(int id) {
         return true;
     }
+
+    public List<MassenInfoGrenz> empfangeMassenInfoGrenzList() {
+        List<MassenInfo> massenInfoList = httpClient.empfangeMassendatenInfoListe();
+        List<MassenInfoGrenz> massenInfoGrenzList = new ArrayList<>();
+        if(massenInfoList != null) {
+            for(MassenInfo m : massenInfoList) massenInfoGrenzList.add(new MassenInfoGrenz(m));
+        }
+        return massenInfoGrenzList;
+    }
+
+    public List<MassenInfoGrenz> holeLokaleMassenInfoGrenzList() {
+        List<MassenInfo> massenInfoList = dServe.ladeMassenListe();
+        List<MassenInfoGrenz> massenInfoGrenzList = new ArrayList<>();
+        if(massenInfoList != null) {
+            for(MassenInfo m : massenInfoList) massenInfoGrenzList.add(new MassenInfoGrenz(m));
+        }
+        return massenInfoGrenzList;
+    }
+
+    public List<StruktInfoGrenz> empfangeStruktInfoGrenzList() {
+        List<StruktInfo> struktInfoList = httpClient.empfangeStruktdatenInfoListe();
+        List<StruktInfoGrenz> struktInfoGrenzList = new ArrayList<>();
+        if(struktInfoList != null) {
+            for(StruktInfo s : struktInfoList) struktInfoGrenzList.add(new StruktInfoGrenz(s));
+        }
+        return struktInfoGrenzList;
+    }
+
+    public List<StruktInfoGrenz> holeLokaleStruktInfoGrenzList() {
+        List<StruktInfo> struktInfoList = dServe.ladeStruktListe();
+        List<StruktInfoGrenz> struktInfoGrenzList = new ArrayList<>();
+        if(struktInfoList != null) {
+            for(StruktInfo s : struktInfoList) struktInfoGrenzList.add(new StruktInfoGrenz(s));
+        }
+        return struktInfoGrenzList;
+    }
+
+
 
     public Massendaten generiereZufallsMassendaten(int size) {
         Massendaten m = dServe.generiereZufallsMassendaten(size);
