@@ -59,11 +59,4 @@ public class Printer {
         else System.out.print("\r"+progressBuffer+" "+progress+"%");
     }
 
-    public List<Double> werteListToDoubleList(List<MassendatenProtos.Massendaten.Werte> werteList) {
-        List<Double> doubleList = new ArrayList<>();
-        for(MassendatenProtos.Massendaten.Werte w : werteList) {
-            doubleList.add(w.getNumber());
-        }
-        return doubleList;
-    }
 }
