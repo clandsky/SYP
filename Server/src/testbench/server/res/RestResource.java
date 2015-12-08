@@ -4,6 +4,7 @@ package testbench.server.res;
  * Created by Christoph Landsky (30.11.2015)
  */
 
+import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
@@ -24,18 +25,43 @@ public class RestResource {
     ServerSteuer s = new ServerSteuer();
 
     @GET
-    @Path("testlauf")
-    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public ByteMessage getTest() throws IOException {
-        Massendaten massendaten = s.ladeMassendaten(1);
+    @Path("massendaten")
+    @Produces(MediaTypeExt.APPLICATION_XML)
+    public List<MassenInfo> getTest() throws IOException {
+        List<MassenInfo> list = s.ladeMassenListe();
 
         System.out.println("******************************");
         System.out.println("*       GET /Massendaten     *");
         System.out.println("******************************");
 
-        Splitter splitter = new Splitter();
-        List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
-        return new ByteMessage(splitter.combineByteArrays(data));
+        return list;
+
+    }
+
+    @GET
+    @Path("massendaten/{id}")
+    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+    public ByteMessage getTest(@PathParam("id")String number) throws IOException {
+        int id=0;
+        try
+        {
+            id=Integer.parseInt(number);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        if (id>0) {
+            Massendaten massendaten = s.ladeMassendaten(id);
+
+            System.out.println("******************************");
+            System.out.println("*         GET /Header        *");
+            System.out.println("******************************");
+
+            Splitter splitter = new Splitter();
+            List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
+            return new ByteMessage(splitter.combineByteArrays(data));
+        }
+        else return null;
 
     }
 
