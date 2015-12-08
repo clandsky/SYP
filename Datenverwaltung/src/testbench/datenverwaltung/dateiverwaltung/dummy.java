@@ -21,8 +21,8 @@ public class dummy
 {
     static public void main(String[] args) throws IOException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        GeneratorGUI g = new GeneratorGUI();
-        g.setVisible(true);
+        //GeneratorGUI g = new GeneratorGUI();
+        //g.setVisible(true);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         MassendatenProtos.Massendaten massendaten = null;

@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 public class PrototypeMain {
     private static boolean startGUI = false;
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         long messStart;
         long messEnde;
         boolean abbruch = false;
@@ -24,6 +24,7 @@ public class PrototypeMain {
         ClientSteuer cSteuer = new ClientSteuer();
 
         if(PrototypeMain.startGUI) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             ClientGUI clientGUI = new ClientGUI();
             clientGUI.setLocationRelativeTo(null);
             clientGUI.setResizable(false);

@@ -30,12 +30,10 @@ public class RestResource {
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
     public List<MassenInfo> getTest() throws IOException {
+
+        p.printOutputWithDate("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
-
-        System.out.println("******************************");
-        System.out.println("*       GET /Massendaten     *");
-        System.out.println("******************************");
-
+        p.printOutputWithDate("[SUCCESS] Returning Massendaten...");
         return list;
 
     }

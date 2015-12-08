@@ -10,8 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by Huskey on 08.12.2015.
  */
-public class KonsoleOutputStream
-        extends OutputStream
+public class KonsoleOutputStream extends OutputStream
 {
 
 // *************************************************************************************************
