@@ -17,13 +17,13 @@ public class ServerGUI extends JFrame{
     private Printer p;
 
     public ServerGUI () throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        final TextAreaOutputStream tAOS= new TextAreaOutputStream(consoleOut,50);
+        final KonsoleOutputStream tAOS= new KonsoleOutputStream(consoleOut,50);
         PrintStream con=new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);
         setContentPane(panel);
         p=new Printer();
-        // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         clearButton.addActionListener(new ActionListener() {
             @Override

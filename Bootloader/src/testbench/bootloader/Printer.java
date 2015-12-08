@@ -54,7 +54,7 @@ public class Printer {
 
         if(progress >= 100) {
             System.out.print("\r"+progressBuffer+" 100%\n");
-            System.out.println("Fertig!\n");
+            printOutputWithDate("Fertig!");
         }
         else System.out.print("\r"+progressBuffer+" "+progress+"%");
     }

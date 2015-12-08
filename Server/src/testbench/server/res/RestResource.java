@@ -58,7 +58,7 @@ public class RestResource {
             if(massendaten!=null) {
                 p.printOutputWithDate("Massendaten geladen...");
                 Splitter splitter = new Splitter();
-                List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
+                List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000,0.5f);
                 p.printOutputWithDate("[SUCCESS] Returning ByteArray...");
                 return new ByteMessage(splitter.combineByteArrays(data));
             }

@@ -55,7 +55,7 @@ public class ClientSteuer {
         ByteMessage bm;
 
         Massendaten massendaten = dServe.ladeMassendaten(id);
-        massendatenList = new Splitter().splitMassendaten(massendaten, 1000);
+        massendatenList = new Splitter().splitMassendaten(massendaten, 1000,0.5f);
         System.out.println(massendaten.getValueList().get(massendaten.getValueCount()-1));
         System.out.println("\nSenden der Massendaten wird vorbereitet...\n");
 

@@ -76,7 +76,7 @@ public class RestResourceServer {
         }
         if (id>0) {
             Splitter splitter = new Splitter();
-            List<Massendaten> data = splitter.splitMassendaten(steuer.ladeMassendaten(id), 1000);
+            List<Massendaten> data = splitter.splitMassendaten(steuer.ladeMassendaten(id), 1000, 0.5f);
 
             ByteMessage bm = new ByteMessage(splitter.combineByteArrays(data));
 
