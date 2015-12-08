@@ -9,14 +9,13 @@ import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.server.steuerungsklassen.Printer;
+import testbench.bootloader.Printer;
 import testbench.server.steuerungsklassen.ServerSteuer;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -57,7 +56,7 @@ public class RestResource {
         if (id>0) {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
-                p.printOutputWithDate("Massendaten loaded...");
+                p.printOutputWithDate("Massendaten geladen...");
                 Splitter splitter = new Splitter();
                 List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
                 p.printOutputWithDate("[SUCCESS] Returning ByteArray...");
@@ -85,11 +84,11 @@ public class RestResource {
         try {
             massendaten = Massendaten.parseFrom(daten.getByteArray());
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
-            p.printOutputWithDate("Last recieved Item: "+d);
+            p.printOutputWithDate("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        p.printOutputWithDate("[SUCCESS] Massendaten created... Response 'Test'");
+        p.printOutputWithDate("[SUCCESS] Massendaten erzeugt... Response 'Test'");
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();

@@ -26,14 +26,15 @@
         <children>
           <component id="f2cd2" class="javax.swing.JTextArea" binding="consoleOut">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <autoscrolls value="false"/>
               <background color="-16777216"/>
               <editable value="false"/>
               <font name="Lucida Console" size="12"/>
               <foreground color="-3487030"/>
-              <lineWrap value="false"/>
+              <lineWrap value="true"/>
               <margin top="0" left="0" bottom="0" right="0"/>
               <text value=""/>
             </properties>

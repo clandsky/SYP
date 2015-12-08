@@ -1,6 +1,6 @@
 package testbench.server.gui;
 
-import testbench.server.steuerungsklassen.Printer;
+import testbench.bootloader.Printer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

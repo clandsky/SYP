@@ -30,7 +30,7 @@ public class DateiLaden
             XmlFormat.merge(xmlFormat, m);
 
             //Testweise Ausgebendes Inhalts
-            System.out.println("Inhalt: " + xmlFormat.substring(0, 200));
+            //System.out.println("Inhalt: " + xmlFormat.substring(0, 200));
         }
         catch (FileNotFoundException e)
         {
