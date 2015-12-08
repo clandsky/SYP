@@ -28,6 +28,7 @@ public class StartServer {
         this.serverGUI = new ServerGUI();
         serverGUI.setTitle("Testbench-Protobuf/REST Server");
         serverGUI.setVisible(true);
+        serverGUI.setResizable(false);
         p=new Printer();
         initServer();
 
@@ -57,6 +58,7 @@ public class StartServer {
         ServerGUI serverGUI = new ServerGUI();
         serverGUI.setTitle("Testbench-Protobuf/REST Server");
         serverGUI.setVisible(true);
+        serverGUI.setResizable(false);
 
         p.printWelcome();
         String uri = "http://localhost:8000/";
