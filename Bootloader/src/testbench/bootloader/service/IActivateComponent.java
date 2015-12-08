@@ -7,7 +7,7 @@ import javax.swing.*;
  */
 public interface IActivateComponent
 {
-    boolean startComponent();
+    boolean startComponent() throws Exception;
     JFrame getComponentGui();
     String getCompType();
 }

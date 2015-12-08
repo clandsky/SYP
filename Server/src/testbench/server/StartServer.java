@@ -61,6 +61,7 @@ public class StartServer {
         ResourceConfig rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
         p.printOutputWithDate("Booting Server... ");
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
+        p.printOutputWithDate("Server is running... ");
 
 
     }
