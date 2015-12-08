@@ -40,8 +40,21 @@ public class ClientGUI extends JFrame {
     private JPanel struktLabelPanelUp;
     private JTable massenTableUpload;
     private JTable struktTableUpload;
+    private JPanel leftPanelMessdaten;
+    private JPanel massenLabelPanelMess;
+    private JPanel struktLabelPanelMess;
+    private JTable massenTableMess;
+    private JTable struktTableMess;
+    private JPanel rightPanelMessdaten;
+    private JLabel refreshIconDownload;
+    private JLabel refreshIconUpload;
+    private JLabel refreshIconMessdaten;
 
     /* OBEN -> automatisch generiert */
+
+    private final String ICON_REFRESH_PATH = "Client/res/refresh.png";
+
+
 
     ClientSteuer cSteuer = new ClientSteuer();
     CardLayout cl = (CardLayout) cardPanel.getLayout();
@@ -52,6 +65,11 @@ public class ClientGUI extends JFrame {
         setContentPane(formPanel);
        // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
+
+        setIcon(refreshIconDownload,ICON_REFRESH_PATH);
+        setIcon(refreshIconUpload,ICON_REFRESH_PATH);
+        setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
+
 
 
         verbindenButton.addActionListener(new ActionListener() {
@@ -73,6 +91,24 @@ public class ClientGUI extends JFrame {
             @Override //Listener für Enter auf ipTextField
             public void actionPerformed(ActionEvent e) {
                 verbindenButtonAction();
+            }
+        });
+        refreshIconMessdaten.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                refreshMessdaten();
+            }
+        });
+        refreshIconUpload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                refreshUpload();
+            }
+        });
+        refreshIconDownload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                refreshDownload();
             }
         });
     }
@@ -119,5 +155,20 @@ public class ClientGUI extends JFrame {
                 } else JOptionPane.showMessageDialog(frame, "Bitte Leerstellen aus der IP entfernen!");
             } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
         } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
+    }
+
+    private void setIcon(JLabel label, String iconPath) {
+        label.setText("");
+        label.setIcon(new ImageIcon(iconPath));
+    }
+
+    private void refreshDownload() {
+        System.out.println("refresh download");
+    }
+    private void refreshUpload() {
+        System.out.println("refresh upload");
+    }
+    private void refreshMessdaten() {
+        System.out.println("refresh messdaten");
     }
 }
