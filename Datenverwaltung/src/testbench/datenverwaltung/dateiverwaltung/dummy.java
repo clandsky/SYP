@@ -10,6 +10,7 @@ import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.List;
 
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public class dummy
 {
-    static public void main(String[] args) throws IOException
-    {
+    static public void main(String[] args) throws IOException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         GeneratorGUI g = new GeneratorGUI();
         g.setVisible(true);
 

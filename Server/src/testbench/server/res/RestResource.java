@@ -29,9 +29,9 @@ public class RestResource {
     public ByteMessage getTest() throws IOException {
         Massendaten massendaten = s.ladeMassendaten(1);
 
-        System.out.println("/******************************/");
-        System.out.println("/*       GET /Massendaten     */");
-        System.out.println("/******************************/");
+        System.out.println("******************************");
+        System.out.println("*       GET /Massendaten     *");
+        System.out.println("******************************");
 
         Splitter splitter = new Splitter();
         List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
@@ -46,12 +46,16 @@ public class RestResource {
         System.out.println("******************************");
         System.out.println("*      POST /Massendaten     *");
         System.out.println("******************************");
+        System.out.println();
         Massendaten massendaten = null;
         try {
             massendaten = Massendaten.parseFrom(daten.getByteArray());
+            System.out.println(massendaten.getValueList().get(massendaten.getValueCount()-1));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("******************************");
+        System.out.println();
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
