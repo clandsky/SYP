@@ -17,10 +17,8 @@ public class PrototypeMain {
     private static boolean startGUI = false;
 
     public static void main(String args[]) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        long messStart;
-        long messEnde;
         boolean abbruch = false;
-        String input = null;
+        String input;
         ClientSteuer cSteuer = new ClientSteuer();
 
         if(PrototypeMain.startGUI) {
@@ -66,10 +64,7 @@ public class PrototypeMain {
 
                 case "1":
                     try{
-                        messStart = System.currentTimeMillis();
                         MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
-                        messEnde = System.currentTimeMillis();
-                        System.out.println("Benötigte Empfangszeit: "+String.valueOf(messEnde-messStart)+" ms");
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
@@ -77,15 +72,8 @@ public class PrototypeMain {
                     break;
 
                 case "2":
-                    long uebertragZeit;
                     System.out.println("\nPOST an Server...");
-
-                    messStart = System.currentTimeMillis();
                     cSteuer.sendeMassendaten(1);
-                    messEnde = System.currentTimeMillis();
-                    uebertragZeit = messEnde-messStart;
-
-                    System.out.println("\nBenötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
                     break;
 
                 case "3":
