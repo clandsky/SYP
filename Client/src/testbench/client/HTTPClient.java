@@ -12,6 +12,8 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -59,7 +61,8 @@ public class HTTPClient {
     }
 
     public List<MassenInfo> empfangeMassendatenInfoListe() {
-        return null;
+        List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaType.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+        return mInfo;
     }
 
     public List<StruktInfo> empfangeStruktdatenInfoListe() {

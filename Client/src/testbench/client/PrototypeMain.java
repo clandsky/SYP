@@ -1,5 +1,6 @@
 package testbench.client;
 
+import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.gui.ClientGUI;
 import testbench.client.steuerungsklassen.ClientSteuer;
@@ -20,6 +21,7 @@ public class PrototypeMain {
         boolean abbruch = false;
         String input;
         ClientSteuer cSteuer = new ClientSteuer();
+        Printer printer = new Printer();
 
         if(PrototypeMain.startGUI) {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -36,17 +38,16 @@ public class PrototypeMain {
 
         cSteuer.connect("http://localhost:8000/");
 
-        System.out.println();
-        System.out.println("||||- Protobuf Testbench Client -||||\n");
+        printer.printlnWithDate("||||- Protobuf Testbench Client -||||\n");
 
         do{
-            System.out.println("\nBitte waehlen:");
-            System.out.println("1: GET-Request an den Server (Daten downloaden)");
-            System.out.println("2: POST-Request an den Server (Daten uploaden)");
-            System.out.println("3: Generiere Zufalls-Massendaten");
-            System.out.println("5: Datenverwaltung starten");
-            System.out.println("0: Programm beenden\n");
-            System.out.print("Eingabe: ");
+            printer.printlnWithDate("################ Bitte waehlen: ################");
+            printer.printlnWithDate("1) GET /massendaten/1");
+            printer.printlnWithDate("2) POST /massendaten");
+            printer.printlnWithDate("3) Generiere Zufalls-Massendaten");
+            printer.printlnWithDate("4) GET /massendaten");
+            printer.printlnWithDate("6) Datenverwaltung starten");
+            printer.printWithDate("0) Programm beenden                    Eingabe:");
 
             input = ""; //wegen null-pointer warnung intellij
             try {
@@ -67,12 +68,12 @@ public class PrototypeMain {
                         MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
+                        printer.printlnWithDate("\n!!! Verbindung zum Server fehlgeschlagen !!!");
                     }
                     break;
 
                 case "2":
-                    System.out.println("\nPOST an Server...");
+                    printer.printlnWithDate("\nPOST an Server...");
                     cSteuer.sendeMassendaten(1);
                     break;
 
@@ -80,12 +81,19 @@ public class PrototypeMain {
                     cSteuer.generiereZufallsMassendaten(800000);
                     break;
 
+                case "4":
+                    cSteuer.empfangeMassenInfoGrenzList();
+                    break;
+
                 case "5":
+                    break;
+
+                case "6":
                     cSteuer.starteDatenverwaltung();
                     break;
 
                 default:
-                    System.out.println("\nFalsche Eingabe!\n");
+                    printer.printlnWithDate("\nFalsche Eingabe!\n");
             }
 
             System.out.println();
