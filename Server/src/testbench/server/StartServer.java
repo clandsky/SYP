@@ -62,7 +62,5 @@ public class StartServer {
         p.printOutputWithDate("Booting Server... ");
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
         p.printOutputWithDate("Server is running... ");
-
-
     }
 }
