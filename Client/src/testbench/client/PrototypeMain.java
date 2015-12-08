@@ -4,8 +4,10 @@ import com.sun.deploy.util.SessionState;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.Werkzeug;
+import testbench.client.gui.ClientGUI;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +23,16 @@ public class PrototypeMain {
         String input = null;
         ClientSteuer cSteuer = new ClientSteuer();
 
+        /*
+        ClientGUI clientGUI = new ClientGUI();
+        clientGUI.setLocationRelativeTo(null);
+        clientGUI.setResizable(false);
+        Dimension d = new Dimension();
+        d.setSize(700,500);
+        clientGUI.setMinimumSize(d);
+        clientGUI.setVisible(true);
+        */
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         cSteuer.connect("http://localhost:8000/");
@@ -32,6 +44,7 @@ public class PrototypeMain {
             System.out.println("\nBitte waehlen:");
             System.out.println("1: GET-Request an den Server (Daten downloaden)");
             System.out.println("2: POST-Request an den Server (Daten uploaden)");
+            System.out.println("3: Generiere Zufalls-Massendaten");
             System.out.println("5: Datenverwaltung starten");
             System.out.println("0: Programm beenden\n");
             System.out.print("Eingabe: ");
@@ -72,6 +85,10 @@ public class PrototypeMain {
 
                     System.out.println("\nBenötigte Übertragungszeit: "+String.valueOf(uebertragZeit)+" ms");
                     break;
+
+                case "3":
+                        cSteuer.generiereZufallsMassendaten(16000000);
+                        break;
 
                 case "5":
                         cSteuer.starteDatenverwaltung();

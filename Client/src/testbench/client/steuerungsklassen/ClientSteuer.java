@@ -72,7 +72,7 @@ public class ClientSteuer {
 
         Massendaten massendaten = dServe.ladeMassendaten(id);
         massendatenList = new Splitter().splitMassendaten(massendaten, 1000);
-
+        System.out.println(massendaten.getValueList().get(massendaten.getValueCount()-1));
         System.out.println("\nSenden der Massendaten wird vorbereitet...\n");
 
         try {
@@ -88,6 +88,12 @@ public class ClientSteuer {
 
     public boolean sendeStruktdaten(int id) {
         return true;
+    }
+
+    public Massendaten generiereZufallsMassendaten(int size) {
+        Massendaten m = dServe.generiereZufallsMassendaten(size);
+        dServe.schreibeMassendaten(m);
+        return m;
     }
 
     public boolean connect(String adresse) {
