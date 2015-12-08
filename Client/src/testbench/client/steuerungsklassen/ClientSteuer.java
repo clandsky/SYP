@@ -36,7 +36,6 @@ public class ClientSteuer {
 
     public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
         Massendaten massendaten;
-        MassendatenGrenz massendatenGrenz;
 
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
         massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
