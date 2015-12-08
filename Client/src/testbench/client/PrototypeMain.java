@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
  * Created by Sven Riedel on 04.12.2015
  */
 public class PrototypeMain {
+    private static boolean startGUI = false;
+
     public static void main(String args[]) {
         long messStart;
         long messEnde;
@@ -20,15 +22,15 @@ public class PrototypeMain {
         String input = null;
         ClientSteuer cSteuer = new ClientSteuer();
 
-
-        ClientGUI clientGUI = new ClientGUI();
-        clientGUI.setLocationRelativeTo(null);
-        clientGUI.setResizable(false);
-        Dimension d = new Dimension();
-        d.setSize(700,500);
-        clientGUI.setMinimumSize(d);
-        clientGUI.setVisible(true);
-
+        if(PrototypeMain.startGUI) {
+            ClientGUI clientGUI = new ClientGUI();
+            clientGUI.setLocationRelativeTo(null);
+            clientGUI.setResizable(false);
+            Dimension d = new Dimension();
+            d.setSize(700,500);
+            clientGUI.setMinimumSize(d);
+            clientGUI.setVisible(true);
+        }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -85,7 +87,7 @@ public class PrototypeMain {
                     break;
 
                 case "3":
-                        cSteuer.generiereZufallsMassendaten(16000000);
+                        cSteuer.generiereZufallsMassendaten(8000000);
                         break;
 
                 case "5":

@@ -39,15 +39,12 @@ public class ClientSteuer {
         MassendatenGrenz massendatenGrenz;
 
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-
         massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
 
         System.out.println("Empfangene Massendaten werden verarbeitet...");
         dServe.schreibeMassendaten(massendaten);
 
-        massendatenGrenz = new MassendatenGrenz(massendaten);
-
-        return massendatenGrenz;
+        return new MassendatenGrenz(massendaten);
     }
 
     public StruktdatenGrenz empfangeStruktdaten(int id) {
@@ -56,6 +53,7 @@ public class ClientSteuer {
 
     public boolean sendeMassendaten(int id) {
         List<Massendaten> massendatenList;
+        ByteMessage bm;
 
         Massendaten massendaten = dServe.ladeMassendaten(id);
         massendatenList = new Splitter().splitMassendaten(massendaten, 1000);
@@ -63,7 +61,7 @@ public class ClientSteuer {
         System.out.println("\nSenden der Massendaten wird vorbereitet...\n");
 
         try {
-            ByteMessage bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
+            bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
             return httpClient.sendeMassendaten(bm).getStatus() == 200;
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,8 +110,6 @@ public class ClientSteuer {
         }
         return struktInfoGrenzList;
     }
-
-
 
     public Massendaten generiereZufallsMassendaten(int size) {
         Massendaten m = dServe.generiereZufallsMassendaten(size);

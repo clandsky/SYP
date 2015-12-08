@@ -50,7 +50,7 @@ public class ClientGUI extends JFrame {
 
     public ClientGUI() {
         setContentPane(formPanel);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
 
