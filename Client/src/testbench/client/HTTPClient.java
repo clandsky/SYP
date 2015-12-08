@@ -23,6 +23,9 @@ public class HTTPClient {
     private Client client;
     private WebTarget target;
 
+    private final String MASSENDATEN = "massendaten";
+    private final String STRUKTDATEN = "struktdaten";
+
     private HTTPClient(){}
 
     public static HTTPClient getExemplar() {
@@ -47,7 +50,7 @@ public class HTTPClient {
 
     public ByteMessage empfangeMassendaten(int id) {
 
-        Response res = target.path( "testlauf" ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
+        Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
         return res.readEntity(ByteMessage.class);
     }
 
