@@ -1,8 +1,9 @@
 package testbench.bootloader.grenz;
 
-import testbench.bootloader.Werkzeug;
+import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class MassendatenGrenz {
         this.values = values;
     }
     public MassendatenGrenz(Massendaten m) {
-        this.values = new Werkzeug().werteListToDoubleList(m.getValueList());
+        this.values = werteListToDoubleList(m.getValueList());
     }
 
     public List<Double> getValues() {
@@ -26,5 +27,14 @@ public class MassendatenGrenz {
         Massendaten.Builder builder = Massendaten.newBuilder();
         for(Double d : values) builder.addValue(Massendaten.Werte.newBuilder().setNumber(d));
         return builder.build();
+    }
+
+    private List<Double> werteListToDoubleList(List<Massendaten.Werte> werteList) {
+        List<Double> doubleList = new ArrayList<>();
+
+        for(Massendaten.Werte w : werteList)
+            doubleList.add(w.getNumber());
+
+        return doubleList;
     }
 }

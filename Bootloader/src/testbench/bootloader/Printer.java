@@ -42,12 +42,12 @@ public class Printer {
         System.out.println("********************************************************************************");
         System.out.println("--------------------------------------------------------------------------------");
     }
-    public void printProgressBar(int progress) {
+    public void printProgressBar(int progress, float size) {
         StringBuffer progressBuffer = new StringBuffer();
         progressBuffer.append('|');
 
-        for(int i=1 ; i<99 ; i++) {
-            if(i < progress) progressBuffer.append('=');
+        for(int i=1 ; i<99*size ; i++) {
+            if(i*size < progress*size) progressBuffer.append('=');
             else progressBuffer.append(' ');
         }
         progressBuffer.append('|');

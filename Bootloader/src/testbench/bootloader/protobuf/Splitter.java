@@ -1,9 +1,9 @@
 package testbench.bootloader.protobuf;
 
+import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.bootloader.Werkzeug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Splitter {
     /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
     public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB) {
         int divider = packetSizeKB*1000/11;
-        Werkzeug w = new Werkzeug();
+        Printer printer = new Printer();
         List<Massendaten> splittedMassendatenList = new ArrayList<>();
         List<Werte> werteList = massendaten.getValueList();
         int serializedSize = 0;
@@ -40,7 +40,7 @@ public class Splitter {
 
             for(int i=0 ; i<chunkList.size() ; i++) builder.addValue(chunkList.get(i));
 
-            w.printProgressBar(((x+1)*100)/temp);
+            printer.printProgressBar(((x+1)*100)/temp,0.5f);
 
             splittedMassendatenList.add(builder.build());
         }

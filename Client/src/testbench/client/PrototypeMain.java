@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * Created by Sven Riedel on 04.12.2015
  */
 public class PrototypeMain {
-    private static boolean startGUI = true;
+    private static boolean startGUI = false;
 
     public static void main(String args[]) {
         long messStart;
