@@ -15,7 +15,7 @@ public class Splitter {
     private boolean PRINT_DEBUG = false;
 
     /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
-    public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB) {
+    public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB, float progressBarSizeMulti) {
         int divider = packetSizeKB*1000/11;
         Printer printer = new Printer();
         List<Massendaten> splittedMassendatenList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Splitter {
 
             for(int i=0 ; i<chunkList.size() ; i++) builder.addValue(chunkList.get(i));
 
-            printer.printProgressBar(((x+1)*100)/temp,0.5f);
+            printer.printProgressBar(((x+1)*100)/temp,progressBarSizeMulti);
 
             splittedMassendatenList.add(builder.build());
         }
