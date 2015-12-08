@@ -35,11 +35,14 @@ public class HTTPClient {
         return httpClient;
     }
 
-    public boolean connect(String adresse) {
+    public boolean connect(String adresse) throws Exception {
         client = ClientBuilder.newBuilder().register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class).build();
         target = client.target(adresse);
 
-        return true;
+        List<MassenInfo> massenInfoList = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+
+        if(massenInfoList != null) return true;
+        return false;
     }
 
     public Response sendeMassendaten(ByteMessage m) {
@@ -61,7 +64,7 @@ public class HTTPClient {
     }
 
     public List<MassenInfo> empfangeMassendatenInfoListe() {
-        List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaType.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+        List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
         return mInfo;
     }
 

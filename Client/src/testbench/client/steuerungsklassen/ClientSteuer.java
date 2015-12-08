@@ -1,6 +1,7 @@
 package testbench.client.steuerungsklassen;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import sun.org.mozilla.javascript.internal.EcmaError;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
@@ -56,18 +57,9 @@ public class ClientSteuer {
 
         Massendaten massendaten = dServe.ladeMassendaten(id);
         massendatenList = new Splitter().splitMassendaten(massendaten, 1000,0.5f);
-        System.out.println(massendaten.getValueList().get(massendaten.getValueCount()-1));
-        System.out.println("\nSenden der Massendaten wird vorbereitet...\n");
 
-        try {
-            bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
-            return httpClient.sendeMassendaten(bm).getStatus() == 200;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("\n!!! Verbindung zum Server fehlgeschlagen !!!");
-        }
-
-        return true;
+        bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
+        return httpClient.sendeMassendaten(bm).getStatus() == 200;
     }
 
     public boolean sendeStruktdaten(int id) {
@@ -116,7 +108,7 @@ public class ClientSteuer {
         return m;
     }
 
-    public boolean connect(String adresse) {
+    public boolean connect(String adresse) throws Exception {
         httpClient.connect(adresse);
         return true;
     }
