@@ -26,7 +26,7 @@ public class RestResource {
 
     ServerSteuer s = new ServerSteuer();
     Printer p = new Printer();
-/*
+
     @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
@@ -40,7 +40,7 @@ public class RestResource {
         return list;
 
     }
-*/
+
     @GET
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
@@ -76,7 +76,7 @@ public class RestResource {
     }
 
     @POST
-    @Path("testlauf")
+    @Path("massendaten")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
         p.printOutputWithDate("[POST] on /Massendaten");
