@@ -4,6 +4,7 @@ import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.gui.ClientGUI;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
  * Created by Sven Riedel on 04.12.2015
  */
 public class PrototypeMain {
-    private static boolean startGUI = false;
+    private static boolean startGUI = true;
 
     public static void main(String args[]) {
         long messStart;
@@ -23,6 +24,17 @@ public class PrototypeMain {
         ClientSteuer cSteuer = new ClientSteuer();
 
         if(PrototypeMain.startGUI) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
             ClientGUI clientGUI = new ClientGUI();
             clientGUI.setLocationRelativeTo(null);
             clientGUI.setResizable(false);

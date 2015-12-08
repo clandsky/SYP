@@ -12,6 +12,8 @@ import java.util.List;
  * Created by svenm on 04.12.2015.
  */
 public class Splitter {
+    private boolean PRINT_DEBUG = false;
+
     /* 1 Double-Wert = 11 Byte || 90909 Double-Werte = 999999 Byte*/
     public List<Massendaten> splitMassendaten(Massendaten massendaten, int packetSizeKB) {
         int divider = packetSizeKB*1000/11;
@@ -21,8 +23,10 @@ public class Splitter {
         int serializedSize = 0;
         int temp;
 
-        if(packetSizeKB <= 10) System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11+" B");
-        else System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11/1000+" KB");
+        if(PRINT_DEBUG) {
+            if(packetSizeKB <= 10) System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11+" B");
+            else System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11/1000+" KB");
+        }
 
         if(werteList.size()%divider == 0) temp = werteList.size()/divider;
         else temp = werteList.size()/divider+1;
@@ -41,12 +45,12 @@ public class Splitter {
             splittedMassendatenList.add(builder.build());
         }
 
-        System.out.println("Zahl der Massendaten nach splitten: " + splittedMassendatenList.size());
+        if(PRINT_DEBUG) System.out.println("Zahl der Massendaten nach splitten: " + splittedMassendatenList.size());
 
         for(int x=0 ; x<splittedMassendatenList.size() ; x++)
             serializedSize += splittedMassendatenList.get(x).getSerializedSize();
 
-        System.out.println("Groesse der aufgeteilten Daten (serialisiert): " + serializedSize/1000 +" KB");
+        if(PRINT_DEBUG) System.out.println("Groesse der aufgeteilten Daten (serialisiert): " + serializedSize/1000 +" KB");
 
         return splittedMassendatenList;
     }
