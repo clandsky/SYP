@@ -1,6 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
-import testbench.bootloader.Werkzeug;
+import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
@@ -14,7 +14,7 @@ import static java.lang.Math.*;
  */
 public class Generator
 {
-    final boolean _DEBUG = true;
+    private final boolean _DEBUG = true;
 
     public MassendatenProtos.Massendaten generatorMassData(MassenDef config, int fileSize)
     {
@@ -22,7 +22,7 @@ public class Generator
         double pos = 0.0f;
         int typeSize = 8;
 
-        Werkzeug w = new Werkzeug();
+        Printer p = new Printer();
         int procent = 0;
 
         MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
@@ -39,9 +39,13 @@ public class Generator
             }
 
             // Prozentanzeige wenn im DEBUG-Modus
-            if( _DEBUG )
+            if (_DEBUG)
             {
-                w.printProgressBar( i * 100 / (fileSize / typeSize) );
+                if (procent != i * 100 / (fileSize / typeSize))
+                {
+                    procent = i * 100 / (fileSize / typeSize);
+                    p.printProgressBar(i * 100 / (fileSize / typeSize), 0.5f);
+                }
             }
             
             builder.addValue(MassendatenProtos.Massendaten.Werte.newBuilder().setNumber(value));
@@ -50,35 +54,35 @@ public class Generator
             pos += config.getAbtastrate();
         }
 
-        w.printProgressBar( 100 );
+        p.printProgressBar(100, 0.5f);
         MassendatenProtos.Massendaten massendaten = builder.build();
 
         return massendaten;
     }
 
-    public StruktdatenProtos.Struktdaten generatorDeepStructure( StruktDef struktDef )
+    public StruktdatenProtos.Struktdaten generatorDeepStructure(StruktDef struktDef)
     {
         StruktdatenProtos.Struktdaten.Builder structBuilder = StruktdatenProtos.Struktdaten.newBuilder();
         StruktdatenProtos.Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder = StruktdatenProtos.Struktdaten.SelAIDNameUnitID.newBuilder();
         StruktdatenProtos.Struktdaten.AIDName.Builder aIDNameBuilder = StruktdatenProtos.Struktdaten.AIDName.newBuilder();
         StruktdatenProtos.Struktdaten.LongLong.Builder longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
 
-        longLong.setLow( 300 );
-        longLong.setHigh( 300 );
+        longLong.setLow(300);
+        longLong.setHigh(300);
 
-        aIDNameBuilder.setAaName( "AName" );
-        aIDNameBuilder.setAid( longLong );
+        aIDNameBuilder.setAaName("AName");
+        aIDNameBuilder.setAid(longLong);
 
-        selAIDNameUnitIDBuilder.setAggregate( "Test" );
-        selAIDNameUnitIDBuilder.setAidname( aIDNameBuilder );
+        selAIDNameUnitIDBuilder.setAggregate("Test");
+        selAIDNameUnitIDBuilder.setAidname(aIDNameBuilder);
 
 
         longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
-        longLong.setLow( 300 );
-        longLong.setHigh( 300 );
-        selAIDNameUnitIDBuilder.setUnitid( longLong );
+        longLong.setLow(300);
+        longLong.setHigh(300);
+        selAIDNameUnitIDBuilder.setUnitid(longLong);
 
-        structBuilder.addAnuSeq( selAIDNameUnitIDBuilder );
+        structBuilder.addAnuSeq(selAIDNameUnitIDBuilder);
 
         return structBuilder.build();
     }
