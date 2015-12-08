@@ -71,18 +71,7 @@ public class ServerSteuer {
         return idat.schreibeStrukturierteDaten(struktdaten);
     }
 
-    public void createOutput (String s)
-    {
-        Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-        String output="";
-        output+=df.format(cal.getTime());
-        output+=" : "+s;
-        System.out.println(output);
-
-
-    }
 
 
 

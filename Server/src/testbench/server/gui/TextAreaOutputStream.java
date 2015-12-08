@@ -68,14 +68,14 @@ public class TextAreaOutputStream
     static class Appender
             implements Runnable
     {
-        private final JTextArea             textArea;
-        private final int                   maxLines;                                                   // maximum lines allowed in text area
+        private final JTextArea textArea;
+        private final int maxLines;                                                   // maximum lines allowed in text area
         private final LinkedList<Integer> lengths;                                                    // length of lines within text area
-        private final ArrayList<String>values;                                                     // values waiting to be appended
+        private final ArrayList<String> values;                                                     // values waiting to be appended
 
-        private int                         curLength;                                                  // length of current line
-        private boolean                     clear;
-        private boolean                     queue;
+        private int curLength;                                                  // length of current line
+        private boolean clear;
+        private boolean queue;
 
         Appender(JTextArea txtara, int maxlin) {
             textArea =txtara;

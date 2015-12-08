@@ -15,6 +15,7 @@ import java.net.URI;
  * Created by Huskey on 08.12.2015.
  */
 public class StartServer {
+
     public static void main (String args[]) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         ServerGUI serverGUI=new ServerGUI();

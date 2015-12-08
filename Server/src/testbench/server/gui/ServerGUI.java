@@ -14,7 +14,8 @@ public class ServerGUI extends JFrame{
     private JButton clearButton;
 
     public ServerGUI () throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        PrintStream con=new PrintStream(new TextAreaOutputStream(consoleOut,50));
+        final TextAreaOutputStream tAOS= new TextAreaOutputStream(consoleOut,50);
+        PrintStream con=new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);
         setContentPane(panel);
@@ -23,7 +24,7 @@ public class ServerGUI extends JFrame{
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                consoleOut.setText ("");
+                tAOS.clear();
             }
         });
     }

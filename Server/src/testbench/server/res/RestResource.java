@@ -9,6 +9,7 @@ import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.server.steuerungsklassen.Printer;
 import testbench.server.steuerungsklassen.ServerSteuer;
 
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class RestResource {
 
     ServerSteuer s = new ServerSteuer();
+    Printer p = new Printer();
 /*
     @GET
     @Path("massendaten")
@@ -43,7 +45,7 @@ public class RestResource {
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public ByteMessage getTest(@PathParam("id")String number) throws IOException {
-
+        p.printOutputWithDate("[GET] Massendaten/"+number);
         int id=1;
         try
         {
@@ -52,20 +54,24 @@ public class RestResource {
         {
             e.printStackTrace();
         }
-
-
         if (id>0) {
-            Massendaten massendaten = s.ladeMassendaten(1);
-            System.out.println(Calendar.getInstance().getTime());
-            System.out.println("******************************");
-            System.out.println("*         GET /Header        *");
-            System.out.println("******************************");
-
-            Splitter splitter = new Splitter();
-            List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
-            return new ByteMessage(splitter.combineByteArrays(data));
+            Massendaten massendaten = s.ladeMassendaten(id);
+            if(massendaten!=null) {
+                p.printOutputWithDate("Massendaten loaded...");
+                Splitter splitter = new Splitter();
+                List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000);
+                p.printOutputWithDate("[SUCCESS] Returning ByteArray...");
+                return new ByteMessage(splitter.combineByteArrays(data));
+            }
+            else {
+                p.printOutputWithDate("[ERROR] File not Found!");
+                return null;
+            }
         }
-        else return null;
+        else{
+            p.printOutputWithDate("[ERROR] Could not Resolve Path!");
+            return null;
+        }
 
     }
 
@@ -73,17 +79,17 @@ public class RestResource {
     @Path("testlauf")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
-        s.createOutput("[POST] on /Massendaten");
+        p.printOutputWithDate("[POST] on /Massendaten");
 
         Massendaten massendaten = null;
         try {
             massendaten = Massendaten.parseFrom(daten.getByteArray());
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
-            s.createOutput("Last recieved Item: "+d);
+            p.printOutputWithDate("Last recieved Item: "+d);
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        s.createOutput("[SUCCESS] Massendaten created... Response 'Test'");
+        p.printOutputWithDate("[SUCCESS] Massendaten created... Response 'Test'");
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
