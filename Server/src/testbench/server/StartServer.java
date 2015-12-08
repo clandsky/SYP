@@ -7,7 +7,7 @@ import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.gui.ServerGUI;
 import testbench.server.res.RestResource;
-import testbench.server.steuerungsklassen.Printer;
+import testbench.bootloader.Printer;
 
 import javax.swing.*;
 import java.net.URI;
@@ -62,7 +62,5 @@ public class StartServer {
         p.printOutputWithDate("Booting Server... ");
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
         p.printOutputWithDate("Server is running... ");
-
-
     }
 }

@@ -71,9 +71,4 @@ public class ServerSteuer {
         return idat.schreibeStrukturierteDaten(struktdaten);
     }
 
-
-
-
-
-
 }
