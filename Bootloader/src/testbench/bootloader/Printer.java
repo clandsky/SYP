@@ -1,18 +1,14 @@
 package testbench.bootloader;
 
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by Huskey on 08.12.2015.
  */
 public class Printer {
-    public void printOutputWithDate(String s)
+    public void printlnWithDate(String s)
     {
         Calendar cal = Calendar.getInstance();
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -21,6 +17,16 @@ public class Printer {
         output+=df.format(cal.getTime());
         output+=" : "+s;
         System.out.println(output);
+    }
+    public void printWithDate(String s)
+    {
+        Calendar cal = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+        String output="";
+        output+=df.format(cal.getTime());
+        output+=" : "+s;
+        System.out.print(output);
     }
     public void printSeperator(String s)
     {
@@ -54,7 +60,7 @@ public class Printer {
 
         if(progress >= 100) {
             System.out.print("\r"+progressBuffer+" 100%\n");
-            printOutputWithDate("Fertig!");
+            printlnWithDate("Fertig!");
         }
         else System.out.print("\r"+progressBuffer+" "+progress+"%");
     }

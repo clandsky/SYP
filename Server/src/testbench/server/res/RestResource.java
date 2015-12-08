@@ -31,9 +31,9 @@ public class RestResource {
     @Produces(MediaTypeExt.APPLICATION_XML)
     public List<MassenInfo> getTest() throws IOException {
 
-        p.printOutputWithDate("[GET] Massendaten/");
+        p.printlnWithDate("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
-        p.printOutputWithDate("[SUCCESS] Returning Massendaten...");
+        p.printlnWithDate("[SUCCESS] Returning Massendaten...");
         return list;
 
     }
@@ -42,7 +42,7 @@ public class RestResource {
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public ByteMessage getTest(@PathParam("id")String number) throws IOException {
-        p.printOutputWithDate("[GET] Massendaten/"+number);
+        p.printlnWithDate("[GET] Massendaten/"+number);
         int id=1;
         try
         {
@@ -54,19 +54,19 @@ public class RestResource {
         if (id>0) {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
-                p.printOutputWithDate("Massendaten geladen...");
+                p.printlnWithDate("Massendaten geladen...");
                 Splitter splitter = new Splitter();
                 List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000,0.5f);
-                p.printOutputWithDate("[SUCCESS] Returning ByteArray...");
+                p.printlnWithDate("[SUCCESS] Returning ByteArray...");
                 return new ByteMessage(splitter.combineByteArrays(data));
             }
             else {
-                p.printOutputWithDate("[ERROR] File not Found!");
+                p.printlnWithDate("[ERROR] File not Found!");
                 return null;
             }
         }
         else{
-            p.printOutputWithDate("[ERROR] Could not Resolve Path!");
+            p.printlnWithDate("[ERROR] Could not Resolve Path!");
             return null;
         }
 
@@ -76,17 +76,17 @@ public class RestResource {
     @Path("massendaten")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
-        p.printOutputWithDate("[POST] on /Massendaten");
+        p.printlnWithDate("[POST] on /Massendaten");
 
         Massendaten massendaten = null;
         try {
             massendaten = Massendaten.parseFrom(daten.getByteArray());
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
-            p.printOutputWithDate("Letztes erhaltenes Element: "+d);
+            p.printlnWithDate("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        p.printOutputWithDate("[SUCCESS] Massendaten erzeugt... Response 'Test'");
+        p.printlnWithDate("[SUCCESS] Massendaten erzeugt... Response 'Test'");
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();

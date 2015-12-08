@@ -39,11 +39,11 @@ public class StartServer {
         String uri = "http://localhost:8000/";
 
         endpoint = new URI(uri);
-        p.printOutputWithDate("Configurating ResourceConfig with MessageBodyProvider... ");
+        p.printlnWithDate("Configurating ResourceConfig with MessageBodyProvider... ");
         rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
-        p.printOutputWithDate("Booting Server... ");
+        p.printlnWithDate("Booting Server... ");
         server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
-        p.printOutputWithDate("Server is running... ");
+        p.printlnWithDate("Server is running... ");
     }
 
     public JFrame getGUI(){
@@ -61,10 +61,10 @@ public class StartServer {
         p.printWelcome();
         String uri = "http://localhost:8000/";
         URI endpoint = new URI(uri);
-        p.printOutputWithDate("Configurating ResourceConfig with MessageBodyProvider... ");
+        p.printlnWithDate("Configurating ResourceConfig with MessageBodyProvider... ");
         ResourceConfig rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
-        p.printOutputWithDate("Booting Server... ");
+        p.printlnWithDate("Booting Server... ");
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
-        p.printOutputWithDate("Server is running... ");
+        p.printlnWithDate("Server is running... ");
     }
 }
