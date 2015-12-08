@@ -1,10 +1,11 @@
-package testbench.server.gui;
+package testbench.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
+import testbench.server.gui.ServerGUI;
 import testbench.server.res.RestResource;
 
 import javax.swing.*;
