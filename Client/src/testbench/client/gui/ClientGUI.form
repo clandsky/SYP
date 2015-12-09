@@ -172,7 +172,7 @@
                     </constraints>
                     <properties>
                       <font size="16"/>
-                      <text value="Von Sven Riedel, Christoph Landsky,Carsten Grings und Murat Tasdemir"/>
+                      <text value="Von Sven Riedel, Christoph Landsky, Carsten Grings und Murat Tasdemir"/>
                     </properties>
                   </component>
                   <component id="9a55d" class="javax.swing.JLabel" binding="thLogoLabel">
