@@ -17,7 +17,7 @@ public class ServerGUI extends JFrame{
     private Printer p;
 
     public ServerGUI () throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        final KonsoleOutputStream tAOS= new KonsoleOutputStream(consoleOut,50);
+        final KonsoleOutputStream tAOS= new KonsoleOutputStream(consoleOut,34);
         PrintStream con=new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);

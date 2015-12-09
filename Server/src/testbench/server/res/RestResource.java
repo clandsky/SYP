@@ -33,7 +33,7 @@ public class RestResource {
 
         p.printlnWithDate("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
-        p.printlnWithDate("[SUCCESS] Returning Massendaten...");
+        p.printlnWithDate("[SUCCESS] Returning Massendaten-Liste...");
         return list;
 
     }
@@ -55,6 +55,7 @@ public class RestResource {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
                 p.printlnWithDate("Massendaten geladen...");
+                p.printlnWithDate("Massendaten werden gesplitted...");
                 Splitter splitter = new Splitter();
                 List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000,0.5f);
                 p.printlnWithDate("[SUCCESS] Returning ByteArray...");
