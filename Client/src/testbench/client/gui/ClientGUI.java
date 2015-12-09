@@ -90,16 +90,14 @@ public class ClientGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
-        setIcon(refreshIconDownload,ICON_REFRESH_PATH);
-        setIcon(refreshIconUpload,ICON_REFRESH_PATH);
-        setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
 
+        initIcons();
         initListener();
         initSplitPanes();
     }
 
     private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
-        if(mInfoGrenzList != null) {
+      // if(mInfoGrenzList != null) {
             DefaultTableModel model;
 
             Object[][] data = new Object[mInfoGrenzList.size()][2];
@@ -118,11 +116,11 @@ public class ClientGUI extends JFrame {
                 };
                 table.setModel(model);
             }
-        }
+     //   }
     }
 
     private void fillStruktTable(JTable table, List<StruktInfoGrenz> sInfoGrenzList) {
-        if(sInfoGrenzList != null) {
+      //  if(sInfoGrenzList != null) {
             DefaultTableModel model;
 
             Object[][] data = new Object[sInfoGrenzList.size()][2];
@@ -141,7 +139,7 @@ public class ClientGUI extends JFrame {
                 };
                 table.setModel(model);
             }
-        }
+       // }
     }
 
     private void setIcon(JLabel label, String iconPath) {
@@ -150,12 +148,17 @@ public class ClientGUI extends JFrame {
     }
 
     private void refreshDownload() {
-        fillMassenTable(massenTableDownload,cSteuer.empfangeMassenInfoGrenzList());
+        massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
+        struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
+        fillMassenTable(massenTableDownload,massenInfoServer);
         fillStruktTable(struktTableDownload,struktInfoServer);
     }
 
     private void refreshUpload() {
-        System.out.println("refresh upload");
+        massenInfoClient = cSteuer.getMassenInfoGrenzList(false);
+        struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
+        fillMassenTable(massenTableUpload,massenInfoClient);
+        fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
     private void refreshMessdaten() {
@@ -163,18 +166,17 @@ public class ClientGUI extends JFrame {
     }
 
     private void initDataLists() {
-        massenInfoServer = cSteuer.empfangeMassenInfoGrenzList();
+        massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
         fillMassenTable(massenTableDownload,massenInfoServer);
 
-        massenInfoClient = cSteuer.holeLokaleMassenInfoGrenzList();
+        massenInfoClient = cSteuer.getMassenInfoGrenzList(false);
         fillMassenTable(massenTableUpload,massenInfoClient);
 
-      /*  struktInfoServer = cSteuer.empfangeStruktInfoGrenzList();
+        struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
         fillStruktTable(struktTableDownload,struktInfoServer);
 
-        struktInfoClient = cSteuer.holeLokaleStruktInfoGrenzList();
-        fillStruktTable(massenTableDownload,struktInfoClient);
-      */
+        struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
+        fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
     private void initSplitPanes() {
@@ -190,6 +192,18 @@ public class ClientGUI extends JFrame {
             idLabel.setText(String.valueOf(mig.getId()));
             groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
         }
+        if(daten.getClass() == StruktInfoGrenz.class) {
+            StruktInfoGrenz sig = (StruktInfoGrenz) daten;
+            artLabel.setText("Strukturierte Daten");
+            idLabel.setText(String.valueOf(sig.getId()));
+            groesseLabel.setText(" - ");
+        }
+    }
+
+    private void initIcons() {
+        setIcon(refreshIconDownload,ICON_REFRESH_PATH);
+        setIcon(refreshIconUpload,ICON_REFRESH_PATH);
+        setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
     }
 
     private void initListener() {

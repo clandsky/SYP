@@ -12,11 +12,15 @@ import java.util.List;
 @XmlRootElement
 public class MassenDef
 {
-    public MassenDef() {
-    }
-
     private double abtastrate;
     private ArrayList<Frequency> frequencies = new ArrayList<>();
+
+    public MassenDef() {}
+
+    public MassenDef(double abtastrate, ArrayList<Frequency> frequencies) {
+        this.abtastrate = abtastrate;
+        this.frequencies = frequencies;
+    }
 
     public MassenDef(double abtastrate)
     {

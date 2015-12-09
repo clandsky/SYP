@@ -2,21 +2,20 @@ package testbench.client.service;
 
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
+import testbench.bootloader.grenz.Frequency;
+import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sven Riedel on 07.12.2015.
  */
 public class DatenService {
-    private IDatenVerwaltungImpl iDat;
-
-    public DatenService() {
-        this.iDat = new IDatenVerwaltungImpl();
-    }
+    private IDatenVerwaltungImpl iDat = new IDatenVerwaltungImpl();
 
     public List<MassenInfo> ladeMassenListe() {
         return iDat.ladeMassenInfo();

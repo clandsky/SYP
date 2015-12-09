@@ -92,7 +92,7 @@ public class PrototypeMain {
                 case "3":
                     try {
                         cSteuer.connect(ip);
-                        List<MassenInfoGrenz> mig = cSteuer.empfangeMassenInfoGrenzList();
+                        List<MassenInfoGrenz> mig = cSteuer.getMassenInfoGrenzList(true);
                         for(MassenInfoGrenz m : mig)
                             printer.printlnWithDate(String.valueOf(m.getDef().getAbtastrate()));
                     } catch (Exception e) {

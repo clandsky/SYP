@@ -17,8 +17,13 @@ public class MassenInfo {
     private String path;
     private MassenDef def;
 
-    public MassenInfo() {
+    public MassenInfo() {}
 
+    public MassenInfo(int id, int paketgroesseKB, String path, MassenDef def) {
+        this.id = id;
+        this.paketgroesseKB = paketgroesseKB;
+        this.path = path;
+        this.def = def;
     }
 
     @XmlAttribute

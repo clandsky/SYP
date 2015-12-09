@@ -23,15 +23,9 @@ import java.util.List;
 
 public class ClientSteuer {
     private boolean PRINT_DEBUG = true;
-    private HTTPClient httpClient;
-    private DatenService dServe;
-    private Printer printer;
-
-    public ClientSteuer() {
-        httpClient = HTTPClient.getExemplar();
-        dServe = new DatenService();
-        printer = new Printer();
-    }
+    private HTTPClient httpClient = HTTPClient.getExemplar();
+    private DatenService dServe = new DatenService();
+    private Printer printer = new Printer();
 
     public List<Messdaten> holeMessdaten() {
         return null;
@@ -55,21 +49,21 @@ public class ClientSteuer {
     }
 
     public boolean sendeMassendaten(int id) {
-        List<Massendaten> massendatenList;
-        ByteMessage bm;
-
         Massendaten m = dServe.ladeMassendaten(id);
         if(PRINT_DEBUG) printer.printlnWithDate("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1));
-        bm = new ByteMessage(m, 1000, 0.5f);
-        return httpClient.sendeMassendaten(bm).getStatus() == 200;
+        return httpClient.sendeMassendaten(new ByteMessage(m, 1000, 0.5f)).getStatus() == 200;
     }
 
     public boolean sendeStruktdaten(int id) {
         return true;
     }
 
-    public List<MassenInfoGrenz> empfangeMassenInfoGrenzList() {
-        List<MassenInfo> massenInfoList = httpClient.empfangeMassendatenInfoListe();
+    public List<MassenInfoGrenz> getMassenInfoGrenzList(boolean getFromServer) {
+        List<MassenInfo> massenInfoList;
+
+        if(getFromServer) massenInfoList = httpClient.empfangeMassendatenInfoListe();
+        else massenInfoList = dServe.ladeMassenListe();
+
         List<MassenInfoGrenz> massenInfoGrenzList = new ArrayList<>();
         if(massenInfoList != null) {
             for(MassenInfo m : massenInfoList) massenInfoGrenzList.add(new MassenInfoGrenz(m));
@@ -77,26 +71,12 @@ public class ClientSteuer {
         return massenInfoGrenzList;
     }
 
-    public List<MassenInfoGrenz> holeLokaleMassenInfoGrenzList() {
-        List<MassenInfo> massenInfoList = dServe.ladeMassenListe();
-        List<MassenInfoGrenz> massenInfoGrenzList = new ArrayList<>();
-        if(massenInfoList != null) {
-            for(MassenInfo m : massenInfoList) massenInfoGrenzList.add(new MassenInfoGrenz(m));
-        }
-        return massenInfoGrenzList;
-    }
+    public List<StruktInfoGrenz> getStruktInfoGrenzList(boolean getFromServer) {
+        List<StruktInfo> struktInfoList;
 
-    public List<StruktInfoGrenz> empfangeStruktInfoGrenzList() {
-        List<StruktInfo> struktInfoList = httpClient.empfangeStruktdatenInfoListe();
-        List<StruktInfoGrenz> struktInfoGrenzList = new ArrayList<>();
-        if(struktInfoList != null) {
-            for(StruktInfo s : struktInfoList) struktInfoGrenzList.add(new StruktInfoGrenz(s));
-        }
-        return struktInfoGrenzList;
-    }
+        if(getFromServer) struktInfoList = httpClient.empfangeStruktdatenInfoListe();
+        else struktInfoList = dServe.ladeStruktListe();
 
-    public List<StruktInfoGrenz> holeLokaleStruktInfoGrenzList() {
-        List<StruktInfo> struktInfoList = dServe.ladeStruktListe();
         List<StruktInfoGrenz> struktInfoGrenzList = new ArrayList<>();
         if(struktInfoList != null) {
             for(StruktInfo s : struktInfoList) struktInfoGrenzList.add(new StruktInfoGrenz(s));

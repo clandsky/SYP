@@ -14,8 +14,7 @@ public class StruktDef {
     private int itemSelOrderCount;
     private int itemAIDNameCount;
 
-    public StruktDef() {
-    }
+    public StruktDef() {}
 
     public StruktDef(int itemJoinDefCount, int itemSelItemCount, int itemSelUIDCount, int itemSelOrderCount, int itemAIDNameCount) {
         this.itemJoinDefCount = itemJoinDefCount;

@@ -69,7 +69,8 @@ public class HTTPClient {
     }
 
     public List<StruktInfo> empfangeStruktdatenInfoListe() {
-        return null;
+        List<StruktInfo> sInfo = target.path( STRUKTDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<StruktInfo>>() {} );
+        return sInfo;
     }
 
     public String getServerIP() {
