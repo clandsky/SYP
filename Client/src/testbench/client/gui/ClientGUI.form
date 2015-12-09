@@ -114,12 +114,12 @@
                       <grid id="50a7d" binding="splitpanePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <splitpane id="e22b3">
+                          <splitpane id="e22b3" binding="splitPaneDown">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="200" height="200"/>
@@ -133,7 +133,9 @@
                                 <constraints>
                                   <splitpane position="left"/>
                                 </constraints>
-                                <properties/>
+                                <properties>
+                                  <maximumSize width="150" height="2147483647"/>
+                                </properties>
                                 <border type="none"/>
                                 <children>
                                   <grid id="89e01" binding="massenLabelPanelDown" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -192,22 +194,32 @@
                                       </hspacer>
                                     </children>
                                   </grid>
-                                  <component id="c81c0" class="javax.swing.JTable" binding="massenTableDownload">
+                                  <scrollpane id="80480">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="50"/>
-                                      </grid>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
-                                  </component>
-                                  <component id="5128b" class="javax.swing.JTable" binding="struktTableDownload">
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="c81c0" class="javax.swing.JTable" binding="massenTableDownload">
+                                        <constraints/>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
+                                  <scrollpane id="ef477">
                                     <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="50"/>
-                                      </grid>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
-                                  </component>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="5128b" class="javax.swing.JTable" binding="struktTableDownload">
+                                        <constraints/>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
                                 </children>
                               </grid>
                               <grid id="e2321" binding="rightPanelDownload" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -305,6 +317,30 @@
                                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </hspacer>
+                                  <component id="e3476" class="javax.swing.JLabel" binding="artLabelDown">
+                                    <constraints>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
+                                  <component id="565f5" class="javax.swing.JLabel" binding="idLabelDown">
+                                    <constraints>
+                                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
+                                  <component id="1fde1" class="javax.swing.JLabel" binding="groesseLabelDown">
+                                    <constraints>
+                                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
                                 </children>
                               </grid>
                             </children>
@@ -361,7 +397,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <splitpane id="ef47">
+                          <splitpane id="ef47" binding="splitPaneUp">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="200" height="200"/>
@@ -434,22 +470,32 @@
                                       </hspacer>
                                     </children>
                                   </grid>
-                                  <component id="a7133" class="javax.swing.JTable" binding="massenTableUpload">
+                                  <scrollpane id="e0dbb">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="50"/>
-                                      </grid>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
-                                  </component>
-                                  <component id="2c236" class="javax.swing.JTable" binding="struktTableUpload">
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="a7133" class="javax.swing.JTable" binding="massenTableUpload">
+                                        <constraints/>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
+                                  <scrollpane id="bb871">
                                     <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="50"/>
-                                      </grid>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
-                                  </component>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="2c236" class="javax.swing.JTable" binding="struktTableUpload">
+                                        <constraints/>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
                                 </children>
                               </grid>
                               <grid id="b2a06" binding="rightPanelUpload" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -547,6 +593,30 @@
                                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </hspacer>
+                                  <component id="939e1" class="javax.swing.JLabel" binding="artLabelUp">
+                                    <constraints>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
+                                  <component id="eff35" class="javax.swing.JLabel" binding="idLabelUp">
+                                    <constraints>
+                                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
+                                  <component id="9fcc9" class="javax.swing.JLabel" binding="groesseLabelUp">
+                                    <constraints>
+                                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="/"/>
+                                    </properties>
+                                  </component>
                                 </children>
                               </grid>
                             </children>
@@ -595,7 +665,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <splitpane id="f2325">
+                      <splitpane id="f2325" binding="splitPaneMess">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                             <preferred-size width="200" height="200"/>
@@ -609,13 +679,17 @@
                             <constraints>
                               <splitpane position="left"/>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <enabled value="true"/>
+                              <minimumSize width="100" height="150"/>
+                              <preferredSize width="100" height="150"/>
+                            </properties>
                             <border type="none"/>
                             <children>
                               <grid id="2d909" binding="massenLabelPanelMess" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -643,7 +717,7 @@
                               <grid id="a2074" binding="struktLabelPanelMess" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -668,22 +742,32 @@
                                   </hspacer>
                                 </children>
                               </grid>
-                              <component id="68e07" class="javax.swing.JTable" binding="massenTableMess">
+                              <scrollpane id="93f5e">
                                 <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="50"/>
-                                  </grid>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
-                              </component>
-                              <component id="67ede" class="javax.swing.JTable" binding="struktTableMess">
+                                <border type="none"/>
+                                <children>
+                                  <component id="68e07" class="javax.swing.JTable" binding="massenTableMess">
+                                    <constraints/>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </scrollpane>
+                              <scrollpane id="b2fd0">
                                 <constraints>
-                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="50"/>
-                                  </grid>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
-                              </component>
+                                <border type="none"/>
+                                <children>
+                                  <component id="67ede" class="javax.swing.JTable" binding="struktTableMess">
+                                    <constraints/>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </scrollpane>
                             </children>
                           </grid>
                           <grid id="99bd3" binding="rightPanelMessdaten" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

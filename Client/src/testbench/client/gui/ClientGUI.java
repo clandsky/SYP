@@ -1,6 +1,8 @@
 package testbench.client.gui;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.client.grenzklassen.MassenInfoGrenz;
+import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
 import javax.swing.*;
@@ -11,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Sven Riedel on 08.12.2015
@@ -49,17 +52,34 @@ public class ClientGUI extends JFrame {
     private JLabel refreshIconDownload;
     private JLabel refreshIconUpload;
     private JLabel refreshIconMessdaten;
+    private JSplitPane splitPaneDown;
+    private JSplitPane splitPaneUp;
+    private JSplitPane splitPaneMess;
+    private JLabel artLabelDown;
+    private JLabel idLabelDown;
+    private JLabel groesseLabelDown;
+    private JLabel artLabelUp;
+    private JLabel idLabelUp;
+    private JLabel groesseLabelUp;
 
     /* OBEN -> automatisch generiert */
 
+    private final String port = "8000";
     private final String ICON_REFRESH_PATH = "Client/res/refresh.png";
-
-
+    private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
 
     ClientSteuer cSteuer = new ClientSteuer();
     CardLayout cl = (CardLayout) cardPanel.getLayout();
     JFrame frame = new JFrame(); //fuer popups
     boolean isIpTextFirstClicked = false;
+
+    /* ################################### */
+
+    private List<MassenInfoGrenz> massenInfoServer;
+    private List<StruktInfoGrenz> struktInfoServer;
+    private List<MassenInfoGrenz> massenInfoClient;
+    private List<StruktInfoGrenz> struktInfoClient;
+
 
     public ClientGUI() {
         setContentPane(formPanel);
@@ -69,8 +89,6 @@ public class ClientGUI extends JFrame {
         setIcon(refreshIconDownload,ICON_REFRESH_PATH);
         setIcon(refreshIconUpload,ICON_REFRESH_PATH);
         setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
-
-
 
         verbindenButton.addActionListener(new ActionListener() {
             @Override // Listener für verbindenButton-Klick
@@ -111,24 +129,44 @@ public class ClientGUI extends JFrame {
                 refreshDownload();
             }
         });
+        massenTableDownload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = massenTableDownload.getSelectedRow();
+                fillDataInfoLabels(artLabelDown,idLabelDown,groesseLabelDown,massenInfoServer.get(row));
+            }
+        });
+        herunterladenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = idLabelDown.getText();
+                if(!text.equals("/")) {
+                    try {
+                        cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
+                    } catch (InvalidProtocolBufferException e1) {
+                        e1.printStackTrace();
+                    }
+                } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
+            }
+        });
     }
 
     private void fillMassendatenList(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
         DefaultTableModel model;
 
         Object[][] data = new Object[mInfoGrenzList.size()][2];
-        String[] columnNames = {"ID", "Größe"};
+        String[] columnNames = {"ID", "KiloByte"};
 
         if (!mInfoGrenzList.isEmpty()) {
-            for (int i = 0; i < mInfoGrenzList.size(); i++) {
+            for (int i=0; i < mInfoGrenzList.size(); i++) {
                 data[i][0] = mInfoGrenzList.get(i).getId();
                 data[i][1] = mInfoGrenzList.get(i).getPaketGroesseKB();
             }
 
             model = new DefaultTableModel(data, columnNames) {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return false;
-                }
+                return false;
+            }
             };
             table.setModel(model);
         }
@@ -142,14 +180,13 @@ public class ClientGUI extends JFrame {
                     boolean isConnected = false;
 
                     if(!ip.startsWith("http://")) ip = "http://"+ip;
+                    if(!ip.endsWith(port)) ip+=":"+port;
                     if(!ip.endsWith("/")) ip += "/";
                     System.out.println(ip);
-                   // isConnected = cSteuer.connect(ip);
-                    isConnected = true;
-
+                    isConnected = cSteuer.connect(ip);
                     if(!isConnected) JOptionPane.showMessageDialog(frame, "Server konnte nicht gefunden werden!");
                     else {
-                        fillMassendatenList(massenTableUpload, cSteuer.holeLokaleMassenInfoGrenzList());
+                        init();
                         cl.show(cardPanel, "mainCard");
                     }
                 } else JOptionPane.showMessageDialog(frame, "Bitte Leerstellen aus der IP entfernen!");
@@ -163,12 +200,30 @@ public class ClientGUI extends JFrame {
     }
 
     private void refreshDownload() {
-        System.out.println("refresh download");
+        fillMassendatenList(massenTableDownload,cSteuer.empfangeMassenInfoGrenzList());
     }
     private void refreshUpload() {
         System.out.println("refresh upload");
     }
     private void refreshMessdaten() {
         System.out.println("refresh messdaten");
+    }
+
+    private void init() {
+        splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
+
+        massenInfoServer = cSteuer.empfangeMassenInfoGrenzList();
+        fillMassendatenList(massenTableDownload,massenInfoServer);
+    }
+
+    private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
+        if(daten.getClass() == MassenInfoGrenz.class) {
+            MassenInfoGrenz mig = (MassenInfoGrenz) daten;
+            artLabel.setText("Massendaten");
+            idLabel.setText(String.valueOf(mig.getId()));
+            groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
+        }
     }
 }

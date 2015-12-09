@@ -41,7 +41,6 @@ public class ClientSteuer {
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
         massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
 
-        System.out.println("Empfangene Massendaten werden verarbeitet...");
         dServe.schreibeMassendaten(massendaten);
 
         return new MassendatenGrenz(massendaten);
@@ -108,8 +107,12 @@ public class ClientSteuer {
         return m;
     }
 
-    public boolean connect(String adresse) throws Exception {
-        httpClient.connect(adresse);
+    public boolean connect(String adresse) {
+        try {
+            httpClient.connect(adresse);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 

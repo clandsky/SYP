@@ -1,5 +1,6 @@
 package testbench.client;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.grenzklassen.MassenInfoGrenz;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by Sven Riedel on 04.12.2015
  */
 public class PrototypeMain {
-    private static boolean startGUI = false;
+    private static boolean startGUI = true;
 
     public static void main(String args[]) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         boolean abbruch = false;
@@ -31,8 +32,9 @@ public class PrototypeMain {
             ClientGUI clientGUI = new ClientGUI();
             clientGUI.setLocationRelativeTo(null);
             clientGUI.setResizable(false);
+            clientGUI.setTitle("Protobuf Testbench");
             Dimension d = new Dimension();
-            d.setSize(700,500);
+            d.setSize(800,500);
             clientGUI.setMinimumSize(d);
             clientGUI.setVisible(true);
         }
@@ -67,13 +69,13 @@ public class PrototypeMain {
                     break;
 
                 case "1":
-                    try{
-                        cSteuer.connect(ip);
+                    cSteuer.connect(ip);
+                    try {
                         MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
-                    } catch (Exception e) {
-                        System.out.println();
-                        printer.printlnWithDate("!!! Verbindung zum Server fehlgeschlagen !!!");
+                    } catch (InvalidProtocolBufferException e) {
+                        e.printStackTrace();
                     }
+
                     break;
 
                 case "2":
