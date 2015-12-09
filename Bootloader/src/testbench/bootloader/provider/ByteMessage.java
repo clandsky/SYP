@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Created by Sven Riedel on 07.12.2015.
+ * Created by Sven Riedel on 07.12.2015
  */
 public class ByteMessage {
     private byte[] byteArray;
