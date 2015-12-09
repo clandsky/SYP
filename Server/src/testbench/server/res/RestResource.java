@@ -56,10 +56,8 @@ public class RestResource {
             if(massendaten!=null) {
                 p.printlnWithDate("Massendaten geladen...");
                 p.printlnWithDate("Massendaten werden gesplitted...");
-                Splitter splitter = new Splitter();
-                List<Massendaten> data = splitter.splitMassendaten(massendaten, 1000,0.5f);
                 p.printlnWithDate("[SUCCESS] Returning ByteArray...");
-                return new ByteMessage(splitter.combineByteArrays(data));
+                return new ByteMessage(massendaten,1000,0.5f);
             }
             else {
                 p.printlnWithDate("[ERROR] File not Found!");

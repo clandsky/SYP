@@ -1,8 +1,12 @@
 package testbench.bootloader.provider;
 
+import testbench.bootloader.protobuf.Splitter;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by Sven Riedel on 07.12.2015.
@@ -10,9 +14,16 @@ import java.io.InputStream;
 public class ByteMessage {
     private byte[] byteArray;
 
+    public ByteMessage(Massendaten m, int packetSizeKB, float progressBarSizeMulti) {
+        Splitter splitter = new Splitter();
+        List<Massendaten> massendatenList = splitter.splitMassendaten(m,packetSizeKB,progressBarSizeMulti);
+        this.byteArray = splitter.combineByteArrays(massendatenList);
+    }
+
     public ByteMessage(byte[] byteArray) {
         this.byteArray = byteArray;
     }
+
 
     public byte[] getByteArray() {
         return byteArray;

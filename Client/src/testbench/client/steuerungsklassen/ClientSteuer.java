@@ -2,6 +2,7 @@ package testbench.client.steuerungsklassen;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import sun.org.mozilla.javascript.internal.EcmaError;
+import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
@@ -23,12 +24,15 @@ import java.util.List;
  */
 
 public class ClientSteuer {
+    private boolean PRINT_DEBUG = true;
     private HTTPClient httpClient;
     private DatenService dServe;
+    private Printer printer;
 
     public ClientSteuer() {
         httpClient = HTTPClient.getExemplar();
         dServe = new DatenService();
+        printer = new Printer();
     }
 
     public List<Messdaten> holeMessdaten() {
@@ -36,14 +40,16 @@ public class ClientSteuer {
     }
 
     public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
-        Massendaten massendaten;
+        Massendaten m;
 
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-        massendaten = Massendaten.parseFrom(byteMessage.getByteArray());
+        m = Massendaten.parseFrom(byteMessage.getByteArray());
 
-        dServe.schreibeMassendaten(massendaten);
+        if(PRINT_DEBUG) printer.printlnWithDate("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
 
-        return new MassendatenGrenz(massendaten);
+        dServe.schreibeMassendaten(m);
+
+        return new MassendatenGrenz(m);
     }
 
     public StruktdatenGrenz empfangeStruktdaten(int id) {
@@ -54,10 +60,9 @@ public class ClientSteuer {
         List<Massendaten> massendatenList;
         ByteMessage bm;
 
-        Massendaten massendaten = dServe.ladeMassendaten(id);
-        massendatenList = new Splitter().splitMassendaten(massendaten, 1000,0.5f);
-
-        bm = new ByteMessage(new Splitter().combineByteArrays(massendatenList));
+        Massendaten m = dServe.ladeMassendaten(id);
+        if(PRINT_DEBUG) printer.printlnWithDate("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1));
+        bm = new ByteMessage(m, 1000, 0.5f);
         return httpClient.sendeMassendaten(bm).getStatus() == 200;
     }
 
