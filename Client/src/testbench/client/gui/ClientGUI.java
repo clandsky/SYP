@@ -64,6 +64,12 @@ public class ClientGUI extends JFrame {
     private JPanel detailsPanelUp;
     private JPanel splitPanePanelUp;
     private JButton hochladenButton;
+    private JPanel connectHeaderPanel;
+    private JPanel connectBottomPanel;
+    private JLabel connectTitleLabel;
+    private JPanel connectMiddlePanel;
+    private JLabel protobufLogoLabel;
+    private JLabel thLogoLabel;
 
     /* OBEN -> automatisch generiert */
 
@@ -76,7 +82,9 @@ public class ClientGUI extends JFrame {
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
 
     /* ############## RESSOURCEN PFADE ################ */
-    private final String ICON_REFRESH_PATH = "Client/res/refresh.png";
+    private final String IMAGE_REFRESH_PATH = "Client/res/refresh.png";
+    private final String IMAGE_PROTOBUF_PATH = "Client/res/logo_protobuf.png";
+    private final String IMAGE_TH_PATH = "Client/res/logo_th.png";
 
     /* ############## AUSGABE_STRINGS ################ */
     private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
@@ -95,7 +103,7 @@ public class ClientGUI extends JFrame {
         pack();
 
 
-        initIcons();
+        initImages();
         initListener();
         initSplitPanes();
     }
@@ -146,9 +154,10 @@ public class ClientGUI extends JFrame {
        // }
     }
 
-    private void setIcon(JLabel label, String iconPath) {
+    private void setIcon(JLabel label, String iconPath, int sizeX, int sizeY ) {
         label.setText("");
-        label.setIcon(new ImageIcon(iconPath));
+        label.setIcon(new ImageIcon(new ImageIcon(iconPath).getImage().getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
+      //  label.setIcon(new ImageIcon(iconPath));
     }
 
     private void refreshDownload() {
@@ -189,11 +198,7 @@ public class ClientGUI extends JFrame {
         fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
-    private void initSplitPanes() {
-        splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
-        splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
-        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
-    }
+
 
     private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
         if(daten.getClass() == MassenInfoGrenz.class) {
@@ -210,10 +215,17 @@ public class ClientGUI extends JFrame {
         }
     }
 
-    private void initIcons() {
-        setIcon(refreshIconDownload,ICON_REFRESH_PATH);
-        setIcon(refreshIconUpload,ICON_REFRESH_PATH);
-        setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
+    private void initSplitPanes() {
+        splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
+    }
+
+    private void initImages() {
+        setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
+        setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
+        setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
+        setIcon(thLogoLabel, IMAGE_TH_PATH,200,90);
     }
 
     private void initListener() {
