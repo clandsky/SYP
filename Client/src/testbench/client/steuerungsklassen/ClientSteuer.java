@@ -1,14 +1,12 @@
 package testbench.client.steuerungsklassen;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import sun.org.mozilla.javascript.internal.EcmaError;
 import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
-import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.client.HTTPClient;
@@ -43,7 +41,7 @@ public class ClientSteuer {
         Massendaten m;
 
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-        m = byteMessage.byteArrayToMassendaten();
+        m = byteMessage.getMassendatenFromByteArray();
 
         if(PRINT_DEBUG) printer.printlnWithDate("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
 

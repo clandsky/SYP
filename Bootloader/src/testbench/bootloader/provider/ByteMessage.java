@@ -26,7 +26,7 @@ public class ByteMessage {
     }
 
 
-    public Massendaten byteArrayToMassendaten() {
+    public Massendaten getMassendatenFromByteArray() {
         try {
             return Massendaten.parseFrom(byteArray);
         } catch (InvalidProtocolBufferException e) {

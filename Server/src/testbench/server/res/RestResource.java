@@ -5,7 +5,6 @@ package testbench.server.res;
  */
 
 import testbench.bootloader.entities.MassenInfo;
-import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
@@ -79,7 +78,7 @@ public class RestResource {
 
         Massendaten massendaten = null;
         try {
-            massendaten = daten.byteArrayToMassendaten();
+            massendaten = daten.getMassendatenFromByteArray();
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             p.printlnWithDate("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {

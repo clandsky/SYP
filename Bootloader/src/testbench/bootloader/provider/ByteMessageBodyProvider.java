@@ -54,7 +54,6 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     @Override
     public void writeTo(ByteMessage m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-
         entityStream.write(m.getByteArray());
     }
 }
