@@ -43,7 +43,7 @@ public class ClientSteuer {
         Massendaten m;
 
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-        m = Massendaten.parseFrom(byteMessage.getByteArray());
+        m = byteMessage.byteArrayToMassendaten();
 
         if(PRINT_DEBUG) printer.printlnWithDate("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
 

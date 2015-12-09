@@ -1,5 +1,6 @@
 package testbench.bootloader.provider;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
@@ -24,6 +25,15 @@ public class ByteMessage {
         this.byteArray = byteArray;
     }
 
+
+    public Massendaten byteArrayToMassendaten() {
+        try {
+            return Massendaten.parseFrom(byteArray);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public byte[] getByteArray() {
         return byteArray;

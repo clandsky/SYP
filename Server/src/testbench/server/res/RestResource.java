@@ -79,7 +79,7 @@ public class RestResource {
 
         Massendaten massendaten = null;
         try {
-            massendaten = Massendaten.parseFrom(daten.getByteArray());
+            massendaten = daten.byteArrayToMassendaten();
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             p.printlnWithDate("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {
