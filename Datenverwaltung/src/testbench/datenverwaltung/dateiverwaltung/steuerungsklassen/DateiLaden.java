@@ -1,6 +1,7 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import com.googlecode.protobuf.format.XmlFormat;
+import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 
 import java.io.File;
@@ -9,15 +10,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * Created by CGrings on 07.12.2015
  */
 public class DateiLaden
 {
-
     public MassendatenProtos.Massendaten ladeMassendaten(int id)
     {
         MassendatenProtos.Massendaten.Builder m = MassendatenProtos.Massendaten.newBuilder();
-        System.out.println("Laden der XML Datei");
+        Printer.println("Laden der XML Datei");
         File file2 = new File("massendaten" + id + ".xml");
         FileInputStream fin = null;
         try
@@ -34,12 +34,12 @@ public class DateiLaden
         }
         catch (FileNotFoundException e)
         {
-            System.out.println("Datei nicht gefunden" + e);
+            Printer.println("Datei nicht gefunden" + e);
             return null;
         }
         catch (IOException ioe)
         {
-            System.out.println("Fehler beim einlesen der Datei " + ioe);
+            Printer.println("Fehler beim einlesen der Datei " + ioe);
             return null;
         }
         finally
@@ -53,12 +53,11 @@ public class DateiLaden
             }
             catch (IOException ioe)
             {
-                System.out.println("Fehler beim schließen des Dateistreams: " + ioe);
+                Printer.println("Fehler beim schließen des Dateistreams: " + ioe);
                 return null;
             }
         }
-        System.out.println("");
-        System.out.println("Massendaten wurden gefüttert");
+        Printer.println("Massendaten wurden gefüttert");
 
         return m.build();
     }

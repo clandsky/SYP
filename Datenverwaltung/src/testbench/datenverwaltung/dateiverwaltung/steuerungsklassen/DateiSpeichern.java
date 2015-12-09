@@ -1,6 +1,7 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import com.googlecode.protobuf.format.XmlFormat;
+import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 
 import java.io.File;
@@ -8,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * Created by CGrings on 07.12.2015
  */
 public class DateiSpeichern
 {
@@ -18,7 +19,7 @@ public class DateiSpeichern
         FileOutputStream fos = null;
         File file;
 
-        System.out.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
+        Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
         try
         {
             //Specify the file path here
@@ -38,8 +39,7 @@ public class DateiSpeichern
 
             fos.write(bytesArray);
             fos.flush();
-            System.out.println("");
-            System.out.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
+            Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
         catch (IOException ioe)
         {
@@ -57,7 +57,7 @@ public class DateiSpeichern
             }
             catch (IOException ioe)
             {
-                System.out.println("Error in closing the Stream");
+                Printer.println("Error in closing the Stream");
                 return false;
             }
         }

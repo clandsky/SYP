@@ -24,7 +24,6 @@ public class PrototypeMain {
         boolean abbruch = false;
         String input;
         ClientSteuer cSteuer = new ClientSteuer();
-        Printer printer = new Printer();
         final String ip = "http://localhost:8000/";
 
         if(PrototypeMain.startGUI) {
@@ -33,91 +32,92 @@ public class PrototypeMain {
             clientGUI.setLocationRelativeTo(null);
             clientGUI.setResizable(false);
             clientGUI.setTitle("Protobuf Testbench");
+            clientGUI.setBackground(new Color(232,232,232));
             Dimension d = new Dimension();
             d.setSize(800,500);
             clientGUI.setMinimumSize(d);
             clientGUI.setVisible(true);
+        } else {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+            Printer.println("||||- Protobuf Testbench Client -||||\n");
+
+            do{
+                Printer.println("################ Bitte waehlen: ################");
+                Printer.println("1) GET /massendaten/1");
+                Printer.println("2) POST /massendaten");
+                Printer.println("3) GET /massendaten");
+                Printer.println("4) Generiere Zufalls-Massendaten");
+                Printer.println("6) Datenverwaltung starten");
+                Printer.print("0) Programm beenden                    Eingabe:");
+
+                input = ""; //wegen null-pointer warnung intellij
+                try {
+                    do{
+                        input = br.readLine();
+                    } while(input == null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println();
+
+                switch(input) {
+                    case "0":
+                        abbruch = true;
+                        break;
+
+                    case "1":
+                        cSteuer.connect(ip);
+                        try {
+                            MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
+                        } catch (InvalidProtocolBufferException e) {
+                            e.printStackTrace();
+                        }
+
+                        break;
+
+                    case "2":
+                        Printer.println("POST an Server...");
+                        try {
+                            cSteuer.connect(ip);
+                            cSteuer.sendeMassendaten(1);
+                        } catch (Exception e) {
+                            System.out.println();
+                            Printer.println("!!! Verbindung zum Server fehlgeschlagen !!!");
+                        }
+                        break;
+
+                    case "3":
+                        try {
+                            cSteuer.connect(ip);
+                            List<MassenInfoGrenz> mig = cSteuer.getMassenInfoGrenzList(true);
+                            for(MassenInfoGrenz m : mig)
+                                Printer.println(String.valueOf(m.getDef().getAbtastrate()));
+                        } catch (Exception e) {
+                            System.out.println();
+                            Printer.println("!!! Verbindung zum Server fehlgeschlagen !!!");
+                        }
+                        break;
+
+                    case "4":
+                        cSteuer.generiereZufallsMassendaten(800000);
+                        break;
+
+                    case "5":
+                        break;
+
+                    case "6":
+                        cSteuer.starteDatenverwaltung();
+                        break;
+
+                    default:
+                        Printer.println("\nFalsche Eingabe!\n");
+                }
+
+                System.out.println();
+
+            } while(!abbruch);
         }
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        printer.printlnWithDate("||||- Protobuf Testbench Client -||||\n");
-
-        do{
-            printer.printlnWithDate("################ Bitte waehlen: ################");
-            printer.printlnWithDate("1) GET /massendaten/1");
-            printer.printlnWithDate("2) POST /massendaten");
-            printer.printlnWithDate("3) GET /massendaten");
-            printer.printlnWithDate("4) Generiere Zufalls-Massendaten");
-            printer.printlnWithDate("6) Datenverwaltung starten");
-            printer.printWithDate("0) Programm beenden                    Eingabe:");
-
-            input = ""; //wegen null-pointer warnung intellij
-            try {
-                do{
-                    input = br.readLine();
-                } while(input == null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println();
-
-            switch(input) {
-                case "0":
-                    abbruch = true;
-                    break;
-
-                case "1":
-                    cSteuer.connect(ip);
-                    try {
-                        MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
-                    } catch (InvalidProtocolBufferException e) {
-                        e.printStackTrace();
-                    }
-
-                    break;
-
-                case "2":
-                    printer.printlnWithDate("POST an Server...");
-                    try {
-                        cSteuer.connect(ip);
-                        cSteuer.sendeMassendaten(1);
-                    } catch (Exception e) {
-                        System.out.println();
-                        printer.printlnWithDate("!!! Verbindung zum Server fehlgeschlagen !!!");
-                    }
-                    break;
-
-                case "3":
-                    try {
-                        cSteuer.connect(ip);
-                        List<MassenInfoGrenz> mig = cSteuer.getMassenInfoGrenzList(true);
-                        for(MassenInfoGrenz m : mig)
-                            printer.printlnWithDate(String.valueOf(m.getDef().getAbtastrate()));
-                    } catch (Exception e) {
-                        System.out.println();
-                        printer.printlnWithDate("!!! Verbindung zum Server fehlgeschlagen !!!");
-                    }
-                    break;
-
-                case "4":
-                    cSteuer.generiereZufallsMassendaten(800000);
-                    break;
-
-                case "5":
-                    break;
-
-                case "6":
-                    cSteuer.starteDatenverwaltung();
-                    break;
-
-                default:
-                    printer.printlnWithDate("\nFalsche Eingabe!\n");
-            }
-
-            System.out.println();
-
-        } while(!abbruch);
     }
 }

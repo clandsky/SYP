@@ -37,7 +37,7 @@ public class ClientSteuer {
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
         m = byteMessage.getMassendatenFromByteArray();
 
-        if(PRINT_DEBUG) printer.printlnWithDate("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
+        if(PRINT_DEBUG) printer.println("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
 
         dServe.schreibeMassendaten(m);
 
@@ -50,8 +50,8 @@ public class ClientSteuer {
 
     public boolean sendeMassendaten(int id) {
         Massendaten m = dServe.ladeMassendaten(id);
-        if(PRINT_DEBUG) printer.printlnWithDate("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1));
-        return httpClient.sendeMassendaten(new ByteMessage(m, 1000, 0.5f)).getStatus() == 200;
+        if(PRINT_DEBUG) printer.println("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1).getNumber());
+        return httpClient.sendeMassendaten(new ByteMessage(m, 1000, 1f)).getStatus() == 200;
     }
 
     public boolean sendeStruktdaten(int id) {

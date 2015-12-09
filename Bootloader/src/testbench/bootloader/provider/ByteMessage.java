@@ -25,7 +25,6 @@ public class ByteMessage {
         this.byteArray = byteArray;
     }
 
-
     public Massendaten getMassendatenFromByteArray() {
         try {
             return Massendaten.parseFrom(byteArray);

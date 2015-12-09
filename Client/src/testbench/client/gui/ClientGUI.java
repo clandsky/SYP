@@ -1,6 +1,7 @@
 package testbench.client.gui;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import testbench.bootloader.Printer;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.steuerungsklassen.ClientSteuer;
@@ -24,28 +25,11 @@ public class ClientGUI extends JFrame {
     private JPanel inputIpPanel;
     private JButton verbindenButton;
     private JTextField ipTextField;
-    private JPanel mainPanel;
-    private JTabbedPane tabbedPane1;
-    private JPanel splitpanePanelDown;
-    private JPanel leftPanelDownload;
-    private JPanel rightPanelDownload;
-    private JPanel massenLabelPanelDown;
-    private JPanel struktLabelPanelDown;
     private JButton herunterladenButton;
     private JTable massenTableDownload;
     private JTable struktTableDownload;
-    private JPanel leftPanelUpload;
-    private JPanel rightPanelUpload;
-    private JPanel massenLabelPanelUp;
-    private JPanel struktLabelPanelUp;
     private JTable massenTableUpload;
     private JTable struktTableUpload;
-    private JPanel leftPanelMessdaten;
-    private JPanel massenLabelPanelMess;
-    private JPanel struktLabelPanelMess;
-    private JTable massenTableMess;
-    private JTable struktTableMess;
-    private JPanel rightPanelMessdaten;
     private JLabel refreshIconDownload;
     private JLabel refreshIconUpload;
     private JLabel refreshIconMessdaten;
@@ -58,11 +42,6 @@ public class ClientGUI extends JFrame {
     private JLabel artLabelUp;
     private JLabel idLabelUp;
     private JLabel groesseLabelUp;
-    private JPanel detailsPanelDown;
-    private JPanel buttonsPanelDown;
-    private JPanel buttonsPanelUp;
-    private JPanel detailsPanelUp;
-    private JPanel splitPanePanelUp;
     private JButton hochladenButton;
     private JPanel connectHeaderPanel;
     private JPanel connectBottomPanel;
@@ -71,6 +50,35 @@ public class ClientGUI extends JFrame {
     private JLabel protobufLogoLabel;
     private JLabel thLogoLabel;
     private JLabel infoLogoLabel;
+    private JTextField currentIpTextField;
+    private JPanel underTitlePanel;
+    private JButton changeIpButton;
+    private JPanel mainPanel;
+    private JTabbedPane tabbedPane1;
+    private JPanel splitpanePanelDown;
+    private JPanel leftPanelDownload;
+    private JPanel massenLabelPanelDown;
+    private JPanel struktLabelPanelDown;
+    private JPanel rightPanelDownload;
+    private JPanel detailsPanelDown;
+    private JPanel buttonsPanelDown;
+    private JPanel splitPanePanelUp;
+    private JPanel leftPanelUpload;
+    private JPanel massenLabelPanelUp;
+    private JPanel struktLabelPanelUp;
+    private JPanel rightPanelUpload;
+    private JPanel detailsPanelUp;
+    private JPanel buttonsPanelUp;
+    private JPanel leftPanelMessdaten;
+    private JPanel massenLabelPanelMess;
+    private JPanel struktLabelPanelMess;
+    private JTable massenTableMess;
+    private JTable struktTableMess;
+    private JPanel rightPanelMessdaten;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
 
     /* OBEN -> automatisch generiert */
 
@@ -160,7 +168,6 @@ public class ClientGUI extends JFrame {
     private void setIcon(JLabel label, String iconPath, int sizeX, int sizeY ) {
         label.setText("");
         label.setIcon(new ImageIcon(new ImageIcon(iconPath).getImage().getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
-      //  label.setIcon(new ImageIcon(iconPath));
     }
 
     private void refreshDownload() {
@@ -184,7 +191,7 @@ public class ClientGUI extends JFrame {
     }
 
     private void refreshMessdaten() {
-        System.out.println("refresh messdaten");
+        Printer.println("refresh messdaten");
     }
 
     private void initDataLists() {
@@ -228,9 +235,9 @@ public class ClientGUI extends JFrame {
         setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
         setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
         setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
-        setIcon(thLogoLabel, IMAGE_TH_PATH,142,77);
-        setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,216,63);
-        setIcon(infoLogoLabel, IMAGE_INFO_PATH,30,30);
+        setIcon(thLogoLabel, IMAGE_TH_PATH,75,43);
+        setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,130,40);
+        setIcon(infoLogoLabel, IMAGE_INFO_PATH,26,26);
     }
 
     private void initListener() {

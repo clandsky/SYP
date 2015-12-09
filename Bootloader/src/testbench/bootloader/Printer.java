@@ -5,10 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by Huskey on 08.12.2015.
+ * Created by Huskey on 08.12.2015
  */
-public class Printer {
-    public void printlnWithDate(String s)
+ public class Printer {
+    public static void println(String s)
     {
         Calendar cal = Calendar.getInstance();
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -18,7 +18,7 @@ public class Printer {
         output+=" : "+s;
         System.out.println(output);
     }
-    public void printWithDate(String s)
+    public static void print(String s)
     {
         Calendar cal = Calendar.getInstance();
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -28,11 +28,11 @@ public class Printer {
         output+=" : "+s;
         System.out.print(output);
     }
-    public void printSeperator(String s)
+    public static void printSeperator(String s)
     {
         System.out.println("--------------------------------------------------------------------------------");
     }
-    public void printWelcome()
+    public static void printWelcome()
     {
         System.out.println("********************************************************************************");
         System.out.println("*                                                                              *");
@@ -43,9 +43,9 @@ public class Printer {
         System.out.println("********************************************************************************");
         System.out.println("--------------------------------------------------------------------------------");
     }
-    public void printProgressBar(int progress, float size) {
-        if(size == 0f || size == 0) return;
-        StringBuffer progressBuffer = new StringBuffer();
+    public static void printProgressBar(int progress, float size) {
+        if(size == 0f) return;
+        StringBuilder progressBuffer = new StringBuilder();
         progressBuffer.append('|');
 
         for(int i=1 ; i<99*size ; i++) {
@@ -56,9 +56,8 @@ public class Printer {
 
         if(progress >= 100) {
             System.out.print("\r"+progressBuffer+" 100%\n");
-            printlnWithDate("Fertig!");
+            println("Fertig!");
         }
         else System.out.print("\r"+progressBuffer+" "+progress+"%");
     }
-
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by svenm on 04.12.2015.
+ * Created by svenm on 04.12.2015
  */
 public class Splitter {
     private boolean PRINT_DEBUG = false;
@@ -24,8 +24,8 @@ public class Splitter {
         int temp;
 
         if(PRINT_DEBUG) {
-            if(packetSizeKB <= 10) System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11+" B");
-            else System.out.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11/1000+" KB");
+            if(packetSizeKB <= 10) Printer.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11+" B");
+            else Printer.println("\nSplitte Massendaten ... Paketgroeße: "+divider*11/1000+" KB");
         }
 
         if(werteList.size()%divider == 0) temp = werteList.size()/divider;
@@ -45,12 +45,12 @@ public class Splitter {
             splittedMassendatenList.add(builder.build());
         }
 
-        if(PRINT_DEBUG) System.out.println("Zahl der Massendaten nach splitten: " + splittedMassendatenList.size());
+        if(PRINT_DEBUG) Printer.println("Zahl der Massendaten nach splitten: " + splittedMassendatenList.size());
 
         for(int x=0 ; x<splittedMassendatenList.size() ; x++)
             serializedSize += splittedMassendatenList.get(x).getSerializedSize();
 
-        if(PRINT_DEBUG) System.out.println("Groesse der aufgeteilten Daten (serialisiert): " + serializedSize/1000 +" KB");
+        if(PRINT_DEBUG) Printer.println("Groesse der aufgeteilten Daten (serialisiert): " + serializedSize/1000 +" KB");
 
         return splittedMassendatenList;
     }

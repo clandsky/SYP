@@ -54,7 +54,6 @@ public class HTTPClient {
     }
 
     public ByteMessage empfangeMassendaten(int id) {
-
         Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
         return res.readEntity(ByteMessage.class);
     }

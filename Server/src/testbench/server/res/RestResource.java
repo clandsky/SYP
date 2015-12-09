@@ -23,15 +23,14 @@ import java.util.List;
 
 public class RestResource {
     ServerSteuer s = new ServerSteuer();
-    Printer p = new Printer();
 
     @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
     public List<MassenInfo> getMassendatenListe() throws IOException {
-        p.printlnWithDate("[GET] Massendaten/");
+        Printer.println("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
-        p.printlnWithDate("[SUCCESS] Returning Massendaten-Liste...");
+        Printer.println("[SUCCESS] Returning Massendaten-Liste...");
         return list;
     }
 
@@ -39,7 +38,7 @@ public class RestResource {
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public ByteMessage getMassendatenById(@PathParam("id")String number) throws IOException {
-        p.printlnWithDate("[GET] Massendaten/"+number);
+        Printer.println("[GET] Massendaten/"+number);
         int id=1;
         try
         {
@@ -51,18 +50,18 @@ public class RestResource {
         if (id>0) {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
-                p.printlnWithDate("Massendaten geladen...");
-                p.printlnWithDate("Massendaten werden gesplitted...");
-                p.printlnWithDate("[SUCCESS] Returning ByteArray...");
-                return new ByteMessage(massendaten,1000,0.5f);
+                Printer.println("Massendaten geladen...");
+                Printer.println("Massendaten werden gesplitted...");
+                Printer.println("[SUCCESS] Returning ByteArray...");
+                return new ByteMessage(massendaten,1000,0);
             }
             else {
-                p.printlnWithDate("[ERROR] File not Found!");
+                Printer.println("[ERROR] File not Found!");
                 return null;
             }
         }
         else{
-            p.printlnWithDate("[ERROR] Could not Resolve Path!");
+            Printer.println("[ERROR] Could not Resolve Path!");
             return null;
         }
     }
@@ -71,16 +70,16 @@ public class RestResource {
     @Path("massendaten")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
-        p.printlnWithDate("[POST] on /Massendaten");
+        Printer.println("[POST] on /Massendaten");
         Massendaten massendaten = null;
         try {
             massendaten = daten.getMassendatenFromByteArray();
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
-            p.printlnWithDate("Letztes erhaltenes Element: "+d);
+            Printer.println("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        p.printlnWithDate("[SUCCESS] Massendaten erzeugt... Response 'Test'");
+        Printer.println("[SUCCESS] Massendaten erzeugt... Response 'Test'");
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
@@ -91,12 +90,9 @@ public class RestResource {
     @Path("struktdaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
     public List<StruktInfo> getStruktdatenListe() throws IOException {
-        p.printlnWithDate("[GET] Struktdaten/");
+        Printer.println("[GET] Struktdaten/");
         List<StruktInfo> list = s.ladeStruktListe();
-        p.printlnWithDate("[SUCCESS] Returning Struktdaten-Liste...");
+        Printer.println("[SUCCESS] Returning Struktdaten-Liste...");
         return list;
-
     }
-
-
 }
