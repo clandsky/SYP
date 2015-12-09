@@ -41,11 +41,6 @@ public class Printer {
         System.out.println("*                                                                              *");
         System.out.println("*                                                                              *");
         System.out.println("********************************************************************************");
-        System.out.println("********************************************************************************");
-        System.out.println("*                                                                              *");
-        System.out.println("*                        Starting Server Initialization                        *");
-        System.out.println("*                                                                              *");
-        System.out.println("********************************************************************************");
         System.out.println("--------------------------------------------------------------------------------");
     }
     public void printProgressBar(int progress, float size) {
