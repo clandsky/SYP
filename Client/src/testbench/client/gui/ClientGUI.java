@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Sven Riedel on 08.12.2015
@@ -64,32 +63,136 @@ public class ClientGUI extends JFrame {
 
     /* OBEN -> automatisch generiert */
 
+    /* ############## VARIABLEN ################ */
     private final String port = "8000";
-    private final String ICON_REFRESH_PATH = "Client/res/refresh.png";
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
+    private ClientSteuer cSteuer = new ClientSteuer();
+    private CardLayout cl = (CardLayout) cardPanel.getLayout();
+    private JFrame frame = new JFrame(); //fuer popups
+    private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
 
-    ClientSteuer cSteuer = new ClientSteuer();
-    CardLayout cl = (CardLayout) cardPanel.getLayout();
-    JFrame frame = new JFrame(); //fuer popups
-    boolean isIpTextFirstClicked = false;
+    /* ############## RESSOURCEN PFADE ################ */
+    private final String ICON_REFRESH_PATH = "Client/res/refresh.png";
 
-    /* ################################### */
+    /* ############## AUSGABE_STRINGS ################ */
+    private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
+    private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen aus der IP entfernen!";
+    private final String FILL_IN_IP_STRING = "Bitte das IP-Feld ausfüllen!";
 
+    /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
     private List<StruktInfoGrenz> struktInfoServer;
     private List<MassenInfoGrenz> massenInfoClient;
     private List<StruktInfoGrenz> struktInfoClient;
 
-
     public ClientGUI() {
         setContentPane(formPanel);
-       // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
         setIcon(refreshIconDownload,ICON_REFRESH_PATH);
         setIcon(refreshIconUpload,ICON_REFRESH_PATH);
         setIcon(refreshIconMessdaten,ICON_REFRESH_PATH);
 
+        initListener();
+        initSplitPanes();
+    }
+
+    private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
+        if(mInfoGrenzList != null) {
+            DefaultTableModel model;
+
+            Object[][] data = new Object[mInfoGrenzList.size()][2];
+            String[] columnNames = {"ID", "KiloByte"};
+
+            if (!mInfoGrenzList.isEmpty()) {
+                for (int i=0; i < mInfoGrenzList.size(); i++) {
+                    data[i][0] = mInfoGrenzList.get(i).getId();
+                    data[i][1] = mInfoGrenzList.get(i).getPaketGroesseKB();
+                }
+
+                model = new DefaultTableModel(data, columnNames) {
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return false;
+                    }
+                };
+                table.setModel(model);
+            }
+        }
+    }
+
+    private void fillStruktTable(JTable table, List<StruktInfoGrenz> sInfoGrenzList) {
+        if(sInfoGrenzList != null) {
+            DefaultTableModel model;
+
+            Object[][] data = new Object[sInfoGrenzList.size()][2];
+            String[] columnNames = {"ID", "KiloByte"};
+
+            if (!sInfoGrenzList.isEmpty()) {
+                for (int i=0; i < sInfoGrenzList.size(); i++) {
+                    data[i][0] = sInfoGrenzList.get(i).getId();
+                    //  data[i][1] = sInfoGrenzList.get(i).getPaketGroesseKB();
+                }
+
+                model = new DefaultTableModel(data, columnNames) {
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return false;
+                    }
+                };
+                table.setModel(model);
+            }
+        }
+    }
+
+    private void setIcon(JLabel label, String iconPath) {
+        label.setText("");
+        label.setIcon(new ImageIcon(iconPath));
+    }
+
+    private void refreshDownload() {
+        fillMassenTable(massenTableDownload,cSteuer.empfangeMassenInfoGrenzList());
+        fillStruktTable(struktTableDownload,struktInfoServer);
+    }
+
+    private void refreshUpload() {
+        System.out.println("refresh upload");
+    }
+
+    private void refreshMessdaten() {
+        System.out.println("refresh messdaten");
+    }
+
+    private void initDataLists() {
+        massenInfoServer = cSteuer.empfangeMassenInfoGrenzList();
+        fillMassenTable(massenTableDownload,massenInfoServer);
+
+        massenInfoClient = cSteuer.holeLokaleMassenInfoGrenzList();
+        fillMassenTable(massenTableUpload,massenInfoClient);
+
+      /*  struktInfoServer = cSteuer.empfangeStruktInfoGrenzList();
+        fillStruktTable(struktTableDownload,struktInfoServer);
+
+        struktInfoClient = cSteuer.holeLokaleStruktInfoGrenzList();
+        fillStruktTable(massenTableDownload,struktInfoClient);
+      */
+    }
+
+    private void initSplitPanes() {
+        splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
+    }
+
+    private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
+        if(daten.getClass() == MassenInfoGrenz.class) {
+            MassenInfoGrenz mig = (MassenInfoGrenz) daten;
+            artLabel.setText("Massendaten");
+            idLabel.setText(String.valueOf(mig.getId()));
+            groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
+        }
+    }
+
+    private void initListener() {
         verbindenButton.addActionListener(new ActionListener() {
             @Override // Listener für verbindenButton-Klick
             public void actionPerformed(ActionEvent e) {
@@ -151,79 +254,28 @@ public class ClientGUI extends JFrame {
         });
     }
 
-    private void fillMassendatenList(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
-        DefaultTableModel model;
-
-        Object[][] data = new Object[mInfoGrenzList.size()][2];
-        String[] columnNames = {"ID", "KiloByte"};
-
-        if (!mInfoGrenzList.isEmpty()) {
-            for (int i=0; i < mInfoGrenzList.size(); i++) {
-                data[i][0] = mInfoGrenzList.get(i).getId();
-                data[i][1] = mInfoGrenzList.get(i).getPaketGroesseKB();
-            }
-
-            model = new DefaultTableModel(data, columnNames) {
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            }
-            };
-            table.setModel(model);
-        }
-    }
-
     private void verbindenButtonAction() {
+        boolean isConnected;
+
         if(ipTextField.getText() != null) {
             if(!ipTextField.getText().equals("")) {
                 if(!ipTextField.getText().contains(" ")) {
                     String ip = ipTextField.getText();
-                    boolean isConnected = false;
 
                     if(!ip.startsWith("http://")) ip = "http://"+ip;
                     if(!ip.endsWith(port)) ip+=":"+port;
                     if(!ip.endsWith("/")) ip += "/";
-                    System.out.println(ip);
+
                     isConnected = cSteuer.connect(ip);
-                    if(!isConnected) JOptionPane.showMessageDialog(frame, "Server konnte nicht gefunden werden!");
+                    if(!isConnected) {
+                        JOptionPane.showMessageDialog(frame, SERVER_NOT_FOUND_STRING);
+                    }
                     else {
-                        init();
+                        initDataLists();
                         cl.show(cardPanel, "mainCard");
                     }
-                } else JOptionPane.showMessageDialog(frame, "Bitte Leerstellen aus der IP entfernen!");
-            } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
-        } else JOptionPane.showMessageDialog(frame, "Bitte das IP-Feld ausfüllen!");
-    }
-
-    private void setIcon(JLabel label, String iconPath) {
-        label.setText("");
-        label.setIcon(new ImageIcon(iconPath));
-    }
-
-    private void refreshDownload() {
-        fillMassendatenList(massenTableDownload,cSteuer.empfangeMassenInfoGrenzList());
-    }
-    private void refreshUpload() {
-        System.out.println("refresh upload");
-    }
-    private void refreshMessdaten() {
-        System.out.println("refresh messdaten");
-    }
-
-    private void init() {
-        splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
-        splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
-        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
-
-        massenInfoServer = cSteuer.empfangeMassenInfoGrenzList();
-        fillMassendatenList(massenTableDownload,massenInfoServer);
-    }
-
-    private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
-        if(daten.getClass() == MassenInfoGrenz.class) {
-            MassenInfoGrenz mig = (MassenInfoGrenz) daten;
-            artLabel.setText("Massendaten");
-            idLabel.setText(String.valueOf(mig.getId()));
-            groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
-        }
+                } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
+            } else JOptionPane.showMessageDialog(frame, FILL_IN_IP_STRING);
+        } else JOptionPane.showMessageDialog(frame, FILL_IN_IP_STRING);
     }
 }
