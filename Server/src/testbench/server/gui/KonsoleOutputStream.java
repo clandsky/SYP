@@ -64,15 +64,13 @@ public class KonsoleOutputStream extends OutputStream
 // STATIC MEMBERS
 // *************************************************************************************************
 
-    static class Appender
-            implements Runnable
-    {
+    static class Appender implements Runnable {
         private final JTextArea textArea;
-        private final int maxLines;                                                   // maximum lines allowed in text area
-        private final LinkedList<Integer> lengths;                                                    // length of lines within text area
-        private final ArrayList<String> values;                                                     // values waiting to be appended
+        private final int maxLines; // maximum lines allowed in text area
+        private final LinkedList<Integer> lengths; // length of lines within text area
+        private final ArrayList<String> values; // values waiting to be appended
 
-        private int curLength;                                                  // length of current line
+        private int curLength; // length of current line
         private boolean clear;
         private boolean queue;
 
@@ -117,8 +115,8 @@ public class KonsoleOutputStream extends OutputStream
             queue =true;
         }
 
-        static private final String         EOL1="\n";
-        static private final String         EOL2=System.getProperty("line.separator",EOL1);
+        static private final String EOL1="\n";
+        static private final String EOL2=System.getProperty("line.separator",EOL1);
     }
 
 } /* END PUBLIC CLASS */
