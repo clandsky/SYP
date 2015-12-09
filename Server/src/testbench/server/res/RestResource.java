@@ -5,6 +5,7 @@ package testbench.server.res;
  */
 
 import testbench.bootloader.entities.MassenInfo;
+import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
@@ -21,26 +22,23 @@ import java.util.List;
 @Path("/")
 
 public class RestResource {
-
     ServerSteuer s = new ServerSteuer();
     Printer p = new Printer();
 
     @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
-    public List<MassenInfo> getTest() throws IOException {
-
+    public List<MassenInfo> getMassendatenListe() throws IOException {
         p.printlnWithDate("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
         p.printlnWithDate("[SUCCESS] Returning Massendaten-Liste...");
         return list;
-
     }
 
     @GET
     @Path("massendaten/{id}")
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public ByteMessage getTest(@PathParam("id")String number) throws IOException {
+    public ByteMessage getMassendatenById(@PathParam("id")String number) throws IOException {
         p.printlnWithDate("[GET] Massendaten/"+number);
         int id=1;
         try
@@ -67,7 +65,6 @@ public class RestResource {
             p.printlnWithDate("[ERROR] Could not Resolve Path!");
             return null;
         }
-
     }
 
     @POST
@@ -75,7 +72,6 @@ public class RestResource {
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postMassendaten(ByteMessage daten) {
         p.printlnWithDate("[POST] on /Massendaten");
-
         Massendaten massendaten = null;
         try {
             massendaten = daten.getMassendatenFromByteArray();
@@ -88,8 +84,18 @@ public class RestResource {
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
-
         return Response.status(200).entity("Test...").build();
+    }
+
+    @GET
+    @Path("struktdaten")
+    @Produces(MediaTypeExt.APPLICATION_XML)
+    public List<StruktInfo> getStruktdatenListe() throws IOException {
+        p.printlnWithDate("[GET] Struktdaten/");
+        List<StruktInfo> list = s.ladeStruktListe();
+        p.printlnWithDate("[SUCCESS] Returning Struktdaten-Liste...");
+        return list;
+
     }
 
 

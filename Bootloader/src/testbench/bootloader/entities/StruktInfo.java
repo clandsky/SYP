@@ -14,6 +14,12 @@ public class StruktInfo {
     private String path;
     private StruktDef def;
 
+    public StruktInfo(int id, String path, StruktDef def) {
+        this.id = id;
+        this.path = path;
+        this.def = def;
+    }
+
     public StruktInfo() {
     }
 
@@ -29,6 +35,8 @@ public class StruktInfo {
     public String getPath() {
         return path;
     }
+
+
 
     public void setPath(String path) {
         this.path = path;

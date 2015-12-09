@@ -4,6 +4,7 @@ import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
+import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
@@ -53,7 +54,30 @@ public class ServerSteuer {
     }
 
     public List<StruktInfo> ladeStruktListe() {
-        return idat.ladeStruktInfo();
+        //return idat.ladeStruktInfo();
+        List<StruktInfo>liste=new ArrayList<StruktInfo>();
+        StruktInfo struktInfo1, struktInfo2, struktInfo3;
+        StruktDef struktDef1, struktDef2,struktDef3;
+        struktDef1=new StruktDef(4,1,2,5,2);
+        struktDef2=new StruktDef(2,3,3,1,1);
+        struktDef3=new StruktDef(3,4,4,4,2);
+        struktInfo1=new StruktInfo();
+        struktInfo1.setDef(struktDef1);
+        struktInfo1.setId(1);
+        struktInfo1.setPath("/struktdaten/1");
+
+        struktInfo1=new StruktInfo(1, "/struktdaten/1",struktDef1);
+        /*
+        struktInfo1.setDef(struktDef1);
+        struktInfo1.setId(1);
+        struktInfo1.setPath("/struktdaten/1");
+        */
+        struktInfo2=new StruktInfo(2, "/struktdaten/2",struktDef2);
+        struktInfo3=new StruktInfo(3, "/struktdaten/3",struktDef3);
+        liste.add(struktInfo1);
+        liste.add(struktInfo2);
+        liste.add(struktInfo3);
+        return liste;
     }
 
     public Massendaten ladeMassendaten (int id){
