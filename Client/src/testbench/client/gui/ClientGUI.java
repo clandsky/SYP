@@ -20,15 +20,13 @@ import java.util.List;
 public class ClientGUI extends JFrame {
     private JPanel formPanel;
     private JPanel cardPanel;
-    private JButton einstellungenButton;
-    private JPanel menuPanel;
     private JPanel connectPanel;
     private JPanel inputIpPanel;
     private JButton verbindenButton;
     private JTextField ipTextField;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
-    private JPanel splitpanePanel;
+    private JPanel splitpanePanelDown;
     private JPanel leftPanelDownload;
     private JPanel rightPanelDownload;
     private JPanel massenLabelPanelDown;
@@ -60,6 +58,12 @@ public class ClientGUI extends JFrame {
     private JLabel artLabelUp;
     private JLabel idLabelUp;
     private JLabel groesseLabelUp;
+    private JPanel detailsPanelDown;
+    private JPanel buttonsPanelDown;
+    private JPanel buttonsPanelUp;
+    private JPanel detailsPanelUp;
+    private JPanel splitPanePanelUp;
+    private JButton hochladenButton;
 
     /* OBEN -> automatisch generiert */
 
@@ -148,6 +152,9 @@ public class ClientGUI extends JFrame {
     }
 
     private void refreshDownload() {
+        artLabelDown.setText("/");
+        idLabelDown.setText("/");
+        groesseLabelDown.setText("/");
         massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
         struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
         fillMassenTable(massenTableDownload,massenInfoServer);
@@ -155,6 +162,9 @@ public class ClientGUI extends JFrame {
     }
 
     private void refreshUpload() {
+        artLabelUp.setText("/");
+        idLabelUp.setText("/");
+        groesseLabelUp.setText("/");
         massenInfoClient = cSteuer.getMassenInfoGrenzList(false);
         struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
         fillMassenTable(massenTableUpload,massenInfoClient);
@@ -253,6 +263,27 @@ public class ClientGUI extends JFrame {
                 fillDataInfoLabels(artLabelDown,idLabelDown,groesseLabelDown,massenInfoServer.get(row));
             }
         });
+        massenTableUpload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = massenTableUpload.getSelectedRow();
+                fillDataInfoLabels(artLabelUp,idLabelUp,groesseLabelUp,massenInfoClient.get(row));
+            }
+        });
+        struktTableDownload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = struktTableDownload.getSelectedRow();
+                fillDataInfoLabels(artLabelDown,idLabelDown,groesseLabelDown,struktInfoServer.get(row));
+            }
+        });
+        struktTableUpload.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = struktTableUpload.getSelectedRow();
+                fillDataInfoLabels(artLabelUp,idLabelUp,groesseLabelUp,struktInfoClient.get(row));
+            }
+        });
         herunterladenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -263,6 +294,15 @@ public class ClientGUI extends JFrame {
                     } catch (InvalidProtocolBufferException e1) {
                         e1.printStackTrace();
                     }
+                } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
+            }
+        });
+        hochladenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = idLabelUp.getText();
+                if(!text.equals("/")) {
+                    cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                 } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
             }
         });
