@@ -70,6 +70,7 @@ public class ClientGUI extends JFrame {
     private JPanel connectMiddlePanel;
     private JLabel protobufLogoLabel;
     private JLabel thLogoLabel;
+    private JLabel infoLogoLabel;
 
     /* OBEN -> automatisch generiert */
 
@@ -82,9 +83,11 @@ public class ClientGUI extends JFrame {
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
 
     /* ############## RESSOURCEN PFADE ################ */
-    private final String IMAGE_REFRESH_PATH = "Client/res/refresh.png";
-    private final String IMAGE_PROTOBUF_PATH = "Client/res/logo_protobuf.png";
-    private final String IMAGE_TH_PATH = "Client/res/logo_th.png";
+    private final String IMAGEFOLDER = "Client/res/";
+    private final String IMAGE_REFRESH_PATH = IMAGEFOLDER+"refresh.png";
+    private final String IMAGE_PROTOBUF_PATH = IMAGEFOLDER+"logo_protobuf.png";
+    private final String IMAGE_TH_PATH = IMAGEFOLDER+"logo_th.png";
+    private final String IMAGE_INFO_PATH = IMAGEFOLDER+"info.png";
 
     /* ############## AUSGABE_STRINGS ################ */
     private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
@@ -225,7 +228,9 @@ public class ClientGUI extends JFrame {
         setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
         setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
         setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
-        setIcon(thLogoLabel, IMAGE_TH_PATH,200,90);
+        setIcon(thLogoLabel, IMAGE_TH_PATH,142,77);
+        setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,216,63);
+        setIcon(infoLogoLabel, IMAGE_INFO_PATH,30,30);
     }
 
     private void initListener() {
