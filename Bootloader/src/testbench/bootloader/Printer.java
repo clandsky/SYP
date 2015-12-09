@@ -44,6 +44,7 @@ public class Printer {
         System.out.println("--------------------------------------------------------------------------------");
     }
     public void printProgressBar(int progress, float size) {
+        if(size == 0f || size == 0) return;
         StringBuffer progressBuffer = new StringBuffer();
         progressBuffer.append('|');
 
