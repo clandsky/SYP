@@ -1,7 +1,7 @@
 package testbench.client.gui;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.Printer;
+import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.steuerungsklassen.ClientSteuer;
@@ -88,7 +88,7 @@ public class ClientGUI extends JFrame {
     /* ############## VARIABLEN ################ */
     private final String port = "8000";
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
-    private ClientSteuer cSteuer = new ClientSteuer();
+    private ClientSteuer cSteuer;
     private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
@@ -98,9 +98,12 @@ public class ClientGUI extends JFrame {
     private final String IMAGE_REFRESH_PATH = IMAGEFOLDER+"refresh.png";
     private final String IMAGE_PROTOBUF_PATH = IMAGEFOLDER+"logo_protobuf.png";
     private final String IMAGE_TH_PATH = IMAGEFOLDER+"logo_th.png";
-    private final String IMAGE_INFO_PATH = IMAGEFOLDER+"info.png";
+    private final String IMAGE_INFO_PATH = IMAGEFOLDER+"infogrey.png";
 
     /* ############## AUSGABE_STRINGS ################ */
+    private final String CHANGE_IP_MESSAGE = "Bitte die gewünschte IP-Adresse eingeben";
+    private final String DATA_NOT_UPLOADED_ERROR = "Daten konnten nicht hochgeladen werden!";
+    private final String DATA_NOT_DOWNLOADED_ERROR = "Daten konnten nicht empfangen werden!";
     private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
     private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen aus der IP entfernen!";
     private final String FILL_IN_IP_STRING = "Bitte das IP-Feld ausfüllen!";
@@ -111,19 +114,21 @@ public class ClientGUI extends JFrame {
     private List<MassenInfoGrenz> massenInfoClient;
     private List<StruktInfoGrenz> struktInfoClient;
 
-    public ClientGUI() {
+    public ClientGUI(int guiSizeX, int guiSizeY) {
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
+        cSteuer = new ClientSteuer();
 
+        initGuiProperties(guiSizeX,guiSizeY);
         initImages();
         initListener();
         initSplitPanes();
+
     }
 
     private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
-      // if(mInfoGrenzList != null) {
             DefaultTableModel model;
 
             Object[][] data = new Object[mInfoGrenzList.size()][2];
@@ -142,11 +147,9 @@ public class ClientGUI extends JFrame {
                 };
                 table.setModel(model);
             }
-     //   }
     }
 
     private void fillStruktTable(JTable table, List<StruktInfoGrenz> sInfoGrenzList) {
-      //  if(sInfoGrenzList != null) {
             DefaultTableModel model;
 
             Object[][] data = new Object[sInfoGrenzList.size()][2];
@@ -165,12 +168,6 @@ public class ClientGUI extends JFrame {
                 };
                 table.setModel(model);
             }
-       // }
-    }
-
-    private void setIcon(JLabel label, String iconPath, int sizeX, int sizeY ) {
-        label.setText("");
-        label.setIcon(new ImageIcon(new ImageIcon(iconPath).getImage().getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
     }
 
     private void setIcon(JLabel label, BufferedImage image, int sizeX, int sizeY ) {
@@ -243,6 +240,20 @@ public class ClientGUI extends JFrame {
         }
         return bufferedImage;
     }
+    private void initGuiProperties(int guiSizeX, int guiSizeY) {
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setTitle("Protobuf Testbench Client");
+        Dimension d = new Dimension();
+        d.setSize(guiSizeX,guiSizeY);
+        setMinimumSize(d);
+        setVisible(true);
+    }
+
+    private void actualizeCurrentIpTextField(String ip) {
+        currentIpTextField.setText(removeIpSyntax(ip));
+    }
+
     private void initSplitPanes() {
         splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
         splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
@@ -256,21 +267,13 @@ public class ClientGUI extends JFrame {
         setIcon(thLogoLabel, loadImageResource(IMAGE_TH_PATH),75,43);
         setIcon(protobufLogoLabel, loadImageResource(IMAGE_PROTOBUF_PATH),130,40);
         setIcon(infoLogoLabel, loadImageResource(IMAGE_INFO_PATH),26,26);
-
-
-        // setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
-       // setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
-       // setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
-       // setIcon(thLogoLabel, IMAGE_TH_PATH,75,43);
-       // setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,130,40);
-       // setIcon(infoLogoLabel, IMAGE_INFO_PATH,26,26);
     }
 
     private void initListener() {
         verbindenButton.addActionListener(new ActionListener() {
             @Override // Listener für verbindenButton-Klick
             public void actionPerformed(ActionEvent e) {
-                verbindenButtonAction();
+                connectIp(ipTextField.getText());
             }
         });
         ipTextField.addMouseListener(new MouseAdapter() {
@@ -285,7 +288,7 @@ public class ClientGUI extends JFrame {
         ipTextField.addActionListener(new ActionListener() {
             @Override //Listener für Enter auf ipTextField
             public void actionPerformed(ActionEvent e) {
-                verbindenButtonAction();
+                connectIp(ipTextField.getText());
             }
         });
         refreshIconMessdaten.addMouseListener(new MouseAdapter() {
@@ -337,11 +340,23 @@ public class ClientGUI extends JFrame {
         herunterladenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MassendatenGrenz mGrenz = null;
                 String text = idLabelDown.getText();
                 if(!text.equals("/")) {
                     try {
-                        cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
-                    } catch (InvalidProtocolBufferException e1) {
+                        mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
+
+                        if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
+                        else{
+                            String daten = "Empfangene Werte:\n\n";
+                            for(int i=0 ; i<mGrenz.getValues().size() ; i++) {
+                                System.out.println(mGrenz.getValues().get(i));
+                                daten += "Wert "+(i+1)+": "+mGrenz.getValues().get(i)+"\n";
+                            }
+                            daten += "\n";
+                            JOptionPane.showMessageDialog(frame, daten);
+                        }
+                    } catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
@@ -352,34 +367,72 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
-                    cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
+                    MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(Integer.valueOf(idLabelUp.getText()));
+                    boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
+
+                    if(success) {
+                        String daten = "Gesendete Werte:\n\n";
+                        for (int i = 0; i < mGrenz.getValues().size(); i++) {
+                            System.out.println(mGrenz.getValues().get(i));
+                            daten += "Wert " + (i + 1) + ": " + mGrenz.getValues().get(i) + "\n";
+                        }
+                        daten += "\n";
+                        JOptionPane.showMessageDialog(frame, daten);
+                    } else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
                 } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
+            }
+        });
+        changeIpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String newIp = JOptionPane.showInputDialog(frame, CHANGE_IP_MESSAGE);
+                if(newIp != null) {
+                    if(!newIp.equals("") && !newIp.contains(" ")) {
+                        connectIp(newIp);
+                    } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
+                }
             }
         });
     }
 
-    private void verbindenButtonAction() {
+    /* hinzufügen von http:// und :port   */
+    private String addIpSyntax(String ip) {
+        String ipNew = new String(ip);
+        if(!ipNew.startsWith("http://")) ipNew = "http://"+ip;
+        if(!ipNew.endsWith(port)) ipNew+=":"+port;
+        if(!ipNew.endsWith("/")) ipNew += "/";
+        return ipNew;
+    }
+
+    /* entfernen von http:// und :port    */
+    private String removeIpSyntax(String ip) {
+        String ipNew = new String(ip);
+        ipNew = ipNew.replace("http://","");
+        ipNew = ipNew.substring(0,ipNew.indexOf(':'));
+        return ipNew;
+    }
+
+    private void connectIp(String ip) {
         boolean isConnected;
 
-        if(ipTextField.getText() != null) {
-            if(!ipTextField.getText().equals("")) {
-                if(!ipTextField.getText().contains(" ")) {
-                    String ip = ipTextField.getText();
+        if(ip != null) {
+            if(!ip.equals("")) {
+                if(!ip.contains(" ")) {
+                    String newIP = new String(ip);
 
-                    if(!ip.startsWith("http://")) ip = "http://"+ip;
-                    if(!ip.endsWith(port)) ip+=":"+port;
-                    if(!ip.endsWith("/")) ip += "/";
+                    newIP = addIpSyntax(newIP);
 
-                    isConnected = cSteuer.connect(ip);
+                    isConnected = cSteuer.connect(newIP);
                     if(!isConnected) {
                         JOptionPane.showMessageDialog(frame, SERVER_NOT_FOUND_STRING);
                     }
                     else {
                         initDataLists();
+                        actualizeCurrentIpTextField(cSteuer.getServerIP());
                         cl.show(cardPanel, "mainCard");
                     }
                 } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
-            } else JOptionPane.showMessageDialog(frame, FILL_IN_IP_STRING);
-        } else JOptionPane.showMessageDialog(frame, FILL_IN_IP_STRING);
+            }
+        }
     }
 }

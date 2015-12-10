@@ -16,14 +16,7 @@ public class IActivateComponentImpl implements IActivateComponent {
 
     @Override
     public boolean startComponent() throws Exception {
-        ClientGUI clientGUI = new ClientGUI();
-        clientGUI.setLocationRelativeTo(null);
-        clientGUI.setResizable(false);
-        clientGUI.setTitle("Protobuf Testbench Client");
-        Dimension d = new Dimension();
-        d.setSize(guiSizeX,guiSizeY);
-        clientGUI.setMinimumSize(d);
-        clientGUI.setVisible(true);
+        ClientGUI clientGUI = new ClientGUI(guiSizeX,guiSizeY);
         return true;
     }
 

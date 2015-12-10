@@ -1,5 +1,6 @@
 package testbench.client;
 
+import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
@@ -46,7 +47,12 @@ public class HTTPClient {
     }
 
     public Response sendeMassendaten(ByteMessage m) {
-        return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
+        try{
+            return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
+        } catch (Exception e) {
+            Printer.println("Exception in HTTPClient/sendeMassendaten : Verbindung fehlgeschlagen");
+            return null;
+        }
     }
 
     public Response sendeStruktdaten(Struktdaten s) {
@@ -54,8 +60,14 @@ public class HTTPClient {
     }
 
     public ByteMessage empfangeMassendaten(int id) {
-        Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
-        return res.readEntity(ByteMessage.class);
+        try{
+            Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
+            ByteMessage byteMessage = res.readEntity(ByteMessage.class);
+            return byteMessage;
+        } catch (Exception e) {
+            Printer.println("Exception in HTTPClient/empfangeMassendaten : Verbindung fehlgeschlagen");
+            return null;
+        }
     }
 
     public Struktdaten empfangeStruktdaten(int id) {

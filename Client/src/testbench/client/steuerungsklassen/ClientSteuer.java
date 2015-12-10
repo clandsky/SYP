@@ -8,12 +8,14 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.client.HTTPClient;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.DatenService;
 
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,25 +25,31 @@ import java.util.List;
 
 public class ClientSteuer {
     private boolean PRINT_DEBUG = true;
-    private HTTPClient httpClient = HTTPClient.getExemplar();
-    private DatenService dServe = new DatenService();
-    private Printer printer = new Printer();
+    private HTTPClient httpClient;
+    private DatenService dServe;
+    private Printer printer;
+
+    public ClientSteuer() {
+        httpClient = HTTPClient.getExemplar();
+        dServe = new DatenService();
+        printer = new Printer();
+    }
 
     public List<Messdaten> holeMessdaten() {
         return null;
     }
 
     public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
+        Printer.println("Empfange Massendaten mit ID: "+id);
         Massendaten m;
-
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-        m = byteMessage.getMassendatenFromByteArray();
-
-        if(PRINT_DEBUG) printer.println("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
-
-        dServe.schreibeMassendaten(m);
-
-        return new MassendatenGrenz(m);
+        if(byteMessage != null) {
+            m = byteMessage.getMassendatenFromByteArray();
+            if(PRINT_DEBUG) printer.println("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
+            dServe.schreibeMassendaten(m);
+            return new MassendatenGrenz(m);
+        }
+        return null;
     }
 
     public StruktdatenGrenz empfangeStruktdaten(int id) {
@@ -49,9 +57,17 @@ public class ClientSteuer {
     }
 
     public boolean sendeMassendaten(int id) {
+        Response response;
+        Printer.println("Sende Massendaten mit ID: "+id);
         Massendaten m = dServe.ladeMassendaten(id);
+        System.out.println(m.getValueCount());
         if(PRINT_DEBUG) printer.println("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1).getNumber());
-        return httpClient.sendeMassendaten(new ByteMessage(m, 1000, 1f)).getStatus() == 200;
+        response = httpClient.sendeMassendaten(new ByteMessage(m, 1000, 1f));
+        if(response != null) {
+            if(response.getStatus() == 200) return true;
+            return false;
+        }
+        return false;
     }
 
     public boolean sendeStruktdaten(int id) {
@@ -90,6 +106,14 @@ public class ClientSteuer {
         return m;
     }
 
+    public MassendatenGrenz ladeLokaleMassendaten(int id) {
+        return new MassendatenGrenz(dServe.ladeMassendaten(id));
+    }
+
+    public StruktdatenGrenz ladeLokaleStruktdaten(int id) {
+        return null;
+    }
+
     public boolean connect(String adresse) {
         try {
             httpClient.connect(adresse);
@@ -97,6 +121,10 @@ public class ClientSteuer {
             return false;
         }
         return true;
+    }
+
+    public String getServerIP() {
+        return HTTPClient.getExemplar().getServerIP();
     }
 
     public void starteDatenverwaltung() {
