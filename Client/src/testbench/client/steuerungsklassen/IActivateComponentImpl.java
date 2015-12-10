@@ -11,17 +11,17 @@ import java.awt.*;
  */
 public class IActivateComponentImpl implements IActivateComponent {
     ClientGUI clientGui;
+    private int guiSizeX = 800;
+    private int guiSizeY = 500;
 
     @Override
     public boolean startComponent() throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         ClientGUI clientGUI = new ClientGUI();
         clientGUI.setLocationRelativeTo(null);
         clientGUI.setResizable(false);
-        clientGUI.setTitle("Protobuf Testbench");
-        clientGUI.setBackground(new Color(232,232,232));
+        clientGUI.setTitle("Protobuf Testbench Client");
         Dimension d = new Dimension();
-        d.setSize(800,500);
+        d.setSize(guiSizeX,guiSizeY);
         clientGUI.setMinimumSize(d);
         clientGUI.setVisible(true);
         return true;
