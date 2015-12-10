@@ -78,10 +78,7 @@ public class ClientGUI extends JFrame {
     private JTable massenTableMess;
     private JTable struktTableMess;
     private JPanel rightPanelMessdaten;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
+    private JButton einstellungenButton;
 
     /* OBEN -> automatisch generiert */
 
