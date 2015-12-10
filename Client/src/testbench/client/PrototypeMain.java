@@ -5,6 +5,7 @@ import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.gui.ClientGUI;
+import testbench.client.service.ClientConfig;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class PrototypeMain {
         boolean abbruch = false;
         String input;
         ClientSteuer cSteuer = new ClientSteuer();
-        final String ip = "http://localhost:8000/";
+        final String ip = "http://localhost:"+ClientConfig.getExemplar().getPort()+"/";
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 

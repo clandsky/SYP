@@ -4,6 +4,7 @@ import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
+import testbench.client.service.ClientConfig;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
 import javax.imageio.ImageIO;
@@ -78,14 +79,14 @@ public class ClientGUI extends JFrame {
     private JTable massenTableMess;
     private JTable struktTableMess;
     private JPanel rightPanelMessdaten;
-    private JButton einstellungenButton;
+    private JButton einstellungenButtonMain;
+    private JButton einstellungenButtonConnect;
 
     /* OBEN -> automatisch generiert */
 
     /* ############## VARIABLEN ################ */
-    private final String port = "8000";
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
-    private ClientSteuer cSteuer;
+    private ClientSteuer cSteuer = new ClientSteuer();
     private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
@@ -102,8 +103,7 @@ public class ClientGUI extends JFrame {
     private final String DATA_NOT_UPLOADED_ERROR = "Daten konnten nicht hochgeladen werden!";
     private final String DATA_NOT_DOWNLOADED_ERROR = "Daten konnten nicht empfangen werden!";
     private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
-    private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen aus der IP entfernen!";
-    private final String FILL_IN_IP_STRING = "Bitte das IP-Feld ausfüllen!";
+    private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen und Sonderzeichen aus der IP entfernen!";
 
     /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
@@ -116,13 +116,10 @@ public class ClientGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
-        cSteuer = new ClientSteuer();
-
         initGuiProperties(guiSizeX,guiSizeY);
         initImages();
         initListener();
         initSplitPanes();
-
     }
 
     private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
@@ -237,6 +234,7 @@ public class ClientGUI extends JFrame {
         }
         return bufferedImage;
     }
+
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         setLocationRelativeTo(null);
         setResizable(false);
@@ -390,13 +388,25 @@ public class ClientGUI extends JFrame {
                 }
             }
         });
+        einstellungenButtonConnect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ClientSettings(true);
+            }
+        });
+        einstellungenButtonMain.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ClientSettings(false);
+            }
+        });
     }
 
     /* hinzufügen von http:// und :port   */
-    private String addIpSyntax(String ip) {
+    private String addIpSyntax(String ip, String port) {
         String ipNew = new String(ip);
         if(!ipNew.startsWith("http://")) ipNew = "http://"+ip;
-        if(!ipNew.endsWith(port)) ipNew+=":"+port;
+        ipNew+=":"+port;
         if(!ipNew.endsWith("/")) ipNew += "/";
         return ipNew;
     }
@@ -414,10 +424,10 @@ public class ClientGUI extends JFrame {
 
         if(ip != null) {
             if(!ip.equals("")) {
-                if(!ip.contains(" ")) {
+                if(!ip.contains(" ") && !ip.contains(":")) {
                     String newIP = new String(ip);
 
-                    newIP = addIpSyntax(newIP);
+                    newIP = addIpSyntax(newIP,ClientConfig.getExemplar().getPort());
 
                     isConnected = cSteuer.connect(newIP);
                     if(!isConnected) {
