@@ -6,6 +6,7 @@ import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.steuerungsklassen.ClientSteuer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -13,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -91,7 +94,7 @@ public class ClientGUI extends JFrame {
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
 
     /* ############## RESSOURCEN PFADE ################ */
-    private final String IMAGEFOLDER = "Client/res/";
+    private final String IMAGEFOLDER = "/resources/images/";
     private final String IMAGE_REFRESH_PATH = IMAGEFOLDER+"refresh.png";
     private final String IMAGE_PROTOBUF_PATH = IMAGEFOLDER+"logo_protobuf.png";
     private final String IMAGE_TH_PATH = IMAGEFOLDER+"logo_th.png";
@@ -170,6 +173,11 @@ public class ClientGUI extends JFrame {
         label.setIcon(new ImageIcon(new ImageIcon(iconPath).getImage().getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
     }
 
+    private void setIcon(JLabel label, BufferedImage image, int sizeX, int sizeY ) {
+        label.setText("");
+        label.setIcon(new ImageIcon(image.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
+    }
+
     private void refreshDownload() {
         artLabelDown.setText("/");
         idLabelDown.setText("/");
@@ -225,6 +233,16 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    private BufferedImage loadImageResource(String filePath) {
+        BufferedImage bufferedImage = null;
+        try {
+            bufferedImage = ImageIO.read(getClass().getResource(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bufferedImage;
+    }
     private void initSplitPanes() {
         splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
         splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
@@ -232,12 +250,20 @@ public class ClientGUI extends JFrame {
     }
 
     private void initImages() {
-        setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
-        setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
-        setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
-        setIcon(thLogoLabel, IMAGE_TH_PATH,75,43);
-        setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,130,40);
-        setIcon(infoLogoLabel, IMAGE_INFO_PATH,26,26);
+        setIcon(refreshIconDownload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
+        setIcon(refreshIconUpload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
+        setIcon(refreshIconMessdaten, loadImageResource(IMAGE_REFRESH_PATH),25,25);
+        setIcon(thLogoLabel, loadImageResource(IMAGE_TH_PATH),75,43);
+        setIcon(protobufLogoLabel, loadImageResource(IMAGE_PROTOBUF_PATH),130,40);
+        setIcon(infoLogoLabel, loadImageResource(IMAGE_INFO_PATH),26,26);
+
+
+        // setIcon(refreshIconDownload,IMAGE_REFRESH_PATH,25,25);
+       // setIcon(refreshIconUpload,IMAGE_REFRESH_PATH,25,25);
+       // setIcon(refreshIconMessdaten,IMAGE_REFRESH_PATH,25,25);
+       // setIcon(thLogoLabel, IMAGE_TH_PATH,75,43);
+       // setIcon(protobufLogoLabel, IMAGE_PROTOBUF_PATH,130,40);
+       // setIcon(infoLogoLabel, IMAGE_INFO_PATH,26,26);
     }
 
     private void initListener() {

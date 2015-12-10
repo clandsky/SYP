@@ -7,13 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Chrizzle Manizzle on 10.12.2015.
+ * Created by Chrizzle Manizzle on 10.12.2015
  */
 public class StartBootloader extends JFrame {
     private JButton serverButton;
     private JPanel panel1;
     private JButton clientButton;
     private JButton datenverwaltungButton;
+
     public StartBootloader () throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         setLocationRelativeTo(null);
         setResizable(false);
@@ -27,13 +28,11 @@ public class StartBootloader extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 IActivateComponentImpl server = new IActivateComponentImpl();
                 try {
+                    setVisible(false);
                     server.startComponent();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-
-
-
             }
         });
         clientButton.addActionListener(new ActionListener() {
@@ -41,6 +40,7 @@ public class StartBootloader extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 testbench.client.steuerungsklassen.IActivateComponentImpl client=new testbench.client.steuerungsklassen.IActivateComponentImpl();
                 try {
+                    setVisible(false);
                     client.startComponent();
                 } catch (Exception e1) {
                     e1.printStackTrace();

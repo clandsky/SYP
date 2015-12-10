@@ -1,0 +1,45 @@
+Manifest-Version: 1.0
+Class-Path: lib/aopalliance-repackaged-2.4.0-b31.jar lib/asm-debug-all
+ -5.0.4.jar lib/hk2-api-2.4.0-b31.jar lib/hk2-locator-2.4.0-b31.jar li
+ b/hk2-utils-2.4.0-b31.jar lib/javassist-3.18.1-GA.jar lib/javax.annot
+ ation-api-1.2.jar lib/javax.inject-2.4.0-b31.jar lib/javax.json-1.0.4
+ .jar lib/javax.servlet-api-3.0.1.jar lib/javax.ws.rs-api-2.0.1.jar li
+ b/jaxb-api-2.2.7.jar lib/jersey-client.jar lib/jersey-common-2.22.jar
+  lib/jersey-common.jar lib/jersey-container-jdk-http-2.22.1.jar lib/j
+ ersey-container-servlet-core.jar lib/jersey-container-servlet.jar lib
+ /jersey-entity-filtering-2.22.1.jar lib/jersey-guava-2.22.1.jar lib/j
+ ersey-guava-2.6.jar lib/jersey-media-jaxb.jar lib/jersey-media-moxy-2
+ .22.1.jar lib/jersey-server.jar lib/org.eclipse.persistence.core-2.6.
+ 0-M3.jar lib/org.eclipse.persistence.moxy-2.6.0-M3.jar lib/osgi-resou
+ rce-locator-1.0.1.jar lib/persistence-api-1.0.jar lib/validation-api-
+ 1.1.0.Final.jar lib/org.osgi.core-4.2.0.jar lib/protobuf-java-format-
+ 1.2.jar lib/aopalliance-repackaged-2.4.0-b31.jar lib/asm-debug-all-5.
+ 0.4.jar lib/hk2-api-2.4.0-b31.jar lib/hk2-locator-2.4.0-b31.jar lib/h
+ k2-utils-2.4.0-b31.jar lib/javassist-3.18.1-GA.jar lib/javax.annotati
+ on-api-1.2.jar lib/javax.inject-2.4.0-b31.jar lib/javax.json-1.0.4.ja
+ r lib/javax.servlet-api-3.0.1.jar lib/javax.ws.rs-api-2.0.1.jar lib/j
+ axb-api-2.2.7.jar lib/jersey-client.jar lib/jersey-common-2.22.jar li
+ b/jersey-common.jar lib/jersey-container-jdk-http-2.22.1.jar lib/jers
+ ey-container-servlet-core.jar lib/jersey-container-servlet.jar lib/je
+ rsey-entity-filtering-2.22.1.jar lib/jersey-guava-2.22.1.jar lib/jers
+ ey-guava-2.6.jar lib/jersey-media-jaxb.jar lib/jersey-media-moxy-2.22
+ .1.jar lib/jersey-server.jar lib/org.eclipse.persistence.core-2.6.0-M
+ 3.jar lib/org.eclipse.persistence.moxy-2.6.0-M3.jar lib/osgi-resource
+ -locator-1.0.1.jar lib/persistence-api-1.0.jar lib/validation-api-1.1
+ .0.Final.jar lib/org.osgi.core-4.2.0.jar lib/aopalliance-repackaged-2
+ .4.0-b31.jar lib/asm-debug-all-5.0.4.jar lib/hk2-api-2.4.0-b31.jar li
+ b/hk2-locator-2.4.0-b31.jar lib/hk2-utils-2.4.0-b31.jar lib/javassist
+ -3.18.1-GA.jar lib/javax.annotation-api-1.2.jar lib/javax.inject-2.4.
+ 0-b31.jar lib/javax.json-1.0.4.jar lib/javax.servlet-api-3.0.1.jar li
+ b/javax.ws.rs-api-2.0.1.jar lib/jaxb-api-2.2.7.jar lib/jersey-client.
+ jar lib/jersey-common-2.22.jar lib/jersey-common.jar lib/jersey-conta
+ iner-jdk-http-2.22.1.jar lib/jersey-container-servlet-core.jar lib/je
+ rsey-container-servlet.jar lib/jersey-entity-filtering-2.22.1.jar lib
+ /jersey-guava-2.22.1.jar lib/jersey-guava-2.6.jar lib/jersey-media-ja
+ xb.jar lib/jersey-media-moxy-2.22.1.jar lib/jersey-server.jar lib/org
+ .eclipse.persistence.core-2.6.0-M3.jar lib/org.eclipse.persistence.mo
+ xy-2.6.0-M3.jar lib/osgi-resource-locator-1.0.1.jar lib/persistence-a
+ pi-1.0.jar lib/validation-api-1.1.0.Final.jar lib/org.osgi.core-4.2.0
+ .jar
+Main-Class: testbench.bootloader.Execute
+
