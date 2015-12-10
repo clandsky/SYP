@@ -55,18 +55,10 @@ public class ClientConfig {
 
         currentKeys = new ArrayList(currentSettingsMap.keySet());
 
-        for(String s : standartKeys)
-        Printer.println("for s in standart: "+s);
-
-        for(String s : currentKeys)
-            Printer.println("for s in current : "+s);
-
         if(compareStringLists(standartKeys,currentKeys)) {
-            Printer.println("KEYS EQUAL!");
             return;
         }
         else {
-            Printer.println("KEYS NOT EQUAL!");
             for(String s : standartKeys) {
                 if(!currentSettingsMap.containsValue(s)) currentSettingsMap.put(s,standartSettingsMap.get(s));
             }
@@ -95,6 +87,7 @@ public class ClientConfig {
 
         if(!directory.exists()) Printer.println("Config-Verzeichnis erstellt:" +directory.mkdirs());
         if(config.exists()) config.delete();
+        else Printer.println("Config-Datei erstellt:" +directory.mkdirs());
 
         try {
             config.createNewFile();
