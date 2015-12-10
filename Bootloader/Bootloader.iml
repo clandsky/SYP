@@ -47,5 +47,8 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="Client" />
+    <orderEntry type="module" module-name="Server" />
+    <orderEntry type="module" module-name="Datenverwaltung" />
   </component>
 </module>
