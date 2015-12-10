@@ -36,6 +36,17 @@ public class StartBootloader extends JFrame {
 
             }
         });
+        clientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                testbench.client.steuerungsklassen.IActivateComponentImpl client=new testbench.client.steuerungsklassen.IActivateComponentImpl();
+                try {
+                    client.startComponent();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
 
