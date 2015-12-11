@@ -3,6 +3,7 @@ package testbench.bootloader.provider;
 import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,10 +16,12 @@ import java.util.List;
 public class ByteMessage {
     private byte[] byteArray;
 
-    public ByteMessage(Massendaten m, int packetSizeKB, float progressBarSizeMulti) {
-        Splitter splitter = new Splitter();
-        List<Massendaten> massendatenList = splitter.splitMassendaten(m,packetSizeKB,progressBarSizeMulti);
-        this.byteArray = splitter.combineByteArrays(massendatenList);
+    public ByteMessage(Massendaten m) {
+        this.byteArray = m.toByteArray();
+    }
+
+    public ByteMessage(Struktdaten s) {
+        this.byteArray = s.toByteArray();
     }
 
     public ByteMessage(byte[] byteArray) {

@@ -104,6 +104,8 @@ public class ClientGUI extends JFrame {
     private final String DATA_NOT_DOWNLOADED_ERROR = "Daten konnten nicht empfangen werden!";
     private final String SERVER_NOT_FOUND_STRING = "Server konnte nicht gefunden werden!";
     private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen und Sonderzeichen aus der IP entfernen!";
+    private final String DATA_UPLOADED_SUCCESS = "Daten wurden erfolgreich hochgeladen!";
+    private final String DATA_DOWNLOAD_SUCCESS = "Daten wurden erfolgreich heruntergeladen!";
 
     /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
@@ -340,17 +342,8 @@ public class ClientGUI extends JFrame {
                 if(!text.equals("/")) {
                     try {
                         mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
-
                         if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
-                        else{
-                            String daten = "Empfangene Werte:\n\n";
-                            for(int i=0 ; i<mGrenz.getValues().size() ; i++) {
-                                System.out.println(mGrenz.getValues().get(i));
-                                daten += "Wert "+(i+1)+": "+mGrenz.getValues().get(i)+"\n";
-                            }
-                            daten += "\n";
-                            JOptionPane.showMessageDialog(frame, daten);
-                        }
+                        else JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS);
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -364,16 +357,8 @@ public class ClientGUI extends JFrame {
                 if(!text.equals("/")) {
                     MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(Integer.valueOf(idLabelUp.getText()));
                     boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
-
-                    if(success) {
-                        String daten = "Gesendete Werte:\n\n";
-                        for (int i = 0; i < mGrenz.getValues().size(); i++) {
-                            System.out.println(mGrenz.getValues().get(i));
-                            daten += "Wert " + (i + 1) + ": " + mGrenz.getValues().get(i) + "\n";
-                        }
-                        daten += "\n";
-                        JOptionPane.showMessageDialog(frame, daten);
-                    } else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                    if(success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
+                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
                 } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
             }
         });

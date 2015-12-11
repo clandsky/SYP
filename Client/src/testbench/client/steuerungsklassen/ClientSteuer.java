@@ -45,7 +45,6 @@ public class ClientSteuer {
         ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
         if(byteMessage != null) {
             m = byteMessage.getMassendatenFromByteArray();
-            if(PRINT_DEBUG) printer.println("Letzter empfangener Wert: "+m.getValueList().get(m.getValueCount()-1));
             dServe.schreibeMassendaten(m);
             return new MassendatenGrenz(m);
         }
@@ -61,8 +60,7 @@ public class ClientSteuer {
         Printer.println("Sende Massendaten mit ID: "+id);
         Massendaten m = dServe.ladeMassendaten(id);
         System.out.println(m.getValueCount());
-        if(PRINT_DEBUG) printer.println("Letzter gesendeter Wert: "+m.getValueList().get(m.getValueCount()-1).getNumber());
-        response = httpClient.sendeMassendaten(new ByteMessage(m, 1000, 1f));
+        response = httpClient.sendeMassendaten(new ByteMessage(m));
         if(response != null) {
             if(response.getStatus() == 200) return true;
             return false;

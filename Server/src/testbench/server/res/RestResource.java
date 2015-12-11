@@ -53,7 +53,7 @@ public class RestResource {
                 Printer.println("Massendaten geladen...");
                 Printer.println("Massendaten werden gesplitted...");
                 Printer.println("[SUCCESS] Returning ByteArray...");
-                return new ByteMessage(massendaten,1000,0);
+                return new ByteMessage(massendaten);
             }
             else {
                 Printer.println("[ERROR] File not Found!");
