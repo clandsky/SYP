@@ -20,39 +20,35 @@ public class FileTest {
             fos.close();
             return true;
         } catch (IOException ioe) {
-            System.out.println("IO Exception in writeByteArrayToFile()");
+            ioe.printStackTrace();
             return false;
         }
     }
 
     public byte[] readByteArrayFromFile(String filePath) {
         File file = new File(filePath);
-        byte[] buffer;
 
         if(file.exists()) {
             try {
                 FileInputStream fis = new FileInputStream(filePath);
-                buffer = new byte[(int)file.length()];
+                byte[] bArray = new byte[(int)file.length()];
                 int bytesRead = 0;
                 int temp;
 
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
                 try {
                     while ((temp = fis.read()) != -1) {
-                        buffer[bytesRead] = (byte)temp;
+                        bArray[bytesRead] = (byte)temp;
                         bytesRead++;
                     }
+                    fis.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return buffer;
-
-
+                return bArray;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 
