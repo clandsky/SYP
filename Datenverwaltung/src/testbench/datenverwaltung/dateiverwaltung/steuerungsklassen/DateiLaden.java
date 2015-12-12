@@ -16,21 +16,17 @@ public class DateiLaden
 {
     public MassendatenProtos.Massendaten ladeMassendaten(int id)
     {
-        MassendatenProtos.Massendaten.Builder m = MassendatenProtos.Massendaten.newBuilder();
-        Printer.println("Laden der XML Datei");
-        File file2 = new File("massendaten" + id + ".xml");
+        MassendatenProtos.Massendaten m;
+        Printer.println("Laden der PROTOBYTE Datei");
+        File file = new File("massendaten" + id + ".protobyte");
         FileInputStream fin = null;
         try
         {
             // create FileInputStream object
-            fin = new FileInputStream(file2);
-            byte fileContent[] = new byte[(int) file2.length()];
+            fin = new FileInputStream(file);
+            byte fileContent[] = new byte[(int) file.length()];
             fin.read(fileContent);
-            String xmlFormat = new String(fileContent);
-            XmlFormat.merge(xmlFormat, m);
-
-            //Testweise Ausgebendes Inhalts
-            //System.out.println("Inhalt: " + xmlFormat.substring(0, 200));
+            m = MassendatenProtos.Massendaten.parseFrom(fileContent);
         }
         catch (FileNotFoundException e)
         {
@@ -53,12 +49,12 @@ public class DateiLaden
             }
             catch (IOException ioe)
             {
-                Printer.println("Fehler beim schließen des Dateistreams: " + ioe);
+                Printer.println("Fehler beim Schließen des Dateistreams: " + ioe);
                 return null;
             }
         }
         Printer.println("Massendaten wurden gefüttert");
 
-        return m.build();
+        return m;
     }
 }

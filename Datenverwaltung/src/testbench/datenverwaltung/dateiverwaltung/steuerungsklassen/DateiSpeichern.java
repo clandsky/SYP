@@ -23,7 +23,8 @@ public class DateiSpeichern
         try
         {
             //Specify the file path here
-            file = new File("massendaten.xml");
+          //  file = new File("massendaten.xml");
+            file = new File("massendaten1.protobyte");
             fos = new FileOutputStream(file);
 
                     /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
@@ -35,9 +36,9 @@ public class DateiSpeichern
             /* Strings können nicht direkt in ein File geschrieben werden.
              * Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
              */
-            byte[] bytesArray = xmlFormat.getBytes();
+          //  byte[] bytesArray = xmlFormat.getBytes();
 
-            fos.write(bytesArray);
+            fos.write(massendaten.toByteArray());
             fos.flush();
             Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
