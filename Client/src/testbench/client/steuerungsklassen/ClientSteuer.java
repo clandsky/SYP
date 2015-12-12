@@ -28,12 +28,10 @@ public class ClientSteuer {
     private boolean PRINT_DEBUG = true;
     private HTTPClient httpClient;
     private DatenService dServe;
-    private Printer printer;
 
     public ClientSteuer() {
         httpClient = HTTPClient.getExemplar();
         dServe = new DatenService();
-        printer = new Printer();
     }
 
     public List<Messdaten> holeMessdaten() {

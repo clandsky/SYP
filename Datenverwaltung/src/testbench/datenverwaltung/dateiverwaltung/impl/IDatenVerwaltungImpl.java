@@ -6,8 +6,8 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
@@ -16,12 +16,12 @@ import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 import java.util.ArrayList;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * Created by CGrings on 07.12.2015
  */
 public class IDatenVerwaltungImpl implements IDatenVerwaltung
 {
     @Override
-    public MassendatenProtos.Massendaten holeMassendaten(int id)
+    public Massendaten holeMassendaten(int id)
     {
         DateiLaden dl = new DateiLaden();
         return dl.ladeMassendaten( id );
@@ -29,26 +29,26 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     }
 
     @Override
-    public StruktdatenProtos.Struktdaten holeStrukturierteDaten(int id)
+    public Struktdaten holeStrukturierteDaten(int id)
     {
         return null;
     }
 
     @Override
-    public boolean schreibeMassendaten(MassendatenProtos.Massendaten m)
+    public boolean schreibeMassendaten(Massendaten m)
     {
         DateiSpeichern save = new DateiSpeichern();
         return save.speicherMasendaten(m);
     }
 
     @Override
-    public boolean schreibeStrukturierteDaten(StruktdatenProtos.Struktdaten s)
+    public boolean schreibeStrukturierteDaten(Struktdaten s)
     {
         return true;
     }
 
     @Override
-    public MassendatenProtos.Massendaten generiereRandomMassendaten(int size)
+    public Massendaten generiereRandomMassendaten(int size)
     {
         Generator gen = new Generator();
 

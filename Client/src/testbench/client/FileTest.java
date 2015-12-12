@@ -6,8 +6,10 @@ import java.io.*;
  * Created by Sven Riedel on 11.12.2015
  */
 public class FileTest {
-    public boolean writeByteArrayToFile(byte[] bArray, String filePath) {
-        File file = new File(filePath);
+    private final String directory = "filetest/";
+
+    public boolean writeByteArrayToFile(byte[] bArray, String fileName) {
+        File file = new File(directory+fileName);
 
         try{
             if(!file.exists()) file.createNewFile();
@@ -15,7 +17,7 @@ public class FileTest {
                 file.delete();
                 file.createNewFile();
             }
-            FileOutputStream fos = new FileOutputStream(filePath);
+            FileOutputStream fos = new FileOutputStream(file);
             fos.write(bArray);
             fos.close();
             return true;
@@ -25,12 +27,12 @@ public class FileTest {
         }
     }
 
-    public byte[] readByteArrayFromFile(String filePath) {
-        File file = new File(filePath);
+    public byte[] readByteArrayFromFile(String fileName) {
+        File file = new File(directory+fileName);
 
         if(file.exists()) {
             try {
-                FileInputStream fis = new FileInputStream(filePath);
+                FileInputStream fis = new FileInputStream(file);
                 byte[] bArray = new byte[(int)file.length()];
                 int bytesRead = 0;
                 int temp;
