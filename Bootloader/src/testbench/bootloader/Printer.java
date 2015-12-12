@@ -49,7 +49,7 @@ import java.util.Calendar;
         progressBuffer.append('|');
 
         for(int i=1 ; i<99*size ; i++) {
-            if(i*size < progress*size) progressBuffer.append('=');
+            if(i < progress*size) progressBuffer.append('=');
             else progressBuffer.append(' ');
         }
         progressBuffer.append('|');
