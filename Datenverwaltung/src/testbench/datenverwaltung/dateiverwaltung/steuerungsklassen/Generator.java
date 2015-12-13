@@ -27,6 +27,9 @@ public class Generator
 
         MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
 
+        long longWert;
+        double temp;
+
         // Schleife um die Daten zu generieren:
         for (int i = 0; i < fileSize / typeSize; i++)
         {
@@ -41,10 +44,12 @@ public class Generator
             // Prozentanzeige wenn im DEBUG-Modus
             if (_DEBUG)
             {
-                if (procent != i * 100 / (fileSize / typeSize))
+                longWert = (long)(i)*100;
+                temp = longWert / (fileSize / typeSize);
+                if (procent != temp)
                 {
-                    procent = i * 100 / (fileSize / typeSize);
-                    p.printProgressBar(i * 100 / (fileSize / typeSize), 0.5f);
+                    procent = (int)temp;
+                    p.printProgressBar((int)temp, 0.5f);
                 }
             }
             

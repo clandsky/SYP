@@ -15,7 +15,6 @@ public class DateiSpeichern
 {
     public boolean speicherMasendaten(MassendatenProtos.Massendaten massendaten)
     {
-        String xmlFormat = XmlFormat.printToString(massendaten);
         FileOutputStream fos = null;
         File file;
 

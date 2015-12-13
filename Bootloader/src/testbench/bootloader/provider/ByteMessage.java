@@ -24,13 +24,22 @@ public class ByteMessage {
         this.byteArray = s.toByteArray();
     }
 
-    public ByteMessage(byte[] byteArray) {
-        this.byteArray = byteArray;
+    public ByteMessage(InputStream inputStream) {
+        this.byteArray = readFully(inputStream);
     }
 
-    public Massendaten getMassendatenFromByteArray() {
+    public Massendaten getMassendaten() {
         try {
             return Massendaten.parseFrom(byteArray);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Struktdaten getStruktdaten() {
+        try {
+            return Struktdaten.parseFrom(byteArray);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -41,7 +50,7 @@ public class ByteMessage {
         return byteArray;
     }
 
-    public static byte[] readFully(InputStream input) {
+    private byte[] readFully(InputStream input) {
         byte[] buffer = new byte[8192];
         int bytesRead;
         ByteArrayOutputStream output = new ByteArrayOutputStream();

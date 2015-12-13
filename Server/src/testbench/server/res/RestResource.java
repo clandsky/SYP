@@ -51,7 +51,6 @@ public class RestResource {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
                 Printer.println("Massendaten geladen...");
-                Printer.println("Massendaten werden gesplitted...");
                 Printer.println("[SUCCESS] Returning ByteArray...");
                 return new ByteMessage(massendaten);
             }
@@ -73,7 +72,7 @@ public class RestResource {
         Printer.println("[POST] on /Massendaten");
         Massendaten massendaten = null;
         try {
-            massendaten = daten.getMassendatenFromByteArray();
+            massendaten = daten.getMassendaten();
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             Printer.println("Letztes erhaltenes Element: "+d);
         } catch (Exception e) {

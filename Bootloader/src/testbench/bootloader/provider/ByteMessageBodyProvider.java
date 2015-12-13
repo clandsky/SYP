@@ -34,7 +34,8 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     @Override
     public ByteMessage readFrom(Class<ByteMessage> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         if (ByteMessage.class.isAssignableFrom(aClass)) {
-            return new ByteMessage(ByteMessage.readFully(inputStream));
+            ByteMessage bm = new ByteMessage(inputStream);
+            return bm;
         }
         else {
             throw new BadRequestException("Can't deserialize!");
