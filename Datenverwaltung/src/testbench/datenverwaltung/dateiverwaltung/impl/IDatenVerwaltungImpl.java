@@ -151,37 +151,5 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
         }
 
         return massenInfoArrayList;
-
-/*
-        // VORLÄUFIG EINGEFÜGT, DAMIT GUI FUNKTIONIERT
-        ArrayList<MassenInfo> massenList = new ArrayList<MassenInfo>();
-        MassenInfo massenInfo1, massenInfo2;
-        MassenDef massenDef1, massenDef2;
-        Frequency freq1, freq2, freq3;
-        freq1=new Frequency(60, 2, -30);
-        freq2=new Frequency(90, 2, -10);
-        freq3=new Frequency(10, 1, 45);
-
-        massenDef1=new MassenDef(50);
-        massenDef1.getFrequencies().add(freq1);
-        massenDef2=new MassenDef(50);
-        massenDef2.getFrequencies().add(freq2);
-        massenDef2.getFrequencies().add(freq3);
-
-        massenInfo1=new MassenInfo();
-        massenInfo1.setId(1);
-        massenInfo1.setPaketgroesseKB(1);
-        massenInfo1.setPath("/massendaten/1");
-        massenInfo1.setDef(massenDef1);
-
-        massenInfo2=new MassenInfo();
-        massenInfo2.setId(2);
-        massenInfo2.setPaketgroesseKB(1);
-        massenInfo2.setPath("/massendaten/2");
-        massenInfo2.setDef(massenDef2);
-        massenList.add(massenInfo1);
-        massenList.add(massenInfo2);
-        return massenList;
-*/
     }
 }

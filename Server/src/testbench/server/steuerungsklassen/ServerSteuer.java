@@ -4,14 +4,15 @@ import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.server.dummy.IDatenverwaltungImpl;
+import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
+
 import java.util.List;
 
 /**
  * Created by Chrizzle Manizzle on 26.11.2015.xD
  */
 public class ServerSteuer {
-    IDatenverwaltungImpl idat  = new IDatenverwaltungImpl();
+    IDatenVerwaltungImpl idat  = new IDatenVerwaltungImpl();
     public List<MassenInfo> ladeMassenListe() {
         return idat.ladeMassenInfo();
     }
