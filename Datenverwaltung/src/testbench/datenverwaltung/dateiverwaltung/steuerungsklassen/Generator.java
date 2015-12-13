@@ -40,7 +40,7 @@ public class Generator
         massenInfoBuilder.setDef(massenDefBuilder);
 
         long longWert; //für progressbar
-        double temp; //für progressbar
+        double temp;
 
         // Schleife um die Daten zu generieren:
         for (int i = 0; i < fileSize / typeSize; i++)
@@ -71,12 +71,12 @@ public class Generator
             pos += config.getAbtastrate();
         }
 
-        Printer.printProgressBar(100, 0.5f);
+        if (_DEBUG) Printer.printProgressBar(100, 0.5f);
 
-        // 1: einmal builden, um die serializesSize zu bekommen
+        // 1: einmal builden, um die serializedSize zu bekommen
         Massendaten tempMdaten = massendatenBuilder.build();
 
-        // 2: serializesSize in info eintragen
+        // 2: serializedSize in info eintragen
         massenInfoBuilder.setPaketGroesseKB(tempMdaten.getSerializedSize()/1000);
         massendatenBuilder.setInfo(massenInfoBuilder);
 
