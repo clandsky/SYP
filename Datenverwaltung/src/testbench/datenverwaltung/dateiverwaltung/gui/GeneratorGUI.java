@@ -13,8 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * Created by CGrings on 07.12.2015.
@@ -79,7 +77,7 @@ public class GeneratorGUI extends JFrame
                 massendaten = generator.generatorMassData( config, Integer.parseInt( textFieldSize.getText() ) );
 
                 DateiSpeichern ds = new DateiSpeichern();
-                ds.speicherMasendaten(massendaten);
+                ds.speicherMassendaten(massendaten);
             }
         });
         spinner.addChangeListener(new ChangeListener()

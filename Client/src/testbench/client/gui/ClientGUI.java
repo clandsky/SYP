@@ -128,7 +128,7 @@ public class ClientGUI extends JFrame {
             DefaultTableModel model;
 
             Object[][] data = new Object[mInfoGrenzList.size()][2];
-            String[] columnNames = {"ID", "KiloByte"};
+            String[] columnNames = {"#", "KB"};
 
             if (!mInfoGrenzList.isEmpty()) {
                 for (int i=0; i < mInfoGrenzList.size(); i++) {

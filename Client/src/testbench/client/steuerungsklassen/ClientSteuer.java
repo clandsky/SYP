@@ -43,8 +43,7 @@ public class ClientSteuer {
         if(byteMessage != null) {
             Massendaten m = byteMessage.getMassendaten();
             dServe.schreibeMassendaten(m);
-
-            System.out.println("PaketGroeße in KB: "+m.getInfo().getPaketGroesseKB());
+            Printer.println("Paketgroeße in KB: "+m.getInfo().getPaketGroesseKB());
             return new MassendatenGrenz(m);
         }
         return null;
@@ -60,10 +59,7 @@ public class ClientSteuer {
         Massendaten m = dServe.ladeMassendaten(id);
         Printer.println("Anzahl der verschickten Werte: "+String.valueOf(m.getValueCount()));
 
-
-        ByteMessage bm = new ByteMessage(m);
-        response = httpClient.sendeMassendaten(bm);
-
+        response = httpClient.sendeMassendaten(new ByteMessage(m));
 
         if(response != null) {
             if(response.getStatus() == 200) return true;

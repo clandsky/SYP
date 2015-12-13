@@ -7,6 +7,13 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import static java.lang.Math.*;
 
 /**
@@ -76,12 +83,16 @@ public class Generator
         // 1: einmal builden, um die serializedSize zu bekommen
         Massendaten tempMdaten = massendatenBuilder.build();
 
-        // 2: serializedSize in info eintragen
+        // 2: serializedSize und id in info eintragen
+        int hashID = System.identityHashCode(tempMdaten.getValueList());
+        massenInfoBuilder.setId(hashID);
         massenInfoBuilder.setPaketGroesseKB(tempMdaten.getSerializedSize()/1000);
         massendatenBuilder.setInfo(massenInfoBuilder);
 
-        // 3: nochmal builden
-        return massendatenBuilder.build();
+        // 3: nochmal builden für hashcode
+        Massendaten mDaten = massendatenBuilder.build();
+
+        return mDaten;
     }
 
     public Struktdaten generatorDeepStructure(StruktDef struktDef)

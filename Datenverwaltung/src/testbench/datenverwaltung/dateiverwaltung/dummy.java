@@ -1,11 +1,8 @@
 package testbench.datenverwaltung.dateiverwaltung;
 
-import com.google.protobuf.Message;
-import com.googlecode.protobuf.format.XmlFormat;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
-import testbench.datenverwaltung.dateiverwaltung.gui.GeneratorGUI;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
@@ -63,7 +60,7 @@ public class dummy
                  */
                 case 2:
                     DateiSpeichern save = new DateiSpeichern();
-                    save.speicherMasendaten(massendaten);
+                    save.speicherMassendaten(massendaten);
 
                     break;
 

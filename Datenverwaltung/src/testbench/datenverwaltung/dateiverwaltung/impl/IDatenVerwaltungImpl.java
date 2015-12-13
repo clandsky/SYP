@@ -7,12 +7,17 @@ import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.masseninfo.MasseninfoProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
+import testbench.bootloader.entities.MassenInfo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +25,12 @@ import java.util.ArrayList;
  */
 public class IDatenVerwaltungImpl implements IDatenVerwaltung
 {
+    private final String saveDirectory = "protodaten/";
+    private final String saveMassendatenDirectory = saveDirectory+"massendaten/";
+    private final String saveStruktdatenDirectory = saveDirectory+"struktdaten/";
+    private final String fileName = "ByteArray";
+    private final String infoFileName = "Info";
+
     @Override
     public Massendaten holeMassendaten(int id)
     {
@@ -38,7 +49,7 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     public boolean schreibeMassendaten(Massendaten m)
     {
         DateiSpeichern save = new DateiSpeichern();
-        return save.speicherMasendaten(m);
+        return save.speicherMassendaten(m);
     }
 
     @Override
@@ -104,6 +115,44 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     @Override
     public ArrayList<MassenInfo> ladeMassenInfo()
     {
+        FileInputStream fin;
+        File directory = new File(saveMassendatenDirectory);
+        String[] fileNameArray;
+        ArrayList<MassenInfo> massenInfoArrayList = new ArrayList<>();
+
+        MasseninfoProtos.Masseninfo protoInfo;
+        MassenInfo mInfo;
+        MassenDef mDef;
+        ArrayList<Frequency> frequencyList;
+
+        if(directory.exists()) {
+            fileNameArray = directory.list();
+
+            for(int i=0 ; i<fileNameArray.length ; i++) {
+                File mInfoFile = new File(saveMassendatenDirectory+fileNameArray[i]+"/"+infoFileName+".protobyte");
+                frequencyList = new ArrayList<>();
+
+                try {
+                    fin = new FileInputStream(mInfoFile);
+                    byte fileContent[] = new byte[(int) mInfoFile.length()];
+                    fin.read(fileContent);
+                    protoInfo = MasseninfoProtos.Masseninfo.parseFrom(fileContent);
+
+                    for(MasseninfoProtos.Masseninfo.Frequency frequency : protoInfo.getDef().getFrequencyList()) {
+                        frequencyList.add(new Frequency(frequency.getFrequency(),frequency.getAmplitude(),frequency.getPhase()));
+                    }
+                    mDef = new MassenDef(protoInfo.getDef().getAbtastrate(), frequencyList);
+                    mInfo = new MassenInfo(protoInfo.getId(),protoInfo.getPaketGroesseKB(),protoInfo.getPath(),mDef);
+                    massenInfoArrayList.add(mInfo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return massenInfoArrayList;
+
+/*
         // VORLÄUFIG EINGEFÜGT, DAMIT GUI FUNKTIONIERT
         ArrayList<MassenInfo> massenList = new ArrayList<MassenInfo>();
         MassenInfo massenInfo1, massenInfo2;
@@ -133,5 +182,6 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
         massenList.add(massenInfo1);
         massenList.add(massenInfo2);
         return massenList;
+*/
     }
 }

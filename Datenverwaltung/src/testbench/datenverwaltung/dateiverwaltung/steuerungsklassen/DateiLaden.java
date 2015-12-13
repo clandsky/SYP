@@ -1,8 +1,7 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
-import com.googlecode.protobuf.format.XmlFormat;
 import testbench.bootloader.Printer;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,20 +13,24 @@ import java.io.IOException;
  */
 public class DateiLaden
 {
-    public MassendatenProtos.Massendaten ladeMassendaten(int id)
+    private final String saveDirectory = "protodaten/";
+    private final String saveMassendatenDirectory = saveDirectory+"massendaten/";
+    private final String saveStruktdatenDirectory = saveDirectory+"struktdaten/";
+    private final String fileName = "ByteArray";
+
+    public Massendaten ladeMassendaten(int id)
     {
-        MassendatenProtos.Massendaten m;
+        Massendaten m;
         Printer.println("Laden der PROTOBYTE Datei");
-        File file = new File("massendaten" + id + ".protobyte");
+        File file = new File(saveMassendatenDirectory + id + "/" + fileName + ".protobyte");
         FileInputStream fin = null;
         try
         {
-            // create FileInputStream object
             fin = new FileInputStream(file);
             Printer.println("Paketgroeße in KB: "+file.length()/1000);
             byte fileContent[] = new byte[(int) file.length()];
             fin.read(fileContent);
-            m = MassendatenProtos.Massendaten.parseFrom(fileContent);
+            m = Massendaten.parseFrom(fileContent);
         }
         catch (FileNotFoundException e)
         {
