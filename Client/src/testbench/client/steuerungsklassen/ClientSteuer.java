@@ -43,6 +43,14 @@ public class ClientSteuer {
         if(byteMessage != null) {
             Massendaten m = byteMessage.getMassendaten();
             dServe.schreibeMassendaten(m);
+            System.out.println(m.getInfo().getDef().getAbtastrate());
+            System.out.println(m.getInfo().getDef().getFrequencyCount());
+            for(Massendaten.Frequency f : m.getInfo().getDef().getFrequencyList()) {
+                System.out.println(f.getAmplitude());
+                System.out.println(f.getFrequency());
+                System.out.println(f.getPhase());
+            }
+            System.out.println("PaketGroeße in KB: "+m.getInfo().getPaketGroesseKB());
             return new MassendatenGrenz(m);
         }
         return null;

@@ -37,9 +37,7 @@ public class Generator
         }
 
         massenDefBuilder.setAbtastrate(config.getAbtastrate());
-
         massenInfoBuilder.setDef(massenDefBuilder);
-        massendatenBuilder.setInfo(massenInfoBuilder);
 
         long longWert; //für progressbar
         double temp; //für progressbar
@@ -75,6 +73,14 @@ public class Generator
 
         Printer.printProgressBar(100, 0.5f);
 
+        // 1: einmal builden, um die serializesSize zu bekommen
+        Massendaten tempMdaten = massendatenBuilder.build();
+
+        // 2: serializesSize in info eintragen
+        massenInfoBuilder.setPaketGroesseKB(tempMdaten.getSerializedSize()/1000);
+        massendatenBuilder.setInfo(massenInfoBuilder);
+
+        // 3: nochmal builden
         return massendatenBuilder.build();
     }
 
