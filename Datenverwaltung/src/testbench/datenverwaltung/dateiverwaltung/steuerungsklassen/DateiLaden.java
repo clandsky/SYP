@@ -24,6 +24,7 @@ public class DateiLaden
         {
             // create FileInputStream object
             fin = new FileInputStream(file);
+            Printer.println("Paketgroeße in KB: "+file.length()/1000);
             byte fileContent[] = new byte[(int) file.length()];
             fin.read(fileContent);
             m = MassendatenProtos.Massendaten.parseFrom(fileContent);

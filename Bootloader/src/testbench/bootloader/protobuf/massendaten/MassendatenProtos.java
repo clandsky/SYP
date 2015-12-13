@@ -35,6 +35,19 @@ public final class MassendatenProtos {
      */
     testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.WerteOrBuilder getValueOrBuilder(
         int index);
+
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    boolean hasInfo();
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo getInfo();
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder getInfoOrBuilder();
   }
   /**
    * Protobuf type {@code testbench.Massendaten}
@@ -96,6 +109,19 @@ public final class MassendatenProtos {
               value_.add(input.readMessage(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte.PARSER, extensionRegistry));
               break;
             }
+            case 18: {
+              testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = info_.toBuilder();
+              }
+              info_ = input.readMessage(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(info_);
+                info_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -143,11 +169,11 @@ public final class MassendatenProtos {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required double number = 1;</code>
+       * <code>optional double number = 1;</code>
        */
       boolean hasNumber();
       /**
-       * <code>required double number = 1;</code>
+       * <code>optional double number = 1;</code>
        */
       double getNumber();
     }
@@ -251,13 +277,13 @@ public final class MassendatenProtos {
       public static final int NUMBER_FIELD_NUMBER = 1;
       private double number_;
       /**
-       * <code>required double number = 1;</code>
+       * <code>optional double number = 1;</code>
        */
       public boolean hasNumber() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required double number = 1;</code>
+       * <code>optional double number = 1;</code>
        */
       public double getNumber() {
         return number_;
@@ -272,10 +298,6 @@ public final class MassendatenProtos {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasNumber()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -474,10 +496,6 @@ public final class MassendatenProtos {
         }
 
         public final boolean isInitialized() {
-          if (!hasNumber()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -502,19 +520,19 @@ public final class MassendatenProtos {
 
         private double number_ ;
         /**
-         * <code>required double number = 1;</code>
+         * <code>optional double number = 1;</code>
          */
         public boolean hasNumber() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required double number = 1;</code>
+         * <code>optional double number = 1;</code>
          */
         public double getNumber() {
           return number_;
         }
         /**
-         * <code>required double number = 1;</code>
+         * <code>optional double number = 1;</code>
          */
         public Builder setNumber(double value) {
           bitField0_ |= 0x00000001;
@@ -523,7 +541,7 @@ public final class MassendatenProtos {
           return this;
         }
         /**
-         * <code>required double number = 1;</code>
+         * <code>optional double number = 1;</code>
          */
         public Builder clearNumber() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -543,6 +561,2138 @@ public final class MassendatenProtos {
       // @@protoc_insertion_point(class_scope:testbench.Massendaten.Werte)
     }
 
+    public interface FrequencyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:testbench.Massendaten.Frequency)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional double frequency = 1;</code>
+       */
+      boolean hasFrequency();
+      /**
+       * <code>optional double frequency = 1;</code>
+       */
+      double getFrequency();
+
+      /**
+       * <code>optional double phase = 2;</code>
+       */
+      boolean hasPhase();
+      /**
+       * <code>optional double phase = 2;</code>
+       */
+      double getPhase();
+
+      /**
+       * <code>optional double amplitude = 3;</code>
+       */
+      boolean hasAmplitude();
+      /**
+       * <code>optional double amplitude = 3;</code>
+       */
+      double getAmplitude();
+    }
+    /**
+     * Protobuf type {@code testbench.Massendaten.Frequency}
+     */
+    public static final class Frequency extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:testbench.Massendaten.Frequency)
+        FrequencyOrBuilder {
+      // Use Frequency.newBuilder() to construct.
+      private Frequency(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private Frequency(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final Frequency defaultInstance;
+      public static Frequency getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public Frequency getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Frequency(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 9: {
+                bitField0_ |= 0x00000001;
+                frequency_ = input.readDouble();
+                break;
+              }
+              case 17: {
+                bitField0_ |= 0x00000002;
+                phase_ = input.readDouble();
+                break;
+              }
+              case 25: {
+                bitField0_ |= 0x00000004;
+                amplitude_ = input.readDouble();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_Frequency_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_Frequency_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<Frequency> PARSER =
+          new com.google.protobuf.AbstractParser<Frequency>() {
+        public Frequency parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Frequency(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Frequency> getParserForType() {
+        return PARSER;
+      }
+
+      private int bitField0_;
+      public static final int FREQUENCY_FIELD_NUMBER = 1;
+      private double frequency_;
+      /**
+       * <code>optional double frequency = 1;</code>
+       */
+      public boolean hasFrequency() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional double frequency = 1;</code>
+       */
+      public double getFrequency() {
+        return frequency_;
+      }
+
+      public static final int PHASE_FIELD_NUMBER = 2;
+      private double phase_;
+      /**
+       * <code>optional double phase = 2;</code>
+       */
+      public boolean hasPhase() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional double phase = 2;</code>
+       */
+      public double getPhase() {
+        return phase_;
+      }
+
+      public static final int AMPLITUDE_FIELD_NUMBER = 3;
+      private double amplitude_;
+      /**
+       * <code>optional double amplitude = 3;</code>
+       */
+      public boolean hasAmplitude() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional double amplitude = 3;</code>
+       */
+      public double getAmplitude() {
+        return amplitude_;
+      }
+
+      private void initFields() {
+        frequency_ = 0D;
+        phase_ = 0D;
+        amplitude_ = 0D;
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeDouble(1, frequency_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeDouble(2, phase_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeDouble(3, amplitude_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(1, frequency_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(2, phase_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(3, amplitude_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code testbench.Massendaten.Frequency}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:testbench.Massendaten.Frequency)
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_Frequency_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_Frequency_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder.class);
+        }
+
+        // Construct using testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          frequency_ = 0D;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          phase_ = 0D;
+          bitField0_ = (bitField0_ & ~0x00000002);
+          amplitude_ = 0D;
+          bitField0_ = (bitField0_ & ~0x00000004);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_Frequency_descriptor;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency getDefaultInstanceForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.getDefaultInstance();
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency build() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency buildPartial() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency result = new testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.frequency_ = frequency_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.phase_ = phase_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.amplitude_ = amplitude_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency) {
+            return mergeFrom((testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency other) {
+          if (other == testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.getDefaultInstance()) return this;
+          if (other.hasFrequency()) {
+            setFrequency(other.getFrequency());
+          }
+          if (other.hasPhase()) {
+            setPhase(other.getPhase());
+          }
+          if (other.hasAmplitude()) {
+            setAmplitude(other.getAmplitude());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private double frequency_ ;
+        /**
+         * <code>optional double frequency = 1;</code>
+         */
+        public boolean hasFrequency() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional double frequency = 1;</code>
+         */
+        public double getFrequency() {
+          return frequency_;
+        }
+        /**
+         * <code>optional double frequency = 1;</code>
+         */
+        public Builder setFrequency(double value) {
+          bitField0_ |= 0x00000001;
+          frequency_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional double frequency = 1;</code>
+         */
+        public Builder clearFrequency() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          frequency_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        private double phase_ ;
+        /**
+         * <code>optional double phase = 2;</code>
+         */
+        public boolean hasPhase() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional double phase = 2;</code>
+         */
+        public double getPhase() {
+          return phase_;
+        }
+        /**
+         * <code>optional double phase = 2;</code>
+         */
+        public Builder setPhase(double value) {
+          bitField0_ |= 0x00000002;
+          phase_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional double phase = 2;</code>
+         */
+        public Builder clearPhase() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          phase_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        private double amplitude_ ;
+        /**
+         * <code>optional double amplitude = 3;</code>
+         */
+        public boolean hasAmplitude() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional double amplitude = 3;</code>
+         */
+        public double getAmplitude() {
+          return amplitude_;
+        }
+        /**
+         * <code>optional double amplitude = 3;</code>
+         */
+        public Builder setAmplitude(double value) {
+          bitField0_ |= 0x00000004;
+          amplitude_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional double amplitude = 3;</code>
+         */
+        public Builder clearAmplitude() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          amplitude_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:testbench.Massendaten.Frequency)
+      }
+
+      static {
+        defaultInstance = new Frequency(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:testbench.Massendaten.Frequency)
+    }
+
+    public interface MassenDefOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:testbench.Massendaten.MassenDef)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional double abtastrate = 1;</code>
+       */
+      boolean hasAbtastrate();
+      /**
+       * <code>optional double abtastrate = 1;</code>
+       */
+      double getAbtastrate();
+
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> 
+          getFrequencyList();
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency getFrequency(int index);
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      int getFrequencyCount();
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      java.util.List<? extends testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder> 
+          getFrequencyOrBuilderList();
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder getFrequencyOrBuilder(
+          int index);
+    }
+    /**
+     * Protobuf type {@code testbench.Massendaten.MassenDef}
+     */
+    public static final class MassenDef extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:testbench.Massendaten.MassenDef)
+        MassenDefOrBuilder {
+      // Use MassenDef.newBuilder() to construct.
+      private MassenDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private MassenDef(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final MassenDef defaultInstance;
+      public static MassenDef getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public MassenDef getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private MassenDef(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 9: {
+                bitField0_ |= 0x00000001;
+                abtastrate_ = input.readDouble();
+                break;
+              }
+              case 18: {
+                if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                  frequency_ = new java.util.ArrayList<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency>();
+                  mutable_bitField0_ |= 0x00000002;
+                }
+                frequency_.add(input.readMessage(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.PARSER, extensionRegistry));
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            frequency_ = java.util.Collections.unmodifiableList(frequency_);
+          }
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenDef_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenDef_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<MassenDef> PARSER =
+          new com.google.protobuf.AbstractParser<MassenDef>() {
+        public MassenDef parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new MassenDef(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<MassenDef> getParserForType() {
+        return PARSER;
+      }
+
+      private int bitField0_;
+      public static final int ABTASTRATE_FIELD_NUMBER = 1;
+      private double abtastrate_;
+      /**
+       * <code>optional double abtastrate = 1;</code>
+       */
+      public boolean hasAbtastrate() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional double abtastrate = 1;</code>
+       */
+      public double getAbtastrate() {
+        return abtastrate_;
+      }
+
+      public static final int FREQUENCY_FIELD_NUMBER = 2;
+      private java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> frequency_;
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      public java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> getFrequencyList() {
+        return frequency_;
+      }
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      public java.util.List<? extends testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder> 
+          getFrequencyOrBuilderList() {
+        return frequency_;
+      }
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      public int getFrequencyCount() {
+        return frequency_.size();
+      }
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency getFrequency(int index) {
+        return frequency_.get(index);
+      }
+      /**
+       * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder getFrequencyOrBuilder(
+          int index) {
+        return frequency_.get(index);
+      }
+
+      private void initFields() {
+        abtastrate_ = 0D;
+        frequency_ = java.util.Collections.emptyList();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeDouble(1, abtastrate_);
+        }
+        for (int i = 0; i < frequency_.size(); i++) {
+          output.writeMessage(2, frequency_.get(i));
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(1, abtastrate_);
+        }
+        for (int i = 0; i < frequency_.size(); i++) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, frequency_.get(i));
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code testbench.Massendaten.MassenDef}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:testbench.Massendaten.MassenDef)
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenDef_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenDef_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder.class);
+        }
+
+        // Construct using testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getFrequencyFieldBuilder();
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          abtastrate_ = 0D;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          if (frequencyBuilder_ == null) {
+            frequency_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            frequencyBuilder_.clear();
+          }
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenDef_descriptor;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDefaultInstanceForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef build() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef buildPartial() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef result = new testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.abtastrate_ = abtastrate_;
+          if (frequencyBuilder_ == null) {
+            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              frequency_ = java.util.Collections.unmodifiableList(frequency_);
+              bitField0_ = (bitField0_ & ~0x00000002);
+            }
+            result.frequency_ = frequency_;
+          } else {
+            result.frequency_ = frequencyBuilder_.build();
+          }
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef) {
+            return mergeFrom((testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef other) {
+          if (other == testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance()) return this;
+          if (other.hasAbtastrate()) {
+            setAbtastrate(other.getAbtastrate());
+          }
+          if (frequencyBuilder_ == null) {
+            if (!other.frequency_.isEmpty()) {
+              if (frequency_.isEmpty()) {
+                frequency_ = other.frequency_;
+                bitField0_ = (bitField0_ & ~0x00000002);
+              } else {
+                ensureFrequencyIsMutable();
+                frequency_.addAll(other.frequency_);
+              }
+              onChanged();
+            }
+          } else {
+            if (!other.frequency_.isEmpty()) {
+              if (frequencyBuilder_.isEmpty()) {
+                frequencyBuilder_.dispose();
+                frequencyBuilder_ = null;
+                frequency_ = other.frequency_;
+                bitField0_ = (bitField0_ & ~0x00000002);
+                frequencyBuilder_ = 
+                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                     getFrequencyFieldBuilder() : null;
+              } else {
+                frequencyBuilder_.addAllMessages(other.frequency_);
+              }
+            }
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private double abtastrate_ ;
+        /**
+         * <code>optional double abtastrate = 1;</code>
+         */
+        public boolean hasAbtastrate() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional double abtastrate = 1;</code>
+         */
+        public double getAbtastrate() {
+          return abtastrate_;
+        }
+        /**
+         * <code>optional double abtastrate = 1;</code>
+         */
+        public Builder setAbtastrate(double value) {
+          bitField0_ |= 0x00000001;
+          abtastrate_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional double abtastrate = 1;</code>
+         */
+        public Builder clearAbtastrate() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          abtastrate_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        private java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> frequency_ =
+          java.util.Collections.emptyList();
+        private void ensureFrequencyIsMutable() {
+          if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+            frequency_ = new java.util.ArrayList<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency>(frequency_);
+            bitField0_ |= 0x00000002;
+           }
+        }
+
+        private com.google.protobuf.RepeatedFieldBuilder<
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder> frequencyBuilder_;
+
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> getFrequencyList() {
+          if (frequencyBuilder_ == null) {
+            return java.util.Collections.unmodifiableList(frequency_);
+          } else {
+            return frequencyBuilder_.getMessageList();
+          }
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public int getFrequencyCount() {
+          if (frequencyBuilder_ == null) {
+            return frequency_.size();
+          } else {
+            return frequencyBuilder_.getCount();
+          }
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency getFrequency(int index) {
+          if (frequencyBuilder_ == null) {
+            return frequency_.get(index);
+          } else {
+            return frequencyBuilder_.getMessage(index);
+          }
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder setFrequency(
+            int index, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency value) {
+          if (frequencyBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureFrequencyIsMutable();
+            frequency_.set(index, value);
+            onChanged();
+          } else {
+            frequencyBuilder_.setMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder setFrequency(
+            int index, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder builderForValue) {
+          if (frequencyBuilder_ == null) {
+            ensureFrequencyIsMutable();
+            frequency_.set(index, builderForValue.build());
+            onChanged();
+          } else {
+            frequencyBuilder_.setMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder addFrequency(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency value) {
+          if (frequencyBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureFrequencyIsMutable();
+            frequency_.add(value);
+            onChanged();
+          } else {
+            frequencyBuilder_.addMessage(value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder addFrequency(
+            int index, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency value) {
+          if (frequencyBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureFrequencyIsMutable();
+            frequency_.add(index, value);
+            onChanged();
+          } else {
+            frequencyBuilder_.addMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder addFrequency(
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder builderForValue) {
+          if (frequencyBuilder_ == null) {
+            ensureFrequencyIsMutable();
+            frequency_.add(builderForValue.build());
+            onChanged();
+          } else {
+            frequencyBuilder_.addMessage(builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder addFrequency(
+            int index, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder builderForValue) {
+          if (frequencyBuilder_ == null) {
+            ensureFrequencyIsMutable();
+            frequency_.add(index, builderForValue.build());
+            onChanged();
+          } else {
+            frequencyBuilder_.addMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder addAllFrequency(
+            java.lang.Iterable<? extends testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency> values) {
+          if (frequencyBuilder_ == null) {
+            ensureFrequencyIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, frequency_);
+            onChanged();
+          } else {
+            frequencyBuilder_.addAllMessages(values);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder clearFrequency() {
+          if (frequencyBuilder_ == null) {
+            frequency_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            onChanged();
+          } else {
+            frequencyBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public Builder removeFrequency(int index) {
+          if (frequencyBuilder_ == null) {
+            ensureFrequencyIsMutable();
+            frequency_.remove(index);
+            onChanged();
+          } else {
+            frequencyBuilder_.remove(index);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder getFrequencyBuilder(
+            int index) {
+          return getFrequencyFieldBuilder().getBuilder(index);
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder getFrequencyOrBuilder(
+            int index) {
+          if (frequencyBuilder_ == null) {
+            return frequency_.get(index);  } else {
+            return frequencyBuilder_.getMessageOrBuilder(index);
+          }
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public java.util.List<? extends testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder> 
+             getFrequencyOrBuilderList() {
+          if (frequencyBuilder_ != null) {
+            return frequencyBuilder_.getMessageOrBuilderList();
+          } else {
+            return java.util.Collections.unmodifiableList(frequency_);
+          }
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder addFrequencyBuilder() {
+          return getFrequencyFieldBuilder().addBuilder(
+              testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder addFrequencyBuilder(
+            int index) {
+          return getFrequencyFieldBuilder().addBuilder(
+              index, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .testbench.Massendaten.Frequency frequency = 2;</code>
+         */
+        public java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder> 
+             getFrequencyBuilderList() {
+          return getFrequencyFieldBuilder().getBuilderList();
+        }
+        private com.google.protobuf.RepeatedFieldBuilder<
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder> 
+            getFrequencyFieldBuilder() {
+          if (frequencyBuilder_ == null) {
+            frequencyBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.FrequencyOrBuilder>(
+                    frequency_,
+                    ((bitField0_ & 0x00000002) == 0x00000002),
+                    getParentForChildren(),
+                    isClean());
+            frequency_ = null;
+          }
+          return frequencyBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:testbench.Massendaten.MassenDef)
+      }
+
+      static {
+        defaultInstance = new MassenDef(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:testbench.Massendaten.MassenDef)
+    }
+
+    public interface MassenInfoOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:testbench.Massendaten.MassenInfo)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      boolean hasId();
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      int getId();
+
+      /**
+       * <code>optional int32 paketGroesseKB = 2;</code>
+       */
+      boolean hasPaketGroesseKB();
+      /**
+       * <code>optional int32 paketGroesseKB = 2;</code>
+       */
+      int getPaketGroesseKB();
+
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      boolean hasPath();
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      java.lang.String getPath();
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      com.google.protobuf.ByteString
+          getPathBytes();
+
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      boolean hasDef();
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef();
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder();
+    }
+    /**
+     * Protobuf type {@code testbench.Massendaten.MassenInfo}
+     */
+    public static final class MassenInfo extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:testbench.Massendaten.MassenInfo)
+        MassenInfoOrBuilder {
+      // Use MassenInfo.newBuilder() to construct.
+      private MassenInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private MassenInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final MassenInfo defaultInstance;
+      public static MassenInfo getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public MassenInfo getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private MassenInfo(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+                bitField0_ |= 0x00000001;
+                id_ = input.readInt32();
+                break;
+              }
+              case 16: {
+                bitField0_ |= 0x00000002;
+                paketGroesseKB_ = input.readInt32();
+                break;
+              }
+              case 26: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000004;
+                path_ = bs;
+                break;
+              }
+              case 34: {
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder subBuilder = null;
+                if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                  subBuilder = def_.toBuilder();
+                }
+                def_ = input.readMessage(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.PARSER, extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(def_);
+                  def_ = subBuilder.buildPartial();
+                }
+                bitField0_ |= 0x00000008;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<MassenInfo> PARSER =
+          new com.google.protobuf.AbstractParser<MassenInfo>() {
+        public MassenInfo parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new MassenInfo(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<MassenInfo> getParserForType() {
+        return PARSER;
+      }
+
+      private int bitField0_;
+      public static final int ID_FIELD_NUMBER = 1;
+      private int id_;
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+
+      public static final int PAKETGROESSEKB_FIELD_NUMBER = 2;
+      private int paketGroesseKB_;
+      /**
+       * <code>optional int32 paketGroesseKB = 2;</code>
+       */
+      public boolean hasPaketGroesseKB() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 paketGroesseKB = 2;</code>
+       */
+      public int getPaketGroesseKB() {
+        return paketGroesseKB_;
+      }
+
+      public static final int PATH_FIELD_NUMBER = 3;
+      private java.lang.Object path_;
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      public boolean hasPath() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            path_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string path = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int DEF_FIELD_NUMBER = 4;
+      private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef def_;
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      public boolean hasDef() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef() {
+        return def_;
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder() {
+        return def_;
+      }
+
+      private void initFields() {
+        id_ = 0;
+        paketGroesseKB_ = 0;
+        path_ = "";
+        def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeInt32(1, id_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeInt32(2, paketGroesseKB_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeBytes(3, getPathBytes());
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeMessage(4, def_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(1, id_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(2, paketGroesseKB_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(3, getPathBytes());
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, def_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code testbench.Massendaten.MassenInfo}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:testbench.Massendaten.MassenInfo)
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenInfo_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.class, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder.class);
+        }
+
+        // Construct using testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getDefFieldBuilder();
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          id_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          paketGroesseKB_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000002);
+          path_ = "";
+          bitField0_ = (bitField0_ & ~0x00000004);
+          if (defBuilder_ == null) {
+            def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
+          } else {
+            defBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000008);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.internal_static_testbench_Massendaten_MassenInfo_descriptor;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo getDefaultInstanceForType() {
+          return testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance();
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo build() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo buildPartial() {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo result = new testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.id_ = id_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.paketGroesseKB_ = paketGroesseKB_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.path_ = path_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          if (defBuilder_ == null) {
+            result.def_ = def_;
+          } else {
+            result.def_ = defBuilder_.build();
+          }
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo) {
+            return mergeFrom((testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo other) {
+          if (other == testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance()) return this;
+          if (other.hasId()) {
+            setId(other.getId());
+          }
+          if (other.hasPaketGroesseKB()) {
+            setPaketGroesseKB(other.getPaketGroesseKB());
+          }
+          if (other.hasPath()) {
+            bitField0_ |= 0x00000004;
+            path_ = other.path_;
+            onChanged();
+          }
+          if (other.hasDef()) {
+            mergeDef(other.getDef());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int id_ ;
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public boolean hasId() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public int getId() {
+          return id_;
+        }
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public Builder setId(int value) {
+          bitField0_ |= 0x00000001;
+          id_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public Builder clearId() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          id_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int paketGroesseKB_ ;
+        /**
+         * <code>optional int32 paketGroesseKB = 2;</code>
+         */
+        public boolean hasPaketGroesseKB() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional int32 paketGroesseKB = 2;</code>
+         */
+        public int getPaketGroesseKB() {
+          return paketGroesseKB_;
+        }
+        /**
+         * <code>optional int32 paketGroesseKB = 2;</code>
+         */
+        public Builder setPaketGroesseKB(int value) {
+          bitField0_ |= 0x00000002;
+          paketGroesseKB_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 paketGroesseKB = 2;</code>
+         */
+        public Builder clearPaketGroesseKB() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          paketGroesseKB_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object path_ = "";
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public boolean hasPath() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public java.lang.String getPath() {
+          java.lang.Object ref = path_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              path_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+            getPathBytes() {
+          java.lang.Object ref = path_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            path_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public Builder setPath(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+          path_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public Builder clearPath() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          path_ = getDefaultInstance().getPath();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string path = 3;</code>
+         */
+        public Builder setPathBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+          path_ = value;
+          onChanged();
+          return this;
+        }
+
+        private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
+        private com.google.protobuf.SingleFieldBuilder<
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder> defBuilder_;
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public boolean hasDef() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef() {
+          if (defBuilder_ == null) {
+            return def_;
+          } else {
+            return defBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public Builder setDef(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef value) {
+          if (defBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            def_ = value;
+            onChanged();
+          } else {
+            defBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000008;
+          return this;
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public Builder setDef(
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder builderForValue) {
+          if (defBuilder_ == null) {
+            def_ = builderForValue.build();
+            onChanged();
+          } else {
+            defBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000008;
+          return this;
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public Builder mergeDef(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef value) {
+          if (defBuilder_ == null) {
+            if (((bitField0_ & 0x00000008) == 0x00000008) &&
+                def_ != testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance()) {
+              def_ =
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.newBuilder(def_).mergeFrom(value).buildPartial();
+            } else {
+              def_ = value;
+            }
+            onChanged();
+          } else {
+            defBuilder_.mergeFrom(value);
+          }
+          bitField0_ |= 0x00000008;
+          return this;
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public Builder clearDef() {
+          if (defBuilder_ == null) {
+            def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
+            onChanged();
+          } else {
+            defBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000008);
+          return this;
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder getDefBuilder() {
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return getDefFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder() {
+          if (defBuilder_ != null) {
+            return defBuilder_.getMessageOrBuilder();
+          } else {
+            return def_;
+          }
+        }
+        /**
+         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder> 
+            getDefFieldBuilder() {
+          if (defBuilder_ == null) {
+            defBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder>(
+                    getDef(),
+                    getParentForChildren(),
+                    isClean());
+            def_ = null;
+          }
+          return defBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:testbench.Massendaten.MassenInfo)
+      }
+
+      static {
+        defaultInstance = new MassenInfo(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:testbench.Massendaten.MassenInfo)
+    }
+
+    private int bitField0_;
     public static final int VALUE_FIELD_NUMBER = 1;
     private java.util.List<testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte> value_;
     /**
@@ -578,8 +2728,30 @@ public final class MassendatenProtos {
       return value_.get(index);
     }
 
+    public static final int INFO_FIELD_NUMBER = 2;
+    private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo info_;
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    public boolean hasInfo() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo getInfo() {
+      return info_;
+    }
+    /**
+     * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+     */
+    public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder getInfoOrBuilder() {
+      return info_;
+    }
+
     private void initFields() {
       value_ = java.util.Collections.emptyList();
+      info_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -587,12 +2759,6 @@ public final class MassendatenProtos {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      for (int i = 0; i < getValueCount(); i++) {
-        if (!getValue(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -602,6 +2768,9 @@ public final class MassendatenProtos {
       getSerializedSize();
       for (int i = 0; i < value_.size(); i++) {
         output.writeMessage(1, value_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(2, info_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -615,6 +2784,10 @@ public final class MassendatenProtos {
       for (int i = 0; i < value_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, value_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, info_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -726,6 +2899,7 @@ public final class MassendatenProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getValueFieldBuilder();
+          getInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -740,6 +2914,12 @@ public final class MassendatenProtos {
         } else {
           valueBuilder_.clear();
         }
+        if (infoBuilder_ == null) {
+          info_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance();
+        } else {
+          infoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -767,6 +2947,7 @@ public final class MassendatenProtos {
       public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten buildPartial() {
         testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten result = new testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (valueBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             value_ = java.util.Collections.unmodifiableList(value_);
@@ -776,6 +2957,15 @@ public final class MassendatenProtos {
         } else {
           result.value_ = valueBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (infoBuilder_ == null) {
+          result.info_ = info_;
+        } else {
+          result.info_ = infoBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -817,17 +3007,14 @@ public final class MassendatenProtos {
             }
           }
         }
+        if (other.hasInfo()) {
+          mergeInfo(other.getInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        for (int i = 0; i < getValueCount(); i++) {
-          if (!getValue(i).isInitialized()) {
-            
-            return false;
-          }
-        }
         return true;
       }
 
@@ -1090,6 +3277,122 @@ public final class MassendatenProtos {
         return valueBuilder_;
       }
 
+      private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo info_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder> infoBuilder_;
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public boolean hasInfo() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo getInfo() {
+        if (infoBuilder_ == null) {
+          return info_;
+        } else {
+          return infoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public Builder setInfo(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo value) {
+        if (infoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          info_ = value;
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public Builder setInfo(
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder builderForValue) {
+        if (infoBuilder_ == null) {
+          info_ = builderForValue.build();
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public Builder mergeInfo(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo value) {
+        if (infoBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              info_ != testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance()) {
+            info_ =
+              testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.newBuilder(info_).mergeFrom(value).buildPartial();
+          } else {
+            info_ = value;
+          }
+          onChanged();
+        } else {
+          infoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public Builder clearInfo() {
+        if (infoBuilder_ == null) {
+          info_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          infoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder getInfoBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder getInfoOrBuilder() {
+        if (infoBuilder_ != null) {
+          return infoBuilder_.getMessageOrBuilder();
+        } else {
+          return info_;
+        }
+      }
+      /**
+       * <code>optional .testbench.Massendaten.MassenInfo info = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder> 
+          getInfoFieldBuilder() {
+        if (infoBuilder_ == null) {
+          infoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfoOrBuilder>(
+                  getInfo(),
+                  getParentForChildren(),
+                  isClean());
+          info_ = null;
+        }
+        return infoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:testbench.Massendaten)
     }
 
@@ -1111,6 +3414,21 @@ public final class MassendatenProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_testbench_Massendaten_Werte_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_testbench_Massendaten_Frequency_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_testbench_Massendaten_Frequency_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_testbench_Massendaten_MassenDef_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_testbench_Massendaten_MassenDef_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_testbench_Massendaten_MassenInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_testbench_Massendaten_MassenInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1120,11 +3438,19 @@ public final class MassendatenProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021massenDaten.proto\022\ttestbench\"S\n\013Massen" +
-      "daten\022+\n\005value\030\001 \003(\0132\034.testbench.Massend" +
-      "aten.Werte\032\027\n\005Werte\022\016\n\006number\030\001 \002(\001B>\n)t" +
-      "estbench.bootloader.protobuf.massendaten" +
-      "B\021MassendatenProtos"
+      "\n\021massenDaten.proto\022\ttestbench\"\213\003\n\013Masse" +
+      "ndaten\022+\n\005value\030\001 \003(\0132\034.testbench.Massen" +
+      "daten.Werte\022/\n\004info\030\002 \001(\0132!.testbench.Ma" +
+      "ssendaten.MassenInfo\032\027\n\005Werte\022\016\n\006number\030" +
+      "\001 \001(\001\032@\n\tFrequency\022\021\n\tfrequency\030\001 \001(\001\022\r\n" +
+      "\005phase\030\002 \001(\001\022\021\n\tamplitude\030\003 \001(\001\032T\n\tMasse" +
+      "nDef\022\022\n\nabtastrate\030\001 \001(\001\0223\n\tfrequency\030\002 " +
+      "\003(\0132 .testbench.Massendaten.Frequency\032m\n" +
+      "\nMassenInfo\022\n\n\002id\030\001 \001(\005\022\026\n\016paketGroesseK" +
+      "B\030\002 \001(\005\022\014\n\004path\030\003 \001(\t\022-\n\003def\030\004 \001(\0132 .tes",
+      "tbench.Massendaten.MassenDefB>\n)testbenc" +
+      "h.bootloader.protobuf.massendatenB\021Masse" +
+      "ndatenProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1143,13 +3469,31 @@ public final class MassendatenProtos {
     internal_static_testbench_Massendaten_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_testbench_Massendaten_descriptor,
-        new java.lang.String[] { "Value", });
+        new java.lang.String[] { "Value", "Info", });
     internal_static_testbench_Massendaten_Werte_descriptor =
       internal_static_testbench_Massendaten_descriptor.getNestedTypes().get(0);
     internal_static_testbench_Massendaten_Werte_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_testbench_Massendaten_Werte_descriptor,
         new java.lang.String[] { "Number", });
+    internal_static_testbench_Massendaten_Frequency_descriptor =
+      internal_static_testbench_Massendaten_descriptor.getNestedTypes().get(1);
+    internal_static_testbench_Massendaten_Frequency_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_testbench_Massendaten_Frequency_descriptor,
+        new java.lang.String[] { "Frequency", "Phase", "Amplitude", });
+    internal_static_testbench_Massendaten_MassenDef_descriptor =
+      internal_static_testbench_Massendaten_descriptor.getNestedTypes().get(2);
+    internal_static_testbench_Massendaten_MassenDef_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_testbench_Massendaten_MassenDef_descriptor,
+        new java.lang.String[] { "Abtastrate", "Frequency", });
+    internal_static_testbench_Massendaten_MassenInfo_descriptor =
+      internal_static_testbench_Massendaten_descriptor.getNestedTypes().get(3);
+    internal_static_testbench_Massendaten_MassenInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_testbench_Massendaten_MassenInfo_descriptor,
+        new java.lang.String[] { "Id", "PaketGroesseKB", "Path", "Def", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

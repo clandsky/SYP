@@ -75,10 +75,7 @@ public class RestResourceServer {
             e.printStackTrace();
         }
         if (id>0) {
-            Splitter splitter = new Splitter();
-            List<Massendaten> data = splitter.splitMassendaten(steuer.ladeMassendaten(id), 1000, 0.5f);
-
-            ByteMessage bm = new ByteMessage(splitter.combineByteArrays(data));
+            ByteMessage bm = new ByteMessage(steuer.ladeMassendaten(id));
 
             return Response.status(200).entity(bm).build();
         }

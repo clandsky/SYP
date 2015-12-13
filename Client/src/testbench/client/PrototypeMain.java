@@ -91,7 +91,7 @@ public class PrototypeMain {
                     break;
 
                 case "4":
-                    cSteuer.generiereZufallsMassendaten(120000000);
+                    cSteuer.generiereZufallsMassendaten(20000000);
                     break;
 
                 case "5":

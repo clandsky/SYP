@@ -2,33 +2,47 @@ package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.StruktDef;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
 
 import static java.lang.Math.*;
 
 /**
- * Created by CGrings on 29.11.2015.
+ * Created by CGrings on 29.11.2015
  */
 public class Generator
 {
     private final boolean _DEBUG = true;
 
-    public MassendatenProtos.Massendaten generatorMassData(MassenDef config, int fileSize)
+    public Massendaten generatorMassData(MassenDef config, int fileSize)
     {
 
         double pos = 0.0f;
         int typeSize = 8;
 
-        Printer p = new Printer();
         int procent = 0;
 
-        MassendatenProtos.Massendaten.Builder builder = MassendatenProtos.Massendaten.newBuilder();
+        Massendaten.Builder massendatenBuilder = Massendaten.newBuilder();
+        Massendaten.MassenInfo.Builder massenInfoBuilder = Massendaten.MassenInfo.newBuilder();
+        Massendaten.MassenDef.Builder massenDefBuilder = Massendaten.MassenDef.newBuilder();
 
-        long longWert;
-        double temp;
+        for(Frequency f : config.getFrequencies()) {
+            Massendaten.Frequency.Builder freqBuilder = Massendaten.Frequency.newBuilder();
+            freqBuilder.setFrequency(f.getFrequency());
+            freqBuilder.setAmplitude(f.getAmplitude());
+            freqBuilder.setPhase(f.getPhase());
+            massenDefBuilder.addFrequency(freqBuilder);
+        }
+
+        massenDefBuilder.setAbtastrate(config.getAbtastrate());
+
+        massenInfoBuilder.setDef(massenDefBuilder);
+        massendatenBuilder.setInfo(massenInfoBuilder);
+
+        long longWert; //für progressbar
+        double temp; //für progressbar
 
         // Schleife um die Daten zu generieren:
         for (int i = 0; i < fileSize / typeSize; i++)
@@ -49,28 +63,27 @@ public class Generator
                 if (procent != temp)
                 {
                     procent = (int)temp;
-                    p.printProgressBar((int)temp, 0.5f);
+                    Printer.printProgressBar((int)temp, 0.5f);
                 }
             }
             
-            builder.addValue(MassendatenProtos.Massendaten.Werte.newBuilder().setNumber(value));
+            massendatenBuilder.addValue(Massendaten.Werte.newBuilder().setNumber(value));
 
             // erhöhen der Position der Abtastung
             pos += config.getAbtastrate();
         }
 
-        p.printProgressBar(100, 0.5f);
-        MassendatenProtos.Massendaten massendaten = builder.build();
+        Printer.printProgressBar(100, 0.5f);
 
-        return massendaten;
+        return massendatenBuilder.build();
     }
 
-    public StruktdatenProtos.Struktdaten generatorDeepStructure(StruktDef struktDef)
+    public Struktdaten generatorDeepStructure(StruktDef struktDef)
     {
-        StruktdatenProtos.Struktdaten.Builder structBuilder = StruktdatenProtos.Struktdaten.newBuilder();
-        StruktdatenProtos.Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder = StruktdatenProtos.Struktdaten.SelAIDNameUnitID.newBuilder();
-        StruktdatenProtos.Struktdaten.AIDName.Builder aIDNameBuilder = StruktdatenProtos.Struktdaten.AIDName.newBuilder();
-        StruktdatenProtos.Struktdaten.LongLong.Builder longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
+        Struktdaten.Builder structBuilder = Struktdaten.newBuilder();
+        Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder = Struktdaten.SelAIDNameUnitID.newBuilder();
+        Struktdaten.AIDName.Builder aIDNameBuilder = Struktdaten.AIDName.newBuilder();
+        Struktdaten.LongLong.Builder longLong = Struktdaten.LongLong.newBuilder();
 
         longLong.setLow(300);
         longLong.setHigh(300);
@@ -82,7 +95,7 @@ public class Generator
         selAIDNameUnitIDBuilder.setAidname(aIDNameBuilder);
 
 
-        longLong = StruktdatenProtos.Struktdaten.LongLong.newBuilder();
+        longLong = Struktdaten.LongLong.newBuilder();
         longLong.setLow(300);
         longLong.setHigh(300);
         selAIDNameUnitIDBuilder.setUnitid(longLong);
