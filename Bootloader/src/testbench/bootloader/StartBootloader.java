@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
  * Created by Chrizzle Manizzle on 10.12.2015
  */
 public class StartBootloader extends JFrame {
-    public static String programType = "none";
-
     private JButton serverButton;
     private JPanel panel1;
     private JButton clientButton;
@@ -32,7 +30,6 @@ public class StartBootloader extends JFrame {
                 try {
                     setVisible(false);
                     server.startComponent();
-                    programType = "Server";
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -45,7 +42,6 @@ public class StartBootloader extends JFrame {
                 try {
                     setVisible(false);
                     client.startComponent();
-                    programType = "Client";
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -58,7 +54,6 @@ public class StartBootloader extends JFrame {
                 try {
                     setVisible(false);
                     generator.startComponent();
-                    programType = "Generator";
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

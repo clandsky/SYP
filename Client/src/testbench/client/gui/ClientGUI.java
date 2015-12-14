@@ -2,8 +2,7 @@ package testbench.client.gui;
 
 import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
-import testbench.bootloader.grenz.StruktdatenGrenz;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.bootloader.service.StaticHolder;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.ClientConfig;
@@ -20,8 +19,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,9 +93,6 @@ public class ClientGUI extends JFrame {
     private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
-
-    public static SwingWorker<Integer, Integer> activeWorker = null;
-    public static int transferSize;
 
     /* ############## RESSOURCEN PFADE ################ */
     private final String IMAGEFOLDER = "/resources/images/";
@@ -349,17 +343,17 @@ public class ClientGUI extends JFrame {
                 String text = idLabelDown.getText();
 
                 if(!text.equals("/")) {
-                    transferSize = getSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
-                    if(activeWorker == null) {
+                    StaticHolder.currentTransferSize = getSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
+                    if(StaticHolder.activeWorker == null) {
                         try {
                             SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                    ClientGUI.activeWorker = this;
+                                    StaticHolder.activeWorker = this;
                                     MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
                                     if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
                                     else JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS);
-                                    ClientGUI.activeWorker = null;
+                                    StaticHolder.activeWorker = null;
                                     return null;
                                 }
                             };
@@ -376,16 +370,16 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
-                    if(activeWorker == null) {
+                    if(StaticHolder.activeWorker == null) {
                         SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
                             @Override
                             protected Integer doInBackground() throws Exception {
-                                ClientGUI.activeWorker = this;
+                                StaticHolder.activeWorker = this;
                                 MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(Integer.valueOf(idLabelUp.getText()));
                                 boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                 if(success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
                                 else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
-                                ClientGUI.activeWorker = null;
+                                StaticHolder.activeWorker = null;
                                 return null;
                             }
                         };
