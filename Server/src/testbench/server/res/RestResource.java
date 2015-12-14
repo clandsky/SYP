@@ -76,14 +76,20 @@ public class RestResource {
             massendaten = daten.getMassendaten();
             double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             Printer.println("Letztes erhaltenes Element: "+d);
+            if (s.schreibeMassendaten(massendaten)){
+                Printer.println("[SUCCESS] Massendaten erzeugt... Response 'Test'");
+                return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
+            }
+            else {
+                Printer.println("[ERROR] Massendaten konnten nicht erzeugt werden...");
+                return Response.status(200).entity("[ERROR] Massendaten konnten nicht erzeugt werden...").build();
+            }
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+            String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
+            Printer.println(res);
+            return Response.status(200).entity(res).build();
         }
-        Printer.println("[SUCCESS] Massendaten erzeugt... Response 'Test'");
-        Runtime r = Runtime.getRuntime();
-        r.gc();
-        r.freeMemory();
-        return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
     }
 
     @GET
@@ -108,6 +114,8 @@ public class RestResource {
         }catch (Exception e)
         {
             e.printStackTrace();
+            Printer.println("[FATAL] Pfad besitzt ungültige ID!");
+            return null;
         }
         if (id>0) {
             Struktdaten struktdaten = s.ladeStruktdaten(id);
@@ -122,26 +130,36 @@ public class RestResource {
             }
         }
         else{
-            Printer.println("[ERROR] Could not Resolve Path!");
+            Printer.println("[FATAL] Could not Resolve Path!");
             return null;
         }
     }
 
     @POST
-    @Path("massendaten")
+    @Path("struktdaten")
     @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public Response postStruktdaten(ByteMessage daten) {
         Printer.println("[POST] on /Struktdaten");
         Struktdaten struktdaten = null;
         try {
             struktdaten = daten.getStruktdaten();
+            if (s.schreibeStruktdaten(struktdaten))
+            {
+                Printer.println("[SUCCESS] Strukturierte Daten erzeugt...");
+                return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();
+            }
+            else
+            {
+                String res = "[ERROR] Fehler beim Speichern der Struktdaten...";
+                Printer.println(res);
+                return Response.status(200).entity(res).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
+            Printer.println(res);
+            return Response.status(200).entity(res).build();
+
         }
-        Printer.println("[SUCCESS] Strukturierte Daten erzeugt...");
-        Runtime r = Runtime.getRuntime();
-        r.gc();
-        r.freeMemory();
-        return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();
     }
 }
