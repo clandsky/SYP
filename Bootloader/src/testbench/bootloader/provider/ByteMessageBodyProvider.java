@@ -77,6 +77,7 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
             if(pWindow != null) {
                 pWindow.setProgressBar(100);
                 pWindow.enableOkButton(true);
+                pWindow.dispose();
             }
             /* /CLIENT PROGRESSBAR */
 
@@ -102,22 +103,29 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     public void writeTo(ByteMessage m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         byte[] bArray = m.getByteArray();
 
+        /* CLIENT PROGRESSBAR */
         ProgressBarWindow pWindow = null;
         if(StartBootloader.programType.equalsIgnoreCase("Client")) pWindow = new ProgressBarWindow("Protobuf Testbench Fortschritt", false, bArray.length / 1000);
+        /* /CLIENT PROGRESSBAR */
 
         for (int i = 0; i < bArray.length; i++) {
+            /* CLIENT PROGRESSBAR */
             if(pWindow != null) {
                 if(i%(int)(bArray.length / 1000000) == 0) {
                     pWindow.setProgressBar((int) (((long)(i)*100) / bArray.length));
                 }
             }
+            /* /CLIENT PROGRESSBAR */
             entityStream.write(bArray[i]);
         }
 
+        /* CLIENT PROGRESSBAR */
         if(pWindow != null) {
             pWindow.setProgressBar(100);
             pWindow.enableOkButton(true);
+            pWindow.dispose();
         }
+        /* /CLIENT PROGRESSBAR */
     }
 
 }
