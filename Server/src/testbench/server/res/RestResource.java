@@ -6,6 +6,7 @@ package testbench.server.res;
 
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
@@ -39,7 +40,7 @@ public class RestResource {
     @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
     public ByteMessage getMassendatenById(@PathParam("id")String number) throws IOException {
         Printer.println("[GET] Massendaten/"+number);
-        int id=1;
+        int id=0;
         try
         {
             id=Integer.parseInt(number);
@@ -82,7 +83,7 @@ public class RestResource {
         Runtime r = Runtime.getRuntime();
         r.gc();
         r.freeMemory();
-        return Response.status(200).entity("Test...").build();
+        return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
     }
 
     @GET
@@ -93,5 +94,54 @@ public class RestResource {
         List<StruktInfo> list = s.ladeStruktListe();
         Printer.println("[SUCCESS] Returning Struktdaten-Liste...");
         return list;
+    }
+
+    @GET
+    @Path("struktdaten/{id}")
+    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+    public ByteMessage getStruktdatenById(@PathParam("id")String number) throws IOException {
+        Printer.println("[GET] Struktdaten/"+number);
+        int id=0;
+        try
+        {
+            id=Integer.parseInt(number);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        if (id>0) {
+            Struktdaten struktdaten = s.ladeStruktdaten(id);
+            if(struktdaten!=null) {
+                Printer.println("Strukturierte Daten geladen...");
+                Printer.println("[SUCCESS] Returning ByteArray...");
+                return new ByteMessage(struktdaten);
+            }
+            else {
+                Printer.println("[ERROR] File not Found!");
+                return null;
+            }
+        }
+        else{
+            Printer.println("[ERROR] Could not Resolve Path!");
+            return null;
+        }
+    }
+
+    @POST
+    @Path("massendaten")
+    @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
+    public Response postStruktdaten(ByteMessage daten) {
+        Printer.println("[POST] on /Struktdaten");
+        Struktdaten struktdaten = null;
+        try {
+            struktdaten = daten.getStruktdaten();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Printer.println("[SUCCESS] Strukturierte Daten erzeugt...");
+        Runtime r = Runtime.getRuntime();
+        r.gc();
+        r.freeMemory();
+        return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();
     }
 }
