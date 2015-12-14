@@ -37,7 +37,6 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
     public Message readFrom(Class<Message> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         if (Massendaten.class.isAssignableFrom(aClass)) {
             Message message;
-
             byte[] buffer = new byte[8192];
             int counter = 0;
             int bytesRead;
@@ -82,5 +81,4 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
             StaticHolder.currentTransferCount = i; //für progressbar client
         }
     }
-
 }
