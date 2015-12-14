@@ -22,11 +22,11 @@ public class ServerGUI extends JFrame{
     private JFrame frame;
 
     public ServerGUI () throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        /*final KonsoleOutputStream tAOS= new KonsoleOutputStream(consoleOut,34);
+        final KonsoleOutputStream tAOS= new KonsoleOutputStream(consoleOut,34);
         PrintStream con=new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);
-        */
+
         sh=new SessionHandler();
         setContentPane(panel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -35,7 +35,7 @@ public class ServerGUI extends JFrame{
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //tAOS.clear();
+                tAOS.clear();
                 Printer.printWelcome();
 
             }

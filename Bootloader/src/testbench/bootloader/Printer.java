@@ -34,13 +34,13 @@ import java.util.Calendar;
     }
     public static void printWelcome()
     {
-        System.out.println("********************************************************************************");
-        System.out.println("*                                                                              *");
-        System.out.println("*                        Protobuf/REST-Testbench Server                        *");
-        System.out.println("* created by Christoph Landsky, Sven Riedel, Carsten Grings und Murat Tasdemir *");
-        System.out.println("*                                                                              *");
-        System.out.println("********************************************************************************");
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("******************************************************************************************");
+        System.out.println("*                                                                                        *");
+        System.out.println("*                               Protobuf/REST-Testbench Server                           *");
+        System.out.println("*      created by Christoph Landsky, Sven Riedel, Carsten Grings und Murat Tasdemir      *");
+        System.out.println("*                                                                                        *");
+        System.out.println("******************************************************************************************");
+        System.out.println("------------------------------------------------------------------------------------------");
     }
     public static void printProgressBar(int progress, float size) {
         if(size == 0f) return;

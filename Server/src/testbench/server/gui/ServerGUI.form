@@ -8,9 +8,9 @@
     <properties>
       <autoscrolls value="true"/>
       <background color="-3487030"/>
-      <maximumSize width="650" height="500"/>
-      <minimumSize width="650" height="500"/>
-      <preferredSize width="650" height="500"/>
+      <maximumSize width="655" height="500"/>
+      <minimumSize width="655" height="500"/>
+      <preferredSize width="655" height="500"/>
     </properties>
     <border type="none" title="Server-Log"/>
     <children>

@@ -17,21 +17,22 @@ public class SessionHandler {
     private HttpServer server;
     private int port=8000;
     private boolean running=false;
+    private String uri;
 
 
     public boolean startServer() {
         if (!running) {
             try {
-                String uri = "http://localhost:" + port + "/";
+                this.uri = "http://localhost:" + port + "/";
                 this.endpoint = new URI(uri);
                 Printer.println("Configurating ResourceConfig with MessageBodyProvider... ");
                 this.rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class);
                 Printer.println("Booting Server -> http://localhost:"+port+"/");
                 this.server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
-                Printer.println("Server is running... ");
+                Printer.println("Server gestartet... ");
                 this.running=true;
             } catch (Exception e) {
-                Printer.println("Server konnte nicht gestartet werden. Bitte prüfen Sie,\nob eine weitere Instanz bereits läuft...");
+                Printer.println("Server konnte nicht gestartet werden. \nBitte prüfen Sie, ob eine weitere Instanz bereits läuft...");
             }
         }
         else
@@ -46,7 +47,7 @@ public class SessionHandler {
             try {
                 this.server.stop(0);
                 this.running=false;
-                Printer.println("Server gestopt");
+                Printer.println("Server gestoppt...");
             } catch (Exception e) {
                 e.printStackTrace();
                 Printer.println("Server konnte nicht beendet werden...");

@@ -14,6 +14,7 @@ import testbench.server.steuerungsklassen.ServerSteuer;
 
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
@@ -25,12 +26,17 @@ public class RestResource {
     ServerSteuer s = new ServerSteuer();
 
     @GET
+    @Path("server")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response helloServer(){
+        return Response.status(200).build();
+    }
+    @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
     public List<MassenInfo> getMassendatenListe() throws IOException {
         Printer.println("[GET] Massendaten/");
         List<MassenInfo> list = s.ladeMassenListe();
-        Printer.println("[SUCCESS] Returning Massendaten-Liste...");
         return list;
     }
 
@@ -45,14 +51,12 @@ public class RestResource {
             id=Integer.parseInt(number);
         }catch (Exception e)
         {
-            e.printStackTrace();
             Printer.println("[FATAL] Pfad besitzt ungültige ID!");
             return null;
         }
         if (id>0) {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
-                Printer.println("[SUCCESS] Massendaten geladen...");
                 return massendaten;
             }
             else {
@@ -76,7 +80,6 @@ public class RestResource {
             Printer.println("Letztes erhaltenes Element: "+d);
             */
             if (s.schreibeMassendaten(daten)){
-                Printer.println("[SUCCESS] Massendaten erzeugt...");
                 return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
             }
             else {
@@ -84,7 +87,6 @@ public class RestResource {
                 return Response.status(200).entity("[ERROR] Massendaten konnten nicht erzeugt werden...").build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
             Printer.println(res);
             return Response.status(200).entity(res).build();
@@ -97,7 +99,6 @@ public class RestResource {
     public List<StruktInfo> getStruktdatenListe() throws IOException {
         Printer.println("[GET] Struktdaten/");
         List<StruktInfo> list = s.ladeStruktListe();
-        Printer.println("[SUCCESS] Returning Struktdaten-Liste...");
         return list;
     }
 
@@ -112,14 +113,12 @@ public class RestResource {
             id=Integer.parseInt(number);
         }catch (Exception e)
         {
-            e.printStackTrace();
             Printer.println("[FATAL] Pfad besitzt ungültige ID!");
             return null;
         }
         if (id>0) {
             Struktdaten struktdaten = s.ladeStruktdaten(id);
             if(struktdaten!=null) {
-                Printer.println("[SUCCESS] Strukturierte Daten geladen...");
                 return struktdaten;
             }
             else {
@@ -141,7 +140,6 @@ public class RestResource {
         try {
             if (s.schreibeStruktdaten(daten))
             {
-                Printer.println("[SUCCESS] Strukturierte Daten erzeugt...");
                 return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();
             }
             else
@@ -151,11 +149,9 @@ public class RestResource {
                 return Response.status(200).entity(res).build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
             Printer.println(res);
             return Response.status(200).entity(res).build();
-
         }
     }
 }
