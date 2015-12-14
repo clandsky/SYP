@@ -109,6 +109,9 @@ public class ClientGUI extends JFrame {
     private final String NO_EMPTY_SPACES_STRING = "Bitte Leerstellen und Sonderzeichen aus der IP entfernen!";
     private final String DATA_UPLOADED_SUCCESS = "Daten wurden erfolgreich hochgeladen!";
     private final String DATA_DOWNLOAD_SUCCESS = "Daten wurden erfolgreich heruntergeladen!";
+    private final String WAIT_FOR_TRANSFER = "Bitte warten bis die aktuelle Übertragung beendet wurde!";
+    private final String CHOOSE_FROM_LIST = "Bitte Daten aus der Liste wählen!";
+    private final String SERVER_OFFLINE = "Server ist offline!";
 
     /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
@@ -180,8 +183,13 @@ public class ClientGUI extends JFrame {
         groesseLabelDown.setText("/");
         massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
         struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
-        fillMassenTable(massenTableDownload,massenInfoServer);
-        fillStruktTable(struktTableDownload,struktInfoServer);
+
+        if(massenInfoServer==null || struktInfoServer==null) {
+            JOptionPane.showMessageDialog(frame, SERVER_OFFLINE);
+        } else {
+            fillMassenTable(massenTableDownload,massenInfoServer);
+            fillStruktTable(struktTableDownload,struktInfoServer);
+        }
     }
 
     private void refreshUpload() {
@@ -363,8 +371,8 @@ public class ClientGUI extends JFrame {
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
-                    } else JOptionPane.showMessageDialog(frame, "Bitte warten bis die aktuelle Übertragung beendet wurde!");
-                } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
+                    } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
             }
         });
         hochladenButton.addActionListener(new ActionListener() {
@@ -388,8 +396,8 @@ public class ClientGUI extends JFrame {
                                 }
                             };
                             StaticHolder.activeWorker.execute();
-                    } else JOptionPane.showMessageDialog(frame, "Bitte warten bis die aktuelle Übertragung beendet wurde!");
-                } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
+                    } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
             }
         });
         changeIpButton.addActionListener(new ActionListener() {
@@ -439,7 +447,6 @@ public class ClientGUI extends JFrame {
             if(datenList.size() > 0) {
                 if(datenList.get(0).getClass() == MassenInfoGrenz.class) {
                     for(Object o : datenList) {
-                        MassenInfoGrenz mGrenz = (MassenInfoGrenz)o;
                         if(((MassenInfoGrenz) o).getId() == id) {
                             return ((MassenInfoGrenz) o).getPaketGroesseKB();
                         }
@@ -489,7 +496,7 @@ public class ClientGUI extends JFrame {
                 value = (long)(StaticHolder.currentTransferCount)*100;
                 pWindow.setProgressBar((int)(value/StaticHolder.currentTransferSizeByte));
                 try {
-                    sleep(100);
+                    sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -22,7 +22,7 @@ import java.util.List;
  *   Created by Sven Riedel (30.11.2015)
  */
 public class HTTPClient {
-    private boolean printStackTrace = true;
+    private boolean printStackTrace = false;
     private static HTTPClient httpClient;
     private Client client;
     private WebTarget target;
@@ -78,13 +78,26 @@ public class HTTPClient {
     }
 
     public List<MassenInfo> empfangeMassendatenInfoListe() {
-        List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
-        return mInfo;
+        try {
+            List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+            return mInfo;
+        } catch(Exception e) {
+            Printer.println("Exception in HTTPClient/empfangeMassendatenInfoListe : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
+            return null;
+        }
     }
 
     public List<StruktInfo> empfangeStruktdatenInfoListe() {
-        List<StruktInfo> sInfo = target.path( STRUKTDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<StruktInfo>>() {} );
-        return sInfo;
+
+        try {
+            List<StruktInfo> sInfo = target.path( STRUKTDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<StruktInfo>>() {} );
+            return sInfo;
+        } catch(Exception e) {
+            Printer.println("Exception in HTTPClient/empfangeStruktdatenInfoListe : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
+            return null;
+        }
     }
 
     public String getServerIP() {

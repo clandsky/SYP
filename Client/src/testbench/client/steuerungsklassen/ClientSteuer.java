@@ -82,7 +82,7 @@ public class ClientSteuer {
         List<MassenInfoGrenz> massenInfoGrenzList = new ArrayList<>();
         if(massenInfoList != null) {
             for(MassenInfo m : massenInfoList) massenInfoGrenzList.add(new MassenInfoGrenz(m));
-        }
+        } else return null;
         return massenInfoGrenzList;
     }
 
@@ -95,7 +95,7 @@ public class ClientSteuer {
         List<StruktInfoGrenz> struktInfoGrenzList = new ArrayList<>();
         if(struktInfoList != null) {
             for(StruktInfo s : struktInfoList) struktInfoGrenzList.add(new StruktInfoGrenz(s));
-        }
+        } else return null;
         return struktInfoGrenzList;
     }
 
