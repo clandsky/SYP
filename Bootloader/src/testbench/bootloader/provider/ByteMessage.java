@@ -26,6 +26,10 @@ public class ByteMessage {
         this.byteArray = readFully(inputStream);
     }
 
+    public ByteMessage(byte[] byteArray) {
+        this.byteArray = byteArray;
+    }
+
     public Massendaten getMassendaten() {
         try {
             return Massendaten.parseFrom(byteArray);
