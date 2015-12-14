@@ -47,12 +47,13 @@ public class RestResource {
         }catch (Exception e)
         {
             e.printStackTrace();
+            Printer.println("[FATAL] Pfad besitzt ungültige ID!");
+            return null;
         }
         if (id>0) {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
-                Printer.println("Massendaten geladen...");
-                Printer.println("[SUCCESS] Returning ByteArray...");
+                Printer.println("[SUCCESS] Massendaten geladen...");
                 return new ByteMessage(massendaten);
             }
             else {
@@ -61,7 +62,7 @@ public class RestResource {
             }
         }
         else{
-            Printer.println("[ERROR] Could not Resolve Path!");
+            Printer.println("[FATAL] Could not Resolve Path!");
             return null;
         }
     }
@@ -120,8 +121,7 @@ public class RestResource {
         if (id>0) {
             Struktdaten struktdaten = s.ladeStruktdaten(id);
             if(struktdaten!=null) {
-                Printer.println("Strukturierte Daten geladen...");
-                Printer.println("[SUCCESS] Returning ByteArray...");
+                Printer.println("[SUCCESS] Strukturierte Daten geladen...");
                 return new ByteMessage(struktdaten);
             }
             else {
