@@ -1,15 +1,7 @@
 package testbench.bootloader.provider;
 
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
-import com.sun.javafx.tk.Toolkit;
-import testbench.bootloader.Printer;
-import testbench.bootloader.StartBootloader;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.client.gui.ClientGUI;
-import testbench.client.gui.ProgressBarWindow;
+import testbench.bootloader.service.StaticHolder;
 
-import javax.swing.*;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -25,7 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.concurrent.ExecutionException;
 
 /**
  *   Created by Christoph Landsky and Sven Riedel (30.11.2015)
@@ -43,11 +34,15 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     public ByteMessage readFrom(Class<ByteMessage> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         if (ByteMessage.class.isAssignableFrom(aClass)) {
             byte[] buffer = new byte[8192];
+            int counter = 0;
             int bytesRead;
+            int size = StaticHolder.currentTransferSizeByte;
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
+                counter += bytesRead;
+                StaticHolder.currentTransferCount = counter;
                 output.write(buffer, 0, bytesRead);
             }
 
@@ -73,12 +68,10 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     public void writeTo(ByteMessage m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         byte[] bArray = m.getByteArray();
 
-
         for (int i = 0; i < bArray.length; i++) {
             entityStream.write(bArray[i]);
+            StaticHolder.currentTransferCount = i;
         }
-
-
     }
 
 }
