@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
  */
 public class StartServer {
     ServerGUI serverGUI;
-    URI endpoint;
+
     ResourceConfig rc;
     HttpServer server;
 
@@ -28,21 +28,11 @@ public class StartServer {
         serverGUI.setTitle("Testbench-Protobuf/REST Server");
         serverGUI.setVisible(true);
         serverGUI.setResizable(false);
-        initServer();
-
+        Printer.printWelcome();
     }
 
-    private void initServer() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
+    private static void initServer() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
 
-        Printer.printWelcome();
-        String uri = "http://localhost:8000/";
-
-        endpoint = new URI(uri);
-        Printer.println("Configurating ResourceConfig with MessageBodyProvider... ");
-        rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
-        Printer.println("Booting Server... ");
-        server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
-        Printer.println("Server is running... ");
     }
 
     public JFrame getGUI(){

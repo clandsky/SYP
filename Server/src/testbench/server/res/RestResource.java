@@ -75,10 +75,11 @@ public class RestResource {
         Massendaten massendaten = null;
         try {
             massendaten = daten.getMassendaten();
-            double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
+            /*double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             Printer.println("Letztes erhaltenes Element: "+d);
+            */
             if (s.schreibeMassendaten(massendaten)){
-                Printer.println("[SUCCESS] Massendaten erzeugt... Response 'Test'");
+                Printer.println("[SUCCESS] Massendaten erzeugt...");
                 return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
             }
             else {

@@ -39,7 +39,6 @@ import java.util.Calendar;
         System.out.println("*                        Protobuf/REST-Testbench Server                        *");
         System.out.println("* created by Christoph Landsky, Sven Riedel, Carsten Grings und Murat Tasdemir *");
         System.out.println("*                                                                              *");
-        System.out.println("*                                                                              *");
         System.out.println("********************************************************************************");
         System.out.println("--------------------------------------------------------------------------------");
     }
