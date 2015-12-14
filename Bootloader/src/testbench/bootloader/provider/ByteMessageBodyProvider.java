@@ -36,13 +36,12 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
             byte[] buffer = new byte[8192];
             int counter = 0;
             int bytesRead;
-            int size = StaticHolder.currentTransferSizeByte;
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 counter += bytesRead;
-                StaticHolder.currentTransferCount = counter;
+                StaticHolder.currentTransferCount = counter; //für progressbar client
                 output.write(buffer, 0, bytesRead);
             }
 
@@ -70,7 +69,7 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
 
         for (int i = 0; i < bArray.length; i++) {
             entityStream.write(bArray[i]);
-            StaticHolder.currentTransferCount = i;
+            StaticHolder.currentTransferCount = i; //für progressbar client
         }
     }
 
