@@ -27,6 +27,7 @@ public class HTTPClient {
 
     private final String MASSENDATEN = "massendaten";
     private final String STRUKTDATEN = "struktdaten";
+    private final String HELLO_SERVER = "server";
 
     private HTTPClient(){}
 
@@ -39,9 +40,12 @@ public class HTTPClient {
         client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
         target = client.target(adresse);
 
-        List<MassenInfo> massenInfoList = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+        Response response = target.path( HELLO_SERVER ).request().accept( MediaTypeExt.TEXT_PLAIN ).get();
 
-        if(massenInfoList != null) return true;
+        if(response != null) {
+            if(response.getStatus() == 200) return true;
+        }
+
         return false;
     }
 
