@@ -1,10 +1,12 @@
 package testbench.bootloader.provider;
 
 import com.google.protobuf.Message;
+import com.sun.javafx.tk.Toolkit;
 import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.client.gui.ProgressBarWindow;
 
+import javax.swing.*;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -27,7 +29,6 @@ import java.lang.reflect.Type;
 @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
 @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
 public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, MessageBodyWriter<ByteMessage> {
-
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
         return true;
@@ -58,9 +59,12 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     public void writeTo(ByteMessage m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         byte[] bArray = m.getByteArray();
+        //long longWert;
 
         for(int i=0 ; i<bArray.length ; i++) {
+         //   longWert = ((long)(i))*100;
             entityStream.write(bArray[i]);
         }
     }
+
 }
