@@ -10,5 +10,5 @@ public class StaticHolder {
     /* FOR CLIENT */
     public static int currentTransferProgress = 0;
     public static SwingWorker<Integer, Integer> activeWorker = null;
-    public static int currentTransferSize;
+    public static int currentTransferSizeByte = 0;
 }

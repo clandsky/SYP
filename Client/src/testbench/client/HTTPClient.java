@@ -22,6 +22,7 @@ import java.util.List;
  *   Created by Sven Riedel (30.11.2015)
  */
 public class HTTPClient {
+    private boolean printStackTrace = true;
     private static HTTPClient httpClient;
     private Client client;
     private WebTarget target;
@@ -51,6 +52,7 @@ public class HTTPClient {
             return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/sendeMassendaten : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
             return null;
         }
     }
@@ -66,6 +68,7 @@ public class HTTPClient {
             return byteMessage;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/empfangeMassendaten : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
             return null;
         }
     }

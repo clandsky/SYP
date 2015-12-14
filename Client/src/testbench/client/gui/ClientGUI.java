@@ -343,21 +343,23 @@ public class ClientGUI extends JFrame {
                 String text = idLabelDown.getText();
 
                 if(!text.equals("/")) {
-                    StaticHolder.currentTransferSize = getSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
+                    StaticHolder.currentTransferSizeByte = getSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
                     if(StaticHolder.activeWorker == null) {
                         try {
-                            SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
+                            StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                    StaticHolder.activeWorker = this;
+                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow("test",true));
+                                    pThread.start();
                                     MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
                                     if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
                                     else JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS);
+                                    pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
                             };
-                            worker.execute();
+                            StaticHolder.activeWorker.execute();
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
@@ -370,20 +372,26 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
+                    //StaticHolder.currentTransferSizeByte = getSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
                     if(StaticHolder.activeWorker == null) {
-                        SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
-                            @Override
-                            protected Integer doInBackground() throws Exception {
-                                StaticHolder.activeWorker = this;
-                                MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(Integer.valueOf(idLabelUp.getText()));
-                                boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
-                                if(success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
-                                else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
-                                StaticHolder.activeWorker = null;
-                                return null;
-                            }
-                        };
-                        worker.execute();
+                        try {
+                            StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
+                                @Override
+                                protected Integer doInBackground() throws Exception {
+                                    //          ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow("test",false));
+                                    //         pThread.start();
+                                    boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
+                                    if (success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
+                                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    //        pThread.abbrechen();
+                                    StaticHolder.activeWorker = null;
+                                    return null;
+                                }
+                            };
+                            StaticHolder.activeWorker.execute();
+                        } catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
                     } else JOptionPane.showMessageDialog(frame, "Bitte warten bis die aktuelle Übertragung beendet wurde!");
                 } else JOptionPane.showMessageDialog(frame, "Bitte Daten aus der Liste wählen!");
             }
@@ -468,6 +476,32 @@ public class ClientGUI extends JFrame {
                     }
                 } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
             }
+        }
+    }
+
+    public class ProgressBarThread extends Thread {
+        private ProgressBarWindow pWindow;
+        private boolean abbruch;
+
+        public ProgressBarThread(ProgressBarWindow pWindow) {
+            this.pWindow = pWindow;
+        }
+
+        public void run() {
+            while(!abbruch) {
+                pWindow.setProgressBar(StaticHolder.currentTransferProgress);
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void abbrechen() {
+            abbruch = true;
+            StaticHolder.currentTransferProgress = 0;
+            pWindow.dispose();
         }
     }
 }
