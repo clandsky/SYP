@@ -4,11 +4,9 @@ import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import testbench.bootloader.Printer;
-import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.res.RestResource;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  *   Created by Christoph Landsky (30.11.2015)
@@ -27,7 +25,7 @@ public class SessionHandler {
                 String uri = "http://localhost:" + port + "/";
                 this.endpoint = new URI(uri);
                 Printer.println("Configurating ResourceConfig with MessageBodyProvider... ");
-                this.rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
+                this.rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class);
                 Printer.println("Booting Server -> http://localhost:"+port+"/");
                 this.server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
                 Printer.println("Server is running... ");

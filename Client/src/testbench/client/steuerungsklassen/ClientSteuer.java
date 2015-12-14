@@ -8,7 +8,6 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.provider.ByteMessage;
 import testbench.client.HTTPClient;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
@@ -40,9 +39,9 @@ public class ClientSteuer {
     public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
         Printer.println("Empfange Massendaten mit ID: "+id);
 
-        ByteMessage byteMessage = httpClient.empfangeMassendaten(id);
-        if(byteMessage != null) {
-            Massendaten m = byteMessage.getMassendaten();
+        Massendaten m = httpClient.empfangeMassendaten(id);
+
+        if(m != null) {
             dServe.schreibeMassendaten(m);
             Printer.println("Paketgroeße in KB: "+m.getInfo().getPaketGroesseKB());
             return new MassendatenGrenz(m);
@@ -60,7 +59,7 @@ public class ClientSteuer {
         Massendaten m = dServe.ladeMassendaten(id);
         Printer.println("Anzahl der verschickten Werte: "+String.valueOf(m.getValueCount()));
 
-        response = httpClient.sendeMassendaten(new ByteMessage(m));
+        response = httpClient.sendeMassendaten(m);
 
         if(response != null) {
             if(response.getStatus() == 200) return true;

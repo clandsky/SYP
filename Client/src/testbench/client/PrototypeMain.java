@@ -4,7 +4,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.bootloader.provider.ByteMessage;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.gui.ClientGUI;
 import testbench.client.service.ClientConfig;

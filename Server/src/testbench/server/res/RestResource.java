@@ -7,7 +7,6 @@ package testbench.server.res;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.bootloader.provider.ByteMessage;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.Printer;
@@ -37,8 +36,8 @@ public class RestResource {
 
     @GET
     @Path("massendaten/{id}")
-    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public ByteMessage getMassendatenById(@PathParam("id")String number) throws IOException {
+    @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
+    public Massendaten getMassendatenById(@PathParam("id")String number) throws IOException {
         Printer.println("[GET] Massendaten/"+number);
         int id=0;
         try
@@ -54,7 +53,7 @@ public class RestResource {
             Massendaten massendaten = s.ladeMassendaten(id);
             if(massendaten!=null) {
                 Printer.println("[SUCCESS] Massendaten geladen...");
-                return new ByteMessage(massendaten);
+                return massendaten;
             }
             else {
                 Printer.println("[ERROR] File not Found!");
@@ -69,16 +68,14 @@ public class RestResource {
 
     @POST
     @Path("massendaten")
-    @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public Response postMassendaten(ByteMessage daten) {
+    @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
+    public Response postMassendaten(Massendaten daten) {
         Printer.println("[POST] on /Massendaten");
-        Massendaten massendaten = null;
         try {
-            massendaten = daten.getMassendaten();
             /*double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
             Printer.println("Letztes erhaltenes Element: "+d);
             */
-            if (s.schreibeMassendaten(massendaten)){
+            if (s.schreibeMassendaten(daten)){
                 Printer.println("[SUCCESS] Massendaten erzeugt...");
                 return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
             }
@@ -106,8 +103,8 @@ public class RestResource {
 
     @GET
     @Path("struktdaten/{id}")
-    @Produces(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public ByteMessage getStruktdatenById(@PathParam("id")String number) throws IOException {
+    @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
+    public Struktdaten getStruktdatenById(@PathParam("id")String number) throws IOException {
         Printer.println("[GET] Struktdaten/"+number);
         int id=0;
         try
@@ -123,7 +120,7 @@ public class RestResource {
             Struktdaten struktdaten = s.ladeStruktdaten(id);
             if(struktdaten!=null) {
                 Printer.println("[SUCCESS] Strukturierte Daten geladen...");
-                return new ByteMessage(struktdaten);
+                return struktdaten;
             }
             else {
                 Printer.println("[ERROR] File not Found!");
@@ -138,13 +135,11 @@ public class RestResource {
 
     @POST
     @Path("struktdaten")
-    @Consumes(MediaTypeExt.APPLICATION_BYTEMESSAGE)
-    public Response postStruktdaten(ByteMessage daten) {
+    @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
+    public Response postStruktdaten(Struktdaten daten) {
         Printer.println("[POST] on /Struktdaten");
-        Struktdaten struktdaten = null;
         try {
-            struktdaten = daten.getStruktdaten();
-            if (s.schreibeStruktdaten(struktdaten))
+            if (s.schreibeStruktdaten(daten))
             {
                 Printer.println("[SUCCESS] Strukturierte Daten erzeugt...");
                 return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();

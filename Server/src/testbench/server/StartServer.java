@@ -3,7 +3,6 @@ package testbench.server;
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.gui.ServerGUI;
 import testbench.server.res.RestResource;
@@ -50,7 +49,7 @@ public class StartServer {
         String uri = "http://localhost:8000/";
         URI endpoint = new URI(uri);
         Printer.println("Configurating ResourceConfig with MessageBodyProvider... ");
-        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class);
+        ResourceConfig rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class);
         Printer.println("Booting Server... ");
         HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
         Printer.println("Server is running... ");

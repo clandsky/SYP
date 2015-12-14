@@ -3,9 +3,8 @@ package testbench.client;
 import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.bootloader.provider.ByteMessage;
-import testbench.bootloader.provider.ByteMessageBodyProvider;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 
@@ -14,7 +13,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -22,7 +20,7 @@ import java.util.List;
  *   Created by Sven Riedel (30.11.2015)
  */
 public class HTTPClient {
-    private boolean printStackTrace = false;
+    private boolean printStackTrace = true;
     private static HTTPClient httpClient;
     private Client client;
     private WebTarget target;
@@ -38,7 +36,7 @@ public class HTTPClient {
     }
 
     public boolean connect(String adresse) throws Exception {
-        client = ClientBuilder.newBuilder().register(ByteMessageBodyProvider.class).register(ProtoMessageBodyProvider.class).build();
+        client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
         target = client.target(adresse);
 
         List<MassenInfo> massenInfoList = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
@@ -47,9 +45,9 @@ public class HTTPClient {
         return false;
     }
 
-    public Response sendeMassendaten(ByteMessage m) {
+    public Response sendeMassendaten(Massendaten m) {
         try{
-            return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_BYTEMESSAGE), Response.class);
+            return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/sendeMassendaten : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
@@ -61,11 +59,11 @@ public class HTTPClient {
         return null;
     }
 
-    public ByteMessage empfangeMassendaten(int id) {
+    public Massendaten empfangeMassendaten(int id) {
         try{
-            Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_BYTEMESSAGE).get(Response.class);
-            ByteMessage byteMessage = res.readEntity(ByteMessage.class);
-            return byteMessage;
+            Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Response.class);
+            Massendaten m = res.readEntity(Massendaten.class);
+            return m;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/empfangeMassendaten : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
