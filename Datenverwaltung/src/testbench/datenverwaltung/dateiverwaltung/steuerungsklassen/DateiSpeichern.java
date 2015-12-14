@@ -29,7 +29,7 @@ public class DateiSpeichern
         Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
         try
         {
-
+            /* ############## massinfo erzeugung beginnt ####################### */
             /* erzeuge eine datei, die die informationen über die massendaten enthält (masseninfo) */
             /* die daten sind zwar auch in den massendaten enthalten, aber die zweite datei wird dennoch benötigt */
             MassenInfo.Builder massenInfoBuilder = MassenInfo.newBuilder();
