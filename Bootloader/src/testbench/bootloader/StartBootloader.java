@@ -47,6 +47,18 @@ public class StartBootloader extends JFrame {
                 }
             }
         });
+        datenverwaltungButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl generator = new testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl();
+                try {
+                    setVisible(false);
+                    generator.startComponent();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
 

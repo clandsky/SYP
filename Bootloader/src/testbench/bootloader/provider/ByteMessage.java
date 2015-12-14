@@ -1,14 +1,12 @@
 package testbench.bootloader.provider;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * Created by Sven Riedel on 07.12.2015

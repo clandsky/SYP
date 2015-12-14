@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by CGrings on 04.12.2015.
+ * Created by CGrings on 04.12.2015
  */
 @XmlRootElement
 public class MassenDef

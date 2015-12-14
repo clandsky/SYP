@@ -6,14 +6,13 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.masseninfo.MasseninfoProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
-import testbench.bootloader.entities.MassenInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -120,7 +119,7 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
         String[] fileNameArray;
         ArrayList<MassenInfo> massenInfoArrayList = new ArrayList<>();
 
-        MasseninfoProtos.Masseninfo protoInfo;
+        MassendatenProtos.Massendaten.MassenInfo protoInfo;
         MassenInfo mInfo;
         MassenDef mDef;
         ArrayList<Frequency> frequencyList;
@@ -136,9 +135,9 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
                     fin = new FileInputStream(mInfoFile);
                     byte fileContent[] = new byte[(int) mInfoFile.length()];
                     fin.read(fileContent);
-                    protoInfo = MasseninfoProtos.Masseninfo.parseFrom(fileContent);
+                    protoInfo = MassendatenProtos.Massendaten.MassenInfo.parseFrom(fileContent);
 
-                    for(MasseninfoProtos.Masseninfo.Frequency frequency : protoInfo.getDef().getFrequencyList()) {
+                    for(MassendatenProtos.Massendaten.Frequency frequency : protoInfo.getDef().getFrequencyList()) {
                         frequencyList.add(new Frequency(frequency.getFrequency(),frequency.getAmplitude(),frequency.getPhase()));
                     }
                     mDef = new MassenDef(protoInfo.getDef().getAbtastrate(), frequencyList);

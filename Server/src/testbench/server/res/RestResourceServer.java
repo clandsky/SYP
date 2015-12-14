@@ -4,7 +4,6 @@ package testbench.server.res;
  *   Created by Christoph Landsky (30.11.2015)
  */
 
-import testbench.bootloader.protobuf.Splitter;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.ByteMessage;
@@ -14,7 +13,6 @@ import testbench.server.steuerungsklassen.ServerSteuer;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 
 @Path("/")

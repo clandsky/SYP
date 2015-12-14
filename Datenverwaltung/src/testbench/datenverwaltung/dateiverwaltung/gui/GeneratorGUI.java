@@ -35,6 +35,8 @@ public class GeneratorGUI extends JFrame
         super("Generator GUI");
         setSize( new Dimension( 500, 300 ) );
         setContentPane( panelCentral );
+        setLocationRelativeTo(null);
+        setVisible(true);
 
         DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
         model.setColumnCount( 3 );

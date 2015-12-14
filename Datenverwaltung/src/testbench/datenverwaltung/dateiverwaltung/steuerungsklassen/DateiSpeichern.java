@@ -2,7 +2,9 @@ package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.Printer;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.masseninfo.MasseninfoProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,12 +32,12 @@ public class DateiSpeichern
 
             /* erzeuge eine datei, die die informationen über die massendaten enthält (masseninfo) */
             /* die daten sind zwar auch in den massendaten enthalten, aber die zweite datei wird dennoch benötigt */
-            MasseninfoProtos.Masseninfo.Builder massenInfoBuilder = MasseninfoProtos.Masseninfo.newBuilder();
-            MasseninfoProtos.Masseninfo.MassenDef.Builder massenDefBuilder = MasseninfoProtos.Masseninfo.MassenDef.newBuilder();
-            MasseninfoProtos.Masseninfo.Frequency.Builder frequencyBuilder;
+            MassenInfo.Builder massenInfoBuilder = MassenInfo.newBuilder();
+            MassenDef.Builder massenDefBuilder = MassenDef.newBuilder();
+            Frequency.Builder frequencyBuilder;
 
             for(Massendaten.Frequency frequency : massendaten.getInfo().getDef().getFrequencyList()) {
-                frequencyBuilder = MasseninfoProtos.Masseninfo.Frequency.newBuilder();
+                frequencyBuilder = Frequency.newBuilder();
                 frequencyBuilder.setFrequency(frequencyBuilder.getFrequency());
                 frequencyBuilder.setAmplitude(frequencyBuilder.getAmplitude());
                 frequencyBuilder.setPhase(frequencyBuilder.getPhase());
@@ -51,7 +53,7 @@ public class DateiSpeichern
             massenInfoBuilder.setPaketGroesseKB(massendaten.getInfo().getPaketGroesseKB());
             massenInfoBuilder.setPath(massendaten.getInfo().getPath());
 
-            MasseninfoProtos.Masseninfo masseninfo = massenInfoBuilder.build();
+            MassenInfo masseninfo = massenInfoBuilder.build();
             /* ############## massinfo erzeugung abgeschlossen ####################### */
 
             int massendatenID = massendaten.getInfo().getId();
@@ -79,11 +81,13 @@ public class DateiSpeichern
             fos = new FileOutputStream(massenDatenFile);
             fos.write(massendaten.toByteArray());
             fos.flush();
+            fos.close();
 
             //schreibe masseninfo datei
             fos = new FileOutputStream(massenInfoFile);
             fos.write(masseninfo.toByteArray());
             fos.flush();
+            fos.close();
             Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
         catch (IOException ioe)

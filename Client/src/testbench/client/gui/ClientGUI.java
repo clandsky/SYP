@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -87,6 +89,7 @@ public class ClientGUI extends JFrame {
     /* ############## VARIABLEN ################ */
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
     private ClientSteuer cSteuer = new ClientSteuer();
+    DecimalFormat df = new DecimalFormat();
     private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
@@ -132,8 +135,8 @@ public class ClientGUI extends JFrame {
 
             if (!mInfoGrenzList.isEmpty()) {
                 for (int i=0; i < mInfoGrenzList.size(); i++) {
-                    data[i][0] = mInfoGrenzList.get(i).getId();
-                    data[i][1] = mInfoGrenzList.get(i).getPaketGroesseKB();
+                    data[i][0] = i+1;
+                    data[i][1] = df.format(mInfoGrenzList.get(i).getPaketGroesseKB());
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -149,11 +152,11 @@ public class ClientGUI extends JFrame {
             DefaultTableModel model;
 
             Object[][] data = new Object[sInfoGrenzList.size()][2];
-            String[] columnNames = {"ID", "KiloByte"};
+            String[] columnNames = {"#", "KB"};
 
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
-                    data[i][0] = sInfoGrenzList.get(i).getId();
+                    data[i][0] = i+1;
                     //  data[i][1] = sInfoGrenzList.get(i).getPaketGroesseKB();
                 }
 
@@ -216,7 +219,7 @@ public class ClientGUI extends JFrame {
             MassenInfoGrenz mig = (MassenInfoGrenz) daten;
             artLabel.setText("Massendaten");
             idLabel.setText(String.valueOf(mig.getId()));
-            groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
+            groesseLabel.setText(String.valueOf(df.format(mig.getPaketGroesseKB())));
         }
         if(daten.getClass() == StruktInfoGrenz.class) {
             StruktInfoGrenz sig = (StruktInfoGrenz) daten;
