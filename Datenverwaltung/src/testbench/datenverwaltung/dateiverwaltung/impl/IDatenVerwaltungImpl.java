@@ -24,9 +24,9 @@ import java.util.ArrayList;
  */
 public class IDatenVerwaltungImpl implements IDatenVerwaltung
 {
-    private final String saveDirectory = "protodaten/";
-    private final String saveMassendatenDirectory = saveDirectory+"massendaten/";
-    private final String saveStruktdatenDirectory = saveDirectory+"struktdaten/";
+    private final String saveDirectory = "Protodaten/";
+    private final String saveMassendatenDirectory = saveDirectory+"Massendaten/";
+    private final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
     private final String fileName = "ByteArray";
     private final String infoFileName = "Info";
 
