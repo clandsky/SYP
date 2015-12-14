@@ -67,7 +67,7 @@ public class ServerGUI extends JFrame{
                     String s = (String)JOptionPane.showInputDialog(frame,
                             "Bitten geben Sie den gewünschten Port ein",
                             "Port-Konfiguration",
-                            JOptionPane.QUESTION_MESSAGE,
+                            JOptionPane.PLAIN_MESSAGE,
                             null,null,null);
                     if (s==null) return;
                     try {
