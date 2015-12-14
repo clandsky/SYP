@@ -36,10 +36,7 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
     @Override
     public ByteMessage readFrom(Class<ByteMessage> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         if (ByteMessage.class.isAssignableFrom(aClass)) {
-
-            long counter = 1;
-            /* /CLIENT PROGRESSBAR */
-
+            long counter = 0; //progress
             byte[] buffer = new byte[8192];
             int bytesRead;
             ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -47,11 +44,13 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 output.write(buffer, 0, bytesRead);
-
                 counter += bytesRead;
-                StaticHolder.currentTransferProgress = (int) ((counter*100) / StaticHolder.currentTransferSize);
-            }
 
+                if(counter%(int)(StaticHolder.currentTransferSize / 1000000) == 0) {
+                    StaticHolder.currentTransferProgress = (int) ((counter*100) / StaticHolder.currentTransferSize);
+                }
+            }
+            StaticHolder.currentTransferProgress = 100;
             return new ByteMessage(output.toByteArray());
         }
         else {
@@ -75,8 +74,11 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
 
         for (int i = 0; i < bArray.length; i++) {
             entityStream.write(bArray[i]);
-            StaticHolder.currentTransferProgress = (int)(((long)(i)*100) / bArray.length);
+            if(i%(int)(bArray.length / 1000000) == 0) {
+                StaticHolder.currentTransferProgress = (int)(((long)(i)*100) / bArray.length);
+            }
         }
+        StaticHolder.currentTransferProgress = 100;
     }
 
 }
