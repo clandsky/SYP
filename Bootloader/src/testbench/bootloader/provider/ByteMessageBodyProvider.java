@@ -60,7 +60,12 @@ public class ByteMessageBodyProvider implements MessageBodyReader<ByteMessage>, 
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         ProgressBarWindow pWindow = new ProgressBarWindow();
 
-        new WriteToThread(m,pWindow,entityStream);
+        WriteToThread wtt = new WriteToThread(m,pWindow,entityStream);
+        try {
+            wtt.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         pWindow.setVisible(false);
         pWindow.dispose();
