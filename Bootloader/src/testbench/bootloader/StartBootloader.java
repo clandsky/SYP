@@ -20,8 +20,8 @@ public class StartBootloader extends JFrame {
         setResizable(false);
         setTitle("Bootloader - Testbench Protobuf");
         setSize(400,200);
-        setVisible(true);
         this.setContentPane(panel1);
+        setVisible(true);
 
         serverButton.addActionListener(new ActionListener() {
             @Override
