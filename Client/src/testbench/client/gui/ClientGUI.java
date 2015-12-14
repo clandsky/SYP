@@ -220,8 +220,6 @@ public class ClientGUI extends JFrame {
         fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
-
-
     private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
         if(daten.getClass() == MassenInfoGrenz.class) {
             MassenInfoGrenz mig = (MassenInfoGrenz) daten;
@@ -238,14 +236,13 @@ public class ClientGUI extends JFrame {
     }
 
     private BufferedImage loadImageResource(String filePath) {
-        BufferedImage bufferedImage = null;
         try {
-            bufferedImage = ImageIO.read(getClass().getResource(filePath));
+            BufferedImage bufferedImage = ImageIO.read(getClass().getResource(filePath));
+            return bufferedImage;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return bufferedImage;
     }
 
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
