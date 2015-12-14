@@ -48,7 +48,6 @@ public class ProgressBarWindow extends JFrame {
     }
 
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
-        setTitle("Protobuf Testbench Client Settings");
         Dimension d = new Dimension();
         d.setSize(guiSizeX,guiSizeY);
         setMinimumSize(d);

@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * Created by Chrizzle Manizzle on 10.12.2015
  */
 public class StartBootloader extends JFrame {
-    public static String programType;
+    public static String programType = "none";
 
     private JButton serverButton;
     private JPanel panel1;
