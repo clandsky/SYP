@@ -357,7 +357,7 @@ public class ClientGUI extends JFrame {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow("test",true));
+                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
                                     pThread.start();
                                     MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
                                     if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
@@ -385,7 +385,7 @@ public class ClientGUI extends JFrame {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow("test",false));
+                                ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
                                 pThread.start();
                                 boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                 if (success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);

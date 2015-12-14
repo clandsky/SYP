@@ -13,10 +13,10 @@ public class ProgressBarWindow extends JFrame {
     private JProgressBar progressBar;
     private JLabel textLabel;
 
-    public ProgressBarWindow(String title, boolean isDownload) {
+    public ProgressBarWindow(boolean isDownload) {
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setTitle(title);
+        setTitle("Fortschritt");
         pack();
         initGuiProperties(350,150);
 
