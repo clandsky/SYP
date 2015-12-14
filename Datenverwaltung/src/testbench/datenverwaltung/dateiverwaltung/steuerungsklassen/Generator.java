@@ -27,7 +27,7 @@ public class Generator
     {
 
         double pos = 0.0f;
-        int typeSize = 8;
+        int typeSize = 11;
 
         int procent = 0;
 

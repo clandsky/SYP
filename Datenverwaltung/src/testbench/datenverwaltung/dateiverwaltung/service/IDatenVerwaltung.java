@@ -9,7 +9,7 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import java.util.ArrayList;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * Created by CGrings on 07.12.2015
  */
 public interface IDatenVerwaltung
 {
