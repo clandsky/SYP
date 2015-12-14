@@ -51,7 +51,6 @@ public class DateiSpeichern
 
             massenInfoBuilder.setId(massendaten.getInfo().getId());
             massenInfoBuilder.setPaketGroesseKB(massendaten.getInfo().getPaketGroesseKB());
-            massenInfoBuilder.setPath(massendaten.getInfo().getPath());
 
             MassenInfo masseninfo = massenInfoBuilder.build();
             /* ############## massinfo erzeugung abgeschlossen ####################### */

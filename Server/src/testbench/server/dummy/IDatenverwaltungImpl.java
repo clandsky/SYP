@@ -94,13 +94,11 @@ public class IDatenverwaltungImpl implements IDatenVerwaltung{
         massenInfo1=new MassenInfo();
         massenInfo1.setId(1);
         massenInfo1.setPaketgroesseKB(1);
-        massenInfo1.setPath("/massendaten/1");
         massenInfo1.setDef(massenDef1);
 
         massenInfo2=new MassenInfo();
         massenInfo2.setId(2);
         massenInfo2.setPaketgroesseKB(1);
-        massenInfo2.setPath("/massendaten/2");
         massenInfo2.setDef(massenDef2);
         massenList.add(massenInfo1);
         massenList.add(massenInfo2);

@@ -14,15 +14,13 @@ import javax.xml.bind.annotation.XmlTransient;
 public class MassenInfo {
     private int id;
     private int paketgroesseKB;
-    private String path;
     private MassenDef def;
 
     public MassenInfo() {}
 
-    public MassenInfo(int id, int paketgroesseKB, String path, MassenDef def) {
+    public MassenInfo(int id, int paketgroesseKB, MassenDef def) {
         this.id = id;
         this.paketgroesseKB = paketgroesseKB;
-        this.path = path;
         this.def = def;
     }
 
@@ -42,14 +40,7 @@ public class MassenInfo {
     public void setPaketgroesseKB(int paketgroesseKB) {
         this.paketgroesseKB = paketgroesseKB;
     }
-    @XmlAttribute
-    public String getPath() {
-        return path;
-    }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
     @XmlElement
     public MassenDef getDef() {
         return def;

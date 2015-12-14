@@ -141,7 +141,7 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
                         frequencyList.add(new Frequency(frequency.getFrequency(),frequency.getAmplitude(),frequency.getPhase()));
                     }
                     mDef = new MassenDef(protoInfo.getDef().getAbtastrate(), frequencyList);
-                    mInfo = new MassenInfo(protoInfo.getId(),protoInfo.getPaketGroesseKB(),protoInfo.getPath(),mDef);
+                    mInfo = new MassenInfo(protoInfo.getId(),protoInfo.getPaketGroesseKB(),mDef);
                     massenInfoArrayList.add(mInfo);
                 } catch (IOException e) {
                     e.printStackTrace();

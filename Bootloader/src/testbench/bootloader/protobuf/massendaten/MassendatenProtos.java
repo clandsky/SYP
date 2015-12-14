@@ -1894,29 +1894,15 @@ public final class MassendatenProtos {
       int getPaketGroesseKB();
 
       /**
-       * <code>optional string path = 3;</code>
-       */
-      boolean hasPath();
-      /**
-       * <code>optional string path = 3;</code>
-       */
-      java.lang.String getPath();
-      /**
-       * <code>optional string path = 3;</code>
-       */
-      com.google.protobuf.ByteString
-          getPathBytes();
-
-      /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
       boolean hasDef();
       /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
       testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef();
       /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
       testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder();
     }
@@ -1983,14 +1969,8 @@ public final class MassendatenProtos {
                 break;
               }
               case 26: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000004;
-                path_ = bs;
-                break;
-              }
-              case 34: {
                 testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder subBuilder = null;
-                if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                if (((bitField0_ & 0x00000004) == 0x00000004)) {
                   subBuilder = def_.toBuilder();
                 }
                 def_ = input.readMessage(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.PARSER, extensionRegistry);
@@ -1998,7 +1978,7 @@ public final class MassendatenProtos {
                   subBuilder.mergeFrom(def_);
                   def_ = subBuilder.buildPartial();
                 }
-                bitField0_ |= 0x00000008;
+                bitField0_ |= 0x00000004;
                 break;
               }
             }
@@ -2071,64 +2051,22 @@ public final class MassendatenProtos {
         return paketGroesseKB_;
       }
 
-      public static final int PATH_FIELD_NUMBER = 3;
-      private java.lang.Object path_;
+      public static final int DEF_FIELD_NUMBER = 3;
+      private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef def_;
       /**
-       * <code>optional string path = 3;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
-      public boolean hasPath() {
+      public boolean hasDef() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string path = 3;</code>
-       */
-      public java.lang.String getPath() {
-        java.lang.Object ref = path_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            path_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string path = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getPathBytes() {
-        java.lang.Object ref = path_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          path_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int DEF_FIELD_NUMBER = 4;
-      private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef def_;
-      /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
-       */
-      public boolean hasDef() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
       public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef() {
         return def_;
       }
       /**
-       * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+       * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
        */
       public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder() {
         return def_;
@@ -2137,7 +2075,6 @@ public final class MassendatenProtos {
       private void initFields() {
         id_ = 0;
         paketGroesseKB_ = 0;
-        path_ = "";
         def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
       }
       private byte memoizedIsInitialized = -1;
@@ -2160,10 +2097,7 @@ public final class MassendatenProtos {
           output.writeInt32(2, paketGroesseKB_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeBytes(3, getPathBytes());
-        }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          output.writeMessage(4, def_);
+          output.writeMessage(3, def_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -2184,11 +2118,7 @@ public final class MassendatenProtos {
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(3, getPathBytes());
-        }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(4, def_);
+            .computeMessageSize(3, def_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -2312,14 +2242,12 @@ public final class MassendatenProtos {
           bitField0_ = (bitField0_ & ~0x00000001);
           paketGroesseKB_ = 0;
           bitField0_ = (bitField0_ & ~0x00000002);
-          path_ = "";
-          bitField0_ = (bitField0_ & ~0x00000004);
           if (defBuilder_ == null) {
             def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
           } else {
             defBuilder_.clear();
           }
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
 
@@ -2359,10 +2287,6 @@ public final class MassendatenProtos {
           if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
             to_bitField0_ |= 0x00000004;
           }
-          result.path_ = path_;
-          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-            to_bitField0_ |= 0x00000008;
-          }
           if (defBuilder_ == null) {
             result.def_ = def_;
           } else {
@@ -2389,11 +2313,6 @@ public final class MassendatenProtos {
           }
           if (other.hasPaketGroesseKB()) {
             setPaketGroesseKB(other.getPaketGroesseKB());
-          }
-          if (other.hasPath()) {
-            bitField0_ |= 0x00000004;
-            path_ = other.path_;
-            onChanged();
           }
           if (other.hasDef()) {
             mergeDef(other.getDef());
@@ -2489,93 +2408,17 @@ public final class MassendatenProtos {
           return this;
         }
 
-        private java.lang.Object path_ = "";
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public boolean hasPath() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
-        }
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public java.lang.String getPath() {
-          java.lang.Object ref = path_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              path_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public com.google.protobuf.ByteString
-            getPathBytes() {
-          java.lang.Object ref = path_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            path_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public Builder setPath(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-          path_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public Builder clearPath() {
-          bitField0_ = (bitField0_ & ~0x00000004);
-          path_ = getDefaultInstance().getPath();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string path = 3;</code>
-         */
-        public Builder setPathBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-          path_ = value;
-          onChanged();
-          return this;
-        }
-
         private testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef def_ = testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder> defBuilder_;
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public boolean hasDef() {
-          return ((bitField0_ & 0x00000008) == 0x00000008);
+          return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef getDef() {
           if (defBuilder_ == null) {
@@ -2585,7 +2428,7 @@ public final class MassendatenProtos {
           }
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public Builder setDef(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef value) {
           if (defBuilder_ == null) {
@@ -2597,11 +2440,11 @@ public final class MassendatenProtos {
           } else {
             defBuilder_.setMessage(value);
           }
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           return this;
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public Builder setDef(
             testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder builderForValue) {
@@ -2611,15 +2454,15 @@ public final class MassendatenProtos {
           } else {
             defBuilder_.setMessage(builderForValue.build());
           }
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           return this;
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public Builder mergeDef(testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef value) {
           if (defBuilder_ == null) {
-            if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            if (((bitField0_ & 0x00000004) == 0x00000004) &&
                 def_ != testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.getDefaultInstance()) {
               def_ =
                 testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.newBuilder(def_).mergeFrom(value).buildPartial();
@@ -2630,11 +2473,11 @@ public final class MassendatenProtos {
           } else {
             defBuilder_.mergeFrom(value);
           }
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           return this;
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public Builder clearDef() {
           if (defBuilder_ == null) {
@@ -2643,19 +2486,19 @@ public final class MassendatenProtos {
           } else {
             defBuilder_.clear();
           }
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder getDefBuilder() {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           onChanged();
           return getDefFieldBuilder().getBuilder();
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         public testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder getDefOrBuilder() {
           if (defBuilder_ != null) {
@@ -2665,7 +2508,7 @@ public final class MassendatenProtos {
           }
         }
         /**
-         * <code>optional .testbench.Massendaten.MassenDef def = 4;</code>
+         * <code>optional .testbench.Massendaten.MassenDef def = 3;</code>
          */
         private com.google.protobuf.SingleFieldBuilder<
             testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef.Builder, testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDefOrBuilder> 
@@ -3438,19 +3281,18 @@ public final class MassendatenProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021massenDaten.proto\022\ttestbench\"\213\003\n\013Masse" +
+      "\n\021massenDaten.proto\022\ttestbench\"\375\002\n\013Masse" +
       "ndaten\022+\n\005value\030\001 \003(\0132\034.testbench.Massen" +
       "daten.Werte\022/\n\004info\030\002 \001(\0132!.testbench.Ma" +
       "ssendaten.MassenInfo\032\027\n\005Werte\022\016\n\006number\030" +
       "\001 \001(\001\032@\n\tFrequency\022\021\n\tfrequency\030\001 \001(\001\022\r\n" +
       "\005phase\030\002 \001(\001\022\021\n\tamplitude\030\003 \001(\001\032T\n\tMasse" +
       "nDef\022\022\n\nabtastrate\030\001 \001(\001\0223\n\tfrequency\030\002 " +
-      "\003(\0132 .testbench.Massendaten.Frequency\032m\n" +
+      "\003(\0132 .testbench.Massendaten.Frequency\032_\n" +
       "\nMassenInfo\022\n\n\002id\030\001 \001(\005\022\026\n\016paketGroesseK" +
-      "B\030\002 \001(\005\022\014\n\004path\030\003 \001(\t\022-\n\003def\030\004 \001(\0132 .tes",
-      "tbench.Massendaten.MassenDefB>\n)testbenc" +
-      "h.bootloader.protobuf.massendatenB\021Masse" +
-      "ndatenProtos"
+      "B\030\002 \001(\005\022-\n\003def\030\003 \001(\0132 .testbench.Massend",
+      "aten.MassenDefB>\n)testbench.bootloader.p" +
+      "rotobuf.massendatenB\021MassendatenProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3493,7 +3335,7 @@ public final class MassendatenProtos {
     internal_static_testbench_Massendaten_MassenInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_testbench_Massendaten_MassenInfo_descriptor,
-        new java.lang.String[] { "Id", "PaketGroesseKB", "Path", "Def", });
+        new java.lang.String[] { "Id", "PaketGroesseKB", "Def", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
