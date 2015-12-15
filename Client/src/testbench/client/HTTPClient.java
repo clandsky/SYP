@@ -73,8 +73,8 @@ public class HTTPClient {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
             Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Response.class);
-            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             Massendaten m = res.readEntity(Massendaten.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return m;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/empfangeMassendaten : Verbindung fehlgeschlagen");

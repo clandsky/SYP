@@ -14,6 +14,6 @@ public class StaticHolder {
 
     /* ZEITMESSUNGEN */
     public static long serialisierungsZeitMs;
-    public static long deSerialisierungsZeit;
+    public static long deSerialisierungsZeitMs;
     public static long gesamtZeit;
 }

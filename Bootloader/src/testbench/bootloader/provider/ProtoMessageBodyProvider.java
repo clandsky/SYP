@@ -48,17 +48,17 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
                 output.write(buffer, 0, bytesRead);
             }
 
-            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis();
+            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis();
             message = Massendaten.parseFrom(output.toByteArray());
-            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeit;
+            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeitMs;
 
             return message;
         }
         else if (Struktdaten.class.isAssignableFrom(aClass)) {
 
-            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis();
+            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis();
             Message message = Struktdaten.parseFrom(inputStream);
-            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeit;
+            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeitMs;
 
             return message;
         }

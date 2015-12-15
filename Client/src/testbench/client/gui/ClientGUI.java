@@ -358,7 +358,11 @@ public class ClientGUI extends JFrame {
                                     pThread.start();
                                     MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
                                     if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
-                                    else JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS);
+                                    else {
+                                        JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
+                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
+                                                "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                                    }
                                     pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
@@ -386,10 +390,9 @@ public class ClientGUI extends JFrame {
                                 pThread.start();
                                 boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                 if (success) {
-                                    System.out.println("Serialisierungszeit ="+StaticHolder.serialisierungsZeitMs);
-                                    System.out.println("Übertragungszeit ="+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs));
-                                    System.out.println("Gesamtzeit ="+StaticHolder.gesamtZeit);
-                                    JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
+                                    JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
+                                            "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
+                                            "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                 }
                                 else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
                                 pThread.abbrechen();
