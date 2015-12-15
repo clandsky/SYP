@@ -64,6 +64,8 @@ public class HTTPClient {
     }
 
     public Response sendeStruktdaten(Struktdaten s) {
+        StaticHolder.gesamtZeit = System.currentTimeMillis();
+        StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
         return null;
     }
 
@@ -82,6 +84,8 @@ public class HTTPClient {
     }
 
     public Struktdaten empfangeStruktdaten(int id) {
+        StaticHolder.gesamtZeit = System.currentTimeMillis();
+        StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
         return null;
     }
 
