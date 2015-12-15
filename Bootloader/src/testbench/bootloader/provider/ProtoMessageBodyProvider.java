@@ -48,12 +48,16 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
                 output.write(buffer, 0, bytesRead);
             }
 
+            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis();
             message = Massendaten.parseFrom(output.toByteArray());
+            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeit;
 
             return message;
         }
         else if (Struktdaten.class.isAssignableFrom(aClass)) {
+            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis();
             Message message = Struktdaten.parseFrom(inputStream);
+            StaticHolder.deSerialisierungsZeit = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeit;
             return message;
         }
         else {
@@ -74,7 +78,9 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
     @Override
     public void writeTo(Message m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+        StaticHolder.serialisierungsZeitMs = System.currentTimeMillis();
         byte[] bArray = m.toByteArray();
+        StaticHolder.serialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.serialisierungsZeitMs;
 
         for (int i = 0; i < bArray.length; i++) {
             entityStream.write(bArray[i]);

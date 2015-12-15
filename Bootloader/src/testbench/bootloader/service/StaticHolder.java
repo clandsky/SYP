@@ -7,8 +7,13 @@ import javax.swing.*;
  */
 public class StaticHolder {
 
-    /* FOR CLIENT */
+    /* CLIENT */
     public static int currentTransferCount = 0;
     public static SwingWorker<Integer, Integer> activeWorker = null;
     public static int currentTransferSizeByte = 0;
+
+    /* ZEITMESSUNGEN */
+    public static long serialisierungsZeitMs;
+    public static long deSerialisierungsZeit;
+    public static long gesamtZeit;
 }

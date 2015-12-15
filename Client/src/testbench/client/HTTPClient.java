@@ -7,6 +7,7 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
+import testbench.bootloader.service.StaticHolder;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -51,7 +52,10 @@ public class HTTPClient {
 
     public Response sendeMassendaten(Massendaten m) {
         try{
-            return target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis();
+            Response response = target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
+            return response;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/sendeMassendaten : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
@@ -65,7 +69,9 @@ public class HTTPClient {
 
     public Massendaten empfangeMassendaten(int id) {
         try{
+            StaticHolder.gesamtZeit = System.currentTimeMillis();
             Response res = target.path( MASSENDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Response.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             Massendaten m = res.readEntity(Massendaten.class);
             return m;
         } catch (Exception e) {

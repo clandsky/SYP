@@ -385,7 +385,12 @@ public class ClientGUI extends JFrame {
                                 ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
                                 pThread.start();
                                 boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
-                                if (success) JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
+                                if (success) {
+                                    System.out.println("Serialisierungszeit ="+StaticHolder.serialisierungsZeitMs);
+                                    System.out.println("Übertragungszeit ="+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs));
+                                    System.out.println("Gesamtzeit ="+StaticHolder.gesamtZeit);
+                                    JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS);
+                                }
                                 else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
                                 pThread.abbrechen();
                                 StaticHolder.activeWorker = null;
