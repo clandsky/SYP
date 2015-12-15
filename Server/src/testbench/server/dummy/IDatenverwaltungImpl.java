@@ -12,7 +12,6 @@ import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Huskey on 09.12.2015.
@@ -93,12 +92,12 @@ public class IDatenverwaltungImpl implements IDatenVerwaltung{
 
         massenInfo1=new MassenInfo();
         massenInfo1.setId(1);
-        massenInfo1.setPaketgroesseKB(1);
+        massenInfo1.setPaketGroesseKB(1);
         massenInfo1.setDef(massenDef1);
 
         massenInfo2=new MassenInfo();
         massenInfo2.setId(2);
-        massenInfo2.setPaketgroesseKB(1);
+        massenInfo2.setPaketGroesseKB(1);
         massenInfo2.setDef(massenDef2);
         massenList.add(massenInfo1);
         massenList.add(massenInfo2);

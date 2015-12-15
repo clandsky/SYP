@@ -8,12 +8,12 @@ import testbench.bootloader.grenz.StruktDef;
  */
 public class StruktInfoGrenz {
     private int id;
-    private String path;
+    private int paketGroesseKB;
     private StruktDef def;
 
     public StruktInfoGrenz(StruktInfo s) {
         this.id = s.getId();
-        this.path = s.getPath();
+        this.paketGroesseKB = s.getPaketGroesseKB();
         this.def = s.getDef();
     }
 
@@ -21,8 +21,8 @@ public class StruktInfoGrenz {
         return id;
     }
 
-    public String getPath() {
-        return path;
+    public int getPaketGroesseKB() {
+        return paketGroesseKB;
     }
 
     public StruktDef getDef() {

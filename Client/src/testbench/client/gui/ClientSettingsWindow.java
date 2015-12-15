@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by svenm on 10.12.2015.
  */
-public class ClientSettings extends JFrame {
+public class ClientSettingsWindow extends JFrame {
     private JPanel formPanel;
     private JList settingsList;
     private JPanel mainPanel;
@@ -30,7 +30,7 @@ public class ClientSettings extends JFrame {
     private final String ONLY_NUMBERS_ERROR = "Bitte nur numerische Werte als Port eintragen!";
     private final String RESTART_PROGRAM_INFO = "Um die Änderungen zu übernehmen,\nbitte das Programm neu starten";
 
-    public ClientSettings(boolean isConnectWindow) {
+    public ClientSettingsWindow(boolean isConnectWindow) {
         this.isConnectWindow = isConnectWindow;
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

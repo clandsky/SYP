@@ -36,7 +36,7 @@ public class ClientSteuer {
         return null;
     }
 
-    public MassendatenGrenz empfangeMassendaten(int id) throws InvalidProtocolBufferException {
+    public MassendatenGrenz empfangeMassendaten(int id) {
         Printer.println("Empfange Massendaten mit ID: "+id);
 
         Massendaten m = httpClient.empfangeMassendaten(id);

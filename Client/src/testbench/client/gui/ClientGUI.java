@@ -123,6 +123,7 @@ public class ClientGUI extends JFrame {
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
+        //setIconImage(loadImageResource(IMAGE_PROTOBUF_PATH));
 
         initGuiProperties(guiSizeX,guiSizeY);
         initImages();
@@ -419,13 +420,13 @@ public class ClientGUI extends JFrame {
         einstellungenButtonConnect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ClientSettings(true);
+                new ClientSettingsWindow(true);
             }
         });
         einstellungenButtonMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ClientSettings(false);
+                new ClientSettingsWindow(false);
             }
         });
     }
@@ -490,6 +491,8 @@ public class ClientGUI extends JFrame {
     public class ProgressBarThread extends Thread {
         private ProgressBarWindow pWindow;
         private boolean abbruch;
+        private boolean cardSwitch1 = false; // checks if transferCard is active
+        private boolean cardSwitch2 = false; // checks if doneCard is active
 
         public ProgressBarThread(ProgressBarWindow pWindow) {
             this.pWindow = pWindow;
@@ -497,9 +500,21 @@ public class ClientGUI extends JFrame {
 
         public void run() {
             long value;
+            int progress;
             while(!abbruch) {
                 value = (long)(StaticHolder.currentTransferCount)*100;
-                pWindow.setProgressBar((int)(value/StaticHolder.currentTransferSizeByte));
+                progress = (int)(value/StaticHolder.currentTransferSizeByte);
+
+                if(progress > 0 && !cardSwitch1) {
+                    cardSwitch1 = true;
+                    pWindow.changeCard("transferCard");
+                }
+                if(progress >= 100 && !cardSwitch2) {
+                    cardSwitch2 = true;
+                    pWindow.changeCard("doneCard");
+                }
+
+                pWindow.setProgressBar(progress);
                 try {
                     sleep(50);
                 } catch (InterruptedException e) {

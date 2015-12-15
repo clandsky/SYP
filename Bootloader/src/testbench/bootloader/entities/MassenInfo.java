@@ -5,7 +5,6 @@ import testbench.bootloader.grenz.MassenDef;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Created by Sven Riedel on 04.12.2015
@@ -13,14 +12,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class MassenInfo {
     private int id;
-    private int paketgroesseKB;
+    private int paketGroesseKB;
     private MassenDef def;
 
     public MassenInfo() {}
 
-    public MassenInfo(int id, int paketgroesseKB, MassenDef def) {
+    public MassenInfo(int id, int paketGroesseKB, MassenDef def) {
         this.id = id;
-        this.paketgroesseKB = paketgroesseKB;
+        this.paketGroesseKB = paketGroesseKB;
         this.def = def;
     }
 
@@ -33,12 +32,12 @@ public class MassenInfo {
         this.id = id;
     }
     @XmlAttribute
-    public int getPaketgroesseKB() {
-        return paketgroesseKB;
+    public int getPaketGroesseKB() {
+        return paketGroesseKB;
     }
 
-    public void setPaketgroesseKB(int paketgroesseKB) {
-        this.paketgroesseKB = paketgroesseKB;
+    public void setPaketGroesseKB(int paketgroesseKB) {
+        this.paketGroesseKB = paketgroesseKB;
     }
 
     @XmlElement

@@ -2,6 +2,7 @@ package testbench.bootloader.entities;
 
 import testbench.bootloader.grenz.StruktDef;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,12 +12,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class StruktInfo {
     private int id;
-    private String path;
+    private int paketGroesseKB;
     private StruktDef def;
 
-    public StruktInfo(int id, String path, StruktDef def) {
+    public StruktInfo(int id, int paketGroesseKB, StruktDef def) {
         this.id = id;
-        this.path = path;
+        this.paketGroesseKB = paketGroesseKB;
         this.def = def;
     }
 
@@ -27,25 +28,22 @@ public class StruktInfo {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-    @XmlElement
-    public String getPath() {
-        return path;
+
+    @XmlAttribute
+    public int getPaketGroesseKB() {
+        return paketGroesseKB;
+    }
+    public void setPaketGroesseKB(int paketgroesseKB) {
+        this.paketGroesseKB = paketgroesseKB;
     }
 
-
-
-    public void setPath(String path) {
-        this.path = path;
-    }
     @XmlElement
     public StruktDef getDef() {
         return def;
     }
-
     public void setDef(StruktDef def) {
         this.def = def;
     }

@@ -13,7 +13,7 @@ public class MassenInfoGrenz {
 
     public MassenInfoGrenz(MassenInfo massenInfo) {
         this.id = massenInfo.getId();
-        this.paketGroesseKB = massenInfo.getPaketgroesseKB();
+        this.paketGroesseKB = massenInfo.getPaketGroesseKB();
         this.def = massenInfo.getDef();
     }
 
