@@ -58,12 +58,7 @@ public class PrototypeMain {
 
                 case "1":
                     cSteuer.connect(ip);
-                    try {
-                        MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
-                    } catch (InvalidProtocolBufferException e) {
-                        e.printStackTrace();
-                    }
-
+                    MassendatenGrenz response = cSteuer.empfangeMassendaten(1);
                     break;
 
                 case "2":

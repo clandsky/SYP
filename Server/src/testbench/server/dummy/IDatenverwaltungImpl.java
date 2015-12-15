@@ -64,10 +64,9 @@ public class IDatenverwaltungImpl implements IDatenVerwaltung{
         struktInfo1=new StruktInfo();
         struktInfo1.setDef(struktDef1);
         struktInfo1.setId(1);
-        struktInfo1.setPath("/struktdaten/1");
-        struktInfo1=new StruktInfo(1, "/struktdaten/1",struktDef1);
-        struktInfo2=new StruktInfo(2, "/struktdaten/2",struktDef2);
-        struktInfo3=new StruktInfo(3, "/struktdaten/3",struktDef3);
+        struktInfo1=new StruktInfo(1,100,struktDef1);
+        struktInfo2=new StruktInfo(2,100,struktDef2);
+        struktInfo3=new StruktInfo(3,100,struktDef3);
         liste.add(struktInfo1);
         liste.add(struktInfo2);
         liste.add(struktInfo3);
