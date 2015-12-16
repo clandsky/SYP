@@ -93,6 +93,7 @@ public class ClientGUI extends JFrame {
     private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
+    private ClientConfig clientConfig = ClientConfig.getExemplar();
 
     /* ############## RESSOURCEN PFADE ################ */
     private final String IMAGEFOLDER = "/resources/images/";
@@ -472,7 +473,7 @@ public class ClientGUI extends JFrame {
                 if(!ip.contains(" ") && !ip.contains(":")) {
                     String newIP = new String(ip);
 
-                    newIP = addIpSyntax(newIP,ClientConfig.getExemplar().getPort());
+                    newIP = addIpSyntax(newIP,clientConfig.getPort());
 
                     isConnected = cSteuer.connect(newIP);
                     if(!isConnected) {

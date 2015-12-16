@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by svenm on 10.12.2015.
@@ -15,15 +17,18 @@ public class ClientSettingsWindow extends JFrame {
     private JList settingsList;
     private JPanel mainPanel;
     private JPanel leftPanel;
-    private JPanel Panel;
+    private JPanel cardPanel;
     private JPanel buttonsPanel;
     private JButton abbrechenButton;
     private JButton OKButton;
     private JPanel portPanel;
     private JTextField changePortTextField;
+    private JButton debugModeButton;
+    private JPanel debugModePanel;
+    private JLabel debugModeLabel;
 
     private JFrame frame = new JFrame();
-    private CardLayout cl = (CardLayout) Panel.getLayout();
+    private CardLayout cl = (CardLayout) cardPanel.getLayout();
     private ClientConfig clientConfig = ClientConfig.getExemplar();
     private boolean isConnectWindow;
 
@@ -36,15 +41,19 @@ public class ClientSettingsWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         pack();
         initGuiProperties(400,500);
-        cl.show(Panel, "portCard");
+        cl.show(cardPanel, "portCard");
 
         initSettings();
         initListener();
+
+
 
     }
 
     private void initSettings() {
         changePortTextField.setText(clientConfig.getPort());
+        debugModeLabel.setText(String.valueOf(clientConfig.getDebugMode()));
+        debugModeButton.setText("Setze auf "+!clientConfig.getDebugMode());
     }
 
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
@@ -74,6 +83,29 @@ public class ClientSettingsWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+            }
+        });
+        settingsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = settingsList.getSelectedIndex();
+                switch(row) {
+                    case 0:
+                        cl.show(cardPanel,"portCard");
+                        break;
+
+                    case 1:
+                        cl.show(cardPanel,"debugModeCard");
+                }
+            }
+        });
+        debugModeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               // clientConfig.setDebugMode(!clientConfig.getDebugMode());
+           //     if(Boolean.valueOf(debugModeLabel.gett))
+           //     debugModeButton.setText(String.valueOf(!clientConfig.getDebugMode()));
+           //     debugModeLabel.setText(String.valueOf(clientConfig.getDebugMode()));
             }
         });
     }

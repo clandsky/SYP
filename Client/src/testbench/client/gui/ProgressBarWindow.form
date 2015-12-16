@@ -63,7 +63,7 @@
                 </constraints>
                 <properties>
                   <font size="14"/>
-                  <text value="Sende Dateien Text"/>
+                  <text value="Herunterladen..."/>
                 </properties>
               </component>
               <component id="91a0f" class="javax.swing.JProgressBar" binding="progressBar">

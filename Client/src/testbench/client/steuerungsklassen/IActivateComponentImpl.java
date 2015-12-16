@@ -10,7 +10,7 @@ import java.awt.*;
  * Created by Sven Riedel on 26.11.2015
  */
 public class IActivateComponentImpl implements IActivateComponent {
-    ClientGUI clientGui;
+    private ClientGUI clientGui;
     private int guiSizeX = 800;
     private int guiSizeY = 500;
 
