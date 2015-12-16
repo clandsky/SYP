@@ -28,7 +28,7 @@ public class DateiLaden
         try
         {
             fin = new FileInputStream(file);
-            Printer.println("Paketgroeße in KB: "+file.length()/1000);
+            //Printer.println("Paketgroeße in KB: "+file.length()/1000);
             byte fileContent[] = new byte[(int) file.length()];
             fin.read(fileContent);
             m = Massendaten.parseFrom(fileContent);
@@ -58,7 +58,7 @@ public class DateiLaden
                 return null;
             }
         }
-        Printer.println("Massendaten wurden gefüttert");
+        //Printer.println("Massendaten wurden gefüttert");
 
         return m;
     }
@@ -108,7 +108,7 @@ public class DateiLaden
                 return null;
             }
         }
-        //Printer.println("Massendaten wurden gefüttert");
+
 
         return m;
     }

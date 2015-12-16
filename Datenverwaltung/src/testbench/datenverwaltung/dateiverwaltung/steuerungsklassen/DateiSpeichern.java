@@ -90,7 +90,7 @@ public class DateiSpeichern
             fos.write(masseninfo.toByteArray());
             fos.flush();
             fos.close();
-            Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
+            //Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
         catch (IOException ioe)
         {
