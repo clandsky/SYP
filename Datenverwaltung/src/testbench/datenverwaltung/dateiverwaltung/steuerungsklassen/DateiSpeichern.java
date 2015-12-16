@@ -114,33 +114,34 @@ public class DateiSpeichern
         }
         return true;
     }
-    public boolean speicherStruktdaten (Struktdaten strukt, StruktDef def)
+
+
+    public static boolean speicherStruktdaten (Struktdaten strukt)
     {
+        final String saveDirectory = "Protodaten/";
+        final String saveMassendatenDirectory = saveDirectory+"Massendaten/";
+        final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
+        final String fileName = "ByteArray";
         FileOutputStream fos = null;
-        File struktFile, struktInfoFile, directory;
-        /*
+        File struktFile, directory;
+
         try {
-            int struktid = 1;
-            StruktInfo info = new StruktInfo();
-            info.setDef(def);
-            info.setId(struktid);
-            info.setPaketGroesseKB(1234);
+            //int struktid = strukt.hashCode();
+            int struktid=12345;
             String filePath = saveStruktdatenDirectory+struktid;
+
             directory = new File(filePath);
             if(!directory.exists()) directory.mkdirs();
 
             struktFile = new File(filePath+"/"+fileName+".protobyte");
-            struktInfoFile = new File(filePath+"/"+infoFileName+".protobyte");
+
 
             // Checken ob Datei existiert ansonsten erzeuge neue Datei
             if (!struktFile.exists())
             {
                 struktFile.createNewFile();
             }
-            if (!struktInfoFile.exists())
-            {
-                struktInfoFile.createNewFile();
-            }
+
 
             // Strings können nicht direkt in ein File geschrieben werden.
             // Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
@@ -153,12 +154,7 @@ public class DateiSpeichern
             fos.flush();
             fos.close();
 
-            //schreibe StruktInfo datei
-            fos = new FileOutputStream(struktInfoFile);
-            fos.write(info.toString().getBytes());
-            fos.flush();
-            fos.close();
-            Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
+            //Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
         }
         catch (IOException ioe)
         {
@@ -180,7 +176,6 @@ public class DateiSpeichern
                 return false;
             }
         }
-    */
         return true;
         }
     }

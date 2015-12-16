@@ -1,5 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
+import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.*;
@@ -9,7 +10,7 @@ import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
  * Created by Chrizzle Manizzle on 15.12.2015.
  */
 public class StruktGen {
-    public Struktdaten erzeugeStrukt(StruktDef def){
+    public static Struktdaten erzeugeStrukt(StruktDef def){
         Builder builder = Struktdaten.newBuilder();
         for(int i=0; i<def.getItemJoinDefCount();i++)
         {
@@ -25,7 +26,7 @@ public class StruktGen {
             long fromLow = 99999+i;
             long toHigh = 123455;
             long toLow = 321156+i;
-
+            Printer.println("JoinDef "+i);
             JoinDef joinDef = erzeugeJoinDef(fromHigh,fromLow,toHigh,toLow,refName,joiningType);
             builder.addJoinSeq(i, joinDef);
         }
@@ -34,7 +35,9 @@ public class StruktGen {
             String aaName = "AIDName "+i;
             long high = 1234;
             long low = 5678+i;
+            Printer.println("AIDName "+i);
             AIDName aidname = erzeugeAIDName(aaName,erzeugeLongLong(high,low));
+
             builder.addGroupBy(i, aidname);
         }
         for(int i=0; i<def.getItemSelItemCount();i++)
@@ -48,7 +51,7 @@ public class StruktGen {
             long aidLow = 987654+i;
             long aidHigh = 1234;
             String aaName="SelItem aaName "+i;
-
+            Printer.println("SelItem "+i);
             SelItem selItem = erzeugeSelItem(operator,oper,u,flag,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
             builder.addCondSeq(i, selItem);
         }
@@ -58,7 +61,7 @@ public class StruktGen {
             boolean ascending = true;
             long aidHigh = 89153;
             long aidLow = 4891155+i;
-
+            Printer.println("Selorder "+i);
             SelOrder selOrder = erzeugeSelOrder(ascending,aidHigh,aidLow,aaName);
             builder.addOrderBy(i, selOrder);
         }
@@ -70,17 +73,17 @@ public class StruktGen {
             long aidLow = 222222+i;
             long unitIDHigh = 3333333;
             long unitIDLow = 444+i;
+            Printer.println("SelUnit "+i);
             SelAIDNameUnitID unit= erzeugeSelNameUnitID(aggregate,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
             builder.addAnuSeq(i, unit);
         }
         Struktdaten strukt = builder.build();
-        DateiSpeichern ds = new DateiSpeichern();
-        ds.speicherStruktdaten(strukt, def);
+        DateiSpeichern.speicherStruktdaten(strukt);
 
         return strukt;
     }
 
-    private SelAIDNameUnitID erzeugeSelNameUnitID(String aggregate, long unitIDHigh, long unitIDLow, long aidHigh, long aidLow, String aaName) {
+    private static SelAIDNameUnitID erzeugeSelNameUnitID(String aggregate, long unitIDHigh, long unitIDLow, long aidHigh, long aidLow, String aaName) {
         SelAIDNameUnitID.Builder builder = SelAIDNameUnitID.newBuilder();
         builder.setAggregate(aggregate);
         builder.setUnitid(erzeugeLongLong(unitIDHigh,unitIDLow));
@@ -88,7 +91,7 @@ public class StruktGen {
         return builder.build();
     }
 
-    private SelOrder erzeugeSelOrder(boolean ascending,long aidHigh, long aidLow, String aaName) {
+    private static SelOrder erzeugeSelOrder(boolean ascending,long aidHigh, long aidLow, String aaName) {
         SelOrder.Builder builder = SelOrder.newBuilder();
         builder.setAscending(ascending);
         builder.setAttr(erzeugeAIDName(aaName,erzeugeLongLong(aidHigh,aidLow)));
@@ -96,7 +99,7 @@ public class StruktGen {
 
     }
 
-    private SelItem erzeugeSelItem(String operator, String oper, String u, short flag, long unitIDHigh, long unitIDLow, long aidHigh, long aidlow, String aaName) {
+    private static SelItem erzeugeSelItem(String operator, String oper, String u, short flag, long unitIDHigh, long unitIDLow, long aidHigh, long aidlow, String aaName) {
         SelItem.Builder builder = SelItem.newBuilder();
 
         builder.setValue(erzeugeSelValueExt(
@@ -111,14 +114,14 @@ public class StruktGen {
         return builder.build();
     }
 
-    private AIDNameUnitID erzeugeAIDNameUnitID(AIDName aidname, LongLong longLong) {
+    private static AIDNameUnitID erzeugeAIDNameUnitID(AIDName aidname, LongLong longLong) {
         AIDNameUnitID.Builder builder = AIDNameUnitID.newBuilder();
         builder.setAttr(aidname);
         builder.setUnitID(longLong);
         return builder.build();
     }
 
-    private SelValueExt erzeugeSelValueExt (AIDNameUnitID unit, TS_Value value, String oper){
+    private static SelValueExt erzeugeSelValueExt (AIDNameUnitID unit, TS_Value value, String oper){
         SelValueExt.Builder builder = SelValueExt.newBuilder();
         builder.setAttr(unit);
         builder.setValue(value);
@@ -126,7 +129,7 @@ public class StruktGen {
         return builder.build();
     }
 
-    private JoinDef erzeugeJoinDef(long fromHigh,long fromLow,long toHigh, long toLow, String refname, String joiningtype) {
+    private static JoinDef erzeugeJoinDef(long fromHigh,long fromLow,long toHigh, long toLow, String refname, String joiningtype) {
         JoinDef.Builder builder= Struktdaten.JoinDef.newBuilder();
         builder.setFromAID(erzeugeLongLong(fromHigh,fromLow));
         builder.setToAID(erzeugeLongLong(fromHigh,toHigh));
@@ -137,7 +140,7 @@ public class StruktGen {
         return builder.build();
     }
 
-    private AIDName erzeugeAIDName(String aaName, LongLong aid)
+    private static AIDName erzeugeAIDName(String aaName, LongLong aid)
     {
         AIDName.Builder builder = AIDName.newBuilder();
         builder.setAaName(aaName);
@@ -145,7 +148,7 @@ public class StruktGen {
         return builder.build();
     }
 
-    private TS_Value erzeugeTSValue (short flag, String u)
+    private static TS_Value erzeugeTSValue (short flag, String u)
     {
         TS_Value.Builder builder = TS_Value.newBuilder();
         builder.setFlag((int)flag);
@@ -153,7 +156,7 @@ public class StruktGen {
         return builder.build();
     }
 
-    private LongLong erzeugeLongLong(long high, long low) {
+    private static LongLong erzeugeLongLong(long high, long low) {
         LongLong.Builder builder = LongLong.newBuilder();
         builder.setHigh(high);
         builder.setLow(low);
