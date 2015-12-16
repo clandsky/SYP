@@ -20,9 +20,9 @@ public class StruktGen {
             String joiningType = "JoinDef JoiningType "+i;
             String refName = "JoinDef RefName "+i;
             long fromHigh = 10000;
-            long fromLow = 99999;
+            long fromLow = 99999+i;
             long toHigh = 123455;
-            long toLow = 321156;
+            long toLow = 321156+i;
 
             JoinDef joinDef = erzeugeJoinDef(fromHigh,fromLow,toHigh,toLow,refName,joiningType);
             strukt.addJoinSeq(i, joinDef);
@@ -31,7 +31,7 @@ public class StruktGen {
         {
             String aaName = "AIDName "+i;
             long high = 1234;
-            long low = 5678;
+            long low = 5678+i;
             AIDName aidname = erzeugeAIDName(aaName,erzeugeLongLong(high,low));
             strukt.addGroupBy(i, aidname);
         }
@@ -40,10 +40,10 @@ public class StruktGen {
             String operator = "SelItem operator "+i;
             String oper = "SelValueExt oper "+i;
             String u = "TS_VALUE u "+i;
-            short flag = 1;
+            short flag = (short) (1+i);
             long unitIDHigh = 123456;
-            long unitIDLow = 456789;
-            long aidLow = 987654;
+            long unitIDLow = 456789+i;
+            long aidLow = 987654+i;
             long aidHigh = 1234;
             String aaName="SelItem aaName "+i;
 
@@ -55,7 +55,7 @@ public class StruktGen {
             String aaName="SelOrder aaName "+i;
             boolean ascending = true;
             long aidHigh = 89153;
-            long aidLow = 4891155;
+            long aidLow = 4891155+i;
 
             SelOrder selOrder = erzeugeSelOrder(ascending,aidHigh,aidLow,aaName);
             strukt.addOrderBy(i, selOrder);
@@ -65,9 +65,9 @@ public class StruktGen {
             String aggregate= "SelUnitID aggregate "+i;
             String aaName = "SelUnitID aaName "+i;
             long aidHigh = 11111;
-            long aidLow = 222222;
+            long aidLow = 222222+i;
             long unitIDHigh = 3333333;
-            long unitIDLow = 444;
+            long unitIDLow = 444+i;
             SelAIDNameUnitID unit= erzeugeSelNameUnitID(aggregate,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
             strukt.addAnuSeq(i, unit);
         }
@@ -131,13 +131,6 @@ public class StruktGen {
         return builder.build();
     }
 
-    private LongLong erzeugeLongLong(long high, long low) {
-        LongLong.Builder builder = LongLong.newBuilder();
-        builder.setHigh(high);
-        builder.setLow(low);
-        return builder.build();
-    }
-
     private AIDName erzeugeAIDName(String aaName, LongLong aid)
     {
         AIDName.Builder builder = AIDName.newBuilder();
@@ -151,6 +144,13 @@ public class StruktGen {
         TS_Value.Builder builder = TS_Value.newBuilder();
         builder.setFlag((int)flag);
         builder.setU(u);
+        return builder.build();
+    }
+
+    private LongLong erzeugeLongLong(long high, long low) {
+        LongLong.Builder builder = LongLong.newBuilder();
+        builder.setHigh(high);
+        builder.setLow(low);
         return builder.build();
     }
 }
