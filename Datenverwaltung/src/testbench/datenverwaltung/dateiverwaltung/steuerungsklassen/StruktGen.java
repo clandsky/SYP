@@ -3,12 +3,14 @@ package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.*;
+import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
+
 /**
  * Created by Chrizzle Manizzle on 15.12.2015.
  */
 public class StruktGen {
     public Struktdaten erzeugeStrukt(StruktDef def){
-        Struktdaten.Builder strukt = Struktdaten.newBuilder();
+        Builder builder = Struktdaten.newBuilder();
         for(int i=0; i<def.getItemJoinDefCount();i++)
         {
             /*  Kann auch per StruktDef oder per Grenzklassen gefüllt werden,
@@ -25,7 +27,7 @@ public class StruktGen {
             long toLow = 321156+i;
 
             JoinDef joinDef = erzeugeJoinDef(fromHigh,fromLow,toHigh,toLow,refName,joiningType);
-            strukt.addJoinSeq(i, joinDef);
+            builder.addJoinSeq(i, joinDef);
         }
         for(int i=0; i<def.getItemAIDNameCount();i++)
         {
@@ -33,7 +35,7 @@ public class StruktGen {
             long high = 1234;
             long low = 5678+i;
             AIDName aidname = erzeugeAIDName(aaName,erzeugeLongLong(high,low));
-            strukt.addGroupBy(i, aidname);
+            builder.addGroupBy(i, aidname);
         }
         for(int i=0; i<def.getItemSelItemCount();i++)
         {
@@ -48,7 +50,7 @@ public class StruktGen {
             String aaName="SelItem aaName "+i;
 
             SelItem selItem = erzeugeSelItem(operator,oper,u,flag,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
-            strukt.addCondSeq(i, selItem);
+            builder.addCondSeq(i, selItem);
         }
         for(int i=0; i<def.getItemSelOrderCount();i++)
         {
@@ -58,7 +60,7 @@ public class StruktGen {
             long aidLow = 4891155+i;
 
             SelOrder selOrder = erzeugeSelOrder(ascending,aidHigh,aidLow,aaName);
-            strukt.addOrderBy(i, selOrder);
+            builder.addOrderBy(i, selOrder);
         }
         for(int i=0; i<def.getItemSelUIDCount();i++)
         {
@@ -69,9 +71,13 @@ public class StruktGen {
             long unitIDHigh = 3333333;
             long unitIDLow = 444+i;
             SelAIDNameUnitID unit= erzeugeSelNameUnitID(aggregate,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
-            strukt.addAnuSeq(i, unit);
+            builder.addAnuSeq(i, unit);
         }
-        return strukt.build();
+        Struktdaten strukt = builder.build();
+        DateiSpeichern ds = new DateiSpeichern();
+        ds.speicherStruktdaten(strukt, def);
+
+        return strukt;
     }
 
     private SelAIDNameUnitID erzeugeSelNameUnitID(String aggregate, long unitIDHigh, long unitIDLow, long aidHigh, long aidLow, String aaName) {

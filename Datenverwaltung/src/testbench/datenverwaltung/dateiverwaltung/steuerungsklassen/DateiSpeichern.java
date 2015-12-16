@@ -1,10 +1,13 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.Printer;
+import testbench.bootloader.entities.StruktInfo;
+import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,7 +29,7 @@ public class DateiSpeichern
         FileOutputStream fos = null;
         File massenDatenFile, massenInfoFile, directory;
 
-        Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
+        //Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
         try
         {
             /* ############## massinfo erzeugung beginnt ####################### */
@@ -111,4 +114,74 @@ public class DateiSpeichern
         }
         return true;
     }
-}
+    public boolean speicherStruktdaten (Struktdaten strukt, StruktDef def)
+    {
+        FileOutputStream fos = null;
+        File struktFile, struktInfoFile, directory;
+        /*
+        try {
+            int struktid = 1;
+            StruktInfo info = new StruktInfo();
+            info.setDef(def);
+            info.setId(struktid);
+            info.setPaketGroesseKB(1234);
+            String filePath = saveStruktdatenDirectory+struktid;
+            directory = new File(filePath);
+            if(!directory.exists()) directory.mkdirs();
+
+            struktFile = new File(filePath+"/"+fileName+".protobyte");
+            struktInfoFile = new File(filePath+"/"+infoFileName+".protobyte");
+
+            // Checken ob Datei existiert ansonsten erzeuge neue Datei
+            if (!struktFile.exists())
+            {
+                struktFile.createNewFile();
+            }
+            if (!struktInfoFile.exists())
+            {
+                struktInfoFile.createNewFile();
+            }
+
+            // Strings können nicht direkt in ein File geschrieben werden.
+            // Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
+
+
+
+            // schreibe Struktdaten datei
+            fos = new FileOutputStream(struktFile);
+            fos.write(strukt.toByteArray());
+            fos.flush();
+            fos.close();
+
+            //schreibe StruktInfo datei
+            fos = new FileOutputStream(struktInfoFile);
+            fos.write(info.toString().getBytes());
+            fos.flush();
+            fos.close();
+            Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            try
+            {
+                if (fos != null)
+                {
+                    fos.close();
+                }
+            }
+            catch (IOException ioe)
+            {
+                Printer.println("Error in closing the Stream");
+                return false;
+            }
+        }
+    */
+        return true;
+        }
+    }
+
