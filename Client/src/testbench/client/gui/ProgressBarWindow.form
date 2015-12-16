@@ -47,17 +47,17 @@
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="etched"/>
         <children>
-          <grid id="47e8c" binding="transferPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="47e8c" binding="downloadPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="transferCard"/>
+              <card name="downloadCard"/>
             </constraints>
             <properties/>
-            <border type="etched"/>
+            <border type="none"/>
             <children>
-              <component id="573f6" class="javax.swing.JLabel" binding="textLabel">
+              <component id="573f6" class="javax.swing.JLabel" binding="downloadLabel">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -127,13 +127,32 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="62a54" class="javax.swing.JLabel">
+              <component id="62a54" class="javax.swing.JLabel" binding="doneLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="14"/>
-                  <text value="Fertig! Übertragung wird verarbeitet..."/>
+                  <text value="Übertragung wird verarbeitet..."/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="7f42" binding="uploadPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <card name="uploadCard"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="9b8f2" class="javax.swing.JLabel" binding="uploadLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="14"/>
+                  <text value="Hochladen..."/>
                 </properties>
               </component>
             </children>

@@ -491,8 +491,6 @@ public class ClientGUI extends JFrame {
     public class ProgressBarThread extends Thread {
         private ProgressBarWindow pWindow;
         private boolean abbruch;
-        private boolean cardSwitch1 = false; // checks if transferCard is active
-        private boolean cardSwitch2 = false; // checks if doneCard is active
 
         public ProgressBarThread(ProgressBarWindow pWindow) {
             this.pWindow = pWindow;
@@ -504,15 +502,6 @@ public class ClientGUI extends JFrame {
             while(!abbruch) {
                 value = (long)(StaticHolder.currentTransferCount)*100;
                 progress = (int)(value/StaticHolder.currentTransferSizeByte);
-
-                if(progress > 0 && !cardSwitch1) {
-                    cardSwitch1 = true;
-                    pWindow.changeCard("transferCard");
-                }
-                if(progress >= 100 && !cardSwitch2) {
-                    cardSwitch2 = true;
-                    pWindow.changeCard("doneCard");
-                }
 
                 pWindow.setProgressBar(progress);
                 try {
