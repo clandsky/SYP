@@ -11,15 +11,22 @@ public class StruktGen {
         Struktdaten.Builder strukt = Struktdaten.newBuilder();
         for(int i=0; i<def.getItemJoinDefCount();i++)
         {
-            Struktdaten.JoinDef joinDef = erzeugeJoinDef(i);
+            JoinDef joinDef = erzeugeJoinDef(i, erzeugeLongLong(10000,99999),erzeugeLongLong(123455,321156));
+            strukt.addJoinSeq(i, joinDef);
         }
+        for(int i=0; i<def.getItemAIDNameCount();i++)
+        {
+            AIDName aidname = erzeugeAIDName("AIDName "+i,erzeugeLongLong(1234,5678));
+            strukt.addGroupBy(i, aidname);
+        }
+
         return strukt.build();
     }
 
-    private JoinDef erzeugeJoinDef(int number) {
+    private JoinDef erzeugeJoinDef(int number, LongLong from, LongLong to) {
         JoinDef.Builder builder= Struktdaten.JoinDef.newBuilder();
-        builder.setFromAID(erzeugeLongLong(10000,999999));
-        builder.setToAID(erzeugeLongLong(123445,321156));
+        builder.setFromAID(from);
+        builder.setToAID(to);
         builder.setRefName("JoinDef Refname "+number);
         builder.setJoiningType("JoinDef JoiningType "+number);
 
@@ -31,6 +38,14 @@ public class StruktGen {
         LongLong.Builder builder = LongLong.newBuilder();
         builder.setHigh(i);
         builder.setLow(i1);
+        return builder.build();
+    }
+
+    private AIDName erzeugeAIDName(String aaName, LongLong aid)
+    {
+        AIDName.Builder builder = AIDName.newBuilder();
+        builder.setAaName(aaName);
+        builder.setAid(aid);
         return builder.build();
     }
 }

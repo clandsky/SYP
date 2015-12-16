@@ -26,12 +26,13 @@ public class ServerGUI extends JFrame{
         PrintStream con=new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);
-
         sh=new SessionHandler();
         setContentPane(panel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         frame=this;
+        Printer.printWelcome();
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
