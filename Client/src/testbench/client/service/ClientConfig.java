@@ -102,6 +102,7 @@ public class ClientConfig {
 
     private void initStandartSettingsMap() {
         standartSettingsMap.put("port","8000");
+        standartSettingsMap.put("debugmode","true");
     }
 
     public String getPort() {
@@ -109,5 +110,11 @@ public class ClientConfig {
     }
     public void setPort(String port) {
         currentSettingsMap.put("port", port);
+    }
+    public boolean getDebugMode() {
+        return Boolean.valueOf(currentSettingsMap.get("debugmode"));
+    }
+    public void setDebugMode(boolean bool) {
+        currentSettingsMap.put("debugmode", String.valueOf(bool));
     }
 }

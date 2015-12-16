@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class ClientSteuer {
-    private boolean PRINT_DEBUG = true;
+    public boolean isDebugMode = true;
     private HTTPClient httpClient;
     private DatenService dServe;
 
@@ -116,6 +116,8 @@ public class ClientSteuer {
         try {
             httpClient.connect(adresse);
         } catch (Exception e) {
+            if(isDebugMode) e.printStackTrace();
+            Printer.println("!!! Fehler in ClientSteuer/connect() | Konnte nicht zum Server verbinden !!!");
             return false;
         }
         return true;
@@ -129,5 +131,13 @@ public class ClientSteuer {
         testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl iActivate = new testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl();
         iActivate.startComponent();
         iActivate.getComponentGui().setVisible(true);
+    }
+
+    public boolean isDebugMode() {
+        return isDebugMode;
+    }
+
+    public void setDebugMode(boolean bool) {
+        isDebugMode = bool;
     }
 }
