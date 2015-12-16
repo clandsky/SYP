@@ -11,33 +11,130 @@ public class StruktGen {
         Struktdaten.Builder strukt = Struktdaten.newBuilder();
         for(int i=0; i<def.getItemJoinDefCount();i++)
         {
-            JoinDef joinDef = erzeugeJoinDef(i, erzeugeLongLong(10000,99999),erzeugeLongLong(123455,321156));
+            /*  Kann auch per StruktDef oder per Grenzklassen gefüllt werden,
+                sofern diese implementiert sind. Testweise werden hier die Longs und Strings
+                direkt mit irgendwelchen Werten gefüllt.
+                Später dann: long fromHigh = StruktGrenz.JoiningType.getLong() oder so ähnlich ;)
+                Dies gilt auch für die anderen Schleifen!
+             */
+            String joiningType = "JoinDef JoiningType "+i;
+            String refName = "JoinDef RefName "+i;
+            long fromHigh = 10000;
+            long fromLow = 99999;
+            long toHigh = 123455;
+            long toLow = 321156;
+
+            JoinDef joinDef = erzeugeJoinDef(fromHigh,fromLow,toHigh,toLow,refName,joiningType);
             strukt.addJoinSeq(i, joinDef);
         }
         for(int i=0; i<def.getItemAIDNameCount();i++)
         {
-            AIDName aidname = erzeugeAIDName("AIDName "+i,erzeugeLongLong(1234,5678));
+            String aaName = "AIDName "+i;
+            long high = 1234;
+            long low = 5678;
+            AIDName aidname = erzeugeAIDName(aaName,erzeugeLongLong(high,low));
             strukt.addGroupBy(i, aidname);
         }
+        for(int i=0; i<def.getItemSelItemCount();i++)
+        {
+            String operator = "SelItem operator "+i;
+            String oper = "SelValueExt oper "+i;
+            String u = "TS_VALUE u "+i;
+            short flag = 1;
+            long unitIDHigh = 123456;
+            long unitIDLow = 456789;
+            long aidLow = 987654;
+            long aidHigh = 1234;
+            String aaName="SelItem aaName "+i;
 
+            SelItem selItem = erzeugeSelItem(operator,oper,u,flag,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
+            strukt.addCondSeq(i, selItem);
+        }
+        for(int i=0; i<def.getItemSelOrderCount();i++)
+        {
+            String aaName="SelOrder aaName "+i;
+            boolean ascending = true;
+            long aidHigh = 89153;
+            long aidLow = 4891155;
+
+            SelOrder selOrder = erzeugeSelOrder(ascending,aidHigh,aidLow,aaName);
+            strukt.addOrderBy(i, selOrder);
+        }
+        for(int i=0; i<def.getItemSelUIDCount();i++)
+        {
+            String aggregate= "SelUnitID aggregate "+i;
+            String aaName = "SelUnitID aaName "+i;
+            long aidHigh = 11111;
+            long aidLow = 222222;
+            long unitIDHigh = 3333333;
+            long unitIDLow = 444;
+            SelAIDNameUnitID unit= erzeugeSelNameUnitID(aggregate,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
+            strukt.addAnuSeq(i, unit);
+        }
         return strukt.build();
     }
 
-    private JoinDef erzeugeJoinDef(int number, LongLong from, LongLong to) {
+    private SelAIDNameUnitID erzeugeSelNameUnitID(String aggregate, long unitIDHigh, long unitIDLow, long aidHigh, long aidLow, String aaName) {
+        SelAIDNameUnitID.Builder builder = SelAIDNameUnitID.newBuilder();
+        builder.setAggregate(aggregate);
+        builder.setUnitid(erzeugeLongLong(unitIDHigh,unitIDLow));
+        builder.setAidname(erzeugeAIDName(aaName, erzeugeLongLong(aidHigh,aidLow)));
+        return builder.build();
+    }
+
+    private SelOrder erzeugeSelOrder(boolean ascending,long aidHigh, long aidLow, String aaName) {
+        SelOrder.Builder builder = SelOrder.newBuilder();
+        builder.setAscending(ascending);
+        builder.setAttr(erzeugeAIDName(aaName,erzeugeLongLong(aidHigh,aidLow)));
+        return builder.build();
+
+    }
+
+    private SelItem erzeugeSelItem(String operator, String oper, String u, short flag, long unitIDHigh, long unitIDLow, long aidHigh, long aidlow, String aaName) {
+        SelItem.Builder builder = SelItem.newBuilder();
+
+        builder.setValue(erzeugeSelValueExt(
+                erzeugeAIDNameUnitID(
+                        erzeugeAIDName(aaName, erzeugeLongLong(aidHigh,aidlow)),
+                        erzeugeLongLong(unitIDHigh,unitIDLow)),
+                erzeugeTSValue(flag,u),
+                oper)
+        );
+
+        builder.setOperator(operator);
+        return builder.build();
+    }
+
+    private AIDNameUnitID erzeugeAIDNameUnitID(AIDName aidname, LongLong longLong) {
+        AIDNameUnitID.Builder builder = AIDNameUnitID.newBuilder();
+        builder.setAttr(aidname);
+        builder.setUnitID(longLong);
+        return builder.build();
+    }
+
+    private SelValueExt erzeugeSelValueExt (AIDNameUnitID unit, TS_Value value, String oper){
+        SelValueExt.Builder builder = SelValueExt.newBuilder();
+        builder.setAttr(unit);
+        builder.setValue(value);
+        builder.setOper(oper);
+        return builder.build();
+    }
+
+    private JoinDef erzeugeJoinDef(long fromHigh,long fromLow,long toHigh, long toLow, String refname, String joiningtype) {
         JoinDef.Builder builder= Struktdaten.JoinDef.newBuilder();
-        builder.setFromAID(from);
-        builder.setToAID(to);
-        builder.setRefName("JoinDef Refname "+number);
-        builder.setJoiningType("JoinDef JoiningType "+number);
+        builder.setFromAID(erzeugeLongLong(fromHigh,fromLow));
+        builder.setToAID(erzeugeLongLong(fromHigh,toHigh));
+        builder.setRefName(refname);
+        builder.setJoiningType(joiningtype);
 
 
         return builder.build();
     }
 
-    private LongLong erzeugeLongLong(long i, long i1) {
+    private LongLong erzeugeLongLong(long high, long low) {
         LongLong.Builder builder = LongLong.newBuilder();
-        builder.setHigh(i);
-        builder.setLow(i1);
+        builder.setHigh(high);
+        builder.setLow(low);
         return builder.build();
     }
 
@@ -46,6 +143,14 @@ public class StruktGen {
         AIDName.Builder builder = AIDName.newBuilder();
         builder.setAaName(aaName);
         builder.setAid(aid);
+        return builder.build();
+    }
+
+    private TS_Value erzeugeTSValue (short flag, String u)
+    {
+        TS_Value.Builder builder = TS_Value.newBuilder();
+        builder.setFlag((int)flag);
+        builder.setU(u);
         return builder.build();
     }
 }
