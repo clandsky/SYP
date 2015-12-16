@@ -20,7 +20,7 @@ public class ClientSettingsWindow extends JFrame {
     private JPanel cardPanel;
     private JPanel buttonsPanel;
     private JButton abbrechenButton;
-    private JButton OKButton;
+    private JButton applyButton;
     private JPanel portPanel;
     private JTextField changePortTextField;
     private JButton debugModeButton;
@@ -45,15 +45,13 @@ public class ClientSettingsWindow extends JFrame {
 
         initSettings();
         initListener();
-
-
-
     }
 
     private void initSettings() {
         changePortTextField.setText(clientConfig.getPort());
         debugModeLabel.setText(String.valueOf(clientConfig.getDebugMode()));
-        debugModeButton.setText("Setze auf "+!clientConfig.getDebugMode());
+        if(clientConfig.getDebugMode()) debugModeButton.setText("Set 'False'");
+        else debugModeButton.setText("Set 'True'");
     }
 
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
@@ -66,13 +64,25 @@ public class ClientSettingsWindow extends JFrame {
         setVisible(true);
     }
 
+    private void listSelectSwitch(int row) {
+        switch(row) {
+            case 0:
+                cl.show(cardPanel,"portCard");
+                break;
+
+            case 1:
+                cl.show(cardPanel,"debugModeCard");
+        }
+    }
+
     private void initListener() {
-        OKButton.addActionListener(new ActionListener() {
+        applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String port = changePortTextField.getText();
                 if(isNumeric(port)) {
                     clientConfig.setPort(port);
+                    clientConfig.setDebugMode(Boolean.valueOf(debugModeLabel.getText()));
                     clientConfig.writeCurrentConfig();
                     dispose();
                     if(!isConnectWindow) JOptionPane.showMessageDialog(frame, RESTART_PROGRAM_INFO);
@@ -89,23 +99,15 @@ public class ClientSettingsWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = settingsList.getSelectedIndex();
-                switch(row) {
-                    case 0:
-                        cl.show(cardPanel,"portCard");
-                        break;
-
-                    case 1:
-                        cl.show(cardPanel,"debugModeCard");
-                }
+                listSelectSwitch(row);
             }
         });
         debugModeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // clientConfig.setDebugMode(!clientConfig.getDebugMode());
-           //     if(Boolean.valueOf(debugModeLabel.gett))
-           //     debugModeButton.setText(String.valueOf(!clientConfig.getDebugMode()));
-           //     debugModeLabel.setText(String.valueOf(clientConfig.getDebugMode()));
+                debugModeLabel.setText(String.valueOf(!Boolean.valueOf(debugModeLabel.getText())));
+                if(Boolean.valueOf(debugModeLabel.getText())) debugModeButton.setText("Set 'False'");
+                else debugModeButton.setText("Set 'True'");
             }
         });
     }

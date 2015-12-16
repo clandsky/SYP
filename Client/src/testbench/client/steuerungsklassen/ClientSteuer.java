@@ -12,6 +12,7 @@ import testbench.client.HTTPClient;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.gui.ProgressBarWindow;
+import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
 
 import javax.ws.rs.core.Response;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 
 public class ClientSteuer {
-    public boolean isDebugMode = true;
+    public boolean isDebugMode = ClientConfig.getExemplar().getDebugMode();
     private HTTPClient httpClient;
     private DatenService dServe;
 
