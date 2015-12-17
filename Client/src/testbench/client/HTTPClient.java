@@ -33,7 +33,7 @@ public class HTTPClient {
     private HTTPClient(){} // Konstruktor private, SINGLETON
 
     /**
-     * Diese Methode liefert den Singleton zürück. Wurde er noch
+     * Diese Methode liefert den Singleton zurueck. Wurde er noch
      * nicht initialisiert, so wird er automatisch initialisiert.
      * @return Singleton Object, HTTPClient
      */
