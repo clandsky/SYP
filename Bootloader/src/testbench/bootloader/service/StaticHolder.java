@@ -13,8 +13,11 @@ public class StaticHolder {
     public static SwingWorker<Integer, Integer> activeWorker = null;
     public static int currentTransferSizeByte = 0;
 
-    /* ZEITMESSUNGEN */
+    /* ZEITMESSUNGEN (NUR CLIENT) */
+    public static long gesamtZeit;
+
+    /* ZEITMESSUNGEN (MESSAGE-BODY-READER) */
     public static long serialisierungsZeitMs;
     public static long deSerialisierungsZeitMs;
-    public static long gesamtZeit;
+
 }
