@@ -483,6 +483,7 @@ public class ClientGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = massenTableDetails.getSelectedRow();
+                detailsCardLayout.show(cardPanelDetails,"chartCard");
                 drawChart(row,100,chartPanel);
             }
         });
