@@ -107,7 +107,7 @@ public class ClientSteuer {
     }
 
     /**
-     * Diese Methode empfängt eine Liste aller Massendaten.
+     * Diese Methode empfaengt eine Liste aller Massendaten.
      * Wenn getFromServer=true, so wird eine Liste der Massendaten auf dem Server geliefert.
      * Wenn getFromServer=false, so wird eine Liste der lokalen Massendaten geliefert.
      * @param getFromServer Wenn true: Hole Liste vom Server. Wenn false: Hole lokale Liste.
@@ -127,7 +127,7 @@ public class ClientSteuer {
     }
 
     /**
-     * Diese Methode empfängt eine Liste aller Struktdaten.
+     * Diese Methode empfaengt eine Liste aller Struktdaten.
      * Wenn getFromServer=true, so wird eine Liste der Struktdaten auf dem Server geliefert.
      * Wenn getFromServer=false, so wird eine Liste der lokalen Struktdaten geliefert.
      * @param getFromServer Wenn true: Hole Liste vom Server. Wenn false: Hole lokale Liste.
@@ -147,10 +147,10 @@ public class ClientSteuer {
     }
 
     /**
-     * Diese Methode generiert mithilfe des Daten-Generators zufällige
-     * Massendaten der Größe "size" (Übergabeparameter).
+     * Diese Methode generiert mithilfe des Daten-Generators zufaellige
+     * Massendaten der Groeße "size" (Übergabeparameter).
      * Diese werden dann durch die Methode schreibeMassendaten des DatenService gespeichert.
-     * @param size Größe der zu generierenden Daten.
+     * @param size Groeße der zu generierenden Daten.
      * @return Erzeugte Massendaten.
      */
     public Massendaten generiereZufallsMassendaten(int size) {
@@ -161,7 +161,7 @@ public class ClientSteuer {
 
     /**
      * Diese Methode lädt lokale Massendaten und liefert diese als
-     * MassendatenGrenz zurück.
+     * MassendatenGrenz zurueck.
      * @param id ID der zu ladenden Massendaten.
      * @return Die geladenen Massendaten als MassendatenGrenz.
      */
@@ -170,8 +170,8 @@ public class ClientSteuer {
     }
 
     /**
-     * Diese Methode lädt lokale Struktdaten und liefert diese als
-     * StruktdatenGrenz zurück.
+     * Diese Methode laedt lokale Struktdaten und liefert diese als
+     * StruktdatenGrenz zurueck.
      * @param id ID der zu ladenden Struktdaten.
      * @return Die geladenen Struktdaten als StruktdatenGrenz.
      */
@@ -184,7 +184,7 @@ public class ClientSteuer {
      * den Client sowie das Target in HTTPClient mit der gegebenen IP
      * zu initialisieren. Dies geschieht durch den Aufruf der connect() Methode
      * in HTTPClient.
-     * @param IP Adresse des Servers, zu dem verbunden werden soll.ä
+     * @param IP Adresse des Servers, zu dem verbunden werden soll.
      * @return Wenn erfolgreich: True. Sonst False.
      */
     public boolean connect(String IP) {
@@ -199,7 +199,7 @@ public class ClientSteuer {
     }
 
     /**
-     * Liefert die IP des aktuell verbundenen Servers zurück.
+     * Liefert die IP des aktuell verbundenen Servers zurueck.
      * Dazu wird die Methode getServerIP() in HTTPClient aufgerufen.
      * @return IP des Servers.
      */

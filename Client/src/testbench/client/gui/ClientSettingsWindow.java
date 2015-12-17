@@ -61,7 +61,7 @@ public class ClientSettingsWindow extends JFrame {
     /**
      * Hier werden einige allgemeine GUI Einstellungen festgelegt.
      * @param guiSizeX Breite des GUI-Fensters.
-     * @param guiSizeY Höhe des GUI-Fensters.
+     * @param guiSizeY Hoehe des GUI-Fensters.
      */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         setTitle("Protobuf Testbench Client Settings");
@@ -74,7 +74,7 @@ public class ClientSettingsWindow extends JFrame {
     }
 
     /**
-     * Diese Methode öffnet die gewünschte Karte aus dem CardLayout.
+     * Diese Methode oeffnet die gewünschte Karte aus dem CardLayout.
      * @param row Nummer des geklickten Elementes in der Einstellungen-Liste.
      */
     private void listSelectSwitch(int row) {
@@ -129,9 +129,9 @@ public class ClientSettingsWindow extends JFrame {
     }
 
     /**
-     * Diese Methode prüft, ob der gegebene String eine valide Nummer enthält.
-     * @param input String, der überprüft wird.
-     * @return Wenn der String eine valide Nummer enthält: True. Sonst False.
+     * Diese Methode prueft, ob der gegebene String eine valide Nummer enthaelt.
+     * @param input String, der ueberprueft wird.
+     * @return Wenn der String eine valide Nummer enthaelt: True. Sonst False.
      */
     private boolean isNumeric(String input) {
         try {

@@ -45,8 +45,8 @@ public class ProgressBarWindow extends JFrame {
      * Die JProgressBar wird nicht angezeigt (Upload zeigt keine Bar an)
      *
      * Sonst:
-     * Ist der Fortschritt größer als 0, so wird die JProgressBar angezeigt.
-     * Ist der Fortschritt Größer oder gleich 100, so verschwindet die JProgressBar.
+     * Ist der Fortschritt groeßer als 0, so wird die JProgressBar angezeigt.
+     * Ist der Fortschritt Groeßer oder gleich 100, so verschwindet die JProgressBar.
      *
      * @param value Fortschritt
      */
@@ -66,7 +66,7 @@ public class ProgressBarWindow extends JFrame {
     /**
      * Hier werden einige allgemeine GUI Einstellungen festgelegt.
      * @param guiSizeX Breite des GUI-Fensters.
-     * @param guiSizeY Höhe des GUI-Fensters.
+     * @param guiSizeY Hoehe des GUI-Fensters.
      */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         Dimension d = new Dimension();

@@ -44,7 +44,7 @@ public class HTTPClient {
 
     /**
      * Diese Methode versucht, client und target zu initialisieren, welche für die
-     * Verbindung zum Server benötigt werden.
+     * Verbindung zum Server benoetigt werden.
      * Nach der Initialisierung wird getestet, ob der Server online ist.
      * @param adresse IP-Adresse des Servers.
      * @return Falls erfolgreich und HTTP-Respone==200: True. Sonst: False.
@@ -69,7 +69,7 @@ public class HTTPClient {
 
     /**
      * Diese Methode versucht, Massendaten mittels "POST-REQUEST" an den Server zu senden.
-     * Außerdem wird hier die benötigte Gesamtzeit des "POST-REQUEST" gemessen.
+     * Ausserdem wird hier die benoetigte Gesamtzeit des "POST-REQUEST" gemessen.
      * @param m Massendaten, die gesendet werden sollen.
      * @return "Response-Objekt" des Servers bei Erfolg. Sonst null.
      */
@@ -88,7 +88,7 @@ public class HTTPClient {
 
     /**
      * Diese Methode versucht, Struktdaten mittels "POST-REQUEST" an den Server zu senden.
-     * Außerdem wird hier die benötigte Gesamtzeit des "POST-REQUEST" gemessen.
+     * Ausserdem wird hier die benoetigte Gesamtzeit des "POST-REQUEST" gemessen.
      * @param s Struktdaten, die gesendet werden sollen.
      * @return "Response-Objekt" des Servers bei Erfolg. Sonst null.
      */
@@ -100,7 +100,7 @@ public class HTTPClient {
 
     /**
      * Diese Methode versucht, Massendaten mittels "GET-REQUEST" zu empfangen.
-     * Außerdem wird hier die benötigte Gesamtzeit des "GET-REQUEST" gemessen.
+     * Ausserdem wird hier die benoetigte Gesamtzeit des "GET-REQUEST" gemessen.
      * @param id ID der Daten, die empfangen werden sollen.
      * @return Empfangene Massendaten bei Erfolg. Sonst null.
      */
@@ -120,7 +120,7 @@ public class HTTPClient {
 
     /**
      * Diese Methode versucht, Struktdaten mittels "GET-REQUEST" zu empfangen.
-     * Außerdem wird hier die benötigte Gesamtzeit des "GET-REQUEST" gemessen.
+     * Ausserdem wird hier die benoetigte Gesamtzeit des "GET-REQUEST" gemessen.
      * @param id ID der Daten, die empfangen werden sollen.
      * @return Empfangene Massendaten bei Erfolg. Sonst null.
      */
@@ -162,7 +162,7 @@ public class HTTPClient {
     }
 
     /**
-     * Diese Methode liefert die IP des aktuell gesetzten Servers zurück.
+     * Diese Methode liefert die IP des aktuell gesetzten Servers zurueck.
      * @return IP des aktuellen Servers.
      */
     public String getServerIP() {

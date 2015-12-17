@@ -82,7 +82,7 @@ public class ClientConfig {
     }
 
     /**
-     * Diese Methode überprüft, ob zwei Listen(String) exakt gleich sind.
+     * Diese Methode ueberprueft, ob zwei Listen(String) exakt gleich sind.
      * @param list1 Erste Liste.
      * @param list2 Zweite Liste.
      * @return Wenn die Listen gleich sind: True. Sonst False.
@@ -102,7 +102,7 @@ public class ClientConfig {
 
     /**
      * Diese Methode nimmt die aktuellen Einstellungen und schreibt diese in eine Datei.
-     * Diese datei wird dann auf der Festplatte abgelegt.
+     * Diese Datei wird dann auf der Festplatte abgelegt.
      * @param map HashMap, die die zu speichernden Einstellungen liefert.
      */
     private void writeConfig(HashMap<String, String> map) {
@@ -129,8 +129,8 @@ public class ClientConfig {
     }
 
     /**
-     * Diese Methode bestimmt, welche Einstellungen existieren und was deren
-     * Standard-Werte sind.
+     * Diese Methode bestimmt, welche Einstellungen existieren und setzt deren
+     * Standard-Werte.
      */
     private void initStandartSettingsMap() {
         standartSettingsMap.put("port","8000");

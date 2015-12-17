@@ -133,10 +133,10 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode füllt den gegebenen JTable mit den Elementen
+     * Diese Methode fuellt den gegebenen JTable mit den Elementen
      * der gegebenen MassenInfoGrenz-Liste.
-     * @param table JTable der gefüllt werden soll.
-     * @param mInfoGrenzList MassenInfoGrenz Liste, mit der der JTable gefüllt werden soll.
+     * @param table JTable der gefuellt werden soll.
+     * @param mInfoGrenzList MassenInfoGrenz Liste, mit der der JTable gefuellt werden soll.
      */
     private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
             DefaultTableModel model;
@@ -160,10 +160,10 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode füllt den gegebenen JTable mit den Elementen
+     * Diese Methode fuellt den gegebenen JTable mit den Elementen
      * der gegebenen StruktInfoGrenz-Liste.
-     * @param table JTable der gefüllt werden soll.
-     * @param sInfoGrenzList StruktInfoGrenz Liste, mit der der JTable gefüllt werden soll.
+     * @param table JTable der gefuellt werden soll.
+     * @param sInfoGrenzList StruktInfoGrenz Liste, mit der der JTable gefuellt werden soll.
      */
     private void fillStruktTable(JTable table, List<StruktInfoGrenz> sInfoGrenzList) {
             DefaultTableModel model;
@@ -199,7 +199,7 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode aktualisiert die Listen, die die verfügbaren Daten auf dem Server anzeigen.
+     * Diese Methode aktualisiert die Listen, die die verfuegbaren Daten auf dem Server anzeigen.
      */
     private void refreshDownload() {
         artLabelDown.setText("/");
@@ -217,7 +217,7 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode aktualisiert die Listen, die die lokal verfügbaren Daten anzeigen.
+     * Diese Methode aktualisiert die Listen, die die lokal verfuegbaren Daten anzeigen.
      */
     private void refreshUpload() {
         artLabelUp.setText("/");
@@ -237,8 +237,8 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Hier werden die Listen, die die verfügbaren Daten anzeigen mit den
-     * entsprechenden InfoGrenz-Listen gefüllt.
+     * Hier werden die Listen, die die verfuegbaren Daten anzeigen mit den
+     * entsprechenden InfoGrenz-Listen gefuellt.
      */
     private void initDataLists() {
         massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
@@ -256,9 +256,9 @@ public class ClientGUI extends JFrame {
 
     /**
      * Diese Methode aktualisiert die Details-Anzeigenden JLabel mit gegebenen Texten.
-     * @param artLabel Das JLabel, das die Art der Daten repräsentiert.
-     * @param idLabel Das JLabel, das die ID der Daten repräsentiert.
-     * @param groesseLabel Das JLabel, das die Größe der Daten repräsentiert.
+     * @param artLabel Das JLabel, das die Art der Daten repraesentiert.
+     * @param idLabel Das JLabel, das die ID der Daten repraesentiert.
+     * @param groesseLabel Das JLabel, das die Groeße der Daten repraesentiert.
      * @param daten Die Daten, die die Informationen zum aktualisieren beinhalten.
      */
     private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
@@ -277,9 +277,9 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode lädt eine Bild-Ressource.
+     * Diese Methode laedt eine Bild-Ressource.
      * @param filePath Pfad, unter dem die Ressource zu finden ist.
-     * @return Das Bild als BufferedImage
+     * @return Das Bild als BufferedImage.
      */
     private BufferedImage loadImageResource(String filePath) {
         try {
@@ -294,7 +294,7 @@ public class ClientGUI extends JFrame {
     /**
      * Hier werden einige allgemeine GUI Einstellungen festgelegt.
      * @param guiSizeX Breite des GUI-Fensters.
-     * @param guiSizeY Höhe des GUI-Fensters.
+     * @param guiSizeY Hoehe des GUI-Fensters.
      */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         setLocationRelativeTo(null);
@@ -498,9 +498,9 @@ public class ClientGUI extends JFrame {
 
     /**
      * Diese Methode baut aus gegebener IP und gegebenem PORT einen String nach
-     * dem Muster "http://xxxxx:xxxx/" zusammen und liefert diesen zurück.
-     * @param ip Gewünschte IP.
-     * @param port Gewünschter PORT.
+     * dem Muster "http://xxxxx:xxxx/" zusammen und liefert diesen zurueck.
+     * @param ip Gewuenschte IP.
+     * @param port Gewuenschter PORT.
      * @return Den zusammengesetzten String.
      */
     private String addIpSyntax(String ip, String port) {
@@ -525,7 +525,7 @@ public class ClientGUI extends JFrame {
 
     /**
      * Diese Methode durchsucht eine gegebene Liste nach Daten mit gegebener IP
-     * und liefert die Größe dieser Daten zurück.
+     * und liefert die Größe dieser Daten zurueck.
      * @param datenList Liste, die durchsucht werden soll.
      * @param id ID der Daten, nach denen gesucht werden soll.
      * @return Größe der Daten. Sonst 0.
@@ -547,8 +547,8 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode nimmt eine gegebene IP und überprüft diese auf Zulässigkeit.
-     * Ist diese gegeben, so wird überprüft ob der Server erreichbar ist.
+     * Diese Methode nimmt eine gegebene IP und ueberprueft diese auf Zulaessigkeit.
+     * Ist diese gegeben, so wird ueberprueft ob der Server erreichbar ist.
      * Ist dies der Fall, verschwindet das Login-Fenster und das eigentliche
      * Programm erscheint.
      * @param ip IP zu der verbunden werden soll.

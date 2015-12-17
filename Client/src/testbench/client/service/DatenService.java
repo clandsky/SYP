@@ -19,7 +19,7 @@ public class DatenService {
 
     /**
      * Diese Methode liefert eine Liste aller lokalen Massendaten
-     * als MassenInfo-Liste zurück.
+     * als MassenInfo-Liste zurueck.
      * @return Liste aller Massendaten als MassenInfo-Liste
      */
     public List<MassenInfo> ladeMassenListe() {
@@ -28,7 +28,7 @@ public class DatenService {
 
     /**
      * Diese Methode liefert eine Liste aller lokalen Struktdaten
-     * als StruktInfo-Liste zurück.
+     * als StruktInfo-Liste zurueck.
      * @return Liste aller Struktdaten als StruktInfo-Liste
      */
     public List<StruktInfo> ladeStruktListe() {
@@ -36,7 +36,7 @@ public class DatenService {
     }
 
     /**
-     * Diese Methode lädt Massendaten mit einer bestimmten ID und liefert diese zurück.
+     * Diese Methode laedt Massendaten mit einer bestimmten ID und liefert diese zurueck.
      * Dies geschieht durch Aufruf der Schnittstellen-Methode ladeMassendaten()
      * in IDatenverwaltungIMPL.
      * @param id ID der zu ladenden Daten.
@@ -47,7 +47,7 @@ public class DatenService {
     }
 
     /**
-     * Diese Methode lädt Struktdaten mit einer bestimmten ID und liefert diese zurück.
+     * Diese Methode laedt Struktdaten mit einer bestimmten ID und liefert diese zurueck.
      * Dies geschieht durch Aufruf der Schnittstellen-Methode ladeStrukturiertedaten()
      * in IDatenverwaltungIMPL.
      * @param id ID der zu ladenden Daten.
@@ -80,10 +80,10 @@ public class DatenService {
     }
 
     /**
-     * Diese Methode liefert zufällig generierte Massendaten mit Hilfe zurück.
+     * Diese Methode liefert zufaellig generierte Massendaten mit Hilfe zurueck.
      * Dies geschieht durch Aufruf der Schnittstellen-Methode generiereRandomMassendaten()
      * in IDatenverwaltungIMPL.
-     * @param size Größe, die die generierten Daten haben sollen in KiloByte.
+     * @param size Groeße in KiloByte, die die generierten Daten haben sollen.
      * @return Die generierten Massendaten.
      */
     public Massendaten generiereZufallsMassendaten(int size) {
