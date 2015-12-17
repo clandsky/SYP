@@ -1,7 +1,18 @@
 package testbench.client.gui;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassendatenGrenz;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import testbench.bootloader.service.StaticHolder;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
@@ -83,6 +94,19 @@ public class ClientGUI extends JFrame {
     private JPanel rightPanelMessdaten;
     private JButton einstellungenButtonMain;
     private JButton einstellungenButtonConnect;
+    private JButton datenverwaltungButton;
+    private JPanel chartPanel;
+    private JPanel splitPanePanelDetails;
+    private JSplitPane splitPaneDetails;
+    private JPanel leftPanelDetails;
+    private JPanel cardPanelDetails;
+    private JPanel rightPanelDetails;
+    private JPanel treePanel;
+    private JLabel refreshIconDetails;
+    private JScrollPane scrollPaneMassenDetails;
+    private JScrollPane scrollPaneStruktDetails;
+    private JTable massenTableDetails;
+    private JTable struktTableDetails;
 
     /* OBEN -> automatisch generiert */
 
@@ -90,10 +114,12 @@ public class ClientGUI extends JFrame {
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
     private ClientSteuer cSteuer = new ClientSteuer();
     DecimalFormat df = new DecimalFormat();
-    private CardLayout cl = (CardLayout) cardPanel.getLayout();
+    private CardLayout mainCardLayout = (CardLayout) cardPanel.getLayout();
+    private CardLayout detailsCardLayout = (CardLayout) cardPanelDetails.getLayout();
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
     private ClientConfig clientConfig = ClientConfig.getExemplar();
+    JFrame datenVerwaltungGUI;
 
     /* ############## RESSOURCEN PFADE ################ */
     private final String IMAGEFOLDER = "/resources/images/";
@@ -130,6 +156,45 @@ public class ClientGUI extends JFrame {
         initImages();
         initListener();
         initSplitPanes();
+    }
+
+    /**
+     * Diese Methode laedt Massendaten über die ClientSteuer und zeichnet
+     * mit den enthaltenen Werten einen Graphen.
+     * @param panel JPanel in das gezeichnet werden soll.
+     * @param howMuchValuesToDraw ID der zu ladenden Massendaten.
+     */
+    private void drawChart(int selectedTableRow, int howMuchValuesToDraw, JPanel panel) {
+        MassenInfoGrenz mig = massenInfoClient.get(selectedTableRow);
+        MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(mig.getId());
+        XYSeries signal = new XYSeries("Signal");
+        XYSeriesCollection dataset;
+        int abbruch;
+
+        if(mGrenz.getValues().size() > howMuchValuesToDraw) abbruch = howMuchValuesToDraw;
+        else abbruch = mGrenz.getValues().size();
+
+        for(int i=0 ; i<abbruch ; i++) {
+            signal.add(mGrenz.getValues().get(i).getNumber(),Double.valueOf(new String("0."+i)));
+        }
+
+        dataset = new XYSeriesCollection();
+        dataset.addSeries(signal);
+
+        XYDotRenderer dotRenderer = new XYDotRenderer();
+        dotRenderer.setDotHeight(2);
+        dotRenderer.setDotWidth(2);
+        NumberAxis xAxis = new NumberAxis("x");
+        NumberAxis yAxis = new NumberAxis("y");
+
+        XYPlot plot = new XYPlot(dataset,xAxis,yAxis, dotRenderer);
+        JFreeChart chart = new JFreeChart(plot);
+        chart.setTitle("Massendaten");
+
+        panel.setLayout(new java.awt.BorderLayout());
+        ChartPanel CP = new ChartPanel(chart);
+        panel.add(CP,BorderLayout.CENTER);
+        panel.validate();
     }
 
     /**
@@ -230,6 +295,16 @@ public class ClientGUI extends JFrame {
     }
 
     /**
+     * Diese Methode aktualisiert die Listen, die die lokal verfuegbaren Daten anzeigen.
+     */
+    private void refreshDetails() {
+        massenInfoClient = cSteuer.getMassenInfoGrenzList(false);
+        struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
+        fillMassenTable(massenTableDetails,massenInfoClient);
+        fillStruktTable(struktTableDetails,struktInfoClient);
+    }
+
+    /**
      * Diese Methode aktualisiert die Listen, die die lokal vorhandenen Messdaten anzeigen.
      */
     private void refreshMessdaten() {
@@ -246,12 +321,14 @@ public class ClientGUI extends JFrame {
 
         massenInfoClient = cSteuer.getMassenInfoGrenzList(false);
         fillMassenTable(massenTableUpload,massenInfoClient);
+        fillMassenTable(massenTableDetails, massenInfoClient);
 
         struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
         fillStruktTable(struktTableDownload,struktInfoServer);
 
         struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
         fillStruktTable(struktTableUpload,struktInfoClient);
+        fillStruktTable(struktTableDetails,struktInfoClient);
     }
 
     /**
@@ -321,6 +398,7 @@ public class ClientGUI extends JFrame {
     private void initSplitPanes() {
         splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
         splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneDetails.setDividerLocation(DIVIDER_LOCATION);
         splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
     }
 
@@ -331,6 +409,7 @@ public class ClientGUI extends JFrame {
     private void initImages() {
         setIcon(refreshIconDownload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
         setIcon(refreshIconUpload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
+        setIcon(refreshIconDetails, loadImageResource(IMAGE_REFRESH_PATH),25,25);
         setIcon(refreshIconMessdaten, loadImageResource(IMAGE_REFRESH_PATH),25,25);
         setIcon(thLogoLabel, loadImageResource(IMAGE_TH_PATH),75,43);
         setIcon(protobufLogoLabel, loadImageResource(IMAGE_PROTOBUF_PATH),130,40);
@@ -380,6 +459,12 @@ public class ClientGUI extends JFrame {
                 refreshDownload();
             }
         });
+        refreshIconDetails.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                refreshDetails();
+            }
+        });
         massenTableDownload.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -392,6 +477,13 @@ public class ClientGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int row = massenTableUpload.getSelectedRow();
                 fillDataInfoLabels(artLabelUp,idLabelUp,groesseLabelUp,massenInfoClient.get(row));
+            }
+        });
+        massenTableDetails.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = massenTableDetails.getSelectedRow();
+                drawChart(row,100,chartPanel);
             }
         });
         struktTableDownload.addMouseListener(new MouseAdapter() {
@@ -408,6 +500,14 @@ public class ClientGUI extends JFrame {
                 fillDataInfoLabels(artLabelUp,idLabelUp,groesseLabelUp,struktInfoClient.get(row));
             }
         });
+        struktTableDetails.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = struktTableDetails.getSelectedRow();
+                //drawTree(row);
+            }
+        });
+
         herunterladenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -494,6 +594,13 @@ public class ClientGUI extends JFrame {
                 new ClientSettingsWindow(false);
             }
         });
+        datenverwaltungButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(datenVerwaltungGUI == null) datenVerwaltungGUI = cSteuer.starteDatenverwaltung();
+                datenVerwaltungGUI.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -570,7 +677,7 @@ public class ClientGUI extends JFrame {
                     else {
                         initDataLists();
                         actualizeCurrentIpTextField(cSteuer.getServerIP());
-                        cl.show(cardPanel, "mainCard");
+                        mainCardLayout.show(cardPanel, "mainCard");
                     }
                 } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
             }

@@ -10,6 +10,15 @@
     <orderEntry type="library" name="aopalliance-repackaged-2.4.0-b311" level="project" />
     <orderEntry type="module" module-name="Bootloader" />
     <orderEntry type="module" module-name="Datenverwaltung" />
-    <orderEntry type="library" name="JGoodies Forms" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/jfreechart" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/lib/jfreechart" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

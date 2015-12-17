@@ -14,6 +14,7 @@ import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.gui.ProgressBarWindow;
 import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
+import testbench.datenverwaltung.dateiverwaltung.impl.*;
 
 import javax.swing.*;
 import javax.ws.rs.core.Response;
@@ -210,10 +211,11 @@ public class ClientSteuer {
     /**
      * Diese Methode startet die Komponente Datenverwaltung.
      */
-    public void starteDatenverwaltung() {
+    public JFrame starteDatenverwaltung() {
         testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl iActivate = new testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl();
         iActivate.startComponent();
         iActivate.getComponentGui().setVisible(true);
-        iActivate.getComponentGui().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // damit das Programm nicht mit dem Fenster geschlossen wird.
+        iActivate.getComponentGui().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE); // damit das Programm nicht mit dem Fenster geschlossen wird.
+        return iActivate.getComponentGui();
     }
 }

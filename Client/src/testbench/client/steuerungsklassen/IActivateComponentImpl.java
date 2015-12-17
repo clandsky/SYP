@@ -11,8 +11,8 @@ import java.awt.*;
  */
 public class IActivateComponentImpl implements IActivateComponent {
     private ClientGUI clientGui;
-    private int guiSizeX = 800;
-    private int guiSizeY = 500;
+    private int guiSizeX = 1100;
+    private int guiSizeY = 650;
 
     @Override
     public boolean startComponent() throws Exception {
