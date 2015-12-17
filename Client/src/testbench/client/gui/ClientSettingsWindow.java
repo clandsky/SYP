@@ -47,6 +47,10 @@ public class ClientSettingsWindow extends JFrame {
         initListener();
     }
 
+    /**
+     * Diese Methode holt sich die aktuellen Einstellungen vom ClientConfig-Singleton
+     * und schreibt diese in die entsprechenden JLabels/JButtons.
+     */
     private void initSettings() {
         changePortTextField.setText(clientConfig.getPort());
         debugModeLabel.setText(String.valueOf(clientConfig.getDebugMode()));
@@ -54,6 +58,11 @@ public class ClientSettingsWindow extends JFrame {
         else debugModeButton.setText("Set 'True'");
     }
 
+    /**
+     * Hier werden einige allgemeine GUI Einstellungen festgelegt.
+     * @param guiSizeX Breite des GUI-Fensters.
+     * @param guiSizeY Höhe des GUI-Fensters.
+     */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         setTitle("Protobuf Testbench Client Settings");
         Dimension d = new Dimension();
@@ -64,6 +73,10 @@ public class ClientSettingsWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Diese Methode öffnet die gewünschte Karte aus dem CardLayout.
+     * @param row Nummer des geklickten Elementes in der Einstellungen-Liste.
+     */
     private void listSelectSwitch(int row) {
         switch(row) {
             case 0:
@@ -75,6 +88,9 @@ public class ClientSettingsWindow extends JFrame {
         }
     }
 
+    /**
+     * Hier werden alle ActionListener sowie MouseListener der GUI erstellt.
+     */
     private void initListener() {
         applyButton.addActionListener(new ActionListener() {
             @Override
@@ -112,6 +128,11 @@ public class ClientSettingsWindow extends JFrame {
         });
     }
 
+    /**
+     * Diese Methode prüft, ob der gegebene String eine valide Nummer enthält.
+     * @param input String, der überprüft wird.
+     * @return Wenn der String eine valide Nummer enthält: True. Sonst False.
+     */
     private boolean isNumeric(String input) {
         try {
             Integer.parseInt(input);

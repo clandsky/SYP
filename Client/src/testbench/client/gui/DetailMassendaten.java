@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by svenm on 14.12.2015.
+ * Created by Sven Riedel on 14.12.2015
  */
 public class DetailMassendaten extends JFrame{
     private JPanel mainPanel;

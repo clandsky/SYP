@@ -24,14 +24,30 @@ public class ClientConfig {
         writeCurrentConfig();
     }
 
+    /**
+     * Diese Methode liefert den Singleton zürück. Wurde er noch
+     * nicht initialisiert, so wird er automatisch initialisiert.
+     * @return Singleton Object, ClientConfig
+     */
     public static ClientConfig getExemplar() {
         if(clientConfig == null) clientConfig = new ClientConfig();
         return clientConfig;
     }
+
+    /**
+     * Schreibt die aktuelle Einstellungen auf die Festplatte.
+     * Dies geschieht mit Hilfe der writeConfig() Methode.
+     */
     public void writeCurrentConfig() {
         writeConfig(currentSettingsMap);
     }
 
+    /**
+     * Diese Methode liest die aktuellen Einstellungen von der Festplatte und
+     * schreibt diese in die zugehörige HashMap.
+     * Existiert keine Einstellungs-Datei, so wird diese mit den
+     * Standard-Einstellungen erzeugt (mit Hilfe der writeStandartConfig() Methode).
+     */
     public void readConfigToMap() {
         BufferedReader br;
         File config = new File(filePath);
@@ -65,18 +81,30 @@ public class ClientConfig {
         }
     }
 
+    /**
+     * Diese Methode überprüft, ob zwei Listen(String) exakt gleich sind.
+     * @param list1 Erste Liste.
+     * @param list2 Zweite Liste.
+     * @return Wenn die Listen gleich sind: True. Sonst False.
+     */
     private boolean compareStringLists(List<String> list1, List<String> list2) {
         if(list1.size() != list2.size()) return false;
-
         for(int i=0 ; i<list1.size() ; i++) if(!list1.get(i).equals(list2.get(i))) return false;
-
         return true;
     }
 
+    /**
+     * Diese Methode schreibt die Standard-Einstellungen in eine Datei und speichert diese.
+     */
     public void writeStandartConfig() {
         writeConfig(standartSettingsMap);
     }
 
+    /**
+     * Diese Methode nimmt die aktuellen Einstellungen und schreibt diese in eine Datei.
+     * Diese datei wird dann auf der Festplatte abgelegt.
+     * @param map HashMap, die die zu speichernden Einstellungen liefert.
+     */
     private void writeConfig(HashMap<String, String> map) {
         PrintWriter printWriter;
         ArrayList<String> valueList;
@@ -100,6 +128,10 @@ public class ClientConfig {
         }
     }
 
+    /**
+     * Diese Methode bestimmt, welche Einstellungen existieren und was deren
+     * Standard-Werte sind.
+     */
     private void initStandartSettingsMap() {
         standartSettingsMap.put("port","8000");
         standartSettingsMap.put("debugmode","true");

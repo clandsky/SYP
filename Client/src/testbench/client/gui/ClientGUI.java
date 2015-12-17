@@ -132,6 +132,12 @@ public class ClientGUI extends JFrame {
         initSplitPanes();
     }
 
+    /**
+     * Diese Methode füllt den gegebenen JTable mit den Elementen
+     * der gegebenen MassenInfoGrenz-Liste.
+     * @param table JTable der gefüllt werden soll.
+     * @param mInfoGrenzList MassenInfoGrenz Liste, mit der der JTable gefüllt werden soll.
+     */
     private void fillMassenTable(JTable table, List<MassenInfoGrenz> mInfoGrenzList) {
             DefaultTableModel model;
 
@@ -153,6 +159,12 @@ public class ClientGUI extends JFrame {
             }
     }
 
+    /**
+     * Diese Methode füllt den gegebenen JTable mit den Elementen
+     * der gegebenen StruktInfoGrenz-Liste.
+     * @param table JTable der gefüllt werden soll.
+     * @param sInfoGrenzList StruktInfoGrenz Liste, mit der der JTable gefüllt werden soll.
+     */
     private void fillStruktTable(JTable table, List<StruktInfoGrenz> sInfoGrenzList) {
             DefaultTableModel model;
 
@@ -174,11 +186,21 @@ public class ClientGUI extends JFrame {
             }
     }
 
+    /**
+     * Diese Methode weist einem gegebenen JLabel ein Icon zu.
+     * @param label Label, dem das Icon zugewiesen werden soll.
+     * @param image Das Icon, das dem Label zugewiesen werden soll.
+     * @param sizeX Breite des Icons.
+     * @param sizeY Höhe des Icons.
+     */
     private void setIcon(JLabel label, BufferedImage image, int sizeX, int sizeY ) {
         label.setText("");
         label.setIcon(new ImageIcon(image.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT)));
     }
 
+    /**
+     * Diese Methode aktualisiert die Listen, die die verfügbaren Daten auf dem Server anzeigen.
+     */
     private void refreshDownload() {
         artLabelDown.setText("/");
         idLabelDown.setText("/");
@@ -194,6 +216,9 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Diese Methode aktualisiert die Listen, die die lokal verfügbaren Daten anzeigen.
+     */
     private void refreshUpload() {
         artLabelUp.setText("/");
         idLabelUp.setText("/");
@@ -204,10 +229,17 @@ public class ClientGUI extends JFrame {
         fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
+    /**
+     * Diese Methode aktualisiert die Listen, die die lokal vorhandenen Messdaten anzeigen.
+     */
     private void refreshMessdaten() {
         Printer.println("refresh messdaten");
     }
 
+    /**
+     * Hier werden die Listen, die die verfügbaren Daten anzeigen mit den
+     * entsprechenden InfoGrenz-Listen gefüllt.
+     */
     private void initDataLists() {
         massenInfoServer = cSteuer.getMassenInfoGrenzList(true);
         fillMassenTable(massenTableDownload,massenInfoServer);
@@ -222,6 +254,13 @@ public class ClientGUI extends JFrame {
         fillStruktTable(struktTableUpload,struktInfoClient);
     }
 
+    /**
+     * Diese Methode aktualisiert die Details-Anzeigenden JLabel mit gegebenen Texten.
+     * @param artLabel Das JLabel, das die Art der Daten repräsentiert.
+     * @param idLabel Das JLabel, das die ID der Daten repräsentiert.
+     * @param groesseLabel Das JLabel, das die Größe der Daten repräsentiert.
+     * @param daten Die Daten, die die Informationen zum aktualisieren beinhalten.
+     */
     private void fillDataInfoLabels(JLabel artLabel, JLabel idLabel, JLabel groesseLabel, Object daten) {
         if(daten.getClass() == MassenInfoGrenz.class) {
             MassenInfoGrenz mig = (MassenInfoGrenz) daten;
@@ -237,6 +276,11 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Diese Methode lädt eine Bild-Ressource.
+     * @param filePath Pfad, unter dem die Ressource zu finden ist.
+     * @return Das Bild als BufferedImage
+     */
     private BufferedImage loadImageResource(String filePath) {
         try {
             BufferedImage bufferedImage = ImageIO.read(getClass().getResource(filePath));
@@ -247,6 +291,11 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Hier werden einige allgemeine GUI Einstellungen festgelegt.
+     * @param guiSizeX Breite des GUI-Fensters.
+     * @param guiSizeY Höhe des GUI-Fensters.
+     */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         setLocationRelativeTo(null);
         setResizable(false);
@@ -257,16 +306,28 @@ public class ClientGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Diese Methode aktualisiert das JLabel, welches die
+     * aktuelle Server-IP anzeigt.
+     * @param ip IP, die in das JLabel geschrieben werden soll.
+     */
     private void actualizeCurrentIpTextField(String ip) {
         currentIpTextField.setText(removeIpSyntax(ip));
     }
 
+    /**
+     * Hier werden die SplitPanes initialisiert bzw. die Divider-Position festgelegt.
+     */
     private void initSplitPanes() {
         splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
         splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
         splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
     }
 
+    /**
+     * Hier werden einigen JLabels Icons zugewiesen.
+     * Dies geschieht mit Hilfe der setIcon() Methode.
+     */
     private void initImages() {
         setIcon(refreshIconDownload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
         setIcon(refreshIconUpload, loadImageResource(IMAGE_REFRESH_PATH),25,25);
@@ -276,6 +337,9 @@ public class ClientGUI extends JFrame {
         setIcon(infoLogoLabel, loadImageResource(IMAGE_INFO_PATH),26,26);
     }
 
+    /**
+     * Hier werden alle ActionListener sowie MouseListener der GUI erstellt.
+     */
     private void initListener() {
         verbindenButton.addActionListener(new ActionListener() {
             @Override // Listener für verbindenButton-Klick
@@ -350,7 +414,7 @@ public class ClientGUI extends JFrame {
                 String text = idLabelDown.getText();
 
                 if(!text.equals("/")) {
-                    StaticHolder.currentTransferSizeByte = getSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
+                    StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
                     if(StaticHolder.activeWorker == null) {
                         try {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
@@ -383,7 +447,7 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
-                    StaticHolder.currentTransferSizeByte = getSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
+                    StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
                     if(StaticHolder.activeWorker == null) {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
@@ -432,7 +496,13 @@ public class ClientGUI extends JFrame {
         });
     }
 
-    /* hinzufügen von http:// und :port   */
+    /**
+     * Diese Methode baut aus gegebener IP und gegebenem PORT einen String nach
+     * dem Muster "http://xxxxx:xxxx/" zusammen und liefert diesen zurück.
+     * @param ip Gewünschte IP.
+     * @param port Gewünschter PORT.
+     * @return Den zusammengesetzten String.
+     */
     private String addIpSyntax(String ip, String port) {
         String ipNew = new String(ip);
         if(!ipNew.startsWith("http://")) ipNew = "http://"+ip;
@@ -441,15 +511,26 @@ public class ClientGUI extends JFrame {
         return ipNew;
     }
 
-    /* entfernen von http:// und :port    */
-    private String removeIpSyntax(String ip) {
-        String ipNew = new String(ip);
+    /**
+     * Diese Methode entfernt aus gegebener Adresse das "http://" sowie den PORT
+     * @param adresse Adresse, aus der die IP extrahiert werden soll.
+     * @return Die extrahierte IP.
+     */
+    private String removeIpSyntax(String adresse) {
+        String ipNew = new String(adresse);
         ipNew = ipNew.replace("http://","");
         ipNew = ipNew.substring(0,ipNew.indexOf(':'));
         return ipNew;
     }
 
-    private int getSizeFromList(List<?> datenList, int id) {
+    /**
+     * Diese Methode durchsucht eine gegebene Liste nach Daten mit gegebener IP
+     * und liefert die Größe dieser Daten zurück.
+     * @param datenList Liste, die durchsucht werden soll.
+     * @param id ID der Daten, nach denen gesucht werden soll.
+     * @return Größe der Daten. Sonst 0.
+     */
+    private int getPacketSizeFromList(List<?> datenList, int id) {
         if(datenList != null) {
             if(datenList.size() > 0) {
                 if(datenList.get(0).getClass() == MassenInfoGrenz.class) {
@@ -465,6 +546,13 @@ public class ClientGUI extends JFrame {
         return 0;
     }
 
+    /**
+     * Diese Methode nimmt eine gegebene IP und überprüft diese auf Zulässigkeit.
+     * Ist diese gegeben, so wird überprüft ob der Server erreichbar ist.
+     * Ist dies der Fall, verschwindet das Login-Fenster und das eigentliche
+     * Programm erscheint.
+     * @param ip IP zu der verbunden werden soll.
+     */
     private void connectIp(String ip) {
         boolean isConnected;
 

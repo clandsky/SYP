@@ -38,6 +38,18 @@ public class ProgressBarWindow extends JFrame {
         else uploadLabel.setText("Hochladen..."+" ("+StaticHolder.currentTransferSizeByte/1000+" KB)");
     }
 
+    /**
+     * Diese Methode setzt den Fortschritt der JProgressBar.
+     *
+     * Wenn der Boolean-Wert isDownload false ist:
+     * Die JProgressBar wird nicht angezeigt (Upload zeigt keine Bar an)
+     *
+     * Sonst:
+     * Ist der Fortschritt größer als 0, so wird die JProgressBar angezeigt.
+     * Ist der Fortschritt Größer oder gleich 100, so verschwindet die JProgressBar.
+     *
+     * @param value Fortschritt
+     */
     public void setProgressBar(int value) {
         progressBar.setValue(value);
         progressBar.setString(String.valueOf(value)+"%");
@@ -51,10 +63,11 @@ public class ProgressBarWindow extends JFrame {
         }
     }
 
-    public void enableProgressBar(boolean bool) {
-        progressBar.setEnabled(bool);
-    }
-
+    /**
+     * Hier werden einige allgemeine GUI Einstellungen festgelegt.
+     * @param guiSizeX Breite des GUI-Fensters.
+     * @param guiSizeY Höhe des GUI-Fensters.
+     */
     private void initGuiProperties(int guiSizeX, int guiSizeY) {
         Dimension d = new Dimension();
         d.setSize(guiSizeX,guiSizeY);
@@ -62,9 +75,5 @@ public class ProgressBarWindow extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-    }
-
-    public boolean isDownload() {
-        return isDownload;
     }
 }
