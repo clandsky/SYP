@@ -78,7 +78,7 @@ public class StruktGen {
             builder.addAnuSeq(i, unit);
         }
         Struktdaten strukt = builder.build();
-        DateiSpeichern.speicherStruktdaten(strukt);
+        new DateiSpeichern().speicherStruktdaten(strukt);
 
         return strukt;
     }

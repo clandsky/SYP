@@ -116,12 +116,8 @@ public class DateiSpeichern
     }
 
 
-    public static boolean speicherStruktdaten (Struktdaten strukt)
+    public boolean speicherStruktdaten (Struktdaten strukt)
     {
-        final String saveDirectory = "Protodaten/";
-        final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
-        final String fileName = "ByteArray";
-
         FileOutputStream fos = null;
         File struktFile, directory;
 

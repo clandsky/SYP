@@ -17,7 +17,7 @@ public class TestStrukt {
         def.setItemSelOrderCount(10);
         def.setItemSelUIDCount(10);
         StruktGen.erzeugeStrukt(def);
-        Struktdaten strukt = DateiLaden.ladeStruktdaten(12345);
+        Struktdaten strukt = new DateiLaden().ladeStruktdaten(12345);
         Printer.println(strukt.getCondSeqList().get(1).getValue().getValue().getU());
         Printer.println(""+strukt.getJoinSeqList().get(9).getFromAID().getLow());
     }

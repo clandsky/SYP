@@ -64,13 +64,8 @@ public class DateiLaden
     }
 
 
-    public static Struktdaten ladeStruktdaten(int id)
+    public Struktdaten ladeStruktdaten(int id)
     {
-        final String saveDirectory = "Protodaten/";
-        final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
-        final String fileName = "ByteArray";
-
-
         Struktdaten m;
         //Printer.println("Laden der PROTOBYTE Datei");
         File file = new File(saveStruktdatenDirectory + id + "/" + fileName + ".protobyte");
