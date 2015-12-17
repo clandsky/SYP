@@ -30,26 +30,49 @@ public class HTTPClient {
     private final String STRUKTDATEN = "struktdaten";
     private final String HELLO_SERVER = "server";
 
-    private HTTPClient(){}
+    private HTTPClient(){} // Konstruktor private, SINGLETON
 
+    /**
+     * Diese Methode liefert den Singleton zürück. Wurde er noch
+     * nicht initialisiert, so wird er automatisch initialisiert.
+     * @return Singleton Object, HTTPClient
+     */
     public static HTTPClient getExemplar() {
         if(httpClient == null) httpClient = new HTTPClient();
         return httpClient;
     }
 
-    public boolean connect(String adresse) throws Exception {
-        client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
-        target = client.target(adresse);
+    /**
+     * Diese Methode versucht, client und target zu initialisieren, welche für die
+     * Verbindung zum Server benötigt werden.
+     * Nach der Initialisierung wird getestet, ob der Server online ist.
+     * @param adresse IP-Adresse des Servers.
+     * @return Falls erfolgreich und HTTP-Respone==200: True. Sonst: False.
+     */
+    public boolean connect(String adresse) {
+        try{
+            client = ClientBuilder.newBuilder().register(ProtoMessageBodyProvider.class).build();
+            target = client.target(adresse);
 
-        Response response = target.path( HELLO_SERVER ).request().accept( MediaTypeExt.TEXT_PLAIN ).get();
+            Response response = target.path( HELLO_SERVER ).request().accept( MediaTypeExt.TEXT_PLAIN ).get();
 
-        if(response != null) {
-            if(response.getStatus() == 200) return true;
+            if(response != null) {
+                if(response.getStatus() == 200) return true;
+            }
+            return false;
+        } catch (Exception e) {
+            Printer.println("Exception in HTTPClient/connect() : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
+            return false;
         }
-
-        return false;
     }
 
+    /**
+     * Diese Methode versucht, Massendaten mittels "POST-REQUEST" an den Server zu senden.
+     * Außerdem wird hier die benötigte Gesamtzeit des "POST-REQUEST" gemessen.
+     * @param m Massendaten, die gesendet werden sollen.
+     * @return "Response-Objekt" des Servers bei Erfolg. Sonst null.
+     */
     public Response sendeMassendaten(Massendaten m) {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
@@ -57,18 +80,30 @@ public class HTTPClient {
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return response;
         } catch (Exception e) {
-            Printer.println("Exception in HTTPClient/sendeMassendaten : Verbindung fehlgeschlagen");
+            Printer.println("Exception in HTTPClient/sendeMassendaten() : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Diese Methode versucht, Struktdaten mittels "POST-REQUEST" an den Server zu senden.
+     * Außerdem wird hier die benötigte Gesamtzeit des "POST-REQUEST" gemessen.
+     * @param s Struktdaten, die gesendet werden sollen.
+     * @return "Response-Objekt" des Servers bei Erfolg. Sonst null.
+     */
     public Response sendeStruktdaten(Struktdaten s) {
         StaticHolder.gesamtZeit = System.currentTimeMillis();
         StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
         return null;
     }
 
+    /**
+     * Diese Methode versucht, Massendaten mittels "GET-REQUEST" zu empfangen.
+     * Außerdem wird hier die benötigte Gesamtzeit des "GET-REQUEST" gemessen.
+     * @param id ID der Daten, die empfangen werden sollen.
+     * @return Empfangene Massendaten bei Erfolg. Sonst null.
+     */
     public Massendaten empfangeMassendaten(int id) {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
@@ -77,41 +112,59 @@ public class HTTPClient {
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return m;
         } catch (Exception e) {
-            Printer.println("Exception in HTTPClient/empfangeMassendaten : Verbindung fehlgeschlagen");
+            Printer.println("Exception in HTTPClient/empfangeMassendaten() : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Diese Methode versucht, Struktdaten mittels "GET-REQUEST" zu empfangen.
+     * Außerdem wird hier die benötigte Gesamtzeit des "GET-REQUEST" gemessen.
+     * @param id ID der Daten, die empfangen werden sollen.
+     * @return Empfangene Massendaten bei Erfolg. Sonst null.
+     */
     public Struktdaten empfangeStruktdaten(int id) {
         StaticHolder.gesamtZeit = System.currentTimeMillis();
         StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
         return null;
     }
 
+    /**
+     * Diese Methode versucht, eine Liste der vorhandenen Massendaten auf dem Server zu empfangen.
+     * @return Empfangene Liste der vorhandenen Daten als MassenInfo bei Erfolg. Sonst null.
+     */
     public List<MassenInfo> empfangeMassendatenInfoListe() {
         try {
             List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
             return mInfo;
         } catch(Exception e) {
-            Printer.println("Exception in HTTPClient/empfangeMassendatenInfoListe : Verbindung fehlgeschlagen");
+            Printer.println("Exception in HTTPClient/empfangeMassendatenInfoListe() : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Diese Methode versucht, eine Liste der vorhandenen Struktdaten auf dem Server zu empfangen.
+     * @return Empfangene Liste der vorhandenen Daten als StruktInfo bei Erfolg. Sonst null.
+     */
     public List<StruktInfo> empfangeStruktdatenInfoListe() {
 
         try {
             List<StruktInfo> sInfo = target.path( STRUKTDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<StruktInfo>>() {} );
             return sInfo;
         } catch(Exception e) {
-            Printer.println("Exception in HTTPClient/empfangeStruktdatenInfoListe : Verbindung fehlgeschlagen");
+            Printer.println("Exception in HTTPClient/empfangeStruktdatenInfoListe() : Verbindung fehlgeschlagen");
             if(printStackTrace) e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Diese Methode liefert die IP des aktuell gesetzten Servers zurück.
+     * @return IP des aktuellen Servers.
+     */
     public String getServerIP() {
         return target.getUri().toString();
     }

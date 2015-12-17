@@ -15,6 +15,7 @@ import testbench.client.gui.ProgressBarWindow;
 import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
 
+import javax.swing.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,21 @@ public class ClientSteuer {
         dServe = new DatenService();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Messdaten> holeMessdaten() {
         return null;
     }
 
+    /**
+     * Diese Methode versucht, Massendaten mit gegebener ID vom Server zu laden.
+     * Dazu wird die empfangeMassendaten(int id) Methode in HTTPClient aufgerufen.
+     * Die empfangenen Daten werden dann automatisch in MassendatenGrenz umgewandelt.
+     * @param id Die ID der zu empfangenen Massendaten
+     * @return Die empfangenen Massendaten als MassendatenGrenz. Sonst null.
+     */
     public MassendatenGrenz empfangeMassendaten(int id) {
         Printer.println("Empfange Massendaten mit ID: "+id);
 
@@ -50,10 +62,24 @@ public class ClientSteuer {
         return null;
     }
 
+    /**
+     * Diese Methode versucht, Struktdaten mit gegebener ID vom Server zu laden.
+     * Dazu wird die empfangeStruktdaten(int id) Methode in HTTPClient aufgerufen.
+     * Die empfangenen Daten werden dann automatisch in StruktdatenGrenz umgewandelt.
+     * @param id Die ID der zu empfangenen Struktdaten
+     * @return Die empfangenen Struktdaten als StruktdatenGrenz. Sonst null.
+     */
     public StruktdatenGrenz empfangeStruktdaten(int id) {
         return null;
     }
 
+    /**
+     * Diese Methode sendet Massendaten mit einer bestimmten ID an den Server.
+     * Geladen werden diese lokalen Daten von der Methode ladeMassendaten aus DatenService.
+     * Diese Daten werden durch die sendeMassendaten Methode im HTTPClient gesendet.
+     * @param id ID der zu sendenden Massendaten
+     * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
+     */
     public boolean sendeMassendaten(int id) {
         Response response;
         Printer.println("Sende Massendaten mit ID: "+id);
@@ -69,10 +95,24 @@ public class ClientSteuer {
         return false;
     }
 
+    /**
+     * Diese Methode sendet Struktdaten mit einer bestimmten ID an den Server.
+     * Geladen werden diese lokalen Daten von der Methode ladeStruktdaten aus DatenService.
+     * Diese Daten werden durch die sendeStruktdaten Methode im HTTPClient gesendet.
+     * @param id ID der zu sendenden Struktdaten
+     * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
+     */
     public boolean sendeStruktdaten(int id) {
         return true;
     }
 
+    /**
+     * Diese Methode empfängt eine Liste aller Massendaten.
+     * Wenn getFromServer=true, so wird eine Liste der Massendaten auf dem Server geliefert.
+     * Wenn getFromServer=false, so wird eine Liste der lokalen Massendaten geliefert.
+     * @param getFromServer Wenn true: Hole Liste vom Server. Wenn false: Hole lokale Liste.
+     * @return Liste aller Massendaten als MassenInfoGrenz-Liste.
+     */
     public List<MassenInfoGrenz> getMassenInfoGrenzList(boolean getFromServer) {
         List<MassenInfo> massenInfoList;
 
@@ -86,6 +126,13 @@ public class ClientSteuer {
         return massenInfoGrenzList;
     }
 
+    /**
+     * Diese Methode empfängt eine Liste aller Struktdaten.
+     * Wenn getFromServer=true, so wird eine Liste der Struktdaten auf dem Server geliefert.
+     * Wenn getFromServer=false, so wird eine Liste der lokalen Struktdaten geliefert.
+     * @param getFromServer Wenn true: Hole Liste vom Server. Wenn false: Hole lokale Liste.
+     * @return Liste aller Struktdaten als StruktInfoGrenz-Liste.
+     */
     public List<StruktInfoGrenz> getStruktInfoGrenzList(boolean getFromServer) {
         List<StruktInfo> struktInfoList;
 
@@ -99,23 +146,50 @@ public class ClientSteuer {
         return struktInfoGrenzList;
     }
 
+    /**
+     * Diese Methode generiert mithilfe des Daten-Generators zufällige
+     * Massendaten der Größe "size" (Übergabeparameter).
+     * Diese werden dann durch die Methode schreibeMassendaten des DatenService gespeichert.
+     * @param size Größe der zu generierenden Daten.
+     * @return Erzeugte Massendaten.
+     */
     public Massendaten generiereZufallsMassendaten(int size) {
         Massendaten m = dServe.generiereZufallsMassendaten(size);
         dServe.schreibeMassendaten(m);
         return m;
     }
 
+    /**
+     * Diese Methode lädt lokale Massendaten und liefert diese als
+     * MassendatenGrenz zurück.
+     * @param id ID der zu ladenden Massendaten.
+     * @return Die geladenen Massendaten als MassendatenGrenz.
+     */
     public MassendatenGrenz ladeLokaleMassendaten(int id) {
         return new MassendatenGrenz(dServe.ladeMassendaten(id));
     }
 
+    /**
+     * Diese Methode lädt lokale Struktdaten und liefert diese als
+     * StruktdatenGrenz zurück.
+     * @param id ID der zu ladenden Struktdaten.
+     * @return Die geladenen Struktdaten als StruktdatenGrenz.
+     */
     public StruktdatenGrenz ladeLokaleStruktdaten(int id) {
         return null;
     }
 
-    public boolean connect(String adresse) {
+    /**
+     * Diese Methode versucht, eine Verbindung zum Server herzustellen und
+     * den Client sowie das Target in HTTPClient mit der gegebenen IP
+     * zu initialisieren. Dies geschieht durch den Aufruf der connect() Methode
+     * in HTTPClient.
+     * @param IP Adresse des Servers, zu dem verbunden werden soll.ä
+     * @return Wenn erfolgreich: True. Sonst False.
+     */
+    public boolean connect(String IP) {
         try {
-            httpClient.connect(adresse);
+            httpClient.connect(IP);
         } catch (Exception e) {
             if(isDebugMode) e.printStackTrace();
             Printer.println("!!! Fehler in ClientSteuer/connect() | Konnte nicht zum Server verbinden !!!");
@@ -124,21 +198,22 @@ public class ClientSteuer {
         return true;
     }
 
+    /**
+     * Liefert die IP des aktuell verbundenen Servers zurück.
+     * Dazu wird die Methode getServerIP() in HTTPClient aufgerufen.
+     * @return IP des Servers.
+     */
     public String getServerIP() {
         return HTTPClient.getExemplar().getServerIP();
     }
 
+    /**
+     * Diese Methode startet die Komponente Datenverwaltung.
+     */
     public void starteDatenverwaltung() {
         testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl iActivate = new testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl();
         iActivate.startComponent();
         iActivate.getComponentGui().setVisible(true);
-    }
-
-    public boolean isDebugMode() {
-        return isDebugMode;
-    }
-
-    public void setDebugMode(boolean bool) {
-        isDebugMode = bool;
+        iActivate.getComponentGui().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // damit das Programm nicht mit dem Fenster geschlossen wird.
     }
 }
