@@ -204,7 +204,7 @@ public class ClientSteuer {
      * @return IP des Servers.
      */
     public String getServerIP() {
-        return HTTPClient.getExemplar().getServerIP();
+        return httpClient.getServerIP();
     }
 
     /**
