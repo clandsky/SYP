@@ -11,11 +11,11 @@ public class TestStrukt {
     public static void main (String args[])
     {
         StruktDef def = new StruktDef();
-        def.setItemAIDNameCount(10);
-        def.setItemJoinDefCount(10);
-        def.setItemSelItemCount(10);
-        def.setItemSelOrderCount(10);
-        def.setItemSelUIDCount(10);
+        def.setItemAIDNameCount(5);
+        def.setItemJoinDefCount(8);
+        def.setItemSelItemCount(6);
+        def.setItemSelOrderCount(2);
+        def.setItemSelUIDCount(15);
         Struktdaten struktAlt = StruktGen.erzeugeStrukt(def);
         Struktdaten strukt = new DateiLaden().ladeStruktdaten(struktAlt.getInfo().getId());
         Printer.println(""+strukt.getCondSeqList().get(1).getValue().getValue().getU());

@@ -10,6 +10,7 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.Printer;
+import testbench.bootloader.service.StaticHolder;
 import testbench.server.steuerungsklassen.ServerSteuer;
 
 
@@ -80,7 +81,7 @@ public class RestResource {
             Printer.println("Letztes erhaltenes Element: "+d);
             */
             if (s.schreibeMassendaten(daten)){
-                return Response.status(200).entity("[SUCCESS] Massendaten erzeugt...").build();
+                return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
             }
             else {
                 Printer.println("[ERROR] Massendaten konnten nicht erzeugt werden...");
@@ -140,13 +141,13 @@ public class RestResource {
         try {
             if (s.schreibeStruktdaten(daten))
             {
-                return Response.status(200).entity("[SUCCESS] Strukturierte Daten erzeugt").build();
+               return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
             }
             else
             {
                 String res = "[ERROR] Fehler beim Speichern der Struktdaten...";
                 Printer.println(res);
-                return Response.status(200).entity(res).build();
+                return Response.status(200).entity(-1).build();
             }
         } catch (Exception e) {
             String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
