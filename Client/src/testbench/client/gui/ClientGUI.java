@@ -335,19 +335,12 @@ public class ClientGUI extends JFrame {
         JFreeChart chart = new JFreeChart(plot);
         chart.setTitle("Massendaten "+(selectedTableRow+1)+" - "+howMuchValuesToDraw+" Werte sichtbar");
 
-
-
-      //  panel = new JPanel();
-
-
-
         if(CP == null) {
             CP = new ChartPanel(chart);
             panel.setLayout(new java.awt.BorderLayout());
             panel.add(CP,BorderLayout.CENTER);
         }
         else CP.setChart(chart);
-
 
         panel.validate();
     }
