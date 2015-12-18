@@ -1,6 +1,5 @@
 package testbench.client.steuerungsklassen;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
@@ -8,14 +7,12 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.client.HTTPClient;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
-import testbench.client.gui.ProgressBarWindow;
 import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
-import testbench.datenverwaltung.dateiverwaltung.impl.*;
 
 import javax.swing.*;
 import javax.ws.rs.core.Response;
@@ -74,11 +71,11 @@ public class ClientSteuer {
     public StruktdatenGrenz empfangeStruktdaten(int id) {
         Printer.println("Empfange Struktdaten mit ID: "+id);
 
-        StruktdatenProtos.Struktdaten s = httpClient.empfangeStruktdaten(id);
+        Struktdaten s = httpClient.empfangeStruktdaten(id);
 
         if(s != null) {
             dServe.schreibeStruktdaten(s);
-            Printer.println("Paketgroeße in KB: "+s.getInfo().getSize());
+            Printer.println("Paketgroeße in B: "+s.getInfo().getSize());
             return new StruktdatenGrenz(s);
         }
         return null;
@@ -114,7 +111,17 @@ public class ClientSteuer {
      * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
      */
     public boolean sendeStruktdaten(int id) {
-        return true;
+        Response response;
+        Printer.println("Sende Struktdaten mit ID: "+id);
+        Struktdaten s = dServe.ladeStruktdaten(id);
+
+        response = httpClient.sendeStruktdaten(s);
+
+        if(response != null) {
+            if(response.getStatus() == 200) return true;
+            return false;
+        }
+        return false;
     }
 
     /**
@@ -187,7 +194,7 @@ public class ClientSteuer {
      * @return Die geladenen Struktdaten als StruktdatenGrenz.
      */
     public StruktdatenGrenz ladeLokaleStruktdaten(int id) {
-        return null;
+        return new StruktdatenGrenz(dServe.ladeStruktdaten(id));
     }
 
     /**

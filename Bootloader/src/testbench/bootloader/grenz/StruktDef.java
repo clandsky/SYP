@@ -1,5 +1,7 @@
 package testbench.bootloader.grenz;
 
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,14 +18,12 @@ public class StruktDef {
 
     public StruktDef() {}
 
-    public StruktDef(int itemJoinDefCount,int itemAIDNameCount, int itemSelItemCount, int itemSelOrderCount, int itemSelUIDCount) {
-        this.itemJoinDefCount = itemJoinDefCount;   //1
-        this.itemAIDNameCount = itemAIDNameCount;   //2
-        this.itemSelItemCount = itemSelItemCount;   //3
-        this.itemSelOrderCount = itemSelOrderCount; //4
-        this.itemSelUIDCount = itemSelUIDCount;     //5
-
-
+    public StruktDef(StruktdatenProtos.Struktdaten.StruktInfo.StruktDef def) {
+        this.itemJoinDefCount = def.getItemJoinDefCount();   //1
+        this.itemAIDNameCount = def.getItemAIDNameCount();   //2
+        this.itemSelItemCount = def.getItemSelItemCount();   //3
+        this.itemSelOrderCount = def.getItemSelOrderCount(); //4
+        this.itemSelUIDCount = def.getItemSelUIDCount();     //5
     }
 
     @XmlElement

@@ -1,11 +1,13 @@
 package testbench.bootloader.grenz;
 
+import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelOrder;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.AIDName;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.JoinDef;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelAIDNameUnitID;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelItem;
+import testbench.client.grenzklassen.StruktInfoGrenz;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class StruktdatenGrenz {
     private List<JoinDef> joinDefList;
     private List<SelAIDNameUnitID> selAIDNameUnitIDList;
     private List<SelItem> selItemList;
+    private StruktInfo info;
 
     public StruktdatenGrenz(Struktdaten s) {
         this.selOrderList = s.getOrderByList();
@@ -25,6 +28,7 @@ public class StruktdatenGrenz {
         this.joinDefList = s.getJoinSeqList();
         this.selAIDNameUnitIDList = s.getAnuSeqList();
         this.selItemList = s.getCondSeqList();
+        this.info = new StruktInfo(s.getInfo());
     }
 
     public List<SelOrder> getSelOrderList() {
@@ -65,5 +69,13 @@ public class StruktdatenGrenz {
 
     public void setSelItemList(List<SelItem> selItemList) {
         this.selItemList = selItemList;
+    }
+
+    public StruktInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(StruktInfo info) {
+        this.info = info;
     }
 }

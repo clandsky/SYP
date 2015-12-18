@@ -155,8 +155,8 @@ public class DateiLaden {
                     protoInfo = Struktdaten.StruktInfo.parseFrom(fileContent);
 
                     Struktdaten.StruktInfo.StruktDef def = protoInfo.getDef();
-                    struktDef = new StruktDef(def.getItemJoinDefCount(),def.getItemAIDNameCount(),def.getItemSelItemCount(),def.getItemSelOrderCount(),def.getItemSelUIDCount());
-                    struktInfo = new StruktInfo(protoInfo.getId(),protoInfo.getSize(), struktDef);
+                    struktDef = new StruktDef(def);
+                    struktInfo = new StruktInfo(protoInfo);
                     struktInfoArrayList.add(struktInfo);
                 } catch (IOException e) {
                     //e.printStackTrace();

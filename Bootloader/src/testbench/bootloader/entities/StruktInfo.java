@@ -1,6 +1,7 @@
 package testbench.bootloader.entities;
 
 import testbench.bootloader.grenz.StruktDef;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,14 +16,13 @@ public class StruktInfo {
     private int paketGroesseByte;
     private StruktDef def;
 
-    public StruktInfo(int id, int paketGroesseByte, StruktDef def) {
-        this.id = id;
-        this.paketGroesseByte = paketGroesseByte;
-        this.def = def;
+    public StruktInfo(StruktdatenProtos.Struktdaten.StruktInfo info) {
+        this.id = info.getId();
+        this.paketGroesseByte = info.getSize();
+        this.def = new StruktDef(info.getDef());
     }
 
-    public StruktInfo() {
-    }
+    public StruktInfo() {    }
 
     @XmlElement
     public int getId() {

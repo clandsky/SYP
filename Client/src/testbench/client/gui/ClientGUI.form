@@ -1015,7 +1015,10 @@
                                     <constraints>
                                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
-                                    <properties/>
+                                    <properties>
+                                      <autoscrolls value="false"/>
+                                      <background color="-1"/>
+                                    </properties>
                                     <border type="none"/>
                                     <children>
                                       <grid id="d0224" binding="chartPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

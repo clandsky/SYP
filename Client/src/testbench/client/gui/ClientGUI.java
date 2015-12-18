@@ -18,7 +18,6 @@ import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.ClientConfig;
 import testbench.client.steuerungsklassen.ClientSteuer;
-import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.StruktGen;
 
 import javax.imageio.ImageIO;
@@ -182,25 +181,13 @@ public class ClientGUI extends JFrame {
      * @param selectedTableRow Nummer der gewaehlten Table Spalte.
      */
     private void drawTree(int selectedTableRow) {
-        StruktDef def = new StruktDef();
-        def.setItemAIDNameCount(10);
-        def.setItemJoinDefCount(10);
-        def.setItemSelItemCount(10);
-        def.setItemSelOrderCount(10);
-        def.setItemSelUIDCount(10);
-        StruktGen.erzeugeStrukt(def);
-        StruktdatenGrenz sGrenz = cSteuer.ladeLokaleStruktdaten(selectedTableRow);
-
-       // StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
-        //StruktDef sDef = sig.getDef();
-        StruktDef sDef =def;
-        List<List<DefaultMutableTreeNode>> listList = new ArrayList<>();
+        StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
+        StruktdatenGrenz sGrenz = cSteuer.ladeLokaleStruktdaten(sig.getId());
+        System.out.println(sig.getId());
+        System.out.println(sGrenz.getInfo().getId());
 
         DefaultTreeModel model = (DefaultTreeModel)struktTree.getModel();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Strukturierte Daten");
-
-        DefaultMutableTreeNode queryStructureExtList = new DefaultMutableTreeNode("QueryStructureExt");
-
 
         /* ############# SelAidNameUnitID ################ */
         DefaultMutableTreeNode selAidNameUnitIdElements = new DefaultMutableTreeNode("SelAIDNameUnitID Elemente");
@@ -513,7 +500,7 @@ public class ClientGUI extends JFrame {
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    data[i][1] = sInfoGrenzList.get(i).getPaketGroesseKB();
+                    data[i][1] = sInfoGrenzList.get(i).getPaketGroesseByte();
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -623,7 +610,7 @@ public class ClientGUI extends JFrame {
             StruktInfoGrenz sig = (StruktInfoGrenz) daten;
             artLabel.setText("Strukturierte Daten");
             idLabel.setText(String.valueOf(sig.getId()));
-            groesseLabel.setText(String.valueOf(sig.getPaketGroesseKB()));
+            groesseLabel.setText(String.valueOf(sig.getPaketGroesseByte()));
         }
     }
 
@@ -780,6 +767,7 @@ public class ClientGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int row = struktTableDetails.getSelectedRow();
                 drawTree(row);
+                expandAllNodes(struktTree,0, struktTree.getRowCount());
                 detailsCardLayout.show(cardPanelDetails,"treeCard");
             }
         });
@@ -852,7 +840,7 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
-                    if(artLabelDown.getText().equals("Massendaten")) {
+                    if(artLabelUp.getText().equals("Massendaten")) {
                         StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
                         if(StaticHolder.activeWorker == null) {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
@@ -951,6 +939,22 @@ public class ClientGUI extends JFrame {
     }
 
     /**
+     * Oeffnet einen Jtree komplett
+     * @param tree
+     * @param startingIndex
+     * @param rowCount
+     */
+    private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
+        for(int i=startingIndex;i<rowCount;++i){
+            tree.expandRow(i);
+        }
+
+        if(tree.getRowCount()!=rowCount){
+            expandAllNodes(tree, rowCount, tree.getRowCount());
+        }
+    }
+
+    /**
      * Diese Methode baut aus gegebener IP und gegebenem PORT einen String nach
      * dem Muster "http://xxxxx:xxxx/" zusammen und liefert diesen zurueck.
      * @param ip Gewuenschte IP.
@@ -993,11 +997,17 @@ public class ClientGUI extends JFrame {
                             return ((MassenInfoGrenz) o).getPaketGroesseKB();
                         }
                     }
+                } else {
+                    for(Object o : datenList) {
+                        if(((StruktInfoGrenz) o).getId() == id) {
+                            return ((StruktInfoGrenz) o).getPaketGroesseByte();
+                        }
+                    }
                 }
 
             }
         }
-        return 0;
+        return 1;
     }
 
     /**
