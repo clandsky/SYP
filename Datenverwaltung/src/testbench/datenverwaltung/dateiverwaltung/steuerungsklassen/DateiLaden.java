@@ -61,17 +61,17 @@ public class DateiLaden {
 
     public Struktdaten ladeStruktdaten(int id) {
         Struktdaten m;
-        //Printer.println("Laden der PROTOBYTE Datei");
+
         File file = new File(saveStruktdatenDirectory + id + "/" + fileName + ".protobyte");
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(file);
-            //Printer.println("Paketgroeße in KB: "+file.length()/1000);
+
             byte fileContent[] = new byte[(int) file.length()];
             fin.read(fileContent);
             m = Struktdaten.parseFrom(fileContent);
         } catch (FileNotFoundException e) {
-            Printer.println("Datei nicht gefunden" + e);
+            Printer.println("Datei nicht gefunden! " + e);
             return null;
         } catch (IOException ioe) {
             Printer.println("Fehler beim einlesen der Datei " + ioe);
@@ -131,7 +131,7 @@ public class DateiLaden {
     }
     public ArrayList<StruktInfo> ladeStruktInfo() {
         FileInputStream fin;
-        File directory = new File(saveMassendatenDirectory);
+        File directory = new File(saveStruktdatenDirectory);
         String[] fileNameArray;
         ArrayList<StruktInfo> struktInfoArrayList = new ArrayList<>();
 
@@ -159,7 +159,7 @@ public class DateiLaden {
                     struktInfo = new StruktInfo(protoInfo.getId(),protoInfo.getSize(), struktDef);
                     struktInfoArrayList.add(struktInfo);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
