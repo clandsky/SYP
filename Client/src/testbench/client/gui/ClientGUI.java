@@ -4,6 +4,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -201,17 +202,9 @@ public class ClientGUI extends JFrame {
 
         DefaultMutableTreeNode queryStructureExtList = new DefaultMutableTreeNode("QueryStructureExt");
 
-        List<DefaultMutableTreeNode> selAIDNameUnitIDList = new ArrayList<>();
-        List<DefaultMutableTreeNode> selItemList = new ArrayList<>();
-        List<DefaultMutableTreeNode> joinDefList = new ArrayList<>();
-        List<DefaultMutableTreeNode> selOrderList = new ArrayList<>();
-        List<DefaultMutableTreeNode> aIDNameList = new ArrayList<>();
-        DefaultMutableTreeNode selValueExt = null;
-        DefaultMutableTreeNode aIDNameUnitId = null;
-
-        List<DefaultMutableTreeNode> ts_ValueList = new ArrayList<>();
 
         /* ############# SelAidNameUnitID ################ */
+        DefaultMutableTreeNode selAidNameUnitIdElements = new DefaultMutableTreeNode("SelAIDNameUnitID Elemente");
         for(int i=0 ; i<strukt.getAnuSeqList().size() ; i++) {
             DefaultMutableTreeNode selAidUnitID = new DefaultMutableTreeNode("SelAIDNameUnitID");
 
@@ -249,43 +242,181 @@ public class ClientGUI extends JFrame {
             aidName.add(aaName);
 
             selAidUnitID.add(aidName);
-            selAIDNameUnitIDList.add(selAidUnitID);
+            selAidNameUnitIdElements.add(selAidUnitID);
 
         }
-         /* #################################################################### */
 
+        /* ############# SelAidNameUnitID ################ */
+        DefaultMutableTreeNode SelItemElements = new DefaultMutableTreeNode("SelItem Elemente");
+        List<StruktdatenProtos.Struktdaten.SelItem> condSeqList = strukt.getCondSeqList();
+        for(int i=0 ; i<condSeqList.size() ; i++) {
+            StruktdatenProtos.Struktdaten.SelItem selItem = condSeqList.get(i);
 
-    /*    for(int i=0 ; i<strukt.getCondSeqList().size() ; i++) {
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+
+            DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
             DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
-            highAID.add(new DefaultMutableTreeNode(strukt.getCondSeqList().get(i).));
+            highAID.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getHigh()));
+            aid.add(highAID);
+
             DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
-            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
-            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
-            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
-        } */
+            lowAID.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getLow()));
+            aid.add(lowAID);
+            aidName.add(aid);
+
+            DefaultMutableTreeNode aaName = new DefaultMutableTreeNode("aaName");
+            aaName.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAaName()));
+            aidName.add(aaName);
 
 
 
+            DefaultMutableTreeNode aidNameUnitID = new DefaultMutableTreeNode("AIDNameUnitID");
 
-        listList.add(selAIDNameUnitIDList);
+            DefaultMutableTreeNode unitID = new DefaultMutableTreeNode("unitID");
+            DefaultMutableTreeNode highUnit = new DefaultMutableTreeNode("high");
+            highUnit.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getHigh()));
+            unitID.add(highUnit);
 
-        for(int i=0 ; i<sDef.getItemSelItemCount() ; i++) selItemList.add(new DefaultMutableTreeNode("SelItem"));
-        listList.add(selItemList);
+            DefaultMutableTreeNode lowUnit = new DefaultMutableTreeNode("low");
+            lowUnit.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getLow()));
+            unitID.add(lowUnit);
 
-        for(int i=0 ; i<sDef.getItemJoinDefCount() ; i++) joinDefList.add(new DefaultMutableTreeNode("JoinDef"));
-        listList.add(joinDefList);
+            aidNameUnitID.add(unitID);
+            aidNameUnitID.add(aidName);
 
-        for(int i=0 ; i<sDef.getItemSelOrderCount() ; i++) selOrderList.add(new DefaultMutableTreeNode("SelOrder"));
-        listList.add(selOrderList);
 
-        for(int i=0 ; i<sDef.getItemAIDNameCount() ; i++) aIDNameList.add(new DefaultMutableTreeNode("AIDName"));
-        listList.add(aIDNameList);
 
-        for(List<DefaultMutableTreeNode> list : listList) {
-            for(DefaultMutableTreeNode dmt : list) {
-                root.add(dmt);
-            }
+            DefaultMutableTreeNode ts_Value = new DefaultMutableTreeNode("TS_VALUE");
+
+            DefaultMutableTreeNode u = new DefaultMutableTreeNode("u");
+            u.add(new DefaultMutableTreeNode(selItem.getValue().getValue().getU()));
+            ts_Value.add(u);
+
+            DefaultMutableTreeNode flag = new DefaultMutableTreeNode("flag");
+            flag.add(new DefaultMutableTreeNode(selItem.getValue().getValue().getFlag()));
+            ts_Value.add(flag);
+
+            DefaultMutableTreeNode selValueExt = new DefaultMutableTreeNode("SelValueExt");
+
+            DefaultMutableTreeNode operSelValueExt = new DefaultMutableTreeNode("oper");
+            operSelValueExt.add(new DefaultMutableTreeNode(selItem.getValue().getOper()));
+
+            selValueExt.add(aidNameUnitID);
+            selValueExt.add(operSelValueExt);
+            selValueExt.add(ts_Value);
+
+
+            DefaultMutableTreeNode selItemTreeNode = new DefaultMutableTreeNode("SelItem");
+            DefaultMutableTreeNode operator = new DefaultMutableTreeNode("operator");
+            operator.add(new DefaultMutableTreeNode(selItem.getOperator()));
+            selItemTreeNode.add(operator);
+            selItemTreeNode.add(selValueExt);
+
+            SelItemElements.add(selItemTreeNode);
         }
+
+        /* ############# JoinDef ################ */
+        DefaultMutableTreeNode joinDefElements = new DefaultMutableTreeNode("JoinDef Elemente");
+        List<StruktdatenProtos.Struktdaten.JoinDef> joinDefList = strukt.getJoinSeqList();
+        for(int i=0 ; i<joinDefList.size() ; i++) {
+            StruktdatenProtos.Struktdaten.JoinDef joinDefObject = joinDefList.get(i);
+
+            DefaultMutableTreeNode joinDef = new DefaultMutableTreeNode("JoinDef");
+
+            DefaultMutableTreeNode fromAid = new DefaultMutableTreeNode("fromAID");
+            DefaultMutableTreeNode highAid = new DefaultMutableTreeNode("high");
+            highAid.add(new DefaultMutableTreeNode(joinDefObject.getFromAID().getHigh()));
+            fromAid.add(highAid);
+
+            DefaultMutableTreeNode lowAid = new DefaultMutableTreeNode("low");
+            lowAid.add(new DefaultMutableTreeNode(joinDefObject.getFromAID().getLow()));
+            fromAid.add(lowAid);
+            joinDef.add(fromAid);
+
+            DefaultMutableTreeNode toAid = new DefaultMutableTreeNode("toAID");
+            DefaultMutableTreeNode highToAid = new DefaultMutableTreeNode("high");
+            highToAid.add(new DefaultMutableTreeNode(joinDefObject.getToAID().getHigh()));
+            toAid.add(highToAid);
+
+            DefaultMutableTreeNode lowToAid = new DefaultMutableTreeNode("low");
+            lowToAid.add(new DefaultMutableTreeNode(joinDefObject.getToAID().getLow()));
+            toAid.add(lowToAid);
+            joinDef.add(toAid);
+
+            DefaultMutableTreeNode refName = new DefaultMutableTreeNode("refName");
+            refName.add(new DefaultMutableTreeNode(joinDefObject.getRefName()));
+            joinDef.add(refName);
+
+            DefaultMutableTreeNode joiningType = new DefaultMutableTreeNode("joiningType");
+            joiningType.add(new DefaultMutableTreeNode(joinDefObject.getJoiningType()));
+            joinDef.add(joiningType);
+
+            joinDefElements.add(joinDef);
+        }
+
+        /* ############# SelOrder ################ */
+        DefaultMutableTreeNode selOrderElements = new DefaultMutableTreeNode("SelOrder Elemente");
+        List<StruktdatenProtos.Struktdaten.SelOrder> selOrderList = strukt.getOrderByList();
+        for(int i=0 ; i<selOrderList.size() ; i++) {
+            StruktdatenProtos.Struktdaten.SelOrder selOrderObject = strukt.getOrderByList().get(i);
+
+            DefaultMutableTreeNode selOrder = new DefaultMutableTreeNode("SelOrder");
+            DefaultMutableTreeNode ascending = new DefaultMutableTreeNode("ascending");
+            ascending.add(new DefaultMutableTreeNode(selOrderObject.getAscending()));
+            selOrder.add(ascending);
+
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+
+            DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
+            DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
+            highAID.add(new DefaultMutableTreeNode(selOrderObject.getAttr().getAid().getHigh()));
+            aid.add(highAID);
+
+            DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
+            lowAID.add(new DefaultMutableTreeNode(selOrderObject.getAttr().getAid().getLow()));
+            aid.add(lowAID);
+            aidName.add(aid);
+
+            DefaultMutableTreeNode aaName = new DefaultMutableTreeNode("aaName");
+            aaName.add(new DefaultMutableTreeNode(selOrderObject.getAttr().getAaName()));
+            aidName.add(aaName);
+
+            selOrder.add(aidName);
+
+            selOrderElements.add(selOrder);
+        }
+
+        /* ############# AIDName ################ */
+        DefaultMutableTreeNode aidNameElements = new DefaultMutableTreeNode("AIDName Elemente");
+        List<StruktdatenProtos.Struktdaten.AIDName> aidNameList = strukt.getGroupByList();
+        for(int i=0 ; i<aidNameList.size() ; i++) {
+            StruktdatenProtos.Struktdaten.AIDName aidNameObject = aidNameList.get(i);
+
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+
+            DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
+            DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
+            highAID.add(new DefaultMutableTreeNode(aidNameObject.getAid().getHigh()));
+            aid.add(highAID);
+
+            DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
+            lowAID.add(new DefaultMutableTreeNode(aidNameObject.getAid().getLow()));
+            aid.add(lowAID);
+            aidName.add(aid);
+
+            DefaultMutableTreeNode aaName = new DefaultMutableTreeNode("aaName");
+            aaName.add(new DefaultMutableTreeNode(aidNameObject.getAaName()));
+            aidName.add(aaName);
+
+            aidNameElements.add(aidName);
+        }
+
+        root.add(selAidNameUnitIdElements);
+        root.add(SelItemElements);
+        root.add(joinDefElements);
+        root.add(selOrderElements);
+        root.add(aidNameElements);
+
 
         model.setRoot(root);
     }
@@ -325,6 +456,7 @@ public class ClientGUI extends JFrame {
         dataset.addSeries(signal);
 
         XYSplineRenderer renderer = new XYSplineRenderer();
+        renderer.setSeriesPaint(0, Color.blue);
         renderer.setSeriesShape(0, new Ellipse2D.Double(-2, -2, 4, 4)); //größe der punkte bei XYSplineRenderer
         //renderer.setDotHeight(2);
         //renderer.setDotWidth(2);
