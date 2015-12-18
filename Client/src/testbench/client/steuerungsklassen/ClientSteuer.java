@@ -189,14 +189,7 @@ public class ClientSteuer {
      * @return Wenn erfolgreich: True. Sonst False.
      */
     public boolean connect(String IP) {
-        try {
-            httpClient.connect(IP);
-        } catch (Exception e) {
-            if(isDebugMode) e.printStackTrace();
-            Printer.println("!!! Fehler in ClientSteuer/connect() | Konnte nicht zum Server verbinden !!!");
-            return false;
-        }
-        return true;
+        return httpClient.connect(IP);
     }
 
     /**

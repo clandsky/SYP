@@ -4,32 +4,39 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYDotRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
-import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import testbench.bootloader.Printer;
+import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.MassendatenGrenz;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
+import testbench.bootloader.grenz.StruktDef;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.service.StaticHolder;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.ClientConfig;
 import testbench.client.steuerungsklassen.ClientSteuer;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
+import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.StruktGen;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,7 +78,7 @@ public class ClientGUI extends JFrame {
     private JPanel underTitlePanel;
     private JButton changeIpButton;
     private JPanel mainPanel;
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane mainTabbedPane;
     private JPanel splitpanePanelDown;
     private JPanel leftPanelDownload;
     private JPanel massenLabelPanelDown;
@@ -107,6 +114,8 @@ public class ClientGUI extends JFrame {
     private JScrollPane scrollPaneStruktDetails;
     private JTable massenTableDetails;
     private JTable struktTableDetails;
+    private JTree struktTree;
+    private JScrollPane treeScrollPane;
 
     /* OBEN -> automatisch generiert */
 
@@ -119,12 +128,14 @@ public class ClientGUI extends JFrame {
     private JFrame frame = new JFrame(); //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
     private ClientConfig clientConfig = ClientConfig.getExemplar();
-    JFrame datenVerwaltungGUI;
+    private JFrame datenVerwaltungGUI;
+    private ChartPanel CP = null;
 
     /* ############## RESSOURCEN PFADE ################ */
     private final String IMAGEFOLDER = "/resources/images/";
     private final String IMAGE_REFRESH_PATH = IMAGEFOLDER+"refresh.png";
     private final String IMAGE_PROTOBUF_PATH = IMAGEFOLDER+"logo_protobuf.png";
+    private final String IMAGE_PROTOBUFMICRO_PATH = IMAGEFOLDER+"protobuf_micro.png";
     private final String IMAGE_TH_PATH = IMAGEFOLDER+"logo_th.png";
     private final String IMAGE_INFO_PATH = IMAGEFOLDER+"infogrey.png";
 
@@ -139,6 +150,12 @@ public class ClientGUI extends JFrame {
     private final String WAIT_FOR_TRANSFER = "Bitte warten bis die aktuelle Übertragung beendet wurde!";
     private final String CHOOSE_FROM_LIST = "Bitte Daten aus der Liste wählen!";
     private final String SERVER_OFFLINE = "Server ist offline!";
+    private final String DATA_NOT_FOUND_ERROR = "Daten nicht gefunden!\nBitte aktualisieren!";
+    private final String PLEASE_WAIT = "Bitte warten...";
+
+    /* ############## FINAL VARIABLES ################ */
+    private final int CHART_VALUES = 100;
+
 
     /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
@@ -150,7 +167,7 @@ public class ClientGUI extends JFrame {
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
-        //setIconImage(loadImageResource(IMAGE_PROTOBUF_PATH));
+        setIconImage(loadImageResource(IMAGE_PROTOBUFMICRO_PATH));
 
         initGuiProperties(guiSizeX,guiSizeY);
         initImages();
@@ -159,41 +176,179 @@ public class ClientGUI extends JFrame {
     }
 
     /**
+     * Diese Methode laedt Struktdaten über die ClientSteuer und zeichnet
+     * mit den in den Massendaten enthaltenen Werten einen JTree.
+     * @param selectedTableRow Nummer der gewaehlten Table Spalte.
+     */
+    private void drawTree(int selectedTableRow) {
+        StruktDef def = new StruktDef();
+        def.setItemAIDNameCount(10);
+        def.setItemJoinDefCount(10);
+        def.setItemSelItemCount(10);
+        def.setItemSelOrderCount(10);
+        def.setItemSelUIDCount(10);
+        StruktGen.erzeugeStrukt(def);
+        StruktdatenProtos.Struktdaten strukt = new DateiLaden().ladeStruktdaten(12345);
+
+
+       // StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
+        //StruktDef sDef = sig.getDef();
+        StruktDef sDef =def;
+        List<List<DefaultMutableTreeNode>> listList = new ArrayList<>();
+
+        DefaultTreeModel model = (DefaultTreeModel)struktTree.getModel();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Strukturierte Daten");
+
+        DefaultMutableTreeNode queryStructureExtList = new DefaultMutableTreeNode("QueryStructureExt");
+
+        List<DefaultMutableTreeNode> selAIDNameUnitIDList = new ArrayList<>();
+        List<DefaultMutableTreeNode> selItemList = new ArrayList<>();
+        List<DefaultMutableTreeNode> joinDefList = new ArrayList<>();
+        List<DefaultMutableTreeNode> selOrderList = new ArrayList<>();
+        List<DefaultMutableTreeNode> aIDNameList = new ArrayList<>();
+        DefaultMutableTreeNode selValueExt = null;
+        DefaultMutableTreeNode aIDNameUnitId = null;
+
+        List<DefaultMutableTreeNode> ts_ValueList = new ArrayList<>();
+
+        /* ############# SelAidNameUnitID ################ */
+        for(int i=0 ; i<strukt.getAnuSeqList().size() ; i++) {
+            DefaultMutableTreeNode selAidUnitID = new DefaultMutableTreeNode("SelAIDNameUnitID");
+
+            DefaultMutableTreeNode unitID = new DefaultMutableTreeNode("unitID");
+
+            DefaultMutableTreeNode highUnitID = new DefaultMutableTreeNode("high");
+            highUnitID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getUnitid().getHigh()));
+            unitID.add(highUnitID);
+
+            DefaultMutableTreeNode lowUnitID = new DefaultMutableTreeNode("low");
+            lowUnitID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getUnitid().getLow()));
+            unitID.add(lowUnitID);
+            selAidUnitID.add(unitID);
+
+            DefaultMutableTreeNode aggregate = new DefaultMutableTreeNode("Aggregate");
+            aggregate.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAggregate()));
+            selAidUnitID.add(aggregate);
+
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+
+            DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
+
+            DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
+            highAID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAid().getHigh()));
+            aid.add(highAID);
+
+            DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
+            lowAID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAid().getLow()));
+            aid.add(lowAID);
+
+            aidName.add(aid);
+
+            DefaultMutableTreeNode aaName = new DefaultMutableTreeNode("aaName");
+            aaName.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAaName()));
+            aidName.add(aaName);
+
+            selAidUnitID.add(aidName);
+            selAIDNameUnitIDList.add(selAidUnitID);
+
+        }
+         /* #################################################################### */
+
+
+    /*    for(int i=0 ; i<strukt.getCondSeqList().size() ; i++) {
+            DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
+            highAID.add(new DefaultMutableTreeNode(strukt.getCondSeqList().get(i).));
+            DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+            DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
+        } */
+
+
+
+
+        listList.add(selAIDNameUnitIDList);
+
+        for(int i=0 ; i<sDef.getItemSelItemCount() ; i++) selItemList.add(new DefaultMutableTreeNode("SelItem"));
+        listList.add(selItemList);
+
+        for(int i=0 ; i<sDef.getItemJoinDefCount() ; i++) joinDefList.add(new DefaultMutableTreeNode("JoinDef"));
+        listList.add(joinDefList);
+
+        for(int i=0 ; i<sDef.getItemSelOrderCount() ; i++) selOrderList.add(new DefaultMutableTreeNode("SelOrder"));
+        listList.add(selOrderList);
+
+        for(int i=0 ; i<sDef.getItemAIDNameCount() ; i++) aIDNameList.add(new DefaultMutableTreeNode("AIDName"));
+        listList.add(aIDNameList);
+
+        for(List<DefaultMutableTreeNode> list : listList) {
+            for(DefaultMutableTreeNode dmt : list) {
+                root.add(dmt);
+            }
+        }
+
+        model.setRoot(root);
+    }
+
+    /**
      * Diese Methode laedt Massendaten über die ClientSteuer und zeichnet
-     * mit den enthaltenen Werten einen Graphen.
+     * mit den in den Massendaten enthaltenen Werten einen Graphen.
+     * @param selectedTableRow Nummer der gewaehlten Table Spalte.
      * @param panel JPanel in das gezeichnet werden soll.
      * @param howMuchValuesToDraw ID der zu ladenden Massendaten.
      */
-    private void drawChart(int selectedTableRow, int howMuchValuesToDraw, JPanel panel) {
+    private void drawChart(int selectedTableRow, int howMuchValuesToDraw, JPanel panel ) {
         MassenInfoGrenz mig = massenInfoClient.get(selectedTableRow);
-        MassendatenGrenz mGrenz = cSteuer.ladeLokaleMassendaten(mig.getId());
+        MassenDef mDef = mig.getDef();
+        MassendatenGrenz mGrenz;
+
+        mGrenz = cSteuer.ladeLokaleMassendaten(mig.getId());
+
+        if(mGrenz == null) {
+            JOptionPane.showMessageDialog(frame, DATA_NOT_FOUND_ERROR);
+            return;
+        }
+
         XYSeries signal = new XYSeries("Signal");
         XYSeriesCollection dataset;
         int abbruch;
+        double abtastrate = mig.getDef().getAbtastrate();
 
         if(mGrenz.getValues().size() > howMuchValuesToDraw) abbruch = howMuchValuesToDraw;
         else abbruch = mGrenz.getValues().size();
 
         for(int i=0 ; i<abbruch ; i++) {
-            signal.add(mGrenz.getValues().get(i).getNumber(),Double.valueOf(new String("0."+i)));
+            signal.add(abtastrate*i,mGrenz.getValues().get(i).getNumber());
         }
 
         dataset = new XYSeriesCollection();
         dataset.addSeries(signal);
 
-        XYDotRenderer dotRenderer = new XYDotRenderer();
-        dotRenderer.setDotHeight(2);
-        dotRenderer.setDotWidth(2);
-        NumberAxis xAxis = new NumberAxis("x");
+        XYSplineRenderer renderer = new XYSplineRenderer();
+        renderer.setSeriesShape(0, new Ellipse2D.Double(-2, -2, 4, 4)); //größe der punkte bei XYSplineRenderer
+        //renderer.setDotHeight(2);
+        //renderer.setDotWidth(2);
+        NumberAxis xAxis = new NumberAxis("x - Abtastrate: "+mDef.getAbtastrate());
         NumberAxis yAxis = new NumberAxis("y");
 
-        XYPlot plot = new XYPlot(dataset,xAxis,yAxis, dotRenderer);
+        XYPlot plot = new XYPlot(dataset,xAxis,yAxis, renderer);
         JFreeChart chart = new JFreeChart(plot);
-        chart.setTitle("Massendaten");
+        chart.setTitle("Massendaten "+(selectedTableRow+1)+" - "+howMuchValuesToDraw+" Werte sichtbar");
 
-        panel.setLayout(new java.awt.BorderLayout());
-        ChartPanel CP = new ChartPanel(chart);
-        panel.add(CP,BorderLayout.CENTER);
+
+
+      //  panel = new JPanel();
+
+
+
+        if(CP == null) {
+            CP = new ChartPanel(chart);
+            panel.setLayout(new java.awt.BorderLayout());
+            panel.add(CP,BorderLayout.CENTER);
+        }
+        else CP.setChart(chart);
+
+
         panel.validate();
     }
 
@@ -483,8 +638,8 @@ public class ClientGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = massenTableDetails.getSelectedRow();
+                drawChart(row,CHART_VALUES,chartPanel);
                 detailsCardLayout.show(cardPanelDetails,"chartCard");
-                drawChart(row,100,chartPanel);
             }
         });
         struktTableDownload.addMouseListener(new MouseAdapter() {
@@ -505,7 +660,8 @@ public class ClientGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = struktTableDetails.getSelectedRow();
-                //drawTree(row);
+                drawTree(row);
+                detailsCardLayout.show(cardPanelDetails,"treeCard");
             }
         });
 
@@ -602,6 +758,23 @@ public class ClientGUI extends JFrame {
                 datenVerwaltungGUI.setVisible(true);
             }
         });
+        mainTabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                switch(mainTabbedPane.getSelectedIndex()) {
+                    case 0: //herunterladen
+                        refreshDownload();
+                        break;
+
+                    case 1: //hochladen
+                        refreshUpload();
+                        break;
+
+                    case 2: //details
+                        refreshDetails();
+                        break;
+                }
+            }
+        });
     }
 
     /**
@@ -668,9 +841,7 @@ public class ClientGUI extends JFrame {
             if(!ip.equals("")) {
                 if(!ip.contains(" ") && !ip.contains(":")) {
                     String newIP = new String(ip);
-
                     newIP = addIpSyntax(newIP,clientConfig.getPort());
-
                     isConnected = cSteuer.connect(newIP);
                     if(!isConnected) {
                         JOptionPane.showMessageDialog(frame, SERVER_NOT_FOUND_STRING);
