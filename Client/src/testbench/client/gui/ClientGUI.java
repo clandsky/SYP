@@ -511,7 +511,7 @@ public class ClientGUI extends JFrame {
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    //  data[i][1] = sInfoGrenzList.get(i).getPaketGroesseKB();
+                    data[i][1] = sInfoGrenzList.get(i).getPaketGroesseKB();
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -621,7 +621,7 @@ public class ClientGUI extends JFrame {
             StruktInfoGrenz sig = (StruktInfoGrenz) daten;
             artLabel.setText("Strukturierte Daten");
             idLabel.setText(String.valueOf(sig.getId()));
-            groesseLabel.setText(" - ");
+            groesseLabel.setText(String.valueOf(sig.getPaketGroesseKB()));
         }
     }
 
