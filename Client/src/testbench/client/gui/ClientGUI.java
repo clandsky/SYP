@@ -11,6 +11,7 @@ import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktDef;
+import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.service.StaticHolder;
 import testbench.client.grenzklassen.MassenInfoGrenz;
@@ -188,7 +189,7 @@ public class ClientGUI extends JFrame {
         def.setItemSelOrderCount(10);
         def.setItemSelUIDCount(10);
         StruktGen.erzeugeStrukt(def);
-        StruktdatenProtos.Struktdaten strukt = new DateiLaden().ladeStruktdaten(12345);
+        StruktdatenGrenz sGrenz = cSteuer.ladeLokaleStruktdaten(selectedTableRow);
 
        // StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
         //StruktDef sDef = sig.getDef();
@@ -203,22 +204,23 @@ public class ClientGUI extends JFrame {
 
         /* ############# SelAidNameUnitID ################ */
         DefaultMutableTreeNode selAidNameUnitIdElements = new DefaultMutableTreeNode("SelAIDNameUnitID Elemente");
-        for(int i=0 ; i<strukt.getAnuSeqList().size() ; i++) {
+        for(int i=0 ; i<sGrenz.getSelAIDNameUnitIDList().size() ; i++) {
+            StruktdatenProtos.Struktdaten.SelAIDNameUnitID selAid = sGrenz.getSelAIDNameUnitIDList().get(i);
             DefaultMutableTreeNode selAidUnitID = new DefaultMutableTreeNode("SelAIDNameUnitID");
 
             DefaultMutableTreeNode unitID = new DefaultMutableTreeNode("unitID");
 
             DefaultMutableTreeNode highUnitID = new DefaultMutableTreeNode("high");
-            highUnitID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getUnitid().getHigh()));
+            highUnitID.add(new DefaultMutableTreeNode(selAid.getUnitid().getHigh()));
             unitID.add(highUnitID);
 
             DefaultMutableTreeNode lowUnitID = new DefaultMutableTreeNode("low");
-            lowUnitID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getUnitid().getLow()));
+            lowUnitID.add(new DefaultMutableTreeNode(selAid.getUnitid().getLow()));
             unitID.add(lowUnitID);
             selAidUnitID.add(unitID);
 
             DefaultMutableTreeNode aggregate = new DefaultMutableTreeNode("Aggregate");
-            aggregate.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAggregate()));
+            aggregate.add(new DefaultMutableTreeNode(selAid.getAggregate()));
             selAidUnitID.add(aggregate);
 
             DefaultMutableTreeNode aidName = new DefaultMutableTreeNode("AIDName");
@@ -226,17 +228,17 @@ public class ClientGUI extends JFrame {
             DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
 
             DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
-            highAID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAid().getHigh()));
+            highAID.add(new DefaultMutableTreeNode(selAid.getAidname().getAid().getHigh()));
             aid.add(highAID);
 
             DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
-            lowAID.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAid().getLow()));
+            lowAID.add(new DefaultMutableTreeNode(selAid.getAidname().getAid().getLow()));
             aid.add(lowAID);
 
             aidName.add(aid);
 
             DefaultMutableTreeNode aaName = new DefaultMutableTreeNode("aaName");
-            aaName.add(new DefaultMutableTreeNode(strukt.getAnuSeqList().get(i).getAidname().getAaName()));
+            aaName.add(new DefaultMutableTreeNode(selAid.getAidname().getAaName()));
             aidName.add(aaName);
 
             selAidUnitID.add(aidName);
@@ -245,7 +247,7 @@ public class ClientGUI extends JFrame {
 
         /* ############# SelAidNameUnitID ################ */
         DefaultMutableTreeNode SelItemElements = new DefaultMutableTreeNode("SelItem Elemente");
-        List<StruktdatenProtos.Struktdaten.SelItem> condSeqList = strukt.getCondSeqList();
+        List<StruktdatenProtos.Struktdaten.SelItem> condSeqList = sGrenz.getSelItemList();
         for(int i=0 ; i<condSeqList.size() ; i++) {
             StruktdatenProtos.Struktdaten.SelItem selItem = condSeqList.get(i);
 
@@ -310,7 +312,7 @@ public class ClientGUI extends JFrame {
 
         /* ############# JoinDef ################ */
         DefaultMutableTreeNode joinDefElements = new DefaultMutableTreeNode("JoinDef Elemente");
-        List<StruktdatenProtos.Struktdaten.JoinDef> joinDefList = strukt.getJoinSeqList();
+        List<StruktdatenProtos.Struktdaten.JoinDef> joinDefList = sGrenz.getJoinDefList();
         for(int i=0 ; i<joinDefList.size() ; i++) {
             StruktdatenProtos.Struktdaten.JoinDef joinDefObject = joinDefList.get(i);
 
@@ -349,9 +351,9 @@ public class ClientGUI extends JFrame {
 
         /* ############# SelOrder ################ */
         DefaultMutableTreeNode selOrderElements = new DefaultMutableTreeNode("SelOrder Elemente");
-        List<StruktdatenProtos.Struktdaten.SelOrder> selOrderList = strukt.getOrderByList();
+        List<StruktdatenProtos.Struktdaten.SelOrder> selOrderList = sGrenz.getSelOrderList();
         for(int i=0 ; i<selOrderList.size() ; i++) {
-            StruktdatenProtos.Struktdaten.SelOrder selOrderObject = strukt.getOrderByList().get(i);
+            StruktdatenProtos.Struktdaten.SelOrder selOrderObject = selOrderList.get(i);
 
             DefaultMutableTreeNode selOrder = new DefaultMutableTreeNode("SelOrder");
             DefaultMutableTreeNode ascending = new DefaultMutableTreeNode("ascending");
@@ -381,7 +383,7 @@ public class ClientGUI extends JFrame {
 
         /* ############# AIDName ################ */
         DefaultMutableTreeNode aidNameElements = new DefaultMutableTreeNode("AIDName Elemente");
-        List<StruktdatenProtos.Struktdaten.AIDName> aidNameList = strukt.getGroupByList();
+        List<StruktdatenProtos.Struktdaten.AIDName> aidNameList = sGrenz.getAidNameList();
         for(int i=0 ; i<aidNameList.size() ; i++) {
             StruktdatenProtos.Struktdaten.AIDName aidNameObject = aidNameList.get(i);
 
@@ -506,7 +508,7 @@ public class ClientGUI extends JFrame {
             DefaultTableModel model;
 
             Object[][] data = new Object[sInfoGrenzList.size()][2];
-            String[] columnNames = {"#", "KB"};
+            String[] columnNames = {"#", "B"};
 
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
@@ -788,31 +790,60 @@ public class ClientGUI extends JFrame {
                 String text = idLabelDown.getText();
 
                 if(!text.equals("/")) {
-                    StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
-                    if(StaticHolder.activeWorker == null) {
-                        try {
-                            StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
-                                @Override
-                                protected Integer doInBackground() throws Exception {
-                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
-                                    pThread.start();
-                                    MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
-                                    if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
-                                    else {
-                                        JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
-                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
-                                                "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                    if(artLabelDown.getText().equals("Massendaten")) {
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
+                        if(StaticHolder.activeWorker == null) {
+                            try {
+                                StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
+                                    @Override
+                                    protected Integer doInBackground() throws Exception {
+                                        ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
+                                        pThread.start();
+                                        MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
+                                        if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
+                                        else {
+                                            JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
+                                                    "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
+                                                    "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                                        }
+                                        pThread.abbrechen();
+                                        StaticHolder.activeWorker = null;
+                                        return null;
                                     }
-                                    pThread.abbrechen();
-                                    StaticHolder.activeWorker = null;
-                                    return null;
-                                }
-                            };
-                            StaticHolder.activeWorker.execute();
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
-                    } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                                };
+                                StaticHolder.activeWorker.execute();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                    } else {
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(struktInfoServer,Integer.valueOf(text));
+                        if(StaticHolder.activeWorker == null) {
+                            try {
+                                StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
+                                    @Override
+                                    protected Integer doInBackground() throws Exception {
+                                        ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
+                                        pThread.start();
+                                        StruktdatenGrenz sGrenz = cSteuer.empfangeStruktdaten(Integer.valueOf(idLabelDown.getText()));
+                                        if(sGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
+                                        else {
+                                            JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
+                                                    "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
+                                                    "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                                        }
+                                        pThread.abbrechen();
+                                        StaticHolder.activeWorker = null;
+                                        return null;
+                                    }
+                                };
+                                StaticHolder.activeWorker.execute();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                    }
+
                 } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
             }
         });
@@ -821,27 +852,52 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
-                    StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
-                    if(StaticHolder.activeWorker == null) {
+                    if(artLabelDown.getText().equals("Massendaten")) {
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
+                        if(StaticHolder.activeWorker == null) {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
-                                pThread.start();
-                                boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
-                                if (success) {
-                                    JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
-                                            "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
-                                            "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
-                                }
-                                else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
-                                pThread.abbrechen();
-                                StaticHolder.activeWorker = null;
-                                return null;
+                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
+                                    pThread.start();
+                                    boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
+                                    if (success) {
+                                        JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
+                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
+                                                "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                                    }
+                                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    pThread.abbrechen();
+                                    StaticHolder.activeWorker = null;
+                                    return null;
                                 }
                             };
                             StaticHolder.activeWorker.execute();
-                    } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                    } else {
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(struktInfoClient,Integer.valueOf(text));
+                        if(StaticHolder.activeWorker == null) {
+                            StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
+                                @Override
+                                protected Integer doInBackground() throws Exception {
+                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
+                                    pThread.start();
+                                    boolean success = cSteuer.sendeStruktdaten(Integer.valueOf(idLabelUp.getText()));
+                                    if (success) {
+                                        JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
+                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
+                                                "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
+                                    }
+                                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    pThread.abbrechen();
+                                    StaticHolder.activeWorker = null;
+                                    return null;
+                                }
+                            };
+                            StaticHolder.activeWorker.execute();
+                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                    }
+
                 } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
             }
         });

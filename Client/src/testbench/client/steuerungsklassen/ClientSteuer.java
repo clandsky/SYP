@@ -8,6 +8,7 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.client.HTTPClient;
 import testbench.client.grenzklassen.MassenInfoGrenz;
 import testbench.client.grenzklassen.StruktInfoGrenz;
@@ -71,6 +72,15 @@ public class ClientSteuer {
      * @return Die empfangenen Struktdaten als StruktdatenGrenz. Sonst null.
      */
     public StruktdatenGrenz empfangeStruktdaten(int id) {
+        Printer.println("Empfange Struktdaten mit ID: "+id);
+
+        StruktdatenProtos.Struktdaten s = httpClient.empfangeStruktdaten(id);
+
+        if(s != null) {
+            dServe.schreibeStruktdaten(s);
+            Printer.println("Paketgroeße in KB: "+s.getInfo().getSize());
+            return new StruktdatenGrenz(s);
+        }
         return null;
     }
 

@@ -13,7 +13,7 @@ public class StruktInfoGrenz {
 
     public StruktInfoGrenz(StruktInfo s) {
         this.id = s.getId();
-        this.paketGroesseKB = s.getPaketGroesseKB();
+        this.paketGroesseKB = s.getPaketGroesseByte();
         this.def = s.getDef();
     }
 

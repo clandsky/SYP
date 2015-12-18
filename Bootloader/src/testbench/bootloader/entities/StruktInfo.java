@@ -12,12 +12,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class StruktInfo {
     private int id;
-    private int paketGroesseKB;
+    private int paketGroesseByte;
     private StruktDef def;
 
-    public StruktInfo(int id, int paketGroesseKB, StruktDef def) {
+    public StruktInfo(int id, int paketGroesseByte, StruktDef def) {
         this.id = id;
-        this.paketGroesseKB = paketGroesseKB;
+        this.paketGroesseByte = paketGroesseByte;
         this.def = def;
     }
 
@@ -33,11 +33,11 @@ public class StruktInfo {
     }
 
     @XmlAttribute
-    public int getPaketGroesseKB() {
-        return paketGroesseKB;
+    public int getPaketGroesseByte() {
+        return paketGroesseByte;
     }
-    public void setPaketGroesseKB(int paketgroesseKB) {
-        this.paketGroesseKB = paketgroesseKB;
+    public void setPaketGroesseByte(int paketgroesseKB) {
+        this.paketGroesseByte = paketgroesseKB;
     }
 
     @XmlElement

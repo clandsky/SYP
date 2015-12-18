@@ -93,9 +93,16 @@ public class HTTPClient {
      * @return "Response-Objekt" des Servers bei Erfolg. Sonst null.
      */
     public Response sendeStruktdaten(Struktdaten s) {
-        StaticHolder.gesamtZeit = System.currentTimeMillis();
-        StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
-        return null;
+        try{
+            StaticHolder.gesamtZeit = System.currentTimeMillis();
+            Response response = target.path( STRUKTDATEN ).request().post(Entity.entity(s,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
+            return response;
+        } catch (Exception e) {
+            Printer.println("Exception in HTTPClient/sendeStruktdaten() : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -125,9 +132,17 @@ public class HTTPClient {
      * @return Empfangene Massendaten bei Erfolg. Sonst null.
      */
     public Struktdaten empfangeStruktdaten(int id) {
-        StaticHolder.gesamtZeit = System.currentTimeMillis();
-        StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
-        return null;
+        try{
+            StaticHolder.gesamtZeit = System.currentTimeMillis();
+            Response res = target.path( STRUKTDATEN+"/"+id ).request().accept(MediaTypeExt.APPLICATION_PROTOBUF).get(Response.class);
+            Struktdaten s = res.readEntity(Struktdaten.class);
+            StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
+            return s;
+        } catch (Exception e) {
+            Printer.println("Exception in HTTPClient/empfangeStruktdaten() : Verbindung fehlgeschlagen");
+            if(printStackTrace) e.printStackTrace();
+            return null;
+        }
     }
 
     /**
