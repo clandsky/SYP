@@ -85,8 +85,7 @@ public class StruktGen {
                 .setItemSelOrderCount(def.getItemSelOrderCount())
                 .setItemSelUIDCount(def.getItemSelUIDCount());
 
-        int size = builder.build().getSerializedSize()/1000;
-        if (size==0)size=1;
+        int size = builder.build().getSerializedSize();
         StruktInfo.Builder infobuilder = StruktInfo.newBuilder().setDef(defBuilder.build()).setId((int)(Calendar.getInstance().getTime().getTime()/2000)).setSize(size);
         builder.setInfo(infobuilder.build());
         Struktdaten strukt = builder.build();
