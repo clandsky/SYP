@@ -4,7 +4,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -191,7 +190,6 @@ public class ClientGUI extends JFrame {
         StruktGen.erzeugeStrukt(def);
         StruktdatenProtos.Struktdaten strukt = new DateiLaden().ladeStruktdaten(12345);
 
-
        // StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
         //StruktDef sDef = sig.getDef();
         StruktDef sDef =def;
@@ -243,7 +241,6 @@ public class ClientGUI extends JFrame {
 
             selAidUnitID.add(aidName);
             selAidNameUnitIdElements.add(selAidUnitID);
-
         }
 
         /* ############# SelAidNameUnitID ################ */
@@ -268,8 +265,6 @@ public class ClientGUI extends JFrame {
             aaName.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAaName()));
             aidName.add(aaName);
 
-
-
             DefaultMutableTreeNode aidNameUnitID = new DefaultMutableTreeNode("AIDNameUnitID");
 
             DefaultMutableTreeNode unitID = new DefaultMutableTreeNode("unitID");
@@ -283,8 +278,6 @@ public class ClientGUI extends JFrame {
 
             aidNameUnitID.add(unitID);
             aidNameUnitID.add(aidName);
-
-
 
             DefaultMutableTreeNode ts_Value = new DefaultMutableTreeNode("TS_VALUE");
 
@@ -416,7 +409,6 @@ public class ClientGUI extends JFrame {
         root.add(joinDefElements);
         root.add(selOrderElements);
         root.add(aidNameElements);
-
 
         model.setRoot(root);
     }
