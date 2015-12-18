@@ -6,6 +6,10 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.*;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+
 /**
  * Created by Chrizzle Manizzle on 15.12.2015.
  */
@@ -26,7 +30,6 @@ public class StruktGen {
             long fromLow = 99999+i;
             long toHigh = 123455;
             long toLow = 321156+i;
-            Printer.println("JoinDef "+i);
             JoinDef joinDef = erzeugeJoinDef(fromHigh,fromLow,toHigh,toLow,refName,joiningType);
             builder.addJoinSeq(i, joinDef);
         }
@@ -35,7 +38,6 @@ public class StruktGen {
             String aaName = "AIDName "+i;
             long high = 1234;
             long low = 5678+i;
-            Printer.println("AIDName "+i);
             AIDName aidname = erzeugeAIDName(aaName,erzeugeLongLong(high,low));
 
             builder.addGroupBy(i, aidname);
@@ -51,7 +53,6 @@ public class StruktGen {
             long aidLow = 987654+i;
             long aidHigh = 1234;
             String aaName="SelItem aaName "+i;
-            Printer.println("SelItem "+i);
             SelItem selItem = erzeugeSelItem(operator,oper,u,flag,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
             builder.addCondSeq(i, selItem);
         }
@@ -61,7 +62,6 @@ public class StruktGen {
             boolean ascending = true;
             long aidHigh = 89153;
             long aidLow = 4891155+i;
-            Printer.println("Selorder "+i);
             SelOrder selOrder = erzeugeSelOrder(ascending,aidHigh,aidLow,aaName);
             builder.addOrderBy(i, selOrder);
         }
@@ -73,13 +73,23 @@ public class StruktGen {
             long aidLow = 222222+i;
             long unitIDHigh = 3333333;
             long unitIDLow = 444+i;
-            Printer.println("SelUnit "+i);
             SelAIDNameUnitID unit= erzeugeSelNameUnitID(aggregate,unitIDHigh,unitIDLow,aidHigh,aidLow,aaName);
             builder.addAnuSeq(i, unit);
         }
+
+
+        StruktInfo.StruktDef.Builder defBuilder = StruktInfo.StruktDef.newBuilder()
+                .setItemAIDNameCount(def.getItemAIDNameCount())
+                .setItemJoinDefCount(def.getItemJoinDefCount())
+                .setItemSelItemCount(def.getItemSelItemCount())
+                .setItemSelOrderCount(def.getItemSelOrderCount())
+                .setItemSelUIDCount(def.getItemSelUIDCount());
+
+
+        StruktInfo.Builder infobuilder = StruktInfo.newBuilder().setDef(defBuilder.build()).setId((int)(Calendar.getInstance().getTime().getTime()/2000)).setSize(builder.build().getSerializedSize()/1000);
+        builder.setInfo(infobuilder.build());
         Struktdaten strukt = builder.build();
         new DateiSpeichern().speicherStruktdaten(strukt);
-
         return strukt;
     }
 

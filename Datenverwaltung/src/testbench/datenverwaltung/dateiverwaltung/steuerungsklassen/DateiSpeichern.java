@@ -1,13 +1,15 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.Printer;
-import testbench.bootloader.entities.StruktInfo;
-import testbench.bootloader.grenz.StruktDef;
+
+
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.StruktInfo;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +28,7 @@ public class DateiSpeichern
 
     public boolean speicherMassendaten(Massendaten massendaten)
     {
+
         FileOutputStream fos = null;
         File massenDatenFile, massenInfoFile, directory;
 
@@ -119,23 +122,27 @@ public class DateiSpeichern
     public boolean speicherStruktdaten (Struktdaten strukt)
     {
         FileOutputStream fos = null;
-        File struktFile, directory;
+        File struktFile, struktInfoFile, directory;
 
         try {
             //int struktid = strukt.hashCode();
-            int struktid=12345;
+            int struktid=strukt.getInfo().getId();
             String filePath = saveStruktdatenDirectory+struktid;
 
             directory = new File(filePath);
             if(!directory.exists()) directory.mkdirs();
 
             struktFile = new File(filePath+"/"+fileName+".protobyte");
-
+            struktInfoFile = new File(filePath+"/"+infoFileName+".protobyte");
 
             // Checken ob Datei existiert ansonsten erzeuge neue Datei
             if (!struktFile.exists())
             {
                 struktFile.createNewFile();
+            }
+            if (!struktInfoFile.exists())
+            {
+                struktInfoFile.createNewFile();
             }
 
 
@@ -147,6 +154,12 @@ public class DateiSpeichern
             // schreibe Struktdaten datei
             fos = new FileOutputStream(struktFile);
             fos.write(strukt.toByteArray());
+            fos.flush();
+            fos.close();
+
+            // schreibe Struktdaten datei
+            fos = new FileOutputStream(struktInfoFile);
+            fos.write(strukt.getInfo().toByteArray());
             fos.flush();
             fos.close();
 

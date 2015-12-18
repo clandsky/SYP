@@ -16,12 +16,14 @@ public class StruktDef {
 
     public StruktDef() {}
 
-    public StruktDef(int itemJoinDefCount, int itemSelItemCount, int itemSelUIDCount, int itemSelOrderCount, int itemAIDNameCount) {
-        this.itemJoinDefCount = itemJoinDefCount;
-        this.itemSelItemCount = itemSelItemCount;
-        this.itemSelUIDCount = itemSelUIDCount;
-        this.itemSelOrderCount = itemSelOrderCount;
-        this.itemAIDNameCount = itemAIDNameCount;
+    public StruktDef(int itemJoinDefCount,int itemAIDNameCount, int itemSelItemCount, int itemSelOrderCount, int itemSelUIDCount) {
+        this.itemJoinDefCount = itemJoinDefCount;   //1
+        this.itemAIDNameCount = itemAIDNameCount;   //2
+        this.itemSelItemCount = itemSelItemCount;   //3
+        this.itemSelOrderCount = itemSelOrderCount; //4
+        this.itemSelUIDCount = itemSelUIDCount;     //5
+
+
     }
 
     @XmlElement

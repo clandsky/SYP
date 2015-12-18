@@ -16,9 +16,11 @@ public class TestStrukt {
         def.setItemSelItemCount(10);
         def.setItemSelOrderCount(10);
         def.setItemSelUIDCount(10);
-        StruktGen.erzeugeStrukt(def);
-        Struktdaten strukt = new DateiLaden().ladeStruktdaten(12345);
-        Printer.println(strukt.getCondSeqList().get(1).getValue().getValue().getU());
-        Printer.println(""+strukt.getJoinSeqList().get(9).getFromAID().getLow());
+        Struktdaten struktAlt = StruktGen.erzeugeStrukt(def);
+        Struktdaten strukt = new DateiLaden().ladeStruktdaten(struktAlt.getInfo().getId());
+        Printer.println(""+strukt.getCondSeqList().get(1).getValue().getValue().getU());
+        Printer.println(""+strukt.getJoinSeqList().get(1).getFromAID().getLow());
+        Printer.println("ID: "+strukt.getInfo().getId());
+        Printer.println("ItemCounts: "+strukt.getInfo().getDef().getItemAIDNameCount());
     }
 }
