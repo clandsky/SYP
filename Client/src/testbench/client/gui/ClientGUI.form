@@ -1364,9 +1364,9 @@
                   <component id="c587d" class="javax.swing.JButton" binding="einstellungenButtonMain">
                     <constraints>
                       <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                        <minimum-size width="130" height="30"/>
-                        <preferred-size width="130" height="30"/>
-                        <maximum-size width="130" height="30"/>
+                        <minimum-size width="140" height="30"/>
+                        <preferred-size width="140" height="30"/>
+                        <maximum-size width="140" height="30"/>
                       </grid>
                     </constraints>
                     <properties>
@@ -1378,9 +1378,9 @@
                   <component id="8c898" class="javax.swing.JButton" binding="datenverwaltungButton">
                     <constraints>
                       <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                        <minimum-size width="130" height="30"/>
-                        <preferred-size width="130" height="30"/>
-                        <maximum-size width="130" height="30"/>
+                        <minimum-size width="140" height="30"/>
+                        <preferred-size width="140" height="30"/>
+                        <maximum-size width="140" height="30"/>
                       </grid>
                     </constraints>
                     <properties>
