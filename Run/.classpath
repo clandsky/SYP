@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Server"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Datenverwaltung"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Bootloader"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/forms_rt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Bootloader"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Datenverwaltung"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/javax.ws.rs-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/jersey-container-jdk-http-2.22.1.jar"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/jersey-server.jar"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/forms_rt.jar"/>
+	<classpathentry kind="lib" path="/Bootloader/lib/jersey-common-2.22.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
