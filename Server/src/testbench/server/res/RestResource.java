@@ -32,6 +32,7 @@ public class RestResource {
     public Response helloServer(){
         return Response.status(200).build();
     }
+
     @GET
     @Path("massendaten")
     @Produces(MediaTypeExt.APPLICATION_XML)
@@ -76,22 +77,8 @@ public class RestResource {
     @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
     public Response postMassendaten(Massendaten daten) {
         Printer.println("[POST] on /Massendaten");
-        try {
-            /*double d=massendaten.getValue(massendaten.getValueCount()-1).getNumber();
-            Printer.println("Letztes erhaltenes Element: "+d);
-            */
-            if (s.schreibeMassendaten(daten)){
-                return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
-            }
-            else {
-                Printer.println("[ERROR] Massendaten konnten nicht erzeugt werden...");
-                return Response.status(200).entity("[ERROR] Massendaten konnten nicht erzeugt werden...").build();
-            }
-        } catch (Exception e) {
-            String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
-            Printer.println(res);
-            return Response.status(200).entity(res).build();
-        }
+        new Writer(daten);
+        return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
     }
 
     @GET
@@ -138,21 +125,53 @@ public class RestResource {
     @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
     public Response postStruktdaten(Struktdaten daten) {
         Printer.println("[POST] on /Struktdaten");
-        try {
-            if (s.schreibeStruktdaten(daten))
+        new Writer(daten);
+        return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+    }
+
+    class Writer extends Thread {
+        private int mode;
+        private Massendaten massendaten;
+        private Struktdaten struktdaten;
+
+        public Writer(Massendaten m){
+            this.mode=1;
+            this.massendaten=m;
+            this.struktdaten=null;
+            start();
+        }
+        public Writer (Struktdaten s)
+        {
+            this.mode=2;
+            this.massendaten=null;
+            this.struktdaten=s;
+            start();
+
+        }
+        @Override
+        public void run(){
+            switch (mode)
             {
-               return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+                case 1:
+                    try {
+                        if (!s.schreibeMassendaten(massendaten)) {
+                            Printer.println("[ERROR] Massendaten konnten nicht erzeugt werden...");
+                        }
+                    }catch (Exception e1) {
+                        Printer.println("[FATAL] Gesendete Daten konnten nicht geladen werden...");
+                    }
+                    break;
+                case 2:
+                    try {
+                        if (!s.schreibeStruktdaten(struktdaten)) {
+                            Printer.println("[ERROR] Massendaten konnten nicht erzeugt werden...");
+                        }
+                    }catch (Exception e1) {
+                        Printer.println("[FATAL] Gesendete Daten konnten nicht geladen werden...");
+                    }
+
             }
-            else
-            {
-                String res = "[ERROR] Fehler beim Speichern der Struktdaten...";
-                Printer.println(res);
-                return Response.status(200).entity(-1).build();
-            }
-        } catch (Exception e) {
-            String res = "[FATAL] Gesendete Daten konnten nicht geladen werden...";
-            Printer.println(res);
-            return Response.status(200).entity(res).build();
         }
     }
 }
+
