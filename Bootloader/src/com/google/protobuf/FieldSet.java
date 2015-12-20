@@ -33,11 +33,7 @@ package com.google.protobuf;
 import com.google.protobuf.LazyField.LazyIterator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class which represents an arbitrary set of fields of some message type.

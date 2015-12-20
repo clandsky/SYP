@@ -30,13 +30,7 @@
 
 package com.google.protobuf;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.RandomAccess;
+import java.util.*;
 
 /**
  * An implementation of {@link LazyStringList} that wraps an ArrayList. Each

@@ -1,8 +1,9 @@
 package testbench.bootloader.grenz;
 
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Werte;
+
 import java.util.List;
 
 /**

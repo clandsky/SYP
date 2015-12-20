@@ -1,7 +1,6 @@
 package testbench.bootloader.grenz;
 
 import testbench.bootloader.entities.StruktInfo;
-import testbench.bootloader.grenz.StruktDef;
 
 /**
  * Created by Sven Riedel on 08.12.2015

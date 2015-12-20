@@ -30,11 +30,7 @@
 
 package com.google.protobuf;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * {@code RepeatedFieldBuilder} implements a structure that a protocol

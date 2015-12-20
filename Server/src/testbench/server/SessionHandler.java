@@ -3,6 +3,7 @@ package testbench.server;
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.ExtendedConfig;
 import testbench.bootloader.Printer;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.res.RestResource;
@@ -33,10 +34,12 @@ public class SessionHandler {
                 this.running=true;
             } catch (Exception e) {
                 Printer.println("Server konnte nicht gestartet werden. \nBitte prüfen Sie, ob eine weitere Instanz bereits läuft...");
+                return false;
             }
         }
         else
         {
+            running=false;
             Printer.println("Server läuft bereits...");
         }
         return running;

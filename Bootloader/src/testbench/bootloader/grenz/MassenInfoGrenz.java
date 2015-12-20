@@ -1,7 +1,6 @@
 package testbench.bootloader.grenz;
 
 import testbench.bootloader.entities.MassenInfo;
-import testbench.bootloader.grenz.MassenDef;
 
 /**
  * Created by Sven Riedel on 08.12.2015

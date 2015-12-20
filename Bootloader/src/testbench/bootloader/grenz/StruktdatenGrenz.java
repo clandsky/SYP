@@ -2,11 +2,7 @@ package testbench.bootloader.grenz;
 
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelOrder;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.AIDName;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.JoinDef;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelAIDNameUnitID;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelItem;
+import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.*;
 
 import java.util.List;
 

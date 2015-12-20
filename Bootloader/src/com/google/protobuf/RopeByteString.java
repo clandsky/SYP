@@ -30,18 +30,9 @@
 
 package com.google.protobuf;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Class to represent {@code ByteStrings} formed by concatenation of other
