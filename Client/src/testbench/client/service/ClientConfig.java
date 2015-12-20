@@ -134,7 +134,7 @@ public class ClientConfig {
      */
     private void initStandartSettingsMap() {
         standartSettingsMap.put("port","8000");
-        standartSettingsMap.put("debugmode","true");
+        standartSettingsMap.put("debugmode","false");
     }
 
     public String getPort() {
