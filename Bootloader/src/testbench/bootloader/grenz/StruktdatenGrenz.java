@@ -7,12 +7,11 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.A
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.JoinDef;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelAIDNameUnitID;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.SelItem;
-import testbench.client.grenzklassen.StruktInfoGrenz;
 
 import java.util.List;
 
 /**
- * Created by svenm on 04.12.2015.
+ * Created by svenm on 04.12.2015
  */
 public class StruktdatenGrenz {
     private List<SelOrder> selOrderList;

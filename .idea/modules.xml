@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Bootloader/Bootloader.iml" filepath="$PROJECT_DIR$/Bootloader/Bootloader.iml" />
       <module fileurl="file://$PROJECT_DIR$/Client/Client.iml" filepath="$PROJECT_DIR$/Client/Client.iml" />
       <module fileurl="file://$PROJECT_DIR$/Datenverwaltung/Datenverwaltung.iml" filepath="$PROJECT_DIR$/Datenverwaltung/Datenverwaltung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Run/Run.iml" filepath="$PROJECT_DIR$/Run/Run.iml" />
       <module fileurl="file://$PROJECT_DIR$/SYP.iml" filepath="$PROJECT_DIR$/SYP.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
     </modules>

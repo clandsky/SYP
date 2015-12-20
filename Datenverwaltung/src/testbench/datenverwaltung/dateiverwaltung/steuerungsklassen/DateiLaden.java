@@ -159,7 +159,7 @@ public class DateiLaden {
                     struktInfo = new StruktInfo(protoInfo);
                     struktInfoArrayList.add(struktInfo);
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         }

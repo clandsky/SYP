@@ -9,8 +9,8 @@ import testbench.bootloader.grenz.StruktdatenGrenz;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.client.HTTPClient;
-import testbench.client.grenzklassen.MassenInfoGrenz;
-import testbench.client.grenzklassen.StruktInfoGrenz;
+import testbench.bootloader.grenz.MassenInfoGrenz;
+import testbench.bootloader.grenz.StruktInfoGrenz;
 import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
 

@@ -7,8 +7,8 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="aopalliance-repackaged-2.4.0-b31" level="project" />
     <orderEntry type="module" module-name="Bootloader" />
     <orderEntry type="module" module-name="Datenverwaltung" />
+    <orderEntry type="library" name="jaxrs" level="project" />
   </component>
 </module>

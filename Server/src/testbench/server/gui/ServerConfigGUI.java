@@ -3,6 +3,7 @@ package testbench.server.gui;
 import testbench.server.SessionHandler;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Huskey on 14.12.2015.
@@ -21,9 +22,9 @@ public class ServerConfigGUI extends JFrame {
 
     }
 
-    public void setSh(SessionHandler sh)
-    {
-        this.sh=sh;
+    public void setSh(SessionHandler sh) {
+        this.sh = sh;
     }
+
 }
 

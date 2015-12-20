@@ -16,10 +16,8 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by CGrings on 07.12.2015.
- *
  */
-public class GeneratorGUI extends JFrame
-{
+public class GeneratorGUI extends JFrame {
     private JTabbedPane tabbedPaneData;
     private JPanel panelCentral;
     private JPanel panelMassendaten;
@@ -30,78 +28,68 @@ public class GeneratorGUI extends JFrame
     private JSpinner spinner;
     private JTable tableFrequencies;
 
-    public GeneratorGUI()
-    {
+    public GeneratorGUI() {
         super("Generator GUI");
-        setSize( new Dimension( 500, 300 ) );
-        setContentPane( panelCentral );
+        setSize(new Dimension(500, 300));
+        setContentPane(panelCentral);
         setLocationRelativeTo(null);
         setVisible(true);
 
         DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
-        model.setColumnCount( 3 );
+        model.setColumnCount(3);
 
-        speichernButton.addActionListener(new ActionListener()
-        {
+        speichernButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 Generator generator = new Generator();
                 MassenDef config = null;
 
                 DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
 
-                try
-                {
-                    config = new MassenDef( Double.parseDouble(textFieldAbtastrate.getText()));
+                try {
+                    config = new MassenDef(Double.parseDouble(textFieldAbtastrate.getText()));
                     int count = model.getRowCount();
-                    for( int i = 0; i < count; i++ )
-                    {
+                    for (int i = 0; i < count; i++) {
                         config.getFrequencies().add(
                                 new Frequency(
-                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() ),
-                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() ),
-                                        Double.parseDouble( model.getValueAt( i, 0 ).toString() )
+                                        Double.parseDouble(model.getValueAt(i, 0).toString()),
+                                        Double.parseDouble(model.getValueAt(i, 0).toString()),
+                                        Double.parseDouble(model.getValueAt(i, 0).toString())
                                 )
                         );
                     }
-                }
-                catch( Exception ex )
-                {
+                } catch (Exception ex) {
                     ex.printStackTrace();
 
-                    JOptionPane.showConfirmDialog( panelCentral, "Massendaten Definition konnte nicht erstellt werden." );
+                    JOptionPane.showConfirmDialog(panelCentral, "Massendaten Definition konnte nicht erstellt werden.");
 
                     return;
                 }
 
                 MassendatenProtos.Massendaten massendaten;
-                massendaten = generator.generatorMassData( config, Integer.parseInt( textFieldSize.getText() ) );
+                massendaten = generator.generatorMassData(config, Integer.parseInt(textFieldSize.getText()));
 
                 DateiSpeichern ds = new DateiSpeichern();
                 ds.speicherMassendaten(massendaten);
             }
         });
-        spinner.addChangeListener(new ChangeListener()
-        {
+        spinner.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e)
-            {
-                System.out.println( "Spinner Value: " + spinner.getValue() );
+            public void stateChanged(ChangeEvent e) {
+                System.out.println("Spinner Value: " + spinner.getValue());
 
                 DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
 
                 int count = model.getRowCount();
-                for( int i = 0; i < Integer.parseInt( spinner.getValue().toString() ) - count; i++ )
-                {
-                    model.addRow( new Object[]{ "1.0", "1.0", "0.0" } );
+                for (int i = 0; i < Integer.parseInt(spinner.getValue().toString()) - count; i++) {
+                    model.addRow(new Object[]{"1.0", "1.0", "0.0"});
                 }
 
-                while( model.getRowCount() > Integer.parseInt( spinner.getValue().toString() ) )
-                {
-                    model.removeRow( model.getRowCount()-1 );
+                while (model.getRowCount() > Integer.parseInt(spinner.getValue().toString())) {
+                    model.removeRow(model.getRowCount() - 1);
                 }
             }
         });
     }
+
 }

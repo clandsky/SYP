@@ -8,17 +8,11 @@ import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import testbench.bootloader.Printer;
-import testbench.bootloader.grenz.MassenDef;
-import testbench.bootloader.grenz.MassendatenGrenz;
-import testbench.bootloader.grenz.StruktDef;
-import testbench.bootloader.grenz.StruktdatenGrenz;
+import testbench.bootloader.grenz.*;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.service.StaticHolder;
-import testbench.client.grenzklassen.MassenInfoGrenz;
-import testbench.client.grenzklassen.StruktInfoGrenz;
 import testbench.client.service.ClientConfig;
 import testbench.client.steuerungsklassen.ClientSteuer;
-import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.StruktGen;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
