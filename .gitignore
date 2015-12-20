@@ -2,3 +2,8 @@
 *.class
 *.proto
 *.xml
+*.classpath
+*.project
+*.eml
+*.userlibraries
+/.metadata

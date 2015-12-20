@@ -2,5 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Bootloader" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/Client" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/Datenverwaltung" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/Run" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/Server" vcs="svn" />
   </component>
 </project>
