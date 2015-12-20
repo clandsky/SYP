@@ -804,7 +804,6 @@ public class ClientGUI extends JFrame {
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
-                                        pThread.abbrechen();
                                         StaticHolder.activeWorker = null;
                                         return null;
                                     }
@@ -829,7 +828,6 @@ public class ClientGUI extends JFrame {
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
-                                        pThread.abbrechen();
                                         StaticHolder.activeWorker = null;
                                         return null;
                                     }
@@ -864,7 +862,6 @@ public class ClientGUI extends JFrame {
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
-                                    pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
@@ -886,7 +883,6 @@ public class ClientGUI extends JFrame {
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
-                                    pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
@@ -1574,29 +1570,30 @@ public class ClientGUI extends JFrame {
 
         public ProgressBarThread(ProgressBarWindow pWindow) {
             this.pWindow = pWindow;
+            StaticHolder.currentTransferCount = 0;
             start();
         }
 
         public void run() {
             long value;
-            int progress;
+            double progress;
             while(!abbruch) {
                 value = (long)(StaticHolder.currentTransferCount)*100;
-                progress = (int)(value/StaticHolder.currentTransferSizeByte);
+                progress = value/StaticHolder.currentTransferSizeByte;
 
-                pWindow.setProgressBar(progress);
+                if(progress >= 99.9) {
+                    System.out.println("LOLOOLOLOLOL");
+                    abbruch = true;
+                    pWindow.dispose();
+                }
+
+                pWindow.setProgressBar((int)progress);
                 try {
                     sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }
-
-        public void abbrechen() {
-            abbruch = true;
-            StaticHolder.currentTransferCount = 0;
-            pWindow.dispose();
         }
     }
 }
