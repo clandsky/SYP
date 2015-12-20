@@ -77,6 +77,7 @@ public class HTTPClient {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
             Response response = target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            StaticHolder.deSerialisierungsZeitMs = response.readEntity(Long.class);
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return response;
         } catch (Exception e) {
@@ -96,6 +97,7 @@ public class HTTPClient {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
             Response response = target.path( STRUKTDATEN ).request().post(Entity.entity(s,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            StaticHolder.deSerialisierungsZeitMs = response.readEntity(Long.class);
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return response;
         } catch (Exception e) {

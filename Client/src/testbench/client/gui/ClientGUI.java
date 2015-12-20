@@ -243,6 +243,7 @@ public class ClientGUI extends JFrame {
             DefaultMutableTreeNode aid = new DefaultMutableTreeNode("aid");
             DefaultMutableTreeNode highAID = new DefaultMutableTreeNode("high");
             highAID.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getHigh()));
+            highAID.add(new DefaultMutableTreeNode(selItem.getValue().getAttr().getAttr().getAid().getHigh()));
             aid.add(highAID);
 
             DefaultMutableTreeNode lowAID = new DefaultMutableTreeNode("low");
@@ -851,7 +852,8 @@ public class ClientGUI extends JFrame {
                                     boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
                                         JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
-                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
+                                                "\nDeserialisierungszeit Server: "+StaticHolder.deSerialisierungsZeitMs+"ms"+
+                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
@@ -873,7 +875,8 @@ public class ClientGUI extends JFrame {
                                     boolean success = cSteuer.sendeStruktdaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
                                         JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
-                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs)+"ms"+
+                                                "\nDeserialisierungszeit Server: "+StaticHolder.deSerialisierungsZeitMs+"ms"+
+                                                "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
