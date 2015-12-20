@@ -3,19 +3,124 @@
 	<output-test url="file://$MODULE_DIR$/../out/test/Server"/>
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
-	<lib name="javax.ws.rs-api-2.0.1.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.ws.rs-api-2.0.1.jar!/"/>
-	</lib>
-	<lib name="jersey-container-jdk-http-2.22.1.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-container-jdk-http-2.22.1.jar!/"/>
-	</lib>
-	<lib name="jersey-server.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-server.jar!/"/>
+	<lib name="asm-debug-all-5.0.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/asm-debug-all-5.0.4.jar!/"/>
 	</lib>
 	<lib name="forms_rt.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/forms_rt.jar!/"/>
 	</lib>
+	<lib name="hamcrest-core-1.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/hamcrest-core-1.3.jar!/"/>
+	</lib>
+	<lib name="hk2-api-2.4.0-b31.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/hk2-api-2.4.0-b31.jar!/"/>
+	</lib>
+	<lib name="hk2-locator-2.4.0-b31.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/hk2-locator-2.4.0-b31.jar!/"/>
+	</lib>
+	<lib name="hk2-utils-2.4.0-b31.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/hk2-utils-2.4.0-b31.jar!/"/>
+	</lib>
+	<lib name="javassist-3.18.1-GA.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javassist-3.18.1-GA.jar!/"/>
+	</lib>
+	<lib name="javax.annotation-api-1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.annotation-api-1.2.jar!/"/>
+	</lib>
+	<lib name="javax.inject-2.4.0-b31.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.inject-2.4.0-b31.jar!/"/>
+	</lib>
+	<lib name="javax.json-1.0.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.json-1.0.4.jar!/"/>
+	</lib>
+	<lib name="javax.servlet-api-3.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.servlet-api-3.0.1.jar!/"/>
+	</lib>
+	<lib name="javax.ws.rs-api-2.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/javax.ws.rs-api-2.0.1.jar!/"/>
+	</lib>
+	<lib name="jaxb-api-2.2.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jaxb-api-2.2.7.jar!/"/>
+	</lib>
+	<lib name="jcommon-1.0.23.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jcommon-1.0.23.jar!/"/>
+	</lib>
+	<lib name="jersey-client.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-client.jar!/"/>
+	</lib>
 	<lib name="jersey-common-2.22.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-common-2.22.jar!/"/>
+	</lib>
+	<lib name="jersey-common.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-common.jar!/"/>
+	</lib>
+	<lib name="jersey-container-jdk-http-2.22.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-container-jdk-http-2.22.1.jar!/"/>
+	</lib>
+	<lib name="jersey-container-servlet-core.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-container-servlet-core.jar!/"/>
+	</lib>
+	<lib name="jersey-container-servlet.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-container-servlet.jar!/"/>
+	</lib>
+	<lib name="jersey-entity-filtering-2.22.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-entity-filtering-2.22.1.jar!/"/>
+	</lib>
+	<lib name="jersey-guava-2.22.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-guava-2.22.1.jar!/"/>
+	</lib>
+	<lib name="jersey-guava-2.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-guava-2.6.jar!/"/>
+	</lib>
+	<lib name="jersey-media-jaxb.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-media-jaxb.jar!/"/>
+	</lib>
+	<lib name="jersey-media-moxy-2.22.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-media-moxy-2.22.1.jar!/"/>
+	</lib>
+	<lib name="jersey-server.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jersey-server.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.19-experimental.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jfreechart-1.0.19-experimental.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.19-swt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jfreechart-1.0.19-swt.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.19.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jfreechart-1.0.19.jar!/"/>
+	</lib>
+	<lib name="jfreesvg-2.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/jfreesvg-2.0.jar!/"/>
+	</lib>
+	<lib name="junit-4.11.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/junit-4.11.jar!/"/>
+	</lib>
+	<lib name="org.eclipse.persistence.core-2.6.0-M3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/org.eclipse.persistence.core-2.6.0-M3.jar!/"/>
+	</lib>
+	<lib name="org.eclipse.persistence.moxy-2.6.0-M3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/org.eclipse.persistence.moxy-2.6.0-M3.jar!/"/>
+	</lib>
+	<lib name="orsoncharts-1.4-eval-nofx.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/orsoncharts-1.4-eval-nofx.jar!/"/>
+	</lib>
+	<lib name="orsonpdf-1.6-eval.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/orsonpdf-1.6-eval.jar!/"/>
+	</lib>
+	<lib name="osgi-resource-locator-1.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/osgi-resource-locator-1.0.1.jar!/"/>
+	</lib>
+	<lib name="persistence-api-1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/persistence-api-1.0.jar!/"/>
+	</lib>
+	<lib name="servlet.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/servlet.jar!/"/>
+	</lib>
+	<lib name="swtgraphics2d.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/swtgraphics2d.jar!/"/>
+	</lib>
+	<lib name="validation-api-1.1.0.Final.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/validation-api-1.1.0.Final.jar!/"/>
 	</lib>
 </component>

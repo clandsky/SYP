@@ -126,7 +126,4 @@
 	<lib name="validation-api-1.1.0.Final.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/Bootloader/lib/validation-api-1.1.0.Final.jar!/"/>
 	</lib>
-	<levels>
-		<level name="lib" value="project"/>
-	</levels>
 </component>
