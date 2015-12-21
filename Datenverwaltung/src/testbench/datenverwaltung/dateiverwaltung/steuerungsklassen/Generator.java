@@ -86,7 +86,8 @@ public class Generator
         // 2: serializedSize und id in info eintragen
         int hashID = System.identityHashCode(tempMdaten.getValueList());
         massenInfoBuilder.setId(hashID);
-        massenInfoBuilder.setPaketGroesseKB(tempMdaten.getSerializedSize()/1000);
+        massenInfoBuilder.setPaketGroesseKB(tempMdaten.getSerializedSize());
+        Printer.println("size: "+tempMdaten.getSerializedSize());
         massendatenBuilder.setInfo(massenInfoBuilder);
 
         // 3: nochmal builden für hashcode

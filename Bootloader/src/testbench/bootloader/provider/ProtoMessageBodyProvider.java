@@ -35,36 +35,28 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
 
     @Override
     public Message readFrom(Class<Message> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
-        if (Massendaten.class.isAssignableFrom(aClass)) {
-            Message message;
-            byte[] buffer = new byte[8192];
-            int counter = 0;
-            int bytesRead;
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
+        Message message = null;
+        byte[] buffer = new byte[8192];
+        int counter = 0;
+        int bytesRead;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                counter += bytesRead;
-                StaticHolder.currentTransferCount = counter; //für progressbar client
-                output.write(buffer, 0, bytesRead);
-            }
-
-            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis();
-            message = Massendaten.parseFrom(output.toByteArray());
-            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeitMs;
-
-            return message;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            counter += bytesRead;
+            StaticHolder.currentTransferCount = counter; //für progressbar client
+            output.write(buffer, 0, bytesRead);
         }
-        else if (Struktdaten.class.isAssignableFrom(aClass)) {
 
-            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis();
-            Message message = Struktdaten.parseFrom(inputStream);
-            StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeitMs;
+        StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis();
+        if(Massendaten.class.isAssignableFrom(aClass)) message = Massendaten.parseFrom(output.toByteArray());
+        if (Struktdaten.class.isAssignableFrom(aClass)) message = Struktdaten.parseFrom(output.toByteArray());
+        StaticHolder.deSerialisierungsZeitMs = System.currentTimeMillis() - StaticHolder.deSerialisierungsZeitMs;
 
-            return message;
-        }
-        else {
-            throw new BadRequestException("Can't Deserailize");
-        }
+        if(message==null) throw new BadRequestException("Can't Deserailize");
+
+        StaticHolder.currentTransferCount = 0;
+
+        return message;
     }
 
     @Override

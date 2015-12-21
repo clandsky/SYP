@@ -7,12 +7,12 @@ import testbench.bootloader.entities.MassenInfo;
  */
 public class MassenInfoGrenz {
     private int id;
-    private int paketGroesseKB;
+    private int paketGroesseByte;
     private MassenDef def;
 
     public MassenInfoGrenz(MassenInfo massenInfo) {
         this.id = massenInfo.getId();
-        this.paketGroesseKB = massenInfo.getPaketGroesseKB();
+        this.paketGroesseByte = massenInfo.getPaketGroesseByte();
         this.def = massenInfo.getDef();
     }
 
@@ -20,8 +20,8 @@ public class MassenInfoGrenz {
         return id;
     }
 
-    public int getPaketGroesseKB() {
-        return paketGroesseKB;
+    public int getPaketGroesseByte() {
+        return paketGroesseByte;
     }
 
     public MassenDef getDef() {

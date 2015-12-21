@@ -55,7 +55,6 @@ public class ClientSteuer {
 
         if(m != null) {
             dServe.schreibeMassendaten(m);
-            Printer.println("Paketgroeße in KB: "+m.getInfo().getPaketGroesseKB());
             return new MassendatenGrenz(m);
         }
         return null;
@@ -75,7 +74,6 @@ public class ClientSteuer {
 
         if(s != null) {
             dServe.schreibeStruktdaten(s);
-            Printer.println("Paketgroeße in B: "+s.getInfo().getSize());
             return new StruktdatenGrenz(s);
         }
         return null;

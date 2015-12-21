@@ -3,14 +3,12 @@ package testbench.client.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import org.jfree.*;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
-import org.jfree.util.PublicCloneable;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import testbench.bootloader.Printer;
@@ -36,7 +34,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -185,8 +182,6 @@ public class ClientGUI extends JFrame {
     private void drawTree(int selectedTableRow) {
         StruktInfoGrenz sig = struktInfoClient.get(selectedTableRow);
         StruktdatenGrenz sGrenz = cSteuer.ladeLokaleStruktdaten(sig.getId());
-        System.out.println(sig.getId());
-        System.out.println(sGrenz.getInfo().getId());
 
         DefaultTreeModel model = (DefaultTreeModel)struktTree.getModel();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Strukturierte Daten");
@@ -473,12 +468,13 @@ public class ClientGUI extends JFrame {
             DefaultTableModel model;
 
             Object[][] data = new Object[mInfoGrenzList.size()][2];
-            String[] columnNames = {"#", "KB"};
+            String[] columnNames = {"#", "KiloByte"};
+
 
             if (!mInfoGrenzList.isEmpty()) {
                 for (int i=0; i < mInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    data[i][1] = df.format(mInfoGrenzList.get(i).getPaketGroesseKB());
+                    data[i][1] = df.format(mInfoGrenzList.get(i).getPaketGroesseByte()/1000);
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -501,12 +497,12 @@ public class ClientGUI extends JFrame {
             DefaultTableModel model;
 
             Object[][] data = new Object[sInfoGrenzList.size()][2];
-            String[] columnNames = {"#", "B"};
+            String[] columnNames = {"#", "Byte"};
 
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    data[i][1] = sInfoGrenzList.get(i).getPaketGroesseByte();
+                    data[i][1] = df.format(sInfoGrenzList.get(i).getPaketGroesseByte());
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -612,13 +608,13 @@ public class ClientGUI extends JFrame {
             MassenInfoGrenz mig = (MassenInfoGrenz) daten;
             artLabel.setText("Massendaten");
             idLabel.setText(String.valueOf(mig.getId()));
-            groesseLabel.setText(String.valueOf(mig.getPaketGroesseKB()));
+            groesseLabel.setText(df.format(mig.getPaketGroesseByte()/1000)+" KB");
         }
         if(daten.getClass() == StruktInfoGrenz.class) {
             StruktInfoGrenz sig = (StruktInfoGrenz) daten;
             artLabel.setText("Strukturierte Daten");
             idLabel.setText(String.valueOf(sig.getId()));
-            groesseLabel.setText(String.valueOf(sig.getPaketGroesseByte()));
+            groesseLabel.setText(df.format(sig.getPaketGroesseByte())+" B");
         }
     }
 
@@ -790,13 +786,13 @@ public class ClientGUI extends JFrame {
 
                 if(!text.equals("/")) {
                     if(artLabelDown.getText().equals("Massendaten")) {
-                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoServer,Integer.valueOf(text))*1000;
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoServer,Integer.valueOf(text));
                         if(StaticHolder.activeWorker == null) {
                             try {
                                 StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                     @Override
                                     protected Integer doInBackground() throws Exception {
-                                        ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
+                                        ProgressBarThread pThread = new ProgressBarThread(true);
                                         MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
                                         if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
                                         else {
@@ -804,6 +800,7 @@ public class ClientGUI extends JFrame {
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
+                                        pThread.abbrechen();
                                         StaticHolder.activeWorker = null;
                                         return null;
                                     }
@@ -820,7 +817,7 @@ public class ClientGUI extends JFrame {
                                 StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                     @Override
                                     protected Integer doInBackground() throws Exception {
-                                        ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(true));
+                                        ProgressBarThread pThread = new ProgressBarThread(true);
                                         StruktdatenGrenz sGrenz = cSteuer.empfangeStruktdaten(Integer.valueOf(idLabelDown.getText()));
                                         if(sGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
                                         else {
@@ -828,6 +825,7 @@ public class ClientGUI extends JFrame {
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
+                                        pThread.abbrechen();
                                         StaticHolder.activeWorker = null;
                                         return null;
                                     }
@@ -848,12 +846,12 @@ public class ClientGUI extends JFrame {
                 String text = idLabelUp.getText();
                 if(!text.equals("/")) {
                     if(artLabelUp.getText().equals("Massendaten")) {
-                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text))*1000;
+                        StaticHolder.currentTransferSizeByte = getPacketSizeFromList(massenInfoClient,Integer.valueOf(text));
                         if(StaticHolder.activeWorker == null) {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
+                                    ProgressBarThread pThread = new ProgressBarThread(false);
                                     boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
                                         JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
@@ -862,6 +860,7 @@ public class ClientGUI extends JFrame {
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
@@ -874,7 +873,7 @@ public class ClientGUI extends JFrame {
                             StaticHolder.activeWorker = new SwingWorker<Integer, Integer>() {
                                 @Override
                                 protected Integer doInBackground() throws Exception {
-                                    ProgressBarThread pThread = new ProgressBarThread(new ProgressBarWindow(false));
+                                    ProgressBarThread pThread = new ProgressBarThread(false);
                                     boolean success = cSteuer.sendeStruktdaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
                                         JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
@@ -883,6 +882,7 @@ public class ClientGUI extends JFrame {
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
                                     else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
@@ -1003,7 +1003,7 @@ public class ClientGUI extends JFrame {
                 if(datenList.get(0).getClass() == MassenInfoGrenz.class) {
                     for(Object o : datenList) {
                         if(((MassenInfoGrenz) o).getId() == id) {
-                            return ((MassenInfoGrenz) o).getPaketGroesseKB();
+                            return ((MassenInfoGrenz) o).getPaketGroesseByte();
                         }
                     }
                 } else {
@@ -1013,7 +1013,6 @@ public class ClientGUI extends JFrame {
                         }
                     }
                 }
-
             }
         }
         return 1;
@@ -1220,7 +1219,7 @@ public class ClientGUI extends JFrame {
         detailsPanelDown.add(label6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label7 = new JLabel();
         label7.setFont(new Font(label7.getFont().getName(), label7.getFont().getStyle(), 14));
-        label7.setText("Größe in KB:");
+        label7.setText("Größe:");
         detailsPanelDown.add(label7, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         artLabelDown = new JLabel();
         artLabelDown.setFont(new Font(artLabelDown.getFont().getName(), artLabelDown.getFont().getStyle(), 14));
@@ -1332,7 +1331,7 @@ public class ClientGUI extends JFrame {
         final JLabel label14 = new JLabel();
         label14.setFont(new Font(label14.getFont().getName(), label14.getFont().getStyle(), 14));
         label14.setHorizontalAlignment(0);
-        label14.setText("Größe in KB:");
+        label14.setText("Größe:");
         detailsPanelUp.add(label14, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         artLabelUp = new JLabel();
         artLabelUp.setFont(new Font(artLabelUp.getFont().getName(), artLabelUp.getFont().getStyle(), 14));
@@ -1568,32 +1567,32 @@ public class ClientGUI extends JFrame {
         private ProgressBarWindow pWindow;
         private boolean abbruch;
 
-        public ProgressBarThread(ProgressBarWindow pWindow) {
-            this.pWindow = pWindow;
-            StaticHolder.currentTransferCount = 0;
+        public ProgressBarThread(Boolean isDownload) {
+            this.pWindow = new ProgressBarWindow(isDownload);
             start();
         }
 
         public void run() {
             long value;
-            double progress;
+            float progress;
+
             while(!abbruch) {
-                value = (long)(StaticHolder.currentTransferCount)*100;
-                progress = value/StaticHolder.currentTransferSizeByte;
-
-                if(progress >= 99.9) {
-                    System.out.println("LOLOOLOLOLOL");
-                    abbruch = true;
-                    pWindow.dispose();
-                }
-
-                pWindow.setProgressBar((int)progress);
                 try {
-                    sleep(50);
+                    sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                value = (long)(StaticHolder.currentTransferCount)*100;
+                progress = value/StaticHolder.currentTransferSizeByte;
+
+                pWindow.setProgressBar((int)progress);
             }
+        }
+
+        public void abbrechen() {
+            abbruch = true;
+            pWindow.dispose();
         }
     }
 }

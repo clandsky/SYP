@@ -37,7 +37,8 @@ public class ProgressBarWindow extends JFrame {
 
         this.isDownload = isDownload;
 
-        cl.show(cardPanel, "initCard");
+        if (isDownload) cl.show(cardPanel, "downloadCard");
+        else cl.show(cardPanel, "initCard");
 
         if (isDownload)
             downloadLabel.setText("Herunterladen..." + " (" + StaticHolder.currentTransferSizeByte / 1000 + " KB)");
@@ -59,10 +60,7 @@ public class ProgressBarWindow extends JFrame {
     public void setProgressBar(int value) {
         progressBar.setValue(value);
         progressBar.setString(String.valueOf(value) + "%");
-        if (value > 0) {
-            if (isDownload) cl.show(cardPanel, "downloadCard");
-            else cl.show(cardPanel, "uploadCard");
-        }
+
         if (value >= 100) {
             if (!isDownload) doneLabel.setText("Server empfängt und verarbeitet Daten...");
             cl.show(cardPanel, "doneCard");

@@ -423,7 +423,7 @@
                                         </constraints>
                                         <properties>
                                           <font size="14"/>
-                                          <text value="Größe in KB:"/>
+                                          <text value="Größe:"/>
                                         </properties>
                                       </component>
                                       <component id="9796f" class="javax.swing.JLabel" binding="artLabelDown">
@@ -731,7 +731,7 @@
                                         <properties>
                                           <font size="14"/>
                                           <horizontalAlignment value="0"/>
-                                          <text value="Größe in KB:"/>
+                                          <text value="Größe:"/>
                                         </properties>
                                       </component>
                                       <component id="ddfa2" class="javax.swing.JLabel" binding="artLabelUp">

@@ -12,14 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class MassenInfo {
     private int id;
-    private int paketGroesseKB;
+    private int paketGroesseByte;
     private MassenDef def;
 
     public MassenInfo() {}
 
-    public MassenInfo(int id, int paketGroesseKB, MassenDef def) {
+    public MassenInfo(int id, int paketGroesseByte, MassenDef def) {
         this.id = id;
-        this.paketGroesseKB = paketGroesseKB;
+        this.paketGroesseByte = paketGroesseByte;
         this.def = def;
     }
 
@@ -32,12 +32,12 @@ public class MassenInfo {
         this.id = id;
     }
     @XmlAttribute
-    public int getPaketGroesseKB() {
-        return paketGroesseKB;
+    public int getPaketGroesseByte() {
+        return paketGroesseByte;
     }
 
-    public void setPaketGroesseKB(int paketgroesseKB) {
-        this.paketGroesseKB = paketgroesseKB;
+    public void setPaketGroesseByte(int paketgroesseByte) {
+        this.paketGroesseByte = paketgroesseByte;
     }
 
     @XmlElement
