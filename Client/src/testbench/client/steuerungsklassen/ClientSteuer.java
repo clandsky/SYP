@@ -24,7 +24,6 @@ import java.util.List;
  */
 
 public class ClientSteuer {
-    public boolean isDebugMode = ClientConfig.getExemplar().getDebugMode();
     private HTTPClient httpClient;
     private DatenService dServe;
 
@@ -34,8 +33,9 @@ public class ClientSteuer {
     }
 
     /**
-     *
-     * @return
+     * Diese Methode laedt alle lokal gespeicherten Messdaten und liefert
+     * diese als Liste zurueck.
+     * @return Die geladenen Messdaten als Liste.
      */
     public List<Messdaten> holeMessdaten() {
         return null;
@@ -87,12 +87,10 @@ public class ClientSteuer {
      * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
      */
     public boolean sendeMassendaten(int id) {
-        Response response;
         Printer.println("Sende Massendaten mit ID: "+id);
         Massendaten m = dServe.ladeMassendaten(id);
-        Printer.println("Anzahl der verschickten Werte: "+String.valueOf(m.getValueCount()));
-
-        response = httpClient.sendeMassendaten(m);
+        Printer.println("Anzahl der Werte: "+String.valueOf(m.getValueCount()));
+        Response response = httpClient.sendeMassendaten(m);
 
         if(response != null) {
             if(response.getStatus() == 200) return true;
@@ -109,11 +107,9 @@ public class ClientSteuer {
      * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
      */
     public boolean sendeStruktdaten(int id) {
-        Response response;
         Printer.println("Sende Struktdaten mit ID: "+id);
         Struktdaten s = dServe.ladeStruktdaten(id);
-
-        response = httpClient.sendeStruktdaten(s);
+        Response response = httpClient.sendeStruktdaten(s);
 
         if(response != null) {
             if(response.getStatus() == 200) return true;

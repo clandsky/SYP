@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sven Riedel on 07.12.2015.
+ * Created by Sven Riedel on 07.12.2015
  */
 public class DatenService {
     private IDatenVerwaltungImpl iDat = new IDatenVerwaltungImpl();

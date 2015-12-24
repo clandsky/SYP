@@ -8,6 +8,7 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.provider.MediaTypeExt;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.bootloader.service.StaticHolder;
+import testbench.client.service.ClientConfig;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -21,7 +22,6 @@ import java.util.List;
  *   Created by Sven Riedel (30.11.2015)
  */
 public class HTTPClient {
-    private boolean printStackTrace = true;
     private static HTTPClient httpClient;
     private Client client;
     private WebTarget target;
@@ -62,7 +62,7 @@ public class HTTPClient {
             return false;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/connect() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return false;
         }
     }
@@ -76,13 +76,13 @@ public class HTTPClient {
     public Response sendeMassendaten(Massendaten m) {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
-            Response response = target.path( MASSENDATEN ).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            Response response = target.path(MASSENDATEN).request().post(Entity.entity(m,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
             StaticHolder.deSerialisierungsZeitMs = response.readEntity(Long.class);
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return response;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/sendeMassendaten() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
@@ -96,13 +96,13 @@ public class HTTPClient {
     public Response sendeStruktdaten(Struktdaten s) {
         try{
             StaticHolder.gesamtZeit = System.currentTimeMillis();
-            Response response = target.path( STRUKTDATEN ).request().post(Entity.entity(s,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
+            Response response = target.path(STRUKTDATEN).request().post(Entity.entity(s,MediaTypeExt.APPLICATION_PROTOBUF), Response.class);
             StaticHolder.deSerialisierungsZeitMs = response.readEntity(Long.class);
             StaticHolder.gesamtZeit = System.currentTimeMillis() -  StaticHolder.gesamtZeit;
             return response;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/sendeStruktdaten() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
@@ -122,7 +122,7 @@ public class HTTPClient {
             return m;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/empfangeMassendaten() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
@@ -142,7 +142,7 @@ public class HTTPClient {
             return s;
         } catch (Exception e) {
             Printer.println("Exception in HTTPClient/empfangeStruktdaten() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
@@ -153,11 +153,11 @@ public class HTTPClient {
      */
     public List<MassenInfo> empfangeMassendatenInfoListe() {
         try {
-            List<MassenInfo> mInfo = target.path( MASSENDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<MassenInfo>>() {} );
+            List<MassenInfo> mInfo = target.path(MASSENDATEN).request().accept(MediaTypeExt.APPLICATION_XML).get(new GenericType<List<MassenInfo>>(){});
             return mInfo;
         } catch(Exception e) {
             Printer.println("Exception in HTTPClient/empfangeMassendatenInfoListe() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
@@ -169,11 +169,11 @@ public class HTTPClient {
     public List<StruktInfo> empfangeStruktdatenInfoListe() {
 
         try {
-            List<StruktInfo> sInfo = target.path( STRUKTDATEN ).request().accept( MediaTypeExt.APPLICATION_XML ).get( new GenericType<List<StruktInfo>>() {} );
+            List<StruktInfo> sInfo = target.path(STRUKTDATEN).request().accept(MediaTypeExt.APPLICATION_XML).get(new GenericType<List<StruktInfo>>(){});
             return sInfo;
         } catch(Exception e) {
             Printer.println("Exception in HTTPClient/empfangeStruktdatenInfoListe() : Verbindung fehlgeschlagen");
-            if(printStackTrace) e.printStackTrace();
+            if(ClientConfig.getExemplar().getDebugMode()) e.printStackTrace();
             return null;
         }
     }
