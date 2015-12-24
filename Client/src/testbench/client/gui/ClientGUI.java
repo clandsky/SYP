@@ -118,15 +118,15 @@ public class ClientGUI extends JFrame {
 
     /* ############## VARIABLEN ################ */
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
-    private ClientSteuer cSteuer = new ClientSteuer();
-    DecimalFormat df = new DecimalFormat();
+    private ClientSteuer cSteuer;
+    private DecimalFormat df;
     private CardLayout mainCardLayout;
     private CardLayout detailsCardLayout;
-    private JFrame frame = new JFrame(); //fuer popups
+    private JFrame optionPaneFrame; //fuer popups
     private boolean isIpTextFirstClicked = false;  //wenn false wird beim klick auf ip-textfield inhalt geleert
-    private ClientConfig clientConfig = ClientConfig.getExemplar();
+    private ClientConfig clientConfig;
     private JFrame datenVerwaltungGUI;
-    private ChartPanel CP = null;
+    private ChartPanel CP;
 
     /* ############## RESSOURCEN PFADE ################ */
     private final String IMAGEFOLDER = "/resources/images/";
@@ -164,13 +164,27 @@ public class ClientGUI extends JFrame {
         setContentPane(formPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
+
         setIconImage(loadImageResource(IMAGE_PROTOBUFMICRO_PATH));
-        mainCardLayout = (CardLayout) cardPanel.getLayout();
-        detailsCardLayout = (CardLayout) cardPanelDetails.getLayout();
+
         initGuiProperties(guiSizeX,guiSizeY);
+        objectInit();
         initImages();
         initListener();
         initSplitPanes();
+    }
+
+    /**
+     * Diese Methode initialisiert die deklarierten Objekte.
+     * Hilfsmethode, um den Konstruktor schlanker zu machen.
+     */
+    private void objectInit() {
+        optionPaneFrame = new JFrame();
+        cSteuer = new ClientSteuer();
+        df = new DecimalFormat();
+        clientConfig = ClientConfig.getExemplar();
+        mainCardLayout = (CardLayout) cardPanel.getLayout();
+        detailsCardLayout = (CardLayout) cardPanelDetails.getLayout();
     }
 
     /**
@@ -414,14 +428,19 @@ public class ClientGUI extends JFrame {
         MassendatenGrenz mGrenz;
 
         mGrenz = cSteuer.ladeLokaleMassendaten(mig.getId());
-
         if(mGrenz == null) {
-            JOptionPane.showMessageDialog(frame, DATA_NOT_FOUND_ERROR);
+            JOptionPane.showMessageDialog(optionPaneFrame, DATA_NOT_FOUND_ERROR);
             return;
         }
 
         XYSeries signal = new XYSeries("Signal");
-        XYSeriesCollection dataset;
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSplineRenderer xySplineRenderer = new XYSplineRenderer();
+        XYPlot plot;
+        JFreeChart chart;
+        NumberAxis xAxis;
+        NumberAxis yAxis;
+
         int abbruch;
         double abtastrate = mig.getDef().getAbtastrate();
 
@@ -431,20 +450,15 @@ public class ClientGUI extends JFrame {
         for(int i=0 ; i<abbruch ; i++) {
             signal.add(abtastrate*i,mGrenz.getValues().get(i).getNumber());
         }
-
-        dataset = new XYSeriesCollection();
         dataset.addSeries(signal);
 
-        XYSplineRenderer renderer = new XYSplineRenderer();
-        renderer.setSeriesPaint(0, Color.blue);
-        renderer.setSeriesShape(0, new Ellipse2D.Double(-2, -2, 4, 4)); //größe der punkte bei XYSplineRenderer
-        //renderer.setDotHeight(2);
-        //renderer.setDotWidth(2);
-        NumberAxis xAxis = new NumberAxis("x - Abtastrate: "+mDef.getAbtastrate());
-        NumberAxis yAxis = new NumberAxis("y");
+        xySplineRenderer.setSeriesPaint(0, Color.blue);
+        xySplineRenderer.setSeriesShape(0, new Ellipse2D.Double(-2, -2, 4, 4)); //größe der punkte bei XYSplineRenderer
+        xAxis = new NumberAxis("x - Abtastrate: "+mDef.getAbtastrate());
+        yAxis = new NumberAxis("y");
 
-        XYPlot plot = new XYPlot(dataset,xAxis,yAxis, renderer);
-        JFreeChart chart = new JFreeChart(plot);
+        plot = new XYPlot(dataset,xAxis,yAxis, xySplineRenderer);
+        chart = new JFreeChart(plot);
         chart.setTitle("Massendaten "+(selectedTableRow+1)+" - "+howMuchValuesToDraw+" Werte sichtbar");
 
         if(CP == null) {
@@ -470,11 +484,10 @@ public class ClientGUI extends JFrame {
             Object[][] data = new Object[mInfoGrenzList.size()][2];
             String[] columnNames = {"#", "KiloByte"};
 
-
             if (!mInfoGrenzList.isEmpty()) {
                 for (int i=0; i < mInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    data[i][1] = df.format(mInfoGrenzList.get(i).getPaketGroesseByte()/1000);
+                    data[i][1] = df.format(mInfoGrenzList.get(i).getPaketGroesseByte()/1000); //format df.format formiert die zahl (1.000.000)
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -502,7 +515,7 @@ public class ClientGUI extends JFrame {
             if (!sInfoGrenzList.isEmpty()) {
                 for (int i=0; i < sInfoGrenzList.size(); i++) {
                     data[i][0] = i+1;
-                    data[i][1] = df.format(sInfoGrenzList.get(i).getPaketGroesseByte());
+                    data[i][1] = df.format(sInfoGrenzList.get(i).getPaketGroesseByte()); //format df.format formiert die zahl (1.000.000)
                 }
 
                 model = new DefaultTableModel(data, columnNames) {
@@ -538,7 +551,7 @@ public class ClientGUI extends JFrame {
         struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
 
         if(massenInfoServer==null || struktInfoServer==null) {
-            JOptionPane.showMessageDialog(frame, SERVER_OFFLINE);
+            JOptionPane.showMessageDialog(optionPaneFrame, SERVER_OFFLINE);
         } else {
             fillMassenTable(massenTableDownload,massenInfoServer);
             fillStruktTable(struktTableDownload,struktInfoServer);
@@ -794,9 +807,9 @@ public class ClientGUI extends JFrame {
                                     protected Integer doInBackground() throws Exception {
                                         ProgressBarThread pThread = new ProgressBarThread(true);
                                         MassendatenGrenz mGrenz = cSteuer.empfangeMassendaten(Integer.valueOf(idLabelDown.getText()));
-                                        if(mGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
+                                        if(mGrenz == null) JOptionPane.showMessageDialog(optionPaneFrame, DATA_NOT_DOWNLOADED_ERROR);
                                         else {
-                                            JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
+                                            JOptionPane.showMessageDialog(optionPaneFrame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
@@ -809,7 +822,7 @@ public class ClientGUI extends JFrame {
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
-                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                        } else JOptionPane.showMessageDialog(optionPaneFrame, WAIT_FOR_TRANSFER);
                     } else {
                         StaticHolder.currentTransferSizeByte = getPacketSizeFromList(struktInfoServer,Integer.valueOf(text));
                         if(StaticHolder.activeWorker == null) {
@@ -819,9 +832,9 @@ public class ClientGUI extends JFrame {
                                     protected Integer doInBackground() throws Exception {
                                         ProgressBarThread pThread = new ProgressBarThread(true);
                                         StruktdatenGrenz sGrenz = cSteuer.empfangeStruktdaten(Integer.valueOf(idLabelDown.getText()));
-                                        if(sGrenz == null) JOptionPane.showMessageDialog(frame, DATA_NOT_DOWNLOADED_ERROR);
+                                        if(sGrenz == null) JOptionPane.showMessageDialog(optionPaneFrame, DATA_NOT_DOWNLOADED_ERROR);
                                         else {
-                                            JOptionPane.showMessageDialog(frame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
+                                            JOptionPane.showMessageDialog(optionPaneFrame, DATA_DOWNLOAD_SUCCESS+"\n\nDeserialisierungszeit: "+StaticHolder.deSerialisierungsZeitMs +"ms"+
                                                     "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                     "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                         }
@@ -834,10 +847,10 @@ public class ClientGUI extends JFrame {
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
-                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                        } else JOptionPane.showMessageDialog(optionPaneFrame, WAIT_FOR_TRANSFER);
                     }
 
-                } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
+                } else JOptionPane.showMessageDialog(optionPaneFrame, CHOOSE_FROM_LIST);
             }
         });
         hochladenButton.addActionListener(new ActionListener() {
@@ -854,19 +867,19 @@ public class ClientGUI extends JFrame {
                                     ProgressBarThread pThread = new ProgressBarThread(false);
                                     boolean success = cSteuer.sendeMassendaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
-                                        JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
+                                        JOptionPane.showMessageDialog(optionPaneFrame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
                                                 "\nDeserialisierungszeit Server: "+StaticHolder.deSerialisierungsZeitMs+"ms"+
                                                 "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
-                                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    else JOptionPane.showMessageDialog(optionPaneFrame, DATA_NOT_UPLOADED_ERROR);
                                     pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
                             };
                             StaticHolder.activeWorker.execute();
-                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                        } else JOptionPane.showMessageDialog(optionPaneFrame, WAIT_FOR_TRANSFER);
                     } else {
                         StaticHolder.currentTransferSizeByte = getPacketSizeFromList(struktInfoClient,Integer.valueOf(text));
                         if(StaticHolder.activeWorker == null) {
@@ -876,32 +889,32 @@ public class ClientGUI extends JFrame {
                                     ProgressBarThread pThread = new ProgressBarThread(false);
                                     boolean success = cSteuer.sendeStruktdaten(Integer.valueOf(idLabelUp.getText()));
                                     if (success) {
-                                        JOptionPane.showMessageDialog(frame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
+                                        JOptionPane.showMessageDialog(optionPaneFrame, DATA_UPLOADED_SUCCESS+"\n\nSerialisierungszeit: "+StaticHolder.serialisierungsZeitMs+"ms"+
                                                 "\nDeserialisierungszeit Server: "+StaticHolder.deSerialisierungsZeitMs+"ms"+
                                                 "\nÜbertragungszeit: "+(StaticHolder.gesamtZeit-StaticHolder.serialisierungsZeitMs-StaticHolder.deSerialisierungsZeitMs)+"ms"+
                                                 "\nGesamtzeit: "+StaticHolder.gesamtZeit+"ms\n");
                                     }
-                                    else JOptionPane.showMessageDialog(frame, DATA_NOT_UPLOADED_ERROR);
+                                    else JOptionPane.showMessageDialog(optionPaneFrame, DATA_NOT_UPLOADED_ERROR);
                                     pThread.abbrechen();
                                     StaticHolder.activeWorker = null;
                                     return null;
                                 }
                             };
                             StaticHolder.activeWorker.execute();
-                        } else JOptionPane.showMessageDialog(frame, WAIT_FOR_TRANSFER);
+                        } else JOptionPane.showMessageDialog(optionPaneFrame, WAIT_FOR_TRANSFER);
                     }
 
-                } else JOptionPane.showMessageDialog(frame, CHOOSE_FROM_LIST);
+                } else JOptionPane.showMessageDialog(optionPaneFrame, CHOOSE_FROM_LIST);
             }
         });
         changeIpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String newIp = JOptionPane.showInputDialog(frame, CHANGE_IP_MESSAGE);
+                String newIp = JOptionPane.showInputDialog(optionPaneFrame, CHANGE_IP_MESSAGE);
                 if(newIp != null) {
                     if(!newIp.equals("") && !newIp.contains(" ")) {
                         connectIp(newIp);
-                    } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
+                    } else JOptionPane.showMessageDialog(optionPaneFrame, NO_EMPTY_SPACES_STRING);
                 }
             }
         });
@@ -944,11 +957,11 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Oeffnet einen Jtree komplett
+     * Oeffnet einen Jtree.
      *
-     * @param tree
-     * @param startingIndex
-     * @param rowCount
+     * @param tree Der zu oeffnende Tree.
+     * @param startingIndex Anfangsindex.
+     * @param rowCount anzahl der zu oeffnenden Blaetter.
      */
     private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
         for(int i=startingIndex;i<rowCount;++i){
@@ -961,12 +974,12 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode baut aus gegebener IP und gegebenem PORT einen String nach
+     * Diese Methode baut aus gegebener IP und gegebenem Port einen String nach
      * dem Muster "http://xxxxx:xxxx/" zusammen und liefert diesen zurueck.
      *
      * @param ip   Gewuenschte IP.
-     * @param port Gewuenschter PORT.
-     * @return Den zusammengesetzten String.
+     * @param port Gewuenschter Port.
+     * @return Zusammengesetzten String.
      */
     private String addIpSyntax(String ip, String port) {
         String ipNew = new String(ip);
@@ -977,7 +990,7 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Diese Methode entfernt aus gegebener Adresse das "http://" sowie den PORT
+     * Diese Methode entfernt aus gegebener Adresse das "http://" sowie den Port.
      *
      * @param adresse Adresse, aus der die IP extrahiert werden soll.
      * @return Die extrahierte IP.
@@ -991,11 +1004,11 @@ public class ClientGUI extends JFrame {
 
     /**
      * Diese Methode durchsucht eine gegebene Liste nach Daten mit gegebener IP
-     * und liefert die Größe dieser Daten zurueck.
+     * und liefert die Groeße dieser Daten zurueck.
      *
      * @param datenList Liste, die durchsucht werden soll.
      * @param id        ID der Daten, nach denen gesucht werden soll.
-     * @return Größe der Daten. Sonst 0.
+     * @return Groeße der Daten. Sonst 0.
      */
     private int getPacketSizeFromList(List<?> datenList, int id) {
         if(datenList != null) {
@@ -1024,7 +1037,7 @@ public class ClientGUI extends JFrame {
      * Ist dies der Fall, verschwindet das Login-Fenster und das eigentliche
      * Programm erscheint.
      *
-     * @param ip IP zu der verbunden werden soll.
+     * @param ip Die IP zu der verbunden werden soll.
      */
     private void connectIp(String ip) {
         boolean isConnected;
@@ -1036,14 +1049,14 @@ public class ClientGUI extends JFrame {
                     newIP = addIpSyntax(newIP,clientConfig.getPort());
                     isConnected = cSteuer.connect(newIP);
                     if(!isConnected) {
-                        JOptionPane.showMessageDialog(frame, SERVER_NOT_FOUND_STRING);
+                        JOptionPane.showMessageDialog(optionPaneFrame, SERVER_NOT_FOUND_STRING);
                     }
                     else {
                         initDataLists();
                         actualizeCurrentIpTextField(cSteuer.getServerIP());
                         mainCardLayout.show(cardPanel, "mainCard");
                     }
-                } else JOptionPane.showMessageDialog(frame, NO_EMPTY_SPACES_STRING);
+                } else JOptionPane.showMessageDialog(optionPaneFrame, NO_EMPTY_SPACES_STRING);
             }
         }
     }
