@@ -66,14 +66,14 @@ public class DatenService {
     }
 
     /**
-     * Diese Methode speichert die gegebenen Massendaten auf die Festplatte.
-     * Dies geschieht durch Aufruf der Schnittstellen-Methode schreibeMassendaten()
+     * Diese Methode speichert die gegebenen Messdaten auf die Festplatte.
+     * Dies geschieht durch Aufruf der Schnittstellen-Methode schreibeMessdaten()
      * in IDatenverwaltungIMPL.
-     * @param massendaten Die zu speichernden Daten.
+     * @param m Die zu speichernden Daten.
      * @return Wenn erfolgreich: True. Sonst: False.
      */
-    public boolean schreibeMassendaten (Massendaten massendaten) {
-        return iDat.schreibeMassendaten(massendaten);
+    public boolean schreibeMessdaten (Messdaten m) {
+        return iDat.schreibeMessdaten(m);
     }
 
     /**
@@ -85,6 +85,17 @@ public class DatenService {
      */
     public boolean schreibeStruktdaten (Struktdaten struktdaten) {
         return iDat.schreibeStrukturierteDaten(struktdaten);
+    }
+
+    /**
+     * Diese Methode speichert die gegebenen Massendaten auf die Festplatte.
+     * Dies geschieht durch Aufruf der Schnittstellen-Methode schreibeMassendaten()
+     * in IDatenverwaltungIMPL.
+     * @param massendaten Die zu speichernden Daten.
+     * @return Wenn erfolgreich: True. Sonst: False.
+     */
+    public boolean schreibeMassendaten (Massendaten massendaten) {
+        return iDat.schreibeMassendaten(massendaten);
     }
 
     /**

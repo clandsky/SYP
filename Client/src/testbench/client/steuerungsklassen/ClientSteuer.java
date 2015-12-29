@@ -7,12 +7,14 @@ import testbench.bootloader.grenz.*;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.messdaten.MessdatenProtos.Messdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
+import testbench.bootloader.service.StaticHolder;
 import testbench.client.HTTPClient;
 import testbench.client.service.DatenService;
 
 import javax.swing.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,7 +42,8 @@ public class ClientSteuer {
     /**
      * Diese Methode versucht, Massendaten mit gegebener ID vom Server zu laden.
      * Dazu wird die empfangeMassendaten(int id) Methode in HTTPClient aufgerufen.
-     * Die empfangenen Daten werden dann automatisch in MassendatenGrenz umgewandelt.
+     * Es werden automatisch Messdaten auf der Festplatte gespeichert.
+     * Die empfangenen Daten werden dann in MassendatenGrenz umgewandelt.
      * @param id Die ID der zu empfangenen Massendaten
      * @return Die empfangenen Massendaten als MassendatenGrenz. Sonst null.
      */
@@ -50,6 +53,10 @@ public class ClientSteuer {
         Massendaten m = httpClient.empfangeMassendaten(id);
 
         if(m != null) {
+            long deseri = StaticHolder.deSerialisierungsZeitMs;
+            long gesamt = StaticHolder.gesamtZeit;
+            long trans = StaticHolder.gesamtZeit-deseri;
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, m.getSerializedSize(), String.valueOf(new Date()),"Massendaten"));
             dServe.schreibeMassendaten(m);
             return new MassendatenGrenz(m);
         }
@@ -59,7 +66,8 @@ public class ClientSteuer {
     /**
      * Diese Methode versucht, Struktdaten mit gegebener ID vom Server zu laden.
      * Dazu wird die empfangeStruktdaten(int id) Methode in HTTPClient aufgerufen.
-     * Die empfangenen Daten werden dann automatisch in StruktdatenGrenz umgewandelt.
+     * Es werden automatisch Messdaten auf der Festplatte gespeichert.
+     * Die empfangenen Daten werden dann in StruktdatenGrenz umgewandelt.
      * @param id Die ID der zu empfangenen Struktdaten
      * @return Die empfangenen Struktdaten als StruktdatenGrenz. Sonst null.
      */
@@ -69,6 +77,10 @@ public class ClientSteuer {
         Struktdaten s = httpClient.empfangeStruktdaten(id);
 
         if(s != null) {
+            long deseri = StaticHolder.deSerialisierungsZeitMs;
+            long gesamt = StaticHolder.gesamtZeit;
+            long trans = StaticHolder.gesamtZeit-deseri;
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, s.getSerializedSize(), String.valueOf(new Date()),"Struktdaten"));
             dServe.schreibeStruktdaten(s);
             return new StruktdatenGrenz(s);
         }
@@ -79,6 +91,8 @@ public class ClientSteuer {
      * Diese Methode sendet Massendaten mit einer bestimmten ID an den Server.
      * Geladen werden diese lokalen Daten von der Methode ladeMassendaten aus DatenService.
      * Diese Daten werden durch die sendeMassendaten Methode im HTTPClient gesendet.
+     * Nach dem erfolgreichen Senden werden die gemessenen Zeiten als Messdatenproto
+     * auf der Festplatte gespeichert.
      * @param id ID der zu sendenden Massendaten
      * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
      */
@@ -89,7 +103,14 @@ public class ClientSteuer {
         Response response = httpClient.sendeMassendaten(m);
 
         if(response != null) {
-            if(response.getStatus() == 200) return true;
+            if(response.getStatus() == 200) {
+                long seri = StaticHolder.serialisierungsZeitMs;
+                long deseri = StaticHolder.deSerialisierungsZeitMs;
+                long gesamt = StaticHolder.gesamtZeit;
+                long trans = StaticHolder.gesamtZeit-seri-deseri;
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, m.getSerializedSize(), String.valueOf(new Date()),"Massendaten"));
+                return true;
+            }
             return false;
         }
         return false;
@@ -99,6 +120,8 @@ public class ClientSteuer {
      * Diese Methode sendet Struktdaten mit einer bestimmten ID an den Server.
      * Geladen werden diese lokalen Daten von der Methode ladeStruktdaten aus DatenService.
      * Diese Daten werden durch die sendeStruktdaten Methode im HTTPClient gesendet.
+     * Nach dem erfolgreichen Senden werden die gemessenen Zeiten als Messdatenproto
+     * auf der Festplatte gespeichert.
      * @param id ID der zu sendenden Struktdaten
      * @return Wenn erfolgreich und HTTP-Status==200: True. Sonst False.
      */
@@ -108,7 +131,14 @@ public class ClientSteuer {
         Response response = httpClient.sendeStruktdaten(s);
 
         if(response != null) {
-            if(response.getStatus() == 200) return true;
+            if(response.getStatus() == 200) {
+                long seri = StaticHolder.serialisierungsZeitMs;
+                long deseri = StaticHolder.deSerialisierungsZeitMs;
+                long gesamt = StaticHolder.gesamtZeit;
+                long trans = StaticHolder.gesamtZeit-seri-deseri;
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, s.getSerializedSize(), String.valueOf(new Date()),"Struktdaten"));
+                return true;
+            }
             return false;
         }
         return false;
@@ -227,5 +257,19 @@ public class ClientSteuer {
         iActivate.getComponentGui().setVisible(true);
         iActivate.getComponentGui().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE); // damit das Programm nicht mit dem Fenster geschlossen wird.
         return iActivate.getComponentGui();
+    }
+
+    private Messdaten buildMessdaten(int id, long seriZeit, long deseriZeit, long transZeit, int paketGroesseByte, String timeStamp, String typ) {
+        Messdaten.Builder builder = Messdaten.newBuilder();
+
+        builder.setId(id);
+        builder.setSerialisierungsZeit(seriZeit);
+        builder.setDeserialisierungsZeit(deseriZeit);
+        builder.setTransmitTime(transZeit);
+        builder.setPaketGroesseByte(paketGroesseByte);
+        builder.setTimeStamp(timeStamp);
+        builder.setTyp(typ);
+
+        return builder.build();
     }
 }
