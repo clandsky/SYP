@@ -1,12 +1,9 @@
 package testbench.datenverwaltung.dateiverwaltung.impl;
 
 import testbench.bootloader.entities.MassenInfo;
-import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
-import testbench.bootloader.grenz.StruktDef;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
@@ -15,11 +12,7 @@ import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by CGrings on 07.12.2015

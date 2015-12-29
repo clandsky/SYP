@@ -1,7 +1,6 @@
 package testbench.datenverwaltung.dateiverwaltung.service;
 
 import testbench.bootloader.entities.MassenInfo;
-import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.messdaten.MessdatenProtos;

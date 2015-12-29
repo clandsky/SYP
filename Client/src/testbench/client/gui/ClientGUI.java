@@ -959,9 +959,9 @@ public class ClientGUI extends JFrame {
     /**
      * Oeffnet einen Jtree.
      *
-     * @param tree Der zu oeffnende Tree.
+     * @param tree          Der zu oeffnende Tree.
      * @param startingIndex Anfangsindex.
-     * @param rowCount anzahl der zu oeffnenden Blaetter.
+     * @param rowCount      anzahl der zu oeffnenden Blaetter.
      */
     private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
         for(int i=startingIndex;i<rowCount;++i){

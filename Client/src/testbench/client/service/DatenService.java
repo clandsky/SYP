@@ -2,10 +2,8 @@ package testbench.client.service;
 
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
-import testbench.bootloader.grenz.Frequency;
-import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos.Messdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 
@@ -21,7 +19,7 @@ public class DatenService {
     /**
      * Diese Methode liefert eine Liste aller lokalen Massendaten
      * als MassenInfo-Liste zurueck.
-     * @return Liste aller Massendaten als MassenInfo-Liste
+     * @return Liste aller Massendaten als MassenInfo-Liste.
      */
     public List<MassenInfo> ladeMassenListe() {
         return iDat.ladeMassenInfo();
@@ -30,10 +28,19 @@ public class DatenService {
     /**
      * Diese Methode liefert eine Liste aller lokalen Struktdaten
      * als StruktInfo-Liste zurueck.
-     * @return Liste aller Struktdaten als StruktInfo-Liste
+     * @return Liste aller Struktdaten als StruktInfo-Liste.
      */
     public List<StruktInfo> ladeStruktListe() {
         return iDat.ladeStruktInfo();
+    }
+
+    /**
+     * Diese Methode liefert eine Liste aller lokal gespeicherten Messdaten
+     * als Messdaten-Liste zurueck.
+     * @return Liste aller Messdaten als Messdaten-Liste.
+     */
+    public List<Messdaten> ladeMessdatenListe() {
+        return iDat.ladeAlleMessdaten();
     }
 
     /**
@@ -87,9 +94,8 @@ public class DatenService {
      * @param id ID der Messdaten, die geladen werden sollen.
      * @return Die geladenen Messdaten.
      */
-    public MessdatenProtos.Messdaten ladeMessdaten(int id) {
-
-        return null;
+    public Messdaten ladeMessdaten(int id) {
+        return iDat.ladeMessdatenByID(id);
     }
 
     /**

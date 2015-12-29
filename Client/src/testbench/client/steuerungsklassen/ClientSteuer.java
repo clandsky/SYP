@@ -2,16 +2,12 @@ package testbench.client.steuerungsklassen;
 
 import testbench.bootloader.Printer;
 import testbench.bootloader.entities.MassenInfo;
-import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
-import testbench.bootloader.grenz.MassendatenGrenz;
-import testbench.bootloader.grenz.StruktdatenGrenz;
+import testbench.bootloader.grenz.*;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos.Messdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.client.HTTPClient;
-import testbench.bootloader.grenz.MassenInfoGrenz;
-import testbench.bootloader.grenz.StruktInfoGrenz;
-import testbench.client.service.ClientConfig;
 import testbench.client.service.DatenService;
 
 import javax.swing.*;
@@ -38,7 +34,7 @@ public class ClientSteuer {
      * @return Die geladenen Messdaten als Liste.
      */
     public List<Messdaten> holeMessdaten() {
-        return null;
+        return dServe.ladeMessdatenListe();
     }
 
     /**
@@ -189,6 +185,16 @@ public class ClientSteuer {
      */
     public StruktdatenGrenz ladeLokaleStruktdaten(int id) {
         return new StruktdatenGrenz(dServe.ladeStruktdaten(id));
+    }
+
+    /**
+     * Diese Methode laedt lokale Messdaten und liefert diese als
+     * MessdatenGrenz zurueck.
+     * @param id ID der zu ladenden Messdaten.
+     * @return Die geladenen Messdaten als MessdatenGrenz.
+     */
+    public MessdatenGrenz ladeLokaleMessdaten(int id) {
+        return new MessdatenGrenz(dServe.ladeMessdaten(id));
     }
 
     /**

@@ -40,38 +40,47 @@ public final class MessdatenProtos {
     long getDeserialisierungsZeit();
 
     /**
-     * <code>optional int32 paketGroesseByte = 4;</code>
+     * <code>optional int64 transmitTime = 4;</code>
+     */
+    boolean hasTransmitTime();
+    /**
+     * <code>optional int64 transmitTime = 4;</code>
+     */
+    long getTransmitTime();
+
+    /**
+     * <code>optional int32 paketGroesseByte = 5;</code>
      */
     boolean hasPaketGroesseByte();
     /**
-     * <code>optional int32 paketGroesseByte = 4;</code>
+     * <code>optional int32 paketGroesseByte = 5;</code>
      */
     int getPaketGroesseByte();
 
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     boolean hasTimeStamp();
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     java.lang.String getTimeStamp();
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     com.google.protobuf.ByteString
         getTimeStampBytes();
 
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     boolean hasTyp();
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     java.lang.String getTyp();
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     com.google.protobuf.ByteString
         getTypBytes();
@@ -145,18 +154,23 @@ public final class MessdatenProtos {
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              paketGroesseByte_ = input.readInt32();
+              transmitTime_ = input.readInt64();
               break;
             }
-            case 42: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 40: {
               bitField0_ |= 0x00000010;
-              timeStamp_ = bs;
+              paketGroesseByte_ = input.readInt32();
               break;
             }
             case 50: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
+              timeStamp_ = bs;
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
               typ_ = bs;
               break;
             }
@@ -245,31 +259,46 @@ public final class MessdatenProtos {
       return deserialisierungsZeit_;
     }
 
-    public static final int PAKETGROESSEBYTE_FIELD_NUMBER = 4;
-    private int paketGroesseByte_;
+    public static final int TRANSMITTIME_FIELD_NUMBER = 4;
+    private long transmitTime_;
     /**
-     * <code>optional int32 paketGroesseByte = 4;</code>
+     * <code>optional int64 transmitTime = 4;</code>
      */
-    public boolean hasPaketGroesseByte() {
+    public boolean hasTransmitTime() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 paketGroesseByte = 4;</code>
+     * <code>optional int64 transmitTime = 4;</code>
+     */
+    public long getTransmitTime() {
+      return transmitTime_;
+    }
+
+    public static final int PAKETGROESSEBYTE_FIELD_NUMBER = 5;
+    private int paketGroesseByte_;
+    /**
+     * <code>optional int32 paketGroesseByte = 5;</code>
+     */
+    public boolean hasPaketGroesseByte() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 paketGroesseByte = 5;</code>
      */
     public int getPaketGroesseByte() {
       return paketGroesseByte_;
     }
 
-    public static final int TIMESTAMP_FIELD_NUMBER = 5;
+    public static final int TIMESTAMP_FIELD_NUMBER = 6;
     private java.lang.Object timeStamp_;
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     public boolean hasTimeStamp() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     public java.lang.String getTimeStamp() {
       java.lang.Object ref = timeStamp_;
@@ -286,7 +315,7 @@ public final class MessdatenProtos {
       }
     }
     /**
-     * <code>optional string timeStamp = 5;</code>
+     * <code>optional string timeStamp = 6;</code>
      */
     public com.google.protobuf.ByteString
         getTimeStampBytes() {
@@ -302,16 +331,16 @@ public final class MessdatenProtos {
       }
     }
 
-    public static final int TYP_FIELD_NUMBER = 6;
+    public static final int TYP_FIELD_NUMBER = 7;
     private java.lang.Object typ_;
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     public boolean hasTyp() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     public java.lang.String getTyp() {
       java.lang.Object ref = typ_;
@@ -328,7 +357,7 @@ public final class MessdatenProtos {
       }
     }
     /**
-     * <code>optional string typ = 6;</code>
+     * <code>optional string typ = 7;</code>
      */
     public com.google.protobuf.ByteString
         getTypBytes() {
@@ -348,6 +377,7 @@ public final class MessdatenProtos {
       id_ = 0;
       serialisierungsZeit_ = 0L;
       deserialisierungsZeit_ = 0L;
+      transmitTime_ = 0L;
       paketGroesseByte_ = 0;
       timeStamp_ = "";
       typ_ = "";
@@ -375,13 +405,16 @@ public final class MessdatenProtos {
         output.writeInt64(3, deserialisierungsZeit_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, paketGroesseByte_);
+        output.writeInt64(4, transmitTime_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getTimeStampBytes());
+        output.writeInt32(5, paketGroesseByte_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getTypBytes());
+        output.writeBytes(6, getTimeStampBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getTypBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -406,15 +439,19 @@ public final class MessdatenProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, paketGroesseByte_);
+          .computeInt64Size(4, transmitTime_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getTimeStampBytes());
+          .computeInt32Size(5, paketGroesseByte_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getTypBytes());
+          .computeBytesSize(6, getTimeStampBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getTypBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -539,12 +576,14 @@ public final class MessdatenProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         deserialisierungsZeit_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        paketGroesseByte_ = 0;
+        transmitTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
-        timeStamp_ = "";
+        paketGroesseByte_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        typ_ = "";
+        timeStamp_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        typ_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -588,13 +627,17 @@ public final class MessdatenProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.paketGroesseByte_ = paketGroesseByte_;
+        result.transmitTime_ = transmitTime_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.timeStamp_ = timeStamp_;
+        result.paketGroesseByte_ = paketGroesseByte_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
+        }
+        result.timeStamp_ = timeStamp_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.typ_ = typ_;
         result.bitField0_ = to_bitField0_;
@@ -622,16 +665,19 @@ public final class MessdatenProtos {
         if (other.hasDeserialisierungsZeit()) {
           setDeserialisierungsZeit(other.getDeserialisierungsZeit());
         }
+        if (other.hasTransmitTime()) {
+          setTransmitTime(other.getTransmitTime());
+        }
         if (other.hasPaketGroesseByte()) {
           setPaketGroesseByte(other.getPaketGroesseByte());
         }
         if (other.hasTimeStamp()) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
           timeStamp_ = other.timeStamp_;
           onChanged();
         }
         if (other.hasTyp()) {
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
           typ_ = other.typ_;
           onChanged();
         }
@@ -758,33 +804,65 @@ public final class MessdatenProtos {
         return this;
       }
 
-      private int paketGroesseByte_ ;
+      private long transmitTime_ ;
       /**
-       * <code>optional int32 paketGroesseByte = 4;</code>
+       * <code>optional int64 transmitTime = 4;</code>
        */
-      public boolean hasPaketGroesseByte() {
+      public boolean hasTransmitTime() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int32 paketGroesseByte = 4;</code>
+       * <code>optional int64 transmitTime = 4;</code>
+       */
+      public long getTransmitTime() {
+        return transmitTime_;
+      }
+      /**
+       * <code>optional int64 transmitTime = 4;</code>
+       */
+      public Builder setTransmitTime(long value) {
+        bitField0_ |= 0x00000008;
+        transmitTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 transmitTime = 4;</code>
+       */
+      public Builder clearTransmitTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        transmitTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int paketGroesseByte_ ;
+      /**
+       * <code>optional int32 paketGroesseByte = 5;</code>
+       */
+      public boolean hasPaketGroesseByte() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 paketGroesseByte = 5;</code>
        */
       public int getPaketGroesseByte() {
         return paketGroesseByte_;
       }
       /**
-       * <code>optional int32 paketGroesseByte = 4;</code>
+       * <code>optional int32 paketGroesseByte = 5;</code>
        */
       public Builder setPaketGroesseByte(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         paketGroesseByte_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 paketGroesseByte = 4;</code>
+       * <code>optional int32 paketGroesseByte = 5;</code>
        */
       public Builder clearPaketGroesseByte() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         paketGroesseByte_ = 0;
         onChanged();
         return this;
@@ -792,13 +870,13 @@ public final class MessdatenProtos {
 
       private java.lang.Object timeStamp_ = "";
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public boolean hasTimeStamp() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public java.lang.String getTimeStamp() {
         java.lang.Object ref = timeStamp_;
@@ -815,7 +893,7 @@ public final class MessdatenProtos {
         }
       }
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public com.google.protobuf.ByteString
           getTimeStampBytes() {
@@ -831,36 +909,36 @@ public final class MessdatenProtos {
         }
       }
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public Builder setTimeStamp(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         timeStamp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public Builder clearTimeStamp() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         timeStamp_ = getDefaultInstance().getTimeStamp();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string timeStamp = 5;</code>
+       * <code>optional string timeStamp = 6;</code>
        */
       public Builder setTimeStampBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         timeStamp_ = value;
         onChanged();
         return this;
@@ -868,13 +946,13 @@ public final class MessdatenProtos {
 
       private java.lang.Object typ_ = "";
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public boolean hasTyp() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public java.lang.String getTyp() {
         java.lang.Object ref = typ_;
@@ -891,7 +969,7 @@ public final class MessdatenProtos {
         }
       }
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public com.google.protobuf.ByteString
           getTypBytes() {
@@ -907,36 +985,36 @@ public final class MessdatenProtos {
         }
       }
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public Builder setTyp(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000040;
         typ_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public Builder clearTyp() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         typ_ = getDefaultInstance().getTyp();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string typ = 6;</code>
+       * <code>optional string typ = 7;</code>
        */
       public Builder setTypBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000040;
         typ_ = value;
         onChanged();
         return this;
@@ -967,12 +1045,13 @@ public final class MessdatenProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017messDaten.proto\022\ttestbench\"\215\001\n\tMessdat" +
+      "\n\017messDaten.proto\022\ttestbench\"\243\001\n\tMessdat" +
       "en\022\n\n\002id\030\001 \001(\005\022\033\n\023serialisierungsZeit\030\002 " +
-      "\001(\003\022\035\n\025deserialisierungsZeit\030\003 \001(\003\022\030\n\020pa" +
-      "ketGroesseByte\030\004 \001(\005\022\021\n\ttimeStamp\030\005 \001(\t\022" +
-      "\013\n\003typ\030\006 \001(\tB:\n\'testbench.bootloader.pro" +
-      "tobuf.messdatenB\017MessdatenProtos"
+      "\001(\003\022\035\n\025deserialisierungsZeit\030\003 \001(\003\022\024\n\014tr" +
+      "ansmitTime\030\004 \001(\003\022\030\n\020paketGroesseByte\030\005 \001" +
+      "(\005\022\021\n\ttimeStamp\030\006 \001(\t\022\013\n\003typ\030\007 \001(\tB:\n\'te" +
+      "stbench.bootloader.protobuf.messdatenB\017M" +
+      "essdatenProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -991,7 +1070,7 @@ public final class MessdatenProtos {
     internal_static_testbench_Messdaten_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_testbench_Messdaten_descriptor,
-        new java.lang.String[] { "Id", "SerialisierungsZeit", "DeserialisierungsZeit", "PaketGroesseByte", "TimeStamp", "Typ", });
+        new java.lang.String[] { "Id", "SerialisierungsZeit", "DeserialisierungsZeit", "TransmitTime", "PaketGroesseByte", "TimeStamp", "Typ", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
