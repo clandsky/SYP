@@ -8,6 +8,7 @@ import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
@@ -18,43 +19,43 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CGrings on 07.12.2015
  */
 public class IDatenVerwaltungImpl implements IDatenVerwaltung
 {
-    private final String saveDirectory = "Protodaten/";
-    private final String saveMassendatenDirectory = saveDirectory+"Massendaten/";
-    private final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
-    private final String fileName = "ByteArray";
-    private final String infoFileName = "Info";
+    private DateiLaden dateiLaden = new DateiLaden();
+    private DateiSpeichern dateiSpeichern = new DateiSpeichern();
+
+    public IDatenVerwaltungImpl() {
+        dateiLaden = new DateiLaden();
+        dateiSpeichern = new DateiSpeichern();
+    }
 
     @Override
     public Massendaten holeMassendaten(int id)
     {
-        DateiLaden dl = new DateiLaden();
-        return dl.ladeMassendaten( id );
-
+        return dateiLaden.ladeMassendaten( id );
     }
 
     @Override
     public Struktdaten holeStrukturierteDaten(int id)
     {
-        return new DateiLaden().ladeStruktdaten(id);
+        return dateiLaden.ladeStruktdaten(id);
     }
 
     @Override
     public boolean schreibeMassendaten(Massendaten m)
     {
-        DateiSpeichern save = new DateiSpeichern();
-        return save.speicherMassendaten(m);
+        return dateiSpeichern.speicherMassendaten(m);
     }
 
     @Override
     public boolean schreibeStrukturierteDaten(Struktdaten s)
     {
-        return true;
+        return dateiSpeichern.speicherStruktdaten(s);
     }
 
     @Override
@@ -77,25 +78,30 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     }
 
     @Override
-    public ArrayList<Messdaten> ladeAlleMessdaten()
+    public ArrayList<MessdatenProtos.Messdaten> ladeAlleMessdaten()
     {
-        return new ArrayList<Messdaten>();
+        return new ArrayList<>(dateiLaden.ladeMessdatenListe());
     }
 
     @Override
-    public boolean schreibeMessdaten(Messdaten messdaten)
+    public MessdatenProtos.Messdaten ladeMessdatenByID(int id) {
+        return dateiLaden.ladeMessdaten(id);
+    }
+
+    @Override
+    public boolean schreibeMessdaten(MessdatenProtos.Messdaten messdaten)
     {
-        return true;
+        return dateiSpeichern.speicherMessdaten(messdaten);
     }
 
     @Override
     public ArrayList<StruktInfo> ladeStruktInfo()
     {
-        return new DateiLaden().ladeStruktInfo();
+        return dateiLaden.ladeStruktInfo();
     }
 
     @Override
     public ArrayList<MassenInfo> ladeMassenInfo() {
-        return new DateiLaden().ladeMassenInfo();
+        return dateiLaden.ladeMassenInfo();
     }
 }

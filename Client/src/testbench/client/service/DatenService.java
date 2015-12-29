@@ -5,6 +5,7 @@ import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 
@@ -77,6 +78,18 @@ public class DatenService {
      */
     public boolean schreibeStruktdaten (Struktdaten struktdaten) {
         return iDat.schreibeStrukturierteDaten(struktdaten);
+    }
+
+    /**
+     * Diese Methode laedt Messdaten mit einer gegebenen ID.
+     * Dies geschieht durch Aufruf der Schnittstellen-Methode ladeMessdaten()
+     * in IDatenverwaltungIMPL.
+     * @param id ID der Messdaten, die geladen werden sollen.
+     * @return Die geladenen Messdaten.
+     */
+    public MessdatenProtos.Messdaten ladeMessdaten(int id) {
+
+        return null;
     }
 
     /**

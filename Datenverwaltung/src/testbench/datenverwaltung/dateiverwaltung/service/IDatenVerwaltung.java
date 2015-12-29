@@ -4,6 +4,7 @@ import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.Messdaten;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ public interface IDatenVerwaltung
     boolean schreibeMassendaten(MassendatenProtos.Massendaten m);
     boolean schreibeStrukturierteDaten(StruktdatenProtos.Struktdaten s);
     MassendatenProtos.Massendaten generiereRandomMassendaten( int size );
-    ArrayList<Messdaten> ladeAlleMessdaten();
-    boolean schreibeMessdaten( Messdaten messdaten );
+    ArrayList<MessdatenProtos.Messdaten> ladeAlleMessdaten();
+    MessdatenProtos.Messdaten ladeMessdatenByID(int id);
+    boolean schreibeMessdaten( MessdatenProtos.Messdaten messdaten );
     ArrayList<StruktInfo> ladeStruktInfo();
     ArrayList<MassenInfo> ladeMassenInfo();
 }

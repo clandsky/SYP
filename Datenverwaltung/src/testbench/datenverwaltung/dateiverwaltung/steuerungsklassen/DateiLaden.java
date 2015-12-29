@@ -8,28 +8,25 @@ import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
+import testbench.bootloader.service.StaticHolder;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CGrings on 07.12.2015
  */
 public class DateiLaden {
-    private final String saveDirectory = "Protodaten/";
-    private final String saveMassendatenDirectory = saveDirectory + "Massendaten/";
-    private final String saveStruktdatenDirectory = saveDirectory + "Struktdaten/";
-    private final String fileName = "ByteArray";
-    private final String infoFileName = "Info";
-
     public Massendaten ladeMassendaten(int id) {
         Massendaten m;
         //Printer.println("Laden der PROTOBYTE Datei");
-        File file = new File(saveMassendatenDirectory + id + "/" + fileName + ".protobyte");
+        File file = new File(StaticHolder.saveMassendatenDirectory + id + "/" + StaticHolder.fileName + ".protobyte");
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(file);
@@ -62,7 +59,7 @@ public class DateiLaden {
     public Struktdaten ladeStruktdaten(int id) {
         Struktdaten m;
 
-        File file = new File(saveStruktdatenDirectory + id + "/" + fileName + ".protobyte");
+        File file = new File(StaticHolder.saveStruktdatenDirectory + id + "/" + StaticHolder.fileName + ".protobyte");
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(file);
@@ -91,9 +88,51 @@ public class DateiLaden {
         return m;
     }
 
+    public MessdatenProtos.Messdaten ladeMessdaten(int id) {
+        MessdatenProtos.Messdaten m;
+        //Printer.println("Laden der PROTOBYTE Datei");
+        File file = new File(StaticHolder.saveMessdatenDirectory + id + "/" + StaticHolder.fileName + ".protobyte");
+        FileInputStream fin = null;
+        try {
+            fin = new FileInputStream(file);
+            byte fileContent[] = new byte[(int) file.length()];
+            fin.read(fileContent);
+            m = MessdatenProtos.Messdaten.parseFrom(fileContent);
+        } catch (FileNotFoundException e) {
+            Printer.println("Datei nicht gefunden" + e);
+            return null;
+        } catch (IOException ioe) {
+            Printer.println("Fehler beim einlesen der Datei " + ioe);
+            return null;
+        } finally {
+            try {
+                if (fin != null) {
+                    fin.close();
+                }
+            } catch (IOException ioe) {
+                Printer.println("Fehler beim Schließen des Dateistreams: " + ioe);
+                return null;
+            }
+        }
+
+        return m;
+    }
+
+    public List<MessdatenProtos.Messdaten> ladeMessdatenListe() {
+        File file = new File(StaticHolder.saveMessdatenDirectory);
+        String[] alleMessdaten = file.list();
+        ArrayList<MessdatenProtos.Messdaten> messdatenArrayList = new ArrayList<>();
+
+        for(String s : alleMessdaten) {
+            messdatenArrayList.add(ladeMessdaten(Integer.valueOf(s)));
+        }
+
+        return messdatenArrayList;
+    }
+
     public ArrayList<MassenInfo> ladeMassenInfo() {
         FileInputStream fin;
-        File directory = new File(saveMassendatenDirectory);
+        File directory = new File(StaticHolder.saveMassendatenDirectory);
         String[] fileNameArray;
         ArrayList<MassenInfo> massenInfoArrayList = new ArrayList<>();
 
@@ -106,7 +145,7 @@ public class DateiLaden {
             fileNameArray = directory.list();
 
             for (int i = 0; i < fileNameArray.length; i++) {
-                File mInfoFile = new File(saveMassendatenDirectory + fileNameArray[i] + "/" + infoFileName + ".protobyte");
+                File mInfoFile = new File(StaticHolder.saveMassendatenDirectory + fileNameArray[i] + "/" + StaticHolder.infoFileName + ".protobyte");
                 frequencyList = new ArrayList<>();
 
                 try {
@@ -131,7 +170,7 @@ public class DateiLaden {
     }
     public ArrayList<StruktInfo> ladeStruktInfo() {
         FileInputStream fin;
-        File directory = new File(saveStruktdatenDirectory);
+        File directory = new File(StaticHolder.saveStruktdatenDirectory);
         String[] fileNameArray;
         ArrayList<StruktInfo> struktInfoArrayList = new ArrayList<>();
 
@@ -144,7 +183,7 @@ public class DateiLaden {
             fileNameArray = directory.list();
 
             for (int i = 0; i < fileNameArray.length; i++) {
-                File sInfoFile = new File(saveStruktdatenDirectory + fileNameArray[i] + "/" + infoFileName + ".protobyte");
+                File sInfoFile = new File(StaticHolder.saveStruktdatenDirectory + fileNameArray[i] + "/" + StaticHolder.infoFileName + ".protobyte");
 
 
                 try {

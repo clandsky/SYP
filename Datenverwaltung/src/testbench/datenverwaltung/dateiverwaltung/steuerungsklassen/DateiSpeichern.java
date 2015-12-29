@@ -7,25 +7,18 @@ import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef;
+import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.StruktInfo;
+import testbench.bootloader.service.StaticHolder;
 
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by CGrings on 07.12.2015
- */
 public class DateiSpeichern
 {
-    private final String saveDirectory = "Protodaten/";
-    private final String saveMassendatenDirectory = saveDirectory+"Massendaten/";
-    private final String saveStruktdatenDirectory = saveDirectory+"Struktdaten/";
-    private final String fileName = "ByteArray";
-    private final String infoFileName = "Info";
-
     public boolean speicherMassendaten(Massendaten massendaten)
     {
 
@@ -62,12 +55,12 @@ public class DateiSpeichern
             /* ############## massinfo erzeugung abgeschlossen ####################### */
 
             int massendatenID = massendaten.getInfo().getId();
-            String filePath = saveMassendatenDirectory+massendatenID;
+            String filePath = StaticHolder.saveMassendatenDirectory+massendatenID;
             directory = new File(filePath);
             if(!directory.exists()) directory.mkdirs();
 
-            massenDatenFile = new File(filePath+"/"+fileName+".protobyte");
-            massenInfoFile = new File(filePath+"/"+infoFileName+".protobyte");
+            massenDatenFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
+            massenInfoFile = new File(filePath+"/"+StaticHolder.infoFileName+".protobyte");
 
             /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
             if (!massenDatenFile.exists())
@@ -127,13 +120,13 @@ public class DateiSpeichern
         try {
             //int struktid = strukt.hashCode();
             int struktid=strukt.getInfo().getId();
-            String filePath = saveStruktdatenDirectory+struktid;
+            String filePath = StaticHolder.saveStruktdatenDirectory+struktid;
 
             directory = new File(filePath);
             if(!directory.exists()) directory.mkdirs();
 
-            struktFile = new File(filePath+"/"+fileName+".protobyte");
-            struktInfoFile = new File(filePath+"/"+infoFileName+".protobyte");
+            struktFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
+            struktInfoFile = new File(filePath+"/"+StaticHolder.infoFileName+".protobyte");
 
             // Checken ob Datei existiert ansonsten erzeuge neue Datei
             if (!struktFile.exists())
@@ -186,6 +179,67 @@ public class DateiSpeichern
             }
         }
         return true;
-        }
     }
+
+    public boolean speicherMessdaten(MessdatenProtos.Messdaten messdaten)
+    {
+        byte[] serializedMessdaten;
+        FileOutputStream fos = null;
+        File messDatenFile, directory;
+
+        //Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
+        try
+        {
+            serializedMessdaten = messdaten.toByteArray();
+            int messdatenID = System.identityHashCode(serializedMessdaten);
+            String filePath = StaticHolder.saveMessdatenDirectory+messdatenID;
+            directory = new File(filePath);
+            if(!directory.exists()) directory.mkdirs();
+
+            messDatenFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
+
+            /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
+            if (!messDatenFile.exists())
+            {
+                messDatenFile.createNewFile();
+            }
+            if (!messDatenFile.exists())
+            {
+                messDatenFile.createNewFile();
+            }
+
+            /* Strings können nicht direkt in ein File geschrieben werden.
+             * Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
+             */
+            // schreibe massendaten datei
+            fos = new FileOutputStream(messDatenFile);
+            fos.write(serializedMessdaten);
+            fos.flush();
+            fos.close();
+
+            //Printer.println("Die Datei wurde angelegt und liegt im Stamm-Projektverzeichnis");
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            try
+            {
+                if (fos != null)
+                {
+                    fos.close();
+                }
+            }
+            catch (IOException ioe)
+            {
+                Printer.println("Error in closing the Stream");
+                return false;
+            }
+        }
+        return true;
+    }
+}
 
