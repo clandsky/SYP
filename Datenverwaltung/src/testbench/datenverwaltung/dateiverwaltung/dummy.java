@@ -3,6 +3,7 @@ package testbench.datenverwaltung.dateiverwaltung;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
+import testbench.datenverwaltung.dateiverwaltung.gui.GeneratorGUI;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
@@ -18,8 +19,8 @@ public class dummy
 {
     static public void main(String[] args) throws IOException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        //GeneratorGUI g = new GeneratorGUI();
-        //g.setVisible(true);
+        GeneratorGUI g = new GeneratorGUI();
+        g.setVisible(true);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         MassendatenProtos.Massendaten massendaten = null;
