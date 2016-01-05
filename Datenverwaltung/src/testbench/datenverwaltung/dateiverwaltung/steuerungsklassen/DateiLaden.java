@@ -12,10 +12,9 @@ import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.service.StaticHolder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,6 +207,50 @@ public class DateiLaden {
 
     public MassenDef ladeConfig()
     {
-        return new MassenDef();
+        MassenDef massenDef = new MassenDef();
+
+        //Create a file chooser
+        final JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter( "Frequenz Konfiguration",  "cfg" );
+        fc.setFileFilter(filter);
+
+        //In response to a button click:
+        int returnVal = fc.showOpenDialog( null );
+
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fc.getSelectedFile();
+
+            FileReader fr = null;
+            try
+            {
+                fr = new FileReader(file.getAbsolutePath());
+                BufferedReader br = new BufferedReader(fr);
+
+                String line;
+                while( ( line = br.readLine() ) != null )
+                {
+                    System.out.println( line );
+                    String[] sl = line.split( ";" );
+                    if( sl.length == 3 )
+                    {
+                        massenDef.getFrequencies().add(
+                                new Frequency(
+                                    Double.parseDouble( sl[0] ),
+                                    Double.parseDouble( sl[1] ),
+                                    Double.parseDouble( sl[2] )
+                                    )
+                        );
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return massenDef;
     }
 }

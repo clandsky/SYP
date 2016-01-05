@@ -3,6 +3,7 @@ package testbench.datenverwaltung.dateiverwaltung.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
@@ -157,15 +158,12 @@ public class GeneratorGUI extends JFrame
                 MassenDef massenDef = dl.ladeConfig();
 
                 DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
-
-                while (model.getRowCount() != 0)
-                {
-                    model.removeRow(0);
-                }
-
                 spinner.setValue(massenDef.getFrequencies().size());
+                model.setNumRows(0);
+
                 for (int i = 0; i < massenDef.getFrequencies().size(); i++)
                 {
+                    System.out.println("Add Frequency" + i);
                     model.addRow(new Object[]{
                             massenDef.getFrequencies().get(i).getFrequency(),
                             massenDef.getFrequencies().get(i).getAmplitude(),
