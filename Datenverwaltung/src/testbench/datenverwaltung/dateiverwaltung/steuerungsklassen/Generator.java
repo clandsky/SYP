@@ -8,6 +8,8 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
 
+import java.util.Calendar;
+
 import static java.lang.Math.*;
 
 /**
@@ -111,8 +113,8 @@ public class Generator
         for (int i = 0; i < struktDef.getItemAIDNameCount(); i++)
         {
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(300);
-            longLong.setHigh(300);
+            longLong.setLow(523300 + i);
+            longLong.setHigh(315100 + i);
 
             aIDNameBuilder = Struktdaten.AIDName.newBuilder();
             aIDNameBuilder.setAaName("AName");
@@ -123,8 +125,8 @@ public class Generator
             selAIDNameUnitIDBuilder.setAidname(aIDNameBuilder);
 
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(300);
-            longLong.setHigh(300);
+            longLong.setLow(302350+i);
+            longLong.setHigh(6235300 + i);
             selAIDNameUnitIDBuilder.setUnitid(longLong);
 
             structBuilder.addAnuSeq(selAIDNameUnitIDBuilder);
@@ -140,8 +142,8 @@ public class Generator
             joinDef.setFromAID(longLong);
 
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(200);
-            longLong.setHigh(200);
+            longLong.setLow(654200 + i);
+            longLong.setHigh(203440 + i);
 
             joinDef.setToAID(longLong);
 
@@ -156,8 +158,8 @@ public class Generator
             selOrder = Struktdaten.SelOrder.newBuilder();
 
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(200);
-            longLong.setHigh(200);
+            longLong.setLow(203470 + i);
+            longLong.setHigh(2078760 + i);
 
             aIDNameBuilder = Struktdaten.AIDName.newBuilder();
             aIDNameBuilder.setAaName("AName");
@@ -172,8 +174,8 @@ public class Generator
         for (int i = 0; i < struktDef.getItemSelUIDCount(); i++)
         {
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(200);
-            longLong.setHigh(200);
+            longLong.setLow(2062440 + i);
+            longLong.setHigh(25600 + i);
 
             aIDNameBuilder = Struktdaten.AIDName.newBuilder();
             aIDNameBuilder.setAaName("AName");
@@ -191,8 +193,8 @@ public class Generator
             ts_Value.setFlag(0x8001);
 
             longLong = Struktdaten.LongLong.newBuilder();
-            longLong.setLow(300);
-            longLong.setHigh(300);
+            longLong.setLow(30034 + i);
+            longLong.setHigh(300526 + i);
 
             aIDNameBuilder = Struktdaten.AIDName.newBuilder();
             aIDNameBuilder.setAaName("AName");
@@ -222,8 +224,10 @@ public class Generator
         def.setItemSelOrderCount(struktDef.getItemSelOrderCount());
         def.setItemSelItemCount(struktDef.getItemSelItemCount());
         def.setItemJoinDefCount(struktDef.getItemJoinDefCount());
-
         info.setDef(def);
+
+        info.setSize(structBuilder.build().getSerializedSize());
+        info.setId((int) (Calendar.getInstance().getTime().getTime() / 2000));
         structBuilder.setInfo(info);
 
         return structBuilder.build();

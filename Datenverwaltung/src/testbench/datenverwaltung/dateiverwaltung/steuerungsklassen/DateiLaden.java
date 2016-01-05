@@ -205,4 +205,9 @@ public class DateiLaden {
 
         return struktInfoArrayList;
     }
+
+    public MassenDef ladeConfig()
+    {
+        return new MassenDef();
+    }
 }
