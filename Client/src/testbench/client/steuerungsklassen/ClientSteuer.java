@@ -13,6 +13,7 @@ import testbench.client.service.DatenService;
 
 import javax.swing.*;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,12 +32,17 @@ public class ClientSteuer {
     }
 
     /**
-     * Diese Methode laedt alle lokal gespeicherten Messdaten und liefert
-     * diese als Liste zurueck.
+     * Diese Methode laedt alle lokal gespeicherten Messdaten, konvertiert
+     * diese in MessdatenGrenz und liefert diese als Liste zurueck.
      * @return Die geladenen Messdaten als Liste.
      */
-    public List<Messdaten> holeMessdaten() {
-        return dServe.ladeMessdatenListe();
+    public List<MessdatenGrenz> holeMessdaten() {
+        List<Messdaten> messdatenList = dServe.ladeMessdatenListe();
+        List<MessdatenGrenz> messdatenGrenzList = new ArrayList<>();
+
+        for(Messdaten m : messdatenList) messdatenGrenzList.add(new MessdatenGrenz(m));
+
+        return messdatenGrenzList;
     }
 
     /**
@@ -56,7 +62,7 @@ public class ClientSteuer {
             long deseri = StaticHolder.deSerialisierungsZeitMs;
             long gesamt = StaticHolder.gesamtZeit;
             long trans = StaticHolder.gesamtZeit-deseri;
-            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, m.getSerializedSize(), String.valueOf(new Date()),"Massendaten"));
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
             dServe.schreibeMassendaten(m);
             return new MassendatenGrenz(m);
         }
@@ -80,7 +86,7 @@ public class ClientSteuer {
             long deseri = StaticHolder.deSerialisierungsZeitMs;
             long gesamt = StaticHolder.gesamtZeit;
             long trans = StaticHolder.gesamtZeit-deseri;
-            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, s.getSerializedSize(), String.valueOf(new Date()),"Struktdaten"));
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
             dServe.schreibeStruktdaten(s);
             return new StruktdatenGrenz(s);
         }
@@ -105,10 +111,9 @@ public class ClientSteuer {
         if(response != null) {
             if(response.getStatus() == 200) {
                 long seri = StaticHolder.serialisierungsZeitMs;
-                long deseri = StaticHolder.deSerialisierungsZeitMs;
-                long gesamt = StaticHolder.gesamtZeit;
+                long deseri = 0;
                 long trans = StaticHolder.gesamtZeit-seri-deseri;
-                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, m.getSerializedSize(), String.valueOf(new Date()),"Massendaten"));
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
                 return true;
             }
             return false;
@@ -133,10 +138,9 @@ public class ClientSteuer {
         if(response != null) {
             if(response.getStatus() == 200) {
                 long seri = StaticHolder.serialisierungsZeitMs;
-                long deseri = StaticHolder.deSerialisierungsZeitMs;
-                long gesamt = StaticHolder.gesamtZeit;
+                long deseri = 0;
                 long trans = StaticHolder.gesamtZeit-seri-deseri;
-                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, s.getSerializedSize(), String.valueOf(new Date()),"Struktdaten"));
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
                 return true;
             }
             return false;
