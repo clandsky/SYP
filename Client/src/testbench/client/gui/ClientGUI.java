@@ -11,7 +11,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.*;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.service.StaticHolder;
@@ -92,9 +91,7 @@ public class ClientGUI extends JFrame {
     private JPanel buttonsPanelUp;
     private JPanel leftPanelMessdaten;
     private JPanel massenLabelPanelMess;
-    private JPanel struktLabelPanelMess;
-    private JTable massenTableMess;
-    private JTable struktTableMess;
+    private JTable messTable;
     private JPanel rightPanelMessdaten;
     private JButton einstellungenButtonMain;
     private JButton einstellungenButtonConnect;
@@ -118,6 +115,7 @@ public class ClientGUI extends JFrame {
 
     /* ############## VARIABLEN ################ */
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
+    private final int DIVIDER_LOCATION_MESS = 425; //divider position bei messdaten
     private ClientSteuer cSteuer;
     private DecimalFormat df;
     private CardLayout mainCardLayout;
@@ -148,17 +146,16 @@ public class ClientGUI extends JFrame {
     private final String CHOOSE_FROM_LIST = "Bitte Daten aus der Liste wählen!";
     private final String SERVER_OFFLINE = "Server ist offline!";
     private final String DATA_NOT_FOUND_ERROR = "Daten nicht gefunden!\nBitte aktualisieren!";
-    private final String PLEASE_WAIT = "Bitte warten...";
 
     /* ############## FINAL VARIABLES ################ */
     private final int CHART_VALUES = 100;
-
 
     /* ############## DATENLISTEN ################ */
     private List<MassenInfoGrenz> massenInfoServer;
     private List<StruktInfoGrenz> struktInfoServer;
     private List<MassenInfoGrenz> massenInfoClient;
     private List<StruktInfoGrenz> struktInfoClient;
+    private List<MessdatenGrenz> messDaten;
 
     public ClientGUI(int guiSizeX, int guiSizeY) {
         setContentPane(formPanel);
@@ -528,6 +525,35 @@ public class ClientGUI extends JFrame {
     }
 
     /**
+     * Diese Methode fuellt den gegebenen JTable mit den Elementen
+     * der gegebenen MessdatenGrenz-Liste.
+     *
+     * @param table              JTable der gefuellt werden soll.
+     * @param messdatenGrenzList MessdatenGrenz Liste, mit der der JTable gefuellt werden soll.
+     */
+    private void fillMessdatenTable(JTable table, List<MessdatenGrenz> messdatenGrenzList) {
+        DefaultTableModel model;
+
+        Object[][] data = new Object[messdatenGrenzList.size()][3];
+        String[] columnNames = {"#", "Typ", "Datum"};
+
+        if (!messdatenGrenzList.isEmpty()) {
+            for (int i=0; i < messdatenGrenzList.size(); i++) {
+                data[i][0] = i+1;
+                data[i][1] = messdatenGrenzList.get(i).getTyp();
+                data[i][2] = messdatenGrenzList.get(i).getTimestamp();
+            }
+
+            model = new DefaultTableModel(data, columnNames) {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            table.setModel(model);
+        }
+    }
+
+    /**
      * Diese Methode weist einem gegebenen JLabel ein Icon zu.
      *
      * @param label Label, dem das Icon zugewiesen werden soll.
@@ -585,7 +611,8 @@ public class ClientGUI extends JFrame {
      * Diese Methode aktualisiert die Listen, die die lokal vorhandenen Messdaten anzeigen.
      */
     private void refreshMessdaten() {
-        Printer.println("refresh messdaten");
+        messDaten = cSteuer.holeMessdaten();
+        fillMessdatenTable(messTable,messDaten);
     }
 
     /**
@@ -606,6 +633,9 @@ public class ClientGUI extends JFrame {
         struktInfoClient = cSteuer.getStruktInfoGrenzList(false);
         fillStruktTable(struktTableUpload,struktInfoClient);
         fillStruktTable(struktTableDetails,struktInfoClient);
+
+        messDaten = cSteuer.holeMessdaten();
+        fillMessdatenTable(messTable, messDaten);
     }
 
     /**
@@ -680,7 +710,7 @@ public class ClientGUI extends JFrame {
         splitPaneDown.setDividerLocation(DIVIDER_LOCATION);
         splitPaneUp.setDividerLocation(DIVIDER_LOCATION);
         splitPaneDetails.setDividerLocation(DIVIDER_LOCATION);
-        splitPaneMess.setDividerLocation(DIVIDER_LOCATION);
+        splitPaneMess.setDividerLocation(DIVIDER_LOCATION_MESS);
     }
 
     /**
@@ -1481,7 +1511,7 @@ public class ClientGUI extends JFrame {
         splitPaneMess = new JSplitPane();
         panel10.add(splitPaneMess, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         leftPanelMessdaten = new JPanel();
-        leftPanelMessdaten.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanelMessdaten.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         leftPanelMessdaten.setEnabled(true);
         leftPanelMessdaten.setMinimumSize(new Dimension(100, 150));
         leftPanelMessdaten.setPreferredSize(new Dimension(100, 150));
@@ -1490,65 +1520,52 @@ public class ClientGUI extends JFrame {
         massenLabelPanelMess.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         leftPanelMessdaten.add(massenLabelPanelMess, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label21 = new JLabel();
-        label21.setText("Massendaten");
+        label21.setFont(new Font(label21.getFont().getName(), label21.getFont().getStyle(), 14));
+        label21.setText("Lokale Messdaten");
         massenLabelPanelMess.add(label21, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer38 = new Spacer();
         massenLabelPanelMess.add(spacer38, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer39 = new Spacer();
         massenLabelPanelMess.add(spacer39, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        struktLabelPanelMess = new JPanel();
-        struktLabelPanelMess.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
-        leftPanelMessdaten.add(struktLabelPanelMess, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label22 = new JLabel();
-        label22.setText("Strukturierte Daten");
-        struktLabelPanelMess.add(label22, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer40 = new Spacer();
-        struktLabelPanelMess.add(spacer40, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final Spacer spacer41 = new Spacer();
-        struktLabelPanelMess.add(spacer41, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JScrollPane scrollPane5 = new JScrollPane();
         leftPanelMessdaten.add(scrollPane5, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        massenTableMess = new JTable();
-        scrollPane5.setViewportView(massenTableMess);
-        final JScrollPane scrollPane6 = new JScrollPane();
-        leftPanelMessdaten.add(scrollPane6, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        struktTableMess = new JTable();
-        scrollPane6.setViewportView(struktTableMess);
+        messTable = new JTable();
+        scrollPane5.setViewportView(messTable);
         rightPanelMessdaten = new JPanel();
         rightPanelMessdaten.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         splitPaneMess.setRightComponent(rightPanelMessdaten);
         final JPanel panel11 = new JPanel();
         panel11.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel10.add(panel11, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label23 = new JLabel();
-        label23.setFont(new Font(label23.getFont().getName(), label23.getFont().getStyle(), 14));
-        label23.setText("Messdaten");
-        panel11.add(label23, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer42 = new Spacer();
-        panel11.add(spacer42, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JLabel label22 = new JLabel();
+        label22.setFont(new Font(label22.getFont().getName(), label22.getFont().getStyle(), 14));
+        label22.setText("Messdaten");
+        panel11.add(label22, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer40 = new Spacer();
+        panel11.add(spacer40, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         refreshIconMessdaten = new JLabel();
         refreshIconMessdaten.setText("refreshicon");
         refreshIconMessdaten.setToolTipText("Zum Aktualisieren klicken");
         panel11.add(refreshIconMessdaten, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer43 = new Spacer();
-        panel10.add(spacer43, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 10), new Dimension(-1, 10), new Dimension(-1, 10), 0, false));
-        final Spacer spacer44 = new Spacer();
-        panel10.add(spacer44, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 8), new Dimension(-1, 8), new Dimension(-1, 8), 0, false));
+        final Spacer spacer41 = new Spacer();
+        panel10.add(spacer41, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 10), new Dimension(-1, 10), new Dimension(-1, 10), 0, false));
+        final Spacer spacer42 = new Spacer();
+        panel10.add(spacer42, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 8), new Dimension(-1, 8), new Dimension(-1, 8), 0, false));
         underTitlePanel = new JPanel();
         underTitlePanel.setLayout(new GridLayoutManager(1, 7, new Insets(0, 0, 0, 0), -1, -1));
         underTitlePanel.setAutoscrolls(false);
         underTitlePanel.setBackground(new Color(-1513240));
         mainPanel.add(underTitlePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, 1, null, null, null, 0, true));
-        final JLabel label24 = new JLabel();
-        label24.setFont(new Font(label24.getFont().getName(), label24.getFont().getStyle(), 14));
-        label24.setText("Aktuelle Server IP:");
-        underTitlePanel.add(label24, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label23 = new JLabel();
+        label23.setFont(new Font(label23.getFont().getName(), label23.getFont().getStyle(), 14));
+        label23.setText("Aktuelle Server IP:");
+        underTitlePanel.add(label23, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         currentIpTextField = new JTextField();
         currentIpTextField.setEditable(false);
         currentIpTextField.setFont(new Font(currentIpTextField.getFont().getName(), currentIpTextField.getFont().getStyle(), 14));
         underTitlePanel.add(currentIpTextField, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(300, 30), new Dimension(300, 30), null, 0, false));
-        final Spacer spacer45 = new Spacer();
-        underTitlePanel.add(spacer45, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, 1, new Dimension(5, -1), new Dimension(5, -1), new Dimension(5, -1), 0, false));
+        final Spacer spacer43 = new Spacer();
+        underTitlePanel.add(spacer43, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, 1, new Dimension(5, -1), new Dimension(5, -1), new Dimension(5, -1), 0, false));
         changeIpButton = new JButton();
         changeIpButton.setFont(new Font(changeIpButton.getFont().getName(), changeIpButton.getFont().getStyle(), 14));
         changeIpButton.setText("Ändern");
@@ -1565,8 +1582,8 @@ public class ClientGUI extends JFrame {
         datenverwaltungButton.setFont(new Font(datenverwaltungButton.getFont().getName(), datenverwaltungButton.getFont().getStyle(), 14));
         datenverwaltungButton.setText("Datengenerator");
         underTitlePanel.add(datenverwaltungButton, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(140, 30), new Dimension(140, 30), new Dimension(140, 30), 0, false));
-        final Spacer spacer46 = new Spacer();
-        formPanel.add(spacer46, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 3), new Dimension(-1, 3), new Dimension(-1, 3), 0, false));
+        final Spacer spacer44 = new Spacer();
+        formPanel.add(spacer44, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 3), new Dimension(-1, 3), new Dimension(-1, 3), 0, false));
     }
 
     /**
