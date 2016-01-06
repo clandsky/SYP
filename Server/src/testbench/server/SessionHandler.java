@@ -1,12 +1,16 @@
 package testbench.server;
 
 import com.sun.net.httpserver.HttpServer;
+import org.eclipse.persistence.sessions.Session;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.ExtendedConfig;
 import testbench.bootloader.Printer;
 import testbench.bootloader.provider.ProtoMessageBodyProvider;
 import testbench.server.res.RestResource;
+import testbench.server.steuerungsklassen.ServerConfiguration;
+
+import java.io.File;
 import java.net.URI;
 
 /**
@@ -16,19 +20,30 @@ public class SessionHandler {
     private URI endpoint;
     private ResourceConfig rc;
     private HttpServer server;
-    private int port=8000;
+    private ServerConfiguration config;
     private boolean running=false;
     private String uri;
 
 
+    public SessionHandler()
+    {
+        this.config=new ServerConfiguration();
+        this.config.setPort(4000);
+    }
+
+    private ServerConfiguration getConfiguration ()
+    {
+        return config;
+    }
+
     public boolean startServer() {
         if (!running) {
             try {
-                this.uri = "http://localhost:" + port + "/";
+                this.uri = "http://localhost:" + config.getPort() + "/";
                 this.endpoint = new URI(uri);
                 Printer.println("Configurating ResourceConfig with MessageBodyProvider... ");
                 this.rc = new ResourceConfig(RestResource.class).register(ProtoMessageBodyProvider.class);
-                Printer.println("Booting Server -> http://localhost:"+port+"/");
+                Printer.println("Booting Server -> http://localhost:"+config.getPort()+"/");
                 this.server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
                 Printer.println("Server gestartet... ");
                 this.running=true;
@@ -64,10 +79,10 @@ public class SessionHandler {
     }
     public void setPort(int port)
     {
-        this.port=port;
+        this.config.setPort(port);
     }
     public int getPort() {
-        return port;
+        return config.getPort();
     }
 
     public boolean isRunning (){

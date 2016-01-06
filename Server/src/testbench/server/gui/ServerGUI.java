@@ -4,6 +4,8 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import testbench.bootloader.Printer;
+import testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl;
+import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 import testbench.server.SessionHandler;
 
 import javax.swing.*;
@@ -21,6 +23,7 @@ public class ServerGUI extends JFrame {
     private JButton clearButton;
     private JButton startServerButton;
     private JButton konfigurierenButton;
+    private JButton datenverwaltungStartenButton;
     private boolean started = false;
     private SessionHandler sh;
     private JFrame frame;
@@ -50,8 +53,7 @@ public class ServerGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!started) {
                     if (!sh.isRunning()) {
-                        if (sh.startServer())
-                        {
+                        if (sh.startServer()) {
                             startServerButton.setText("Stop Server");
                             started = true;
                         }
@@ -98,6 +100,15 @@ public class ServerGUI extends JFrame {
                 } while (ok == false);
             }
         });
+
+
+        datenverwaltungStartenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                IActivateComponentImpl starteDatenverwaltung = new IActivateComponentImpl();
+                starteDatenverwaltung.startComponent();
+            }
+        });
     }
 
 
@@ -117,7 +128,7 @@ public class ServerGUI extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel = new JPanel();
-        panel.setLayout(new GridLayoutManager(2, 4, new Insets(2, 2, 0, 0), -1, -1));
+        panel.setLayout(new GridLayoutManager(2, 5, new Insets(2, 2, 0, 0), -1, -1));
         panel.setAutoscrolls(true);
         panel.setBackground(new Color(-3487030));
         panel.setMaximumSize(new Dimension(655, 500));
@@ -127,7 +138,7 @@ public class ServerGUI extends JFrame {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.setBackground(new Color(-16777216));
-        panel.add(panel1, new GridConstraints(0, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel.add(panel1, new GridConstraints(0, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         consoleOut = new JTextArea();
         consoleOut.setAutoscrolls(false);
         consoleOut.setBackground(new Color(-16777216));
@@ -143,15 +154,18 @@ public class ServerGUI extends JFrame {
         clearButton.setHorizontalAlignment(0);
         clearButton.setText("Clear");
         clearButton.setVerticalAlignment(0);
-        panel.add(clearButton, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel.add(clearButton, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel.add(spacer1, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel.add(spacer1, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         startServerButton = new JButton();
         startServerButton.setText("Start Server");
         panel.add(startServerButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         konfigurierenButton = new JButton();
         konfigurierenButton.setText("Konfigurieren");
         panel.add(konfigurierenButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        datenverwaltungStartenButton = new JButton();
+        datenverwaltungStartenButton.setText("Datenverwaltung starten");
+        panel.add(datenverwaltungStartenButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
