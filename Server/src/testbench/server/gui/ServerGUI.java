@@ -5,7 +5,6 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import testbench.bootloader.Printer;
 import testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl;
-import testbench.datenverwaltung.dateiverwaltung.impl.IDatenVerwaltungImpl;
 import testbench.server.SessionHandler;
 
 import javax.swing.*;
@@ -100,13 +99,12 @@ public class ServerGUI extends JFrame {
                 } while (ok == false);
             }
         });
-
-
         datenverwaltungStartenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                IActivateComponentImpl starteDatenverwaltung = new IActivateComponentImpl();
-                starteDatenverwaltung.startComponent();
+                IActivateComponentImpl datenverwaltung = new IActivateComponentImpl();
+                datenverwaltung.startComponent();
+                datenverwaltung.getComponentGui().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
         });
     }
