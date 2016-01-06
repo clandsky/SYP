@@ -108,21 +108,21 @@ public class GeneratorGUI extends JFrame
 
     /**
      * GeneratorGUI
-     *
+     * <p/>
      * Generiert die Generator GUI und definiert die ActionListener
      */
     public GeneratorGUI()
     {
-        super("Generator GUI");
-        setSize(new Dimension(500, 300));
+        super("Generator");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(panelCentral);
-        setLocationRelativeTo(null);
+        setSize(new Dimension(800, 500));
         setVisible(true);
 
         DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
         model.setColumnCount(0);
-        model.addColumn("Frequ.");
-        model.addColumn("Ampl.");
+        model.addColumn("Frequenz");
+        model.addColumn("Amplitude");
         model.addColumn("Phase");
 
         speichernButton.addActionListener(new ActionListener()
@@ -171,7 +171,14 @@ public class GeneratorGUI extends JFrame
                 massendaten = generator.generatorMassData(config, Integer.parseInt(textFieldSize.getText()));
 
                 DateiSpeichern ds = new DateiSpeichern();
-                ds.speicherMassendaten(massendaten);
+                if (ds.speicherMassendaten(massendaten))
+                {
+                    JOptionPane.showMessageDialog(null, "Massendaten erfolgreich gespeichert!");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Massendaten konnten nicht gespeichert werden!");
+                }
             }
         });
         spinner.addChangeListener(new ChangeListener()
@@ -234,7 +241,15 @@ public class GeneratorGUI extends JFrame
                 struktdaten = generator.generatorDeepStructure(def);
 
                 DateiSpeichern ds = new DateiSpeichern();
-                ds.speicherStruktdaten(struktdaten);
+                if (ds.speicherStruktdaten(struktdaten))
+                {
+                    JOptionPane.showMessageDialog(null, "Strukturdaten erfolgreich gespeichert!");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Strukturdaten konnten nicht gespeichert werden!");
+                }
+
             }
         });
         buttonLoadConfig.addActionListener(new ActionListener()
@@ -314,11 +329,8 @@ public class GeneratorGUI extends JFrame
         speichernButton = new JButton();
         speichernButton.setText("Speichern");
         panel1.add(speichernButton, new GridConstraints(5, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        buttonLoadConfig = new JButton();
-        buttonLoadConfig.setText("Frequenz Config Laden");
-        panel1.add(buttonLoadConfig, new GridConstraints(4, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(3, 1, new Insets(4, 4, 4, 4), -1, -1));
+        panel2.setLayout(new GridLayoutManager(4, 1, new Insets(4, 4, 4, 4), -1, -1));
         panelMassendaten.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
         spinner = new JSpinner();
@@ -327,9 +339,12 @@ public class GeneratorGUI extends JFrame
         label3.setText("Anzahl Frequenzen");
         panel2.add(label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel2.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel2.add(scrollPane1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tableFrequencies = new JTable();
         scrollPane1.setViewportView(tableFrequencies);
+        buttonLoadConfig = new JButton();
+        buttonLoadConfig.setText("Frequenz Config Laden");
+        panel2.add(buttonLoadConfig, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         panelStruktdaten = new JPanel();
         panelStruktdaten.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPaneData.addTab("Stukturierte-Daten", panelStruktdaten);
