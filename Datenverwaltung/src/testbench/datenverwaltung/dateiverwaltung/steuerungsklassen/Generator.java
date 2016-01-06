@@ -14,6 +14,7 @@ import static java.lang.Math.*;
 
 /**
  * @author CGrings
+ * @version 1.0
  */
 public class Generator
 {
@@ -130,6 +131,7 @@ public class Generator
         Struktdaten.TS_Value.Builder ts_Value;
         Struktdaten.AIDNameUnitID.Builder aIDNameUnitID;
 
+        // Erzeugen der ItemAIDName Elementen
         for (int i = 0; i < struktDef.getItemAIDNameCount(); i++)
         {
             longLong = Struktdaten.LongLong.newBuilder();
@@ -152,6 +154,7 @@ public class Generator
             structBuilder.addAnuSeq(selAIDNameUnitIDBuilder);
         }
 
+        // Erzeugen der JoinDef Elementen
         for (int i = 0; i < struktDef.getItemJoinDefCount(); i++)
         {
             longLong = Struktdaten.LongLong.newBuilder();
@@ -173,6 +176,7 @@ public class Generator
             structBuilder.addJoinSeq(joinDef);
         }
 
+        // Erzeugen der SelOrder Elemente
         for (int i = 0; i < struktDef.getItemSelOrderCount(); i++)
         {
             selOrder = Struktdaten.SelOrder.newBuilder();
@@ -191,6 +195,7 @@ public class Generator
             structBuilder.addOrderBy(selOrder);
         }
 
+        // Erzeugen der SelUID Elemente
         for (int i = 0; i < struktDef.getItemSelUIDCount(); i++)
         {
             longLong = Struktdaten.LongLong.newBuilder();
@@ -204,6 +209,7 @@ public class Generator
             structBuilder.addGroupBy(aIDNameBuilder);
         }
 
+        // Erzeugen der SelItem Elemente
         for (int i = 0; i < struktDef.getItemSelItemCount(); i++)
         {
             selItem = Struktdaten.SelItem.newBuilder();
@@ -236,6 +242,7 @@ public class Generator
             selItem.setOperator("Oper");
         }
 
+        // Erzeugen der Informationen zu dieser Struktur
         StruktdatenProtos.Struktdaten.StruktInfo.Builder info = StruktdatenProtos.Struktdaten.StruktInfo.newBuilder();
 
         StruktdatenProtos.Struktdaten.StruktInfo.StruktDef.Builder def = StruktdatenProtos.Struktdaten.StruktInfo.StruktDef.newBuilder();
@@ -250,6 +257,7 @@ public class Generator
         info.setId((int) (Calendar.getInstance().getTime().getTime() / 2000));
         structBuilder.setInfo(info);
 
+        // Rückgabe der kompletten Struktur
         return structBuilder.build();
     }
 }
