@@ -3,7 +3,6 @@ package testbench.datenverwaltung.dateiverwaltung.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import testbench.bootloader.Printer;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.StruktDef;
@@ -17,35 +16,101 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * @author CGrings
+ * @version 1.0
  */
 public class GeneratorGUI extends JFrame
 {
-    private JTabbedPane tabbedPaneData;
+    /**
+     * Zentrales Panel in dem alle weiteren Object liegen
+     */
     private JPanel panelCentral;
+
+    /**
+     * Registerkarten zum wechseln zwischen Massendaten und Struktdaten
+     */
+    private JTabbedPane tabbedPaneData;
+
+    /**
+     * Panel in dem die Massendaten konfiguration liegt
+     */
     private JPanel panelMassendaten;
+
+    /**
+     * Panel in dem die Strukturdaten konfiguration liegt
+     */
     private JPanel panelStruktdaten;
+
+    /**
+     * Button zum speichern von Massendaten
+     */
     private JButton speichernButton;
+
+    /**
+     * Textfeld zur Eingabe der Dateigröße von Massendaten
+     */
     private JTextField textFieldSize;
+
+    /**
+     * Textfeld zur Eingabe der Abtastrate von Massendaten
+     */
     private JTextField textFieldAbtastrate;
+
+    /**
+     * Spinner zur Auswahl der Anzahl an Frequenzen zur generierung der Massendaten
+     */
     private JSpinner spinner;
+
+    /**
+     * Tabelle in der die Frequenzen für die Generierung der Massendaten liegen
+     */
     private JTable tableFrequencies;
-    private JTextField dataset4TextField;
+
+    /**
+     * Textfeld für die eingabe der Anzahl an Datensätze (1) zur generierung der Struktdaten
+     */
     private JTextField dataset1TextField;
-    private JTextField dataset3TextField;
+
+    /**
+     * Textfeld für die eingabe der Anzahl an Datensätze (2) zur generierung der Struktdaten
+     */
     private JTextField dataset2TextField;
-    private JButton saveDeepStructButton;
+
+    /**
+     * Textfeld für die eingabe der Anzahl an Datensätze (3) zur generierung der Struktdaten
+     */
+    private JTextField dataset3TextField;
+
+    /**
+     * Textfeld für die eingabe der Anzahl an Datensätze (4) zur generierung der Struktdaten
+     */
+    private JTextField dataset4TextField;
+
+    /**
+     * Textfeld für die eingabe der Anzahl an Datensätze (5) zur generierung der Struktdaten
+     */
     private JTextField dataset5TextField;
+
+    /**
+     * Button zum Speichern der Struktdaten
+     */
+    private JButton saveDeepStructButton;
+
+    /**
+     * Button zum laden einer Frequenzkonfiguration.
+     */
     private JButton buttonLoadConfig;
 
+    /**
+     * GeneratorGUI
+     *
+     * Generiert die Generator GUI und definiert die ActionListener
+     */
     public GeneratorGUI()
     {
         super("Generator GUI");
@@ -62,6 +127,14 @@ public class GeneratorGUI extends JFrame
 
         speichernButton.addActionListener(new ActionListener()
         {
+            /**
+             * speichernButton.actionPerformed
+             *
+             * Erzeugt Massendaten mit hilfe des Generators und speichert diese
+             * ab mit hilfe von DatenSpeichern.
+             *
+             * @param e Event
+             */
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -103,6 +176,14 @@ public class GeneratorGUI extends JFrame
         });
         spinner.addChangeListener(new ChangeListener()
         {
+            /**
+             * spinner.stateChanged
+             *
+             * Die anzahl der konfigurierbaren Frequenzen wird angepasst an
+             * das Value des Spinner.
+             *
+             * @param e Event
+             */
             @Override
             public void stateChanged(ChangeEvent e)
             {
@@ -129,6 +210,14 @@ public class GeneratorGUI extends JFrame
         });
         saveDeepStructButton.addActionListener(new ActionListener()
         {
+            /**
+             * saveDeepStructButton.actionPerformed
+             *
+             * Speichert das definierte DeepStruct ab. Dazu wird der Generator aufgerufen
+             * und die generierten Daten werden an DateiSchreiben übergeben
+             *
+             * @param e Event
+             */
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -150,6 +239,14 @@ public class GeneratorGUI extends JFrame
         });
         buttonLoadConfig.addActionListener(new ActionListener()
         {
+            /**
+             * buttonLoadConfig.actionPerformed
+             *
+             * Läd eine Frequenz-Konfiguration mit Hilfe von DateiLaden und
+             * zeigt diese auf der GUI an.
+             *
+             * @param e Event
+             */
             @Override
             public void actionPerformed(ActionEvent e)
             {

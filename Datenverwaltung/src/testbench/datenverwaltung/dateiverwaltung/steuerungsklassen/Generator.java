@@ -13,12 +13,24 @@ import java.util.Calendar;
 import static java.lang.Math.*;
 
 /**
- * Created by CGrings on 29.11.2015
+ * @author CGrings
  */
 public class Generator
 {
+    /**
+     * Schaltet die Debugausgaben ein
+     */
     private final boolean _DEBUG = true;
 
+    /**
+     * generatorMassData
+     *
+     * Generiert Massendaten die durch "config" und "fileSize" definiert werden.
+     *
+     * @param config Massendaten Konfigurationsdatei
+     * @param fileSize Größe der Nutzdaten in Byte
+     * @return Protobuf Builder für Massendaten
+     */
     public Massendaten generatorMassData(MassenDef config, int fileSize)
     {
 
@@ -96,6 +108,14 @@ public class Generator
         return mDaten;
     }
 
+    /**
+     * generatorDeepStructure
+     *
+     * Generiert Struktdaten die durch "struktDef" definiert werden.
+     *
+     * @param struktDef Definition welche Anzahl an Datensätzen generiert werden soll
+     * @return Protobuf Builder für Struktdaten
+     */
     public Struktdaten generatorDeepStructure(StruktDef struktDef)
     {
         Struktdaten.Builder structBuilder = Struktdaten.newBuilder();

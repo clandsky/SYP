@@ -15,14 +15,33 @@ import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
 import java.util.ArrayList;
 
 /**
- * Created by CGrings on 07.12.2015
+ * IDatenVerwaltungImpl
+ *
+ * Implementiert die Schnittstelle zu der Datenverwaltung die Client und Server nutzen
+ *
+ * @author CGrings
+ * @version 1.0
+ * @see testbench.datenverwaltung.dateiverwaltung.service.IDatenVerwaltung
  */
 public class IDatenVerwaltungImpl implements IDatenVerwaltung
 {
+    /**
+     * Objekt zum Daten laden
+     */
     private DateiLaden dateiLaden = new DateiLaden();
+
+    /**
+     * Objekt zum Daten speichern
+     */
     private DateiSpeichern dateiSpeichern = new DateiSpeichern();
 
-    public IDatenVerwaltungImpl() {
+    /**
+     * IDatenVerwaltungImpl
+     *
+     * Erzeugt die benötigten DateiLaden und DateiSpeichern Objekte
+     */
+    public IDatenVerwaltungImpl()
+    {
         dateiLaden = new DateiLaden();
         dateiSpeichern = new DateiSpeichern();
     }
@@ -77,7 +96,8 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     }
 
     @Override
-    public MessdatenProtos.Messdaten ladeMessdatenByID(int id) {
+    public MessdatenProtos.Messdaten ladeMessdatenByID(int id)
+    {
         return dateiLaden.ladeMessdaten(id);
     }
 
@@ -94,7 +114,8 @@ public class IDatenVerwaltungImpl implements IDatenVerwaltung
     }
 
     @Override
-    public ArrayList<MassenInfo> ladeMassenInfo() {
+    public ArrayList<MassenInfo> ladeMassenInfo()
+    {
         return dateiLaden.ladeMassenInfo();
     }
 }

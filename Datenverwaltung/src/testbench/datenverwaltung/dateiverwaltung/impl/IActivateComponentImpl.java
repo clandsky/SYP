@@ -6,10 +6,15 @@ import testbench.datenverwaltung.dateiverwaltung.gui.GeneratorGUI;
 import javax.swing.*;
 
 /**
- * Created by CGrings on 07.12.2015.
+ * @author CGrings
+ * @version 1.0
+ * @see testbench.bootloader.service.IActivateComponent
  */
 public class IActivateComponentImpl implements IActivateComponent
 {
+    /**
+     * Genderator GUI die durch die Aktivierung der Komponente erzeugt wird
+     */
     static GeneratorGUI generatorGUI = null;
 
     @Override

@@ -13,14 +13,23 @@ import java.io.*;
 import java.util.List;
 
 /**
- * Created by murattasdemir on 26.11.15.
+ * @author CGrings / MTasdemir
  */
 public class dummy
 {
+    /**
+     * main
+     *
+     * Testmain zum testen des Generators und der Speicherfunktionalitäten
+     *
+     * @param args
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws UnsupportedLookAndFeelException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     static public void main(String[] args) throws IOException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        GeneratorGUI g = new GeneratorGUI();
-        g.setVisible(true);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         MassendatenProtos.Massendaten massendaten = null;
