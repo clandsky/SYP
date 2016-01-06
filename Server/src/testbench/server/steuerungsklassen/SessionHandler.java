@@ -1,4 +1,4 @@
-package testbench.server;
+package testbench.server.steuerungsklassen;
 
 import com.sun.net.httpserver.HttpServer;
 import org.eclipse.persistence.sessions.Session;

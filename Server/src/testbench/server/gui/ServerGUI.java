@@ -5,7 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import testbench.bootloader.Printer;
 import testbench.datenverwaltung.dateiverwaltung.impl.IActivateComponentImpl;
-import testbench.server.SessionHandler;
+import testbench.server.steuerungsklassen.SessionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.PrintStream;
 
 /**
- * Created by Huskey on 08.12.2015.
+ * GUI zur Steuerung des Servers
  */
 public class ServerGUI extends JFrame {
     private JTextArea consoleOut;
@@ -27,18 +27,27 @@ public class ServerGUI extends JFrame {
     private SessionHandler sh;
     private JFrame frame;
 
-    public ServerGUI() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    /**
+     * Initialisisert die GUI, die Listener und gibt einen 'KonsolenOutputStream' an das System weiter, um dort
+     * Errors und Ausgaben abzubilden.
+     *
+     * @param sh SessionHandler für die Weitergabe von Befehlen
+     * @throws ClassNotFoundException
+     * @throws UnsupportedLookAndFeelException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    public ServerGUI(final SessionHandler sh) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         final KonsoleOutputStream tAOS = new KonsoleOutputStream(consoleOut, 34);
         PrintStream con = new PrintStream(tAOS);
         System.setOut(con);
         System.setErr(con);
-        sh = new SessionHandler();
+        this.sh = sh;
         setContentPane(panel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         frame = this;
         Printer.printWelcome();
-
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
