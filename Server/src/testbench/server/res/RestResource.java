@@ -8,6 +8,7 @@ package testbench.server.res;
  * Für nähere Informationen hierzu, siehe Installationsanleitung
  */
 
+import com.google.protobuf.Descriptors;
 import testbench.bootloader.entities.MassenInfo;
 import testbench.bootloader.entities.StruktInfo;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
@@ -105,8 +106,12 @@ public class RestResource {
     @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
     public Response postMassendaten(Massendaten daten) {
         Printer.println("[POST] on /Massendaten");
-        new Writer(daten);
-        return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+        if (daten.getInfo().hasId())
+        {
+            new Writer(daten);
+            return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+        }
+        return Response.status(406).entity(StaticHolder.deSerialisierungsZeitMs).build();
     }
 
     /**
@@ -173,8 +178,16 @@ public class RestResource {
     @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
     public Response postStruktdaten(Struktdaten daten) {
         Printer.println("[POST] on /Struktdaten");
-        new Writer(daten);
-        return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+
+        if (daten.getInfo().hasId())
+        {
+            new Writer(daten);
+            return Response.status(200).entity(StaticHolder.deSerialisierungsZeitMs).build();
+        }
+
+        return Response.status(406).entity(StaticHolder.deSerialisierungsZeitMs).build();
+
+
     }
 
     /**
