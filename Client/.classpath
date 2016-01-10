@@ -44,5 +44,5 @@
 	<classpathentry kind="lib" path="/Bootloader/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="/Bootloader/lib/swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="/Bootloader/lib/validation-api-1.1.0.Final.jar"/>
-	<classpathentry kind="output" path="/out/production/Client"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

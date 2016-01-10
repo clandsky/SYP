@@ -22,17 +22,42 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
- *   Created by Christoph Landsky and Sven Riedel (30.11.2015)
+ *   Dies ist das Herzstück der Serialisierung/Deserialisierung der Protodaten. Die Input-/Outputstreams werden hier
+ *   behandelt. Die Annotationen geben Jersey an, dass dies ein "Provider" für das Empfangen (Consumes) und Senden (Produces)
+ *   von "APPLICATION_PROTOBUF"-Formaten ist. Es müssen dafür lediglich die Interfaces MessageBodyReader und MessageBodyWriter implementiert werden.
  */
 @Provider
 @Consumes(MediaTypeExt.APPLICATION_PROTOBUF)
 @Produces(MediaTypeExt.APPLICATION_PROTOBUF)
 public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, MessageBodyWriter<Message> {
+    /**
+     * Prüft, ob die eingegangene Klasse (aClass) eine Message (Protobuf) ist.
+     * Das meiste passiert hier automatisch und läuft Jersey-intern. Die Parameter sind entsprechend des Interfaces vorgegeben.
+     * @param aClass
+     * @param type
+     * @param annotations
+     * @param mediaType
+     * @return Gibt zurück, ob aus der eingegangenen Klasse eine Message gebaut werden kann
+     */
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
         return Message.class.isAssignableFrom(aClass);
     }
 
+    /**
+     * Diese Methode liest aus einem eingehenden InputStream die Bytes ein und prüft, ob der eingegangene Stream auf Massendaten oder
+     * Struktdaten geparset werden kann. Für unseren Zweck werden hier noch die möglichst genauen Deserialisierungszeiten gemessen.
+     *
+     * @param aClass
+     * @param type
+     * @param annotations
+     * @param mediaType
+     * @param multivaluedMap
+     * @param inputStream
+     * @return Message, die entweder als Struktdaten oder Massendaten zurückgegeben wird
+     * @throws IOException
+     * @throws WebApplicationException
+     */
     @Override
     public Message readFrom(Class<Message> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         Message message = null;
@@ -59,16 +84,46 @@ public class ProtoMessageBodyProvider implements MessageBodyReader<Message>, Mes
         return message;
     }
 
+    /**
+     * Prüft, ob das Message-Objekt als byteStream geschrieben werden kann.
+     *
+     * @param type
+     * @param genericType
+     * @param annotations
+     * @param mediaType
+     * @return
+     */
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return Message.class.isAssignableFrom(type);
     }
 
+    /**
+     * ermittelt die Größe der Message
+     * @param m
+     * @param type
+     * @param genericType
+     * @param annotations
+     * @param mediaType
+     * @return Serialisierte Größe der Message
+     */
     @Override
     public long getSize(Message m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return m.getSerializedSize();
     }
 
+    /**
+     * Schreibt die Message per toByteArray auf ein ByteArray. Dieses wird dann auf einen OutputStream geschrieben
+     * @param m
+     * @param type
+     * @param genericType
+     * @param annotations
+     * @param mediaType
+     * @param httpHeaders
+     * @param entityStream
+     * @throws IOException
+     * @throws WebApplicationException
+     */
     @Override
     public void writeTo(Message m, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {

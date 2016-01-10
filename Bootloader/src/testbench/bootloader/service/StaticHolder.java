@@ -3,7 +3,7 @@ package testbench.bootloader.service;
 import javax.swing.*;
 
 /**
- * Created by Sven Riedel on 14.12.2015
+ * Beinhaltet statische Attribute, die zur Zeitmessung benötigt werden, sowie Pfade
  */
 public class StaticHolder {
     /* DATENVERWALTUNG */

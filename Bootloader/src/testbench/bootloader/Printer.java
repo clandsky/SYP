@@ -5,9 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by Huskey on 08.12.2015
+ * Diese Klasse dient einer geordneten Ausgabe auf der Konsole und fügt Datum, sowie Zeit hinzu. Desweiteren
+ * wurde eine Progressbar für das Debuggen entwickelt.
  */
  public class Printer {
+    /**
+     * Dient zur Ausgabe auf der Konsole und fügt den aktuellen Timestamp hinzu. erzeugt einen println()
+     * @param s Message zur Ausgabe
+     */
     public static void println(String s)
     {
         Calendar cal = Calendar.getInstance();
@@ -18,6 +23,10 @@ import java.util.Calendar;
         output+=" : "+s;
         System.out.println(output);
     }
+    /**
+     * Dient zur Ausgabe auf der Konsole und fügt den aktuellen Timestamp hinzu. erzeugt einen print()
+     * @param s Message zur Ausgabe
+     */
     public static void print(String s)
     {
         Calendar cal = Calendar.getInstance();
@@ -28,10 +37,20 @@ import java.util.Calendar;
         output+=" : "+s;
         System.out.print(output);
     }
-    public static void printSeperator(String s)
+
+    /**
+     * erzeugt einen Seperator, welcher Ausgaben voneinander abgrenzen kann.
+     * @deprecated
+     *
+     */
+    public static void printSeperator()
     {
         System.out.println("--------------------------------------------------------------------------------");
     }
+
+    /**
+     * Standardausgabe auf dem Server-Log
+     */
     public static void printWelcome()
     {
         System.out.println("******************************************************************************************");
@@ -42,6 +61,12 @@ import java.util.Calendar;
         System.out.println("******************************************************************************************");
         System.out.println("------------------------------------------------------------------------------------------");
     }
+
+    /**
+     * Progress-Bar für das Erstellen von Massen-/Struktdaten
+     * @param progress Fortschritt
+     * @param size Größe der Datei
+     */
     public static void printProgressBar(int progress, float size) {
         if(size == 0f) return;
         StringBuilder progressBuffer = new StringBuilder();

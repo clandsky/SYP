@@ -7,8 +7,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 /**
- * Created by Sven Riedel on 04.12.2015
+ * Dies ist die Entity für die StruktInfo. Hier stehen alle Parameter, sowie die ID der Struktdaten drin. Jedes Struktdaten-Element
+ * besitzt eine zugehörige StruktInfo zur Identifikation. Eine Liste aller StruktInfos kann vom Server angefordert werden
  */
 @XmlRootElement
 public class StruktInfo {

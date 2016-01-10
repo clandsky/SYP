@@ -7,5 +7,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Datenverwaltung"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Bootloader"/>
 	<classpathentry kind="lib" path="/Bootloader/lib/forms_rt.jar"/>
-	<classpathentry kind="output" path="/out/production/Run"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

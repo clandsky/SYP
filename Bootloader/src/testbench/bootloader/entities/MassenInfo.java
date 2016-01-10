@@ -7,7 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by Sven Riedel on 04.12.2015
+ * Dies ist die Entity für die MassenInfo. Hier stehen alle Parameter, sowie die ID der Massendaten drin. Jedes Massendaten-Element
+ * besitzt eine zugehörige MassenInfo zur Identifikation. Eine Liste aller MassenInfos kann vom Server angefordert werden
  */
 @XmlRootElement
 public class MassenInfo {
