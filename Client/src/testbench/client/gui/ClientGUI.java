@@ -33,6 +33,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -1011,6 +1012,12 @@ public class ClientGUI extends JFrame {
                         refreshMessdaten();
                         break;
                 }
+            }
+        });
+        graphAllerMessdatenAnzeigenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MessGraph messGraph = new MessGraph(new ArrayList<MessdatenGrenz>(messDaten));
             }
         });
     }
