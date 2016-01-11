@@ -61,8 +61,7 @@ public class ClientSteuer {
         if(m != null) {
             long deseri = StaticHolder.deSerialisierungsZeitMs;
             long gesamt = StaticHolder.gesamtZeit;
-            long trans = StaticHolder.gesamtZeit-deseri;
-            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, gesamt, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
             dServe.schreibeMassendaten(m);
             return new MassendatenGrenz(m);
         }
@@ -85,8 +84,7 @@ public class ClientSteuer {
         if(s != null) {
             long deseri = StaticHolder.deSerialisierungsZeitMs;
             long gesamt = StaticHolder.gesamtZeit;
-            long trans = StaticHolder.gesamtZeit-deseri;
-            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, trans, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
+            dServe.schreibeMessdaten(buildMessdaten(id, 0, deseri, gesamt, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
             dServe.schreibeStruktdaten(s);
             return new StruktdatenGrenz(s);
         }
@@ -112,8 +110,8 @@ public class ClientSteuer {
             if(response.getStatus() == 200) {
                 long seri = StaticHolder.serialisierungsZeitMs;
                 long deseri = 0;
-                long trans = StaticHolder.gesamtZeit-seri-deseri;
-                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
+                long gesamt = StaticHolder.gesamtZeit;
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, gesamt, m.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Massendaten"));
                 return true;
             }
             return false;
@@ -139,8 +137,7 @@ public class ClientSteuer {
             if(response.getStatus() == 200) {
                 long seri = StaticHolder.serialisierungsZeitMs;
                 long deseri = 0;
-                long trans = StaticHolder.gesamtZeit-seri-deseri;
-                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, trans, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
+                dServe.schreibeMessdaten(buildMessdaten(id, seri, deseri, StaticHolder.gesamtZeit, s.getSerializedSize(), new SimpleDateFormat("dd.MM.yyyy").format(new Date()),"Struktdaten"));
                 return true;
             }
             return false;
@@ -263,13 +260,13 @@ public class ClientSteuer {
         return iActivate.getComponentGui();
     }
 
-    private Messdaten buildMessdaten(int id, long seriZeit, long deseriZeit, long transZeit, int paketGroesseByte, String timeStamp, String typ) {
+    private Messdaten buildMessdaten(int id, long seriZeit, long deseriZeit, long gesamtZeit, int paketGroesseByte, String timeStamp, String typ) {
         Messdaten.Builder builder = Messdaten.newBuilder();
 
         builder.setId(id);
         builder.setSerialisierungsZeit(seriZeit);
         builder.setDeserialisierungsZeit(deseriZeit);
-        builder.setTransmitTime(transZeit);
+        builder.setGesamtZeit(gesamtZeit);
         builder.setPaketGroesseByte(paketGroesseByte);
         builder.setTimeStamp(timeStamp);
         builder.setTyp(typ);

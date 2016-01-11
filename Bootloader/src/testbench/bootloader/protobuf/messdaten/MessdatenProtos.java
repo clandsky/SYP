@@ -40,13 +40,13 @@ public final class MessdatenProtos {
     long getDeserialisierungsZeit();
 
     /**
-     * <code>optional int64 transmitTime = 4;</code>
+     * <code>optional int64 gesamtZeit = 4;</code>
      */
-    boolean hasTransmitTime();
+    boolean hasGesamtZeit();
     /**
-     * <code>optional int64 transmitTime = 4;</code>
+     * <code>optional int64 gesamtZeit = 4;</code>
      */
-    long getTransmitTime();
+    long getGesamtZeit();
 
     /**
      * <code>optional int32 paketGroesseByte = 5;</code>
@@ -154,7 +154,7 @@ public final class MessdatenProtos {
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              transmitTime_ = input.readInt64();
+              gesamtZeit_ = input.readInt64();
               break;
             }
             case 40: {
@@ -259,19 +259,19 @@ public final class MessdatenProtos {
       return deserialisierungsZeit_;
     }
 
-    public static final int TRANSMITTIME_FIELD_NUMBER = 4;
-    private long transmitTime_;
+    public static final int GESAMTZEIT_FIELD_NUMBER = 4;
+    private long gesamtZeit_;
     /**
-     * <code>optional int64 transmitTime = 4;</code>
+     * <code>optional int64 gesamtZeit = 4;</code>
      */
-    public boolean hasTransmitTime() {
+    public boolean hasGesamtZeit() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int64 transmitTime = 4;</code>
+     * <code>optional int64 gesamtZeit = 4;</code>
      */
-    public long getTransmitTime() {
-      return transmitTime_;
+    public long getGesamtZeit() {
+      return gesamtZeit_;
     }
 
     public static final int PAKETGROESSEBYTE_FIELD_NUMBER = 5;
@@ -377,7 +377,7 @@ public final class MessdatenProtos {
       id_ = 0;
       serialisierungsZeit_ = 0L;
       deserialisierungsZeit_ = 0L;
-      transmitTime_ = 0L;
+      gesamtZeit_ = 0L;
       paketGroesseByte_ = 0;
       timeStamp_ = "";
       typ_ = "";
@@ -405,7 +405,7 @@ public final class MessdatenProtos {
         output.writeInt64(3, deserialisierungsZeit_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt64(4, transmitTime_);
+        output.writeInt64(4, gesamtZeit_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(5, paketGroesseByte_);
@@ -439,7 +439,7 @@ public final class MessdatenProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, transmitTime_);
+          .computeInt64Size(4, gesamtZeit_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
@@ -576,7 +576,7 @@ public final class MessdatenProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         deserialisierungsZeit_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        transmitTime_ = 0L;
+        gesamtZeit_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
         paketGroesseByte_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -627,7 +627,7 @@ public final class MessdatenProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.transmitTime_ = transmitTime_;
+        result.gesamtZeit_ = gesamtZeit_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
@@ -665,8 +665,8 @@ public final class MessdatenProtos {
         if (other.hasDeserialisierungsZeit()) {
           setDeserialisierungsZeit(other.getDeserialisierungsZeit());
         }
-        if (other.hasTransmitTime()) {
-          setTransmitTime(other.getTransmitTime());
+        if (other.hasGesamtZeit()) {
+          setGesamtZeit(other.getGesamtZeit());
         }
         if (other.hasPaketGroesseByte()) {
           setPaketGroesseByte(other.getPaketGroesseByte());
@@ -804,34 +804,34 @@ public final class MessdatenProtos {
         return this;
       }
 
-      private long transmitTime_ ;
+      private long gesamtZeit_ ;
       /**
-       * <code>optional int64 transmitTime = 4;</code>
+       * <code>optional int64 gesamtZeit = 4;</code>
        */
-      public boolean hasTransmitTime() {
+      public boolean hasGesamtZeit() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int64 transmitTime = 4;</code>
+       * <code>optional int64 gesamtZeit = 4;</code>
        */
-      public long getTransmitTime() {
-        return transmitTime_;
+      public long getGesamtZeit() {
+        return gesamtZeit_;
       }
       /**
-       * <code>optional int64 transmitTime = 4;</code>
+       * <code>optional int64 gesamtZeit = 4;</code>
        */
-      public Builder setTransmitTime(long value) {
+      public Builder setGesamtZeit(long value) {
         bitField0_ |= 0x00000008;
-        transmitTime_ = value;
+        gesamtZeit_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 transmitTime = 4;</code>
+       * <code>optional int64 gesamtZeit = 4;</code>
        */
-      public Builder clearTransmitTime() {
+      public Builder clearGesamtZeit() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        transmitTime_ = 0L;
+        gesamtZeit_ = 0L;
         onChanged();
         return this;
       }
@@ -1045,13 +1045,13 @@ public final class MessdatenProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017messDaten.proto\022\ttestbench\"\243\001\n\tMessdat" +
+      "\n\017messDaten.proto\022\ttestbench\"\241\001\n\tMessdat" +
       "en\022\n\n\002id\030\001 \001(\005\022\033\n\023serialisierungsZeit\030\002 " +
-      "\001(\003\022\035\n\025deserialisierungsZeit\030\003 \001(\003\022\024\n\014tr" +
-      "ansmitTime\030\004 \001(\003\022\030\n\020paketGroesseByte\030\005 \001" +
-      "(\005\022\021\n\ttimeStamp\030\006 \001(\t\022\013\n\003typ\030\007 \001(\tB:\n\'te" +
-      "stbench.bootloader.protobuf.messdatenB\017M" +
-      "essdatenProtos"
+      "\001(\003\022\035\n\025deserialisierungsZeit\030\003 \001(\003\022\022\n\nge" +
+      "samtZeit\030\004 \001(\003\022\030\n\020paketGroesseByte\030\005 \001(\005" +
+      "\022\021\n\ttimeStamp\030\006 \001(\t\022\013\n\003typ\030\007 \001(\tB:\n\'test" +
+      "bench.bootloader.protobuf.messdatenB\017Mes" +
+      "sdatenProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1070,7 +1070,7 @@ public final class MessdatenProtos {
     internal_static_testbench_Messdaten_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_testbench_Messdaten_descriptor,
-        new java.lang.String[] { "Id", "SerialisierungsZeit", "DeserialisierungsZeit", "TransmitTime", "PaketGroesseByte", "TimeStamp", "Typ", });
+        new java.lang.String[] { "Id", "SerialisierungsZeit", "DeserialisierungsZeit", "GesamtZeit", "PaketGroesseByte", "TimeStamp", "Typ", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

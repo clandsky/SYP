@@ -8,8 +8,8 @@ import testbench.bootloader.protobuf.messdaten.MessdatenProtos.Messdaten;
 public class MessdatenGrenz {
     private int id;
     private long serizeit;
-    private long transmitTime;
     private long deserizeit;
+    private long gesamtZeit;
     private int serializedSize;
     private String timestamp;
     private int paketGroesseByte;
@@ -18,9 +18,9 @@ public class MessdatenGrenz {
     public MessdatenGrenz(Messdaten messdaten) {
         this.id = messdaten.getId();
         this.serizeit = messdaten.getSerialisierungsZeit();
-        this.transmitTime = messdaten.getTransmitTime();
         this.deserizeit = messdaten.getDeserialisierungsZeit();
         this.serializedSize = messdaten.getSerializedSize();
+        this.gesamtZeit = messdaten.getGesamtZeit();
         this.timestamp = messdaten.getTimeStamp();
         this.paketGroesseByte = messdaten.getPaketGroesseByte();
         this.typ = messdaten.getTyp();
@@ -34,12 +34,12 @@ public class MessdatenGrenz {
         return serizeit;
     }
 
-    public long getTransmitTime() {
-        return transmitTime;
-    }
-
     public long getDeserizeit() {
         return deserizeit;
+    }
+
+    public long getGesamtZeit() {
+        return gesamtZeit;
     }
 
     public int getSerializedSize() {

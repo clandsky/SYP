@@ -67,9 +67,9 @@ public class DateiSpeichern
             {
                 massenDatenFile.createNewFile();
             }
-            if (!massenDatenFile.exists())
+            if (!massenInfoFile.exists())
             {
-                massenDatenFile.createNewFile();
+                massenInfoFile.createNewFile();
             }
 
             /* Strings können nicht direkt in ein File geschrieben werden.
@@ -199,10 +199,6 @@ public class DateiSpeichern
             messDatenFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
 
             /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
-            if (!messDatenFile.exists())
-            {
-                messDatenFile.createNewFile();
-            }
             if (!messDatenFile.exists())
             {
                 messDatenFile.createNewFile();

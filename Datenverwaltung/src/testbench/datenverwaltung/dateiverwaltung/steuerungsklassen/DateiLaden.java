@@ -122,8 +122,10 @@ public class DateiLaden {
         String[] alleMessdaten = file.list();
         ArrayList<MessdatenProtos.Messdaten> messdatenArrayList = new ArrayList<>();
 
-        for(String s : alleMessdaten) {
-            messdatenArrayList.add(ladeMessdaten(Integer.valueOf(s)));
+        if (alleMessdaten != null) {
+            for(String s : alleMessdaten) {
+                messdatenArrayList.add(ladeMessdaten(Integer.valueOf(s)));
+            }
         }
 
         return messdatenArrayList;

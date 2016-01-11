@@ -110,6 +110,13 @@ public class ClientGUI extends JFrame {
     private JTable struktTableDetails;
     private JTree struktTree;
     private JScrollPane treeScrollPane;
+    private JButton graphAllerMessdatenAnzeigenButton;
+    private JLabel messIdLabel;
+    private JLabel messSizeLabel;
+    private JLabel messSeriLabel;
+    private JLabel messDeseriLabel;
+    private JLabel messTransmitLabel;
+    private JLabel messAllTimeLabel;
 
     /* OBEN -> automatisch generiert */
 
@@ -821,7 +828,25 @@ public class ClientGUI extends JFrame {
                 detailsCardLayout.show(cardPanelDetails,"treeCard");
             }
         });
+        messTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = messTable.getSelectedRow();
 
+                MessdatenGrenz m = messDaten.get(row);
+
+                messIdLabel.setText(String.valueOf(m.getId()));
+                messSizeLabel.setText(String.valueOf(m.getPaketGroesseByte())+" Byte");
+
+                if(m.getSerizeit() == 0) messSeriLabel.setText("Download - Zeit nicht ermittelbar.");
+                else messSeriLabel.setText(String.valueOf(m.getSerizeit()) +" ms");
+
+                if(m.getDeserizeit() == 0) messDeseriLabel.setText("Upload - Zeit nicht ermittelbar.");
+                else messDeseriLabel.setText(String.valueOf(m.getDeserizeit()) +" ms");
+
+                messAllTimeLabel.setText(String.valueOf(m.getGesamtZeit()) +" ms");
+            }
+        });
         herunterladenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -980,6 +1005,10 @@ public class ClientGUI extends JFrame {
 
                     case 2: //details
                         refreshDetails();
+                        break;
+
+                    case 3: //messdaten
+                        refreshMessdaten();
                         break;
                 }
             }
@@ -1511,7 +1540,7 @@ public class ClientGUI extends JFrame {
         splitPaneMess = new JSplitPane();
         panel10.add(splitPaneMess, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         leftPanelMessdaten = new JPanel();
-        leftPanelMessdaten.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanelMessdaten.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         leftPanelMessdaten.setEnabled(true);
         leftPanelMessdaten.setMinimumSize(new Dimension(100, 150));
         leftPanelMessdaten.setPreferredSize(new Dimension(100, 150));
@@ -1531,16 +1560,63 @@ public class ClientGUI extends JFrame {
         leftPanelMessdaten.add(scrollPane5, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         messTable = new JTable();
         scrollPane5.setViewportView(messTable);
+        graphAllerMessdatenAnzeigenButton = new JButton();
+        graphAllerMessdatenAnzeigenButton.setFont(new Font(graphAllerMessdatenAnzeigenButton.getFont().getName(), graphAllerMessdatenAnzeigenButton.getFont().getStyle(), 14));
+        graphAllerMessdatenAnzeigenButton.setText("Graph aller Messdaten anzeigen");
+        leftPanelMessdaten.add(graphAllerMessdatenAnzeigenButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightPanelMessdaten = new JPanel();
-        rightPanelMessdaten.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        rightPanelMessdaten.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
+        rightPanelMessdaten.setBackground(new Color(-1));
         splitPaneMess.setRightComponent(rightPanelMessdaten);
+        final JLabel label22 = new JLabel();
+        label22.setFont(new Font(label22.getFont().getName(), label22.getFont().getStyle(), 14));
+        label22.setText("ID:");
+        rightPanelMessdaten.add(label22, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label23 = new JLabel();
+        label23.setFont(new Font(label23.getFont().getName(), label23.getFont().getStyle(), 14));
+        label23.setHorizontalAlignment(2);
+        label23.setText("Serialisierungszeit:");
+        rightPanelMessdaten.add(label23, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        messIdLabel = new JLabel();
+        messIdLabel.setFont(new Font(messIdLabel.getFont().getName(), messIdLabel.getFont().getStyle(), 14));
+        messIdLabel.setText("/");
+        rightPanelMessdaten.add(messIdLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label24 = new JLabel();
+        label24.setFont(new Font(label24.getFont().getName(), label24.getFont().getStyle(), 14));
+        label24.setHorizontalAlignment(2);
+        label24.setText("Deserialisierungszeit:");
+        rightPanelMessdaten.add(label24, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label25 = new JLabel();
+        label25.setFont(new Font(label25.getFont().getName(), label25.getFont().getStyle(), 14));
+        label25.setText("Gesamtzeit:");
+        rightPanelMessdaten.add(label25, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label26 = new JLabel();
+        label26.setFont(new Font(label26.getFont().getName(), label26.getFont().getStyle(), 14));
+        label26.setText("Größe der zugehörigen Daten:");
+        rightPanelMessdaten.add(label26, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        messSizeLabel = new JLabel();
+        messSizeLabel.setFont(new Font(messSizeLabel.getFont().getName(), messSizeLabel.getFont().getStyle(), 14));
+        messSizeLabel.setText("/");
+        rightPanelMessdaten.add(messSizeLabel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        messDeseriLabel = new JLabel();
+        messDeseriLabel.setFont(new Font(messDeseriLabel.getFont().getName(), messDeseriLabel.getFont().getStyle(), 14));
+        messDeseriLabel.setText("/");
+        rightPanelMessdaten.add(messDeseriLabel, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        messSeriLabel = new JLabel();
+        messSeriLabel.setFont(new Font(messSeriLabel.getFont().getName(), messSeriLabel.getFont().getStyle(), 14));
+        messSeriLabel.setText("/");
+        rightPanelMessdaten.add(messSeriLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        messAllTimeLabel = new JLabel();
+        messAllTimeLabel.setFont(new Font(messAllTimeLabel.getFont().getName(), messAllTimeLabel.getFont().getStyle(), 14));
+        messAllTimeLabel.setText("/");
+        rightPanelMessdaten.add(messAllTimeLabel, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel11 = new JPanel();
         panel11.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel10.add(panel11, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label22 = new JLabel();
-        label22.setFont(new Font(label22.getFont().getName(), label22.getFont().getStyle(), 14));
-        label22.setText("Messdaten");
-        panel11.add(label22, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label27 = new JLabel();
+        label27.setFont(new Font(label27.getFont().getName(), label27.getFont().getStyle(), 14));
+        label27.setText("Messdaten");
+        panel11.add(label27, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer40 = new Spacer();
         panel11.add(spacer40, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         refreshIconMessdaten = new JLabel();
@@ -1556,10 +1632,10 @@ public class ClientGUI extends JFrame {
         underTitlePanel.setAutoscrolls(false);
         underTitlePanel.setBackground(new Color(-1513240));
         mainPanel.add(underTitlePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, 1, null, null, null, 0, true));
-        final JLabel label23 = new JLabel();
-        label23.setFont(new Font(label23.getFont().getName(), label23.getFont().getStyle(), 14));
-        label23.setText("Aktuelle Server IP:");
-        underTitlePanel.add(label23, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label28 = new JLabel();
+        label28.setFont(new Font(label28.getFont().getName(), label28.getFont().getStyle(), 14));
+        label28.setText("Aktuelle Server IP:");
+        underTitlePanel.add(label28, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         currentIpTextField = new JTextField();
         currentIpTextField.setEditable(false);
         currentIpTextField.setFont(new Font(currentIpTextField.getFont().getName(), currentIpTextField.getFont().getStyle(), 14));
