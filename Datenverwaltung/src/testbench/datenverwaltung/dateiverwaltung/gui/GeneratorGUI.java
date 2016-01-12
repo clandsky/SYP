@@ -5,9 +5,11 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
+import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
+import testbench.bootloader.service.StaticHolder;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
@@ -108,7 +110,7 @@ public class GeneratorGUI extends JFrame
 
     /**
      * GeneratorGUI
-     * <p/>
+     *
      * Generiert die Generator GUI und definiert die ActionListener
      */
     public GeneratorGUI()
@@ -138,8 +140,8 @@ public class GeneratorGUI extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Generator generator = new Generator();
-                MassenDef config = null;
+                final Generator generator = new Generator();
+                final MassenDef config;
 
                 DefaultTableModel model = (DefaultTableModel) tableFrequencies.getModel();
 
@@ -167,18 +169,28 @@ public class GeneratorGUI extends JFrame
                     return;
                 }
 
-                MassendatenProtos.Massendaten massendaten;
-                massendaten = generator.generatorMassData(config, Integer.parseInt(textFieldSize.getText()));
+                SwingWorker sw = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
+                {
+                    @Override
+                    protected MassendatenProtos.Massendaten.Builder doInBackground() throws Exception
+                    {
 
-                DateiSpeichern ds = new DateiSpeichern();
-                if (ds.speicherMassendaten(massendaten))
-                {
-                    JOptionPane.showMessageDialog(null, "Massendaten erfolgreich gespeichert!");
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Massendaten konnten nicht gespeichert werden!");
-                }
+                        MassendatenProtos.Massendaten massendaten;
+                        massendaten = generator.generatorMassData(config, Integer.parseInt(textFieldSize.getText()));
+
+                        DateiSpeichern ds = new DateiSpeichern();
+                        if (ds.speicherMassendaten(massendaten))
+                        {
+                            JOptionPane.showMessageDialog(null, "Massendaten erfolgreich gespeichert!");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Massendaten konnten nicht gespeichert werden!");
+                        }
+                        return null;
+                    }
+                };
+                sw.execute();
             }
         });
         spinner.addChangeListener(new ChangeListener()
@@ -228,27 +240,37 @@ public class GeneratorGUI extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                StruktDef def = new StruktDef();
+                final StruktDef def = new StruktDef();
                 def.setItemAIDNameCount(Integer.parseInt(dataset1TextField.getText()));
                 def.setItemJoinDefCount(Integer.parseInt(dataset2TextField.getText()));
                 def.setItemSelItemCount(Integer.parseInt(dataset3TextField.getText()));
                 def.setItemSelOrderCount(Integer.parseInt(dataset4TextField.getText()));
                 def.setItemSelUIDCount(Integer.parseInt(dataset5TextField.getText()));
 
-                Generator generator = new Generator();
+                final Generator generator = new Generator();
 
-                StruktdatenProtos.Struktdaten struktdaten;
-                struktdaten = generator.generatorDeepStructure(def);
+                SwingWorker sw = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
+                {
+                    @Override
+                    protected MassendatenProtos.Massendaten.Builder doInBackground() throws Exception
+                    {
 
-                DateiSpeichern ds = new DateiSpeichern();
-                if (ds.speicherStruktdaten(struktdaten))
-                {
-                    JOptionPane.showMessageDialog(null, "Strukturdaten erfolgreich gespeichert!");
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Strukturdaten konnten nicht gespeichert werden!");
-                }
+                        StruktdatenProtos.Struktdaten struktdaten;
+                        struktdaten = generator.generatorDeepStructure(def);
+
+                        DateiSpeichern ds = new DateiSpeichern();
+                        if (ds.speicherStruktdaten(struktdaten))
+                        {
+                            JOptionPane.showMessageDialog(null, "Strukturdaten erfolgreich gespeichert!");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Strukturdaten konnten nicht gespeichert werden!");
+                        }
+                        return null;
+                    }
+                };
+                sw.execute();
 
             }
         });

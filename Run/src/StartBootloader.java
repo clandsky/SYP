@@ -20,7 +20,7 @@ public class StartBootloader extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Bootloader - Testbench Protobuf");
-        setSize(400, 200);
+        setSize(600, 300);
         this.setContentPane(panel1);
         setVisible(true);
 

@@ -7,8 +7,12 @@ import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
 import testbench.bootloader.grenz.MassenDef;
 import testbench.bootloader.grenz.Frequency;
+import testbench.datenverwaltung.dateiverwaltung.gui.GeneratorGuiProgress;
 
+import javax.swing.*;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.*;
 
@@ -32,15 +36,22 @@ public class Generator
      * @param fileSize Größe der Nutzdaten in Byte
      * @return Protobuf Builder für Massendaten
      */
-    public Massendaten generatorMassData(MassenDef config, int fileSize)
+    public Massendaten generatorMassData(final MassenDef config, final int fileSize)
     {
+        Massendaten mDaten;
+
+        Massendaten.Builder massendatenBuilder = Massendaten.newBuilder();
+
+        ProgressThread thread = new ProgressThread();
+        thread.setPorgress( new AtomicInteger( 0 ) );
+        thread.start();
+
 
         double pos = 0.0f;
         int typeSize = 11;
 
         int procent = 0;
 
-        Massendaten.Builder massendatenBuilder = Massendaten.newBuilder();
         Massendaten.MassenInfo.Builder massenInfoBuilder = Massendaten.MassenInfo.newBuilder();
         Massendaten.MassenDef.Builder massenDefBuilder = Massendaten.MassenDef.newBuilder();
 
@@ -62,6 +73,7 @@ public class Generator
         // Schleife um die Daten zu generieren:
         for (int i = 0; i < fileSize / typeSize; i++)
         {
+
             double value = 0.0f;
 
             // Amplitude für diesen Schritt erzeugen
@@ -71,26 +83,18 @@ public class Generator
             }
 
             // Prozentanzeige wenn im DEBUG-Modus
-            if (_DEBUG)
+            longWert = (long) (i) * 100;
+            temp = longWert / (fileSize / typeSize);
+            if (procent != temp)
             {
-                longWert = (long) (i) * 100;
-                temp = longWert / (fileSize / typeSize);
-                if (procent != temp)
-                {
-                    procent = (int) temp;
-                    Printer.printProgressBar((int) temp, 0.5f);
-                }
+                thread.setPorgress( new AtomicInteger( (int)temp ) );
+                procent = (int) temp;
             }
-            
+
             massendatenBuilder.addValue(Massendaten.Werte.newBuilder().setNumber(value));
 
             // erhöhen der Position der Abtastung
             pos += config.getAbtastrate();
-        }
-
-        if (_DEBUG)
-        {
-            Printer.printProgressBar(100, 0.5f);
         }
 
         // 1: einmal builden, um die serializedSize zu bekommen
@@ -103,8 +107,10 @@ public class Generator
         Printer.println("size: " + tempMdaten.getSerializedSize());
         massendatenBuilder.setInfo(massenInfoBuilder);
 
-        // 3: nochmal builden für hashcode
-        Massendaten mDaten = massendatenBuilder.build();
+        thread.setPorgress( new AtomicInteger( 100 ) );
+        thread.killProgress();
+
+        mDaten = massendatenBuilder.build();
 
         return mDaten;
     }
@@ -119,6 +125,10 @@ public class Generator
      */
     public Struktdaten generatorDeepStructure(StruktDef struktDef)
     {
+        ProgressThread thread = new ProgressThread();
+        thread.setPorgress( new AtomicInteger( 0 ) );
+        thread.start();
+
         Struktdaten.Builder structBuilder = Struktdaten.newBuilder();
 
         Struktdaten.SelAIDNameUnitID.Builder selAIDNameUnitIDBuilder;
@@ -134,6 +144,8 @@ public class Generator
         // Erzeugen der ItemAIDName Elementen
         for (int i = 0; i < struktDef.getItemAIDNameCount(); i++)
         {
+            thread.setPorgress( new AtomicInteger( i * 20 / struktDef.getItemAIDNameCount() ) );
+
             longLong = Struktdaten.LongLong.newBuilder();
             longLong.setLow(523300 + i);
             longLong.setHigh(315100 + i);
@@ -157,6 +169,8 @@ public class Generator
         // Erzeugen der JoinDef Elementen
         for (int i = 0; i < struktDef.getItemJoinDefCount(); i++)
         {
+            thread.setPorgress( new AtomicInteger( 20 + i * 20 / struktDef.getItemAIDNameCount() ) );
+
             longLong = Struktdaten.LongLong.newBuilder();
             longLong.setLow(200);
             longLong.setHigh(200);
@@ -179,6 +193,8 @@ public class Generator
         // Erzeugen der SelOrder Elemente
         for (int i = 0; i < struktDef.getItemSelOrderCount(); i++)
         {
+            thread.setPorgress( new AtomicInteger( 40 + i * 20 / struktDef.getItemAIDNameCount() ) );
+
             selOrder = Struktdaten.SelOrder.newBuilder();
 
             longLong = Struktdaten.LongLong.newBuilder();
@@ -198,6 +214,8 @@ public class Generator
         // Erzeugen der SelUID Elemente
         for (int i = 0; i < struktDef.getItemSelUIDCount(); i++)
         {
+            thread.setPorgress( new AtomicInteger( 60 + i * 20 / struktDef.getItemAIDNameCount() ) );
+
             longLong = Struktdaten.LongLong.newBuilder();
             longLong.setLow(2062440 + i);
             longLong.setHigh(25600 + i);
@@ -212,6 +230,8 @@ public class Generator
         // Erzeugen der SelItem Elemente
         for (int i = 0; i < struktDef.getItemSelItemCount(); i++)
         {
+            thread.setPorgress( new AtomicInteger( 80 + i * 20 / struktDef.getItemAIDNameCount() ) );
+
             selItem = Struktdaten.SelItem.newBuilder();
 
             ts_Value = Struktdaten.TS_Value.newBuilder();
@@ -256,6 +276,9 @@ public class Generator
         info.setSize(structBuilder.build().getSerializedSize());
         info.setId((int) (Calendar.getInstance().getTime().getTime() / 2000));
         structBuilder.setInfo(info);
+
+        thread.setPorgress( new AtomicInteger( 100 ) );
+        thread.killProgress();
 
         // Rückgabe der kompletten Struktur
         return structBuilder.build();
