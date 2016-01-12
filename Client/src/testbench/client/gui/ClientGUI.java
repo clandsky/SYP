@@ -586,6 +586,8 @@ public class ClientGUI extends JFrame {
         struktInfoServer = cSteuer.getStruktInfoGrenzList(true);
 
         if(massenInfoServer==null || struktInfoServer==null) {
+            ((DefaultTableModel) massenTableDownload.getModel()).setRowCount(0);
+            ((DefaultTableModel) struktTableDownload.getModel()).setRowCount(0);
             JOptionPane.showMessageDialog(optionPaneFrame, SERVER_OFFLINE);
         } else {
             fillMassenTable(massenTableDownload,massenInfoServer);
@@ -1134,6 +1136,11 @@ public class ClientGUI extends JFrame {
      * Zeichnet Die Graphen fuer die Anzeige der Messdaten
      */
     private void drawFrameChartTime() {
+        if(messDaten.size() == 0) {
+            JOptionPane.showMessageDialog(optionPaneFrame, "Keine Messdaten vorhanden!");
+            return;
+        }
+
         XYSeries gesamt = new XYSeries("");
         XYSeries seri = new XYSeries("");
         XYSeries deseri = new XYSeries("");
@@ -1147,11 +1154,6 @@ public class ClientGUI extends JFrame {
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jFrame.setLayout(new BorderLayout());
-
-        if(messDaten.size() == 0) {
-            JOptionPane.showMessageDialog(optionPaneFrame, "Keine Messdaten vorhanden!");
-            return;
-        }
 
         for (MessdatenGrenz m : messDaten) {
             gesamt.add(m.getPaketGroesseByte()/1000, m.getGesamtZeit());
