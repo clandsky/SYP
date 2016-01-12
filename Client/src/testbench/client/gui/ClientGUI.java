@@ -1130,6 +1130,9 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Zeichnet Die Graphen fuer die Anzeige der Messdaten
+     */
     private void drawFrameChartTime() {
         XYSeries gesamt = new XYSeries("");
         XYSeries seri = new XYSeries("");
@@ -1140,7 +1143,6 @@ public class ClientGUI extends JFrame {
         Dimension d = new Dimension();
         d.setSize(100, 500);
         jFrame.setMinimumSize(d);
-        jFrame.setLocationRelativeTo(null);
         jFrame.setResizable(true);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -1157,14 +1159,21 @@ public class ClientGUI extends JFrame {
             if(m.getDeserizeit() != 0) deseri.add(m.getPaketGroesseByte()/1000, m.getDeserizeit());
         }
 
-        jFrame.add(new ChartPanel(createChart(gesamt,"Gesamtzeit nach Größe")),BorderLayout.WEST);
-        if(seri.getItemCount() > 0) jFrame.add(new ChartPanel(createChart(seri,"Serialisierungszeit nach Größe")),BorderLayout.CENTER);
+        jFrame.add(new ChartPanel(createChart(gesamt,"Gesamtzeit nach Größe")),BorderLayout.NORTH);
+        if(seri.getItemCount() > 0) jFrame.add(new ChartPanel(createChart(seri,"Serialisierungszeit nach Größe")),BorderLayout.WEST);
         if(deseri.getItemCount() > 0) jFrame.add(new ChartPanel(createChart(deseri,"Deserialisierungszeit nach Größe")),BorderLayout.EAST);
 
         jFrame.pack();
         jFrame.setVisible(true);
     }
 
+    /**
+     * Erzeugt einen Graphen mit der gegebenen XYSeries Funktion und der gegebenen Beschreibung.
+     *
+     * @param xys
+     * @param chartDescription
+     * @return Den erstellten Graphen.
+     */
     private JFreeChart createChart(XYSeries xys, String chartDescription) {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSplineRenderer xySplineRenderer = new XYSplineRenderer();
