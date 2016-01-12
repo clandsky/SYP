@@ -150,15 +150,15 @@ public class GeneratorGUI extends JFrame
 
                 try
                 {
-                    config = new MassenDef(Double.parseDouble(textFieldAbtastrate.getText()));
+                    config = new MassenDef(Double.parseDouble(textFieldAbtastrate.getText().replace(",", ".")));
                     int count = model.getRowCount();
                     for (int i = 0; i < count; i++)
                     {
                         config.getFrequencies().add(
                                 new Frequency(
-                                        Double.parseDouble(model.getValueAt(i, 0).toString()),
-                                        Double.parseDouble(model.getValueAt(i, 1).toString()),
-                                        Double.parseDouble(model.getValueAt(i, 2).toString())
+                                        Double.parseDouble(model.getValueAt(i, 0).toString().replace(",", ".")),
+                                        Double.parseDouble(model.getValueAt(i, 1).toString().replace(",", ".")),
+                                        Double.parseDouble(model.getValueAt(i, 2).toString().replace(",", "."))
                                 )
                         );
                     }
