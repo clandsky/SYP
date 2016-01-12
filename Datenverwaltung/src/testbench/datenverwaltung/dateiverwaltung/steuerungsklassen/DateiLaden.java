@@ -18,10 +18,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Murat Tasdemir on 07.12.2015
- */
-
 
 public class DateiLaden {
     /**

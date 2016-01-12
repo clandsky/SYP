@@ -13,9 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by Murat Tasdemir on 07.12.2015
- */
 
 public class DateiSpeichern
 {
