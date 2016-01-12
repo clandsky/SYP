@@ -50,7 +50,7 @@ public class SessionHandler {
     public SessionHandler()
     {
         this.config=new ServerConfiguration();
-        this.config.setPort(4000);
+        this.config.setPort(8000);
         this.running=false;
     }
 
