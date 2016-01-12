@@ -124,7 +124,7 @@ public class ClientGUI extends JFrame {
 
     /* ############## VARIABLEN ################ */
     private final int DIVIDER_LOCATION = 250; //divider position zwischen jsplitpanes
-    private final int DIVIDER_LOCATION_MESS = 425; //divider position bei messdaten
+    private final int DIVIDER_LOCATION_MESS = 475; //divider position bei messdaten
     private ClientSteuer cSteuer;
     private DecimalFormat df;
     private CardLayout mainCardLayout;
