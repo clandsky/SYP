@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
+import javafx.scene.chart.Chart;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -837,7 +838,9 @@ public class ClientGUI extends JFrame {
                 MessdatenGrenz m = messDaten.get(row);
 
                 messIdLabel.setText(String.valueOf(m.getId()));
-                messSizeLabel.setText(String.valueOf(m.getPaketGroesseByte())+" Byte");
+
+                if(m.getPaketGroesseByte() > 10000) messSizeLabel.setText(String.valueOf(m.getPaketGroesseByte()/1000)+" KB");
+                else messSizeLabel.setText(String.valueOf(m.getPaketGroesseByte())+" Byte");
 
                 if(m.getSerizeit() == 0) messSeriLabel.setText("Download - Zeit nicht ermittelbar.");
                 else messSeriLabel.setText(String.valueOf(m.getSerizeit()) +" ms");
@@ -1017,7 +1020,7 @@ public class ClientGUI extends JFrame {
         graphAllerMessdatenAnzeigenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MessGraph messGraph = new MessGraph(new ArrayList<MessdatenGrenz>(messDaten));
+                drawFrameChartTime();
             }
         });
     }
@@ -1125,6 +1128,63 @@ public class ClientGUI extends JFrame {
                 } else JOptionPane.showMessageDialog(optionPaneFrame, NO_EMPTY_SPACES_STRING);
             }
         }
+    }
+
+    private void drawFrameChartTime() {
+        XYSeries gesamt = new XYSeries("");
+        XYSeries seri = new XYSeries("");
+        XYSeries deseri = new XYSeries("");
+
+        JFrame jFrame = new JFrame();
+
+        Dimension d = new Dimension();
+        d.setSize(100, 500);
+        jFrame.setMinimumSize(d);
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setResizable(true);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        jFrame.setLayout(new BorderLayout());
+
+        if(messDaten.size() == 0) {
+            JOptionPane.showMessageDialog(optionPaneFrame, "Keine Messdaten vorhanden!");
+            return;
+        }
+
+        for (MessdatenGrenz m : messDaten) {
+            gesamt.add(m.getPaketGroesseByte()/1000, m.getGesamtZeit());
+            if(m.getSerizeit() != 0) seri.add(m.getPaketGroesseByte()/1000, m.getSerizeit());
+            if(m.getDeserizeit() != 0) deseri.add(m.getPaketGroesseByte()/1000, m.getDeserizeit());
+        }
+
+        jFrame.add(new ChartPanel(createChart(gesamt,"Gesamtzeit nach Größe")),BorderLayout.WEST);
+        if(seri.getItemCount() > 0) jFrame.add(new ChartPanel(createChart(seri,"Serialisierungszeit nach Größe")),BorderLayout.CENTER);
+        if(deseri.getItemCount() > 0) jFrame.add(new ChartPanel(createChart(deseri,"Deserialisierungszeit nach Größe")),BorderLayout.EAST);
+
+        jFrame.pack();
+        jFrame.setVisible(true);
+    }
+
+    private JFreeChart createChart(XYSeries xys, String chartDescription) {
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSplineRenderer xySplineRenderer = new XYSplineRenderer();
+        XYPlot plot;
+        NumberAxis xAxis;
+        NumberAxis yAxis;
+        JFreeChart chart;
+
+        dataset.addSeries(xys);
+
+        xySplineRenderer.setSeriesPaint(0, Color.blue);
+        xySplineRenderer.setSeriesShape(0, new Ellipse2D.Double(-2, -2, 4, 4)); //größe der punkte bei XYSplineRenderer
+        xAxis = new NumberAxis("Dateigröße in KB");
+        yAxis = new NumberAxis("Zeit in ms");
+
+        plot = new XYPlot(dataset, xAxis, yAxis, xySplineRenderer);
+        chart = new JFreeChart(plot);
+        chart.setTitle(chartDescription);
+
+        return chart;
     }
 
     {
