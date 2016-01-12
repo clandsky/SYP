@@ -5,11 +5,9 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import testbench.bootloader.grenz.Frequency;
 import testbench.bootloader.grenz.MassenDef;
-import testbench.bootloader.grenz.MassendatenGrenz;
 import testbench.bootloader.grenz.StruktDef;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos;
-import testbench.bootloader.service.StaticHolder;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiLaden;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.DateiSpeichern;
 import testbench.datenverwaltung.dateiverwaltung.steuerungsklassen.Generator;
@@ -28,6 +26,11 @@ import java.awt.event.ActionListener;
  */
 public class GeneratorGUI extends JFrame
 {
+    /**
+     * Aktueller SwingWorker für Hintergundprozesse
+     */
+    private SwingWorker<MassendatenProtos.Massendaten.Builder, Integer> swingWorker = null;
+
     /**
      * Zentrales Panel in dem alle weiteren Object liegen
      */
@@ -169,7 +172,16 @@ public class GeneratorGUI extends JFrame
                     return;
                 }
 
-                SwingWorker sw = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
+                if (swingWorker != null)
+                {
+                    if (!swingWorker.isDone())
+                    {
+                        JOptionPane.showMessageDialog(panelCentral, "Generierung kann aktuell nicht gestartet werden.");
+                        return;
+                    }
+                }
+
+                swingWorker = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
                 {
                     @Override
                     protected MassendatenProtos.Massendaten.Builder doInBackground() throws Exception
@@ -181,16 +193,16 @@ public class GeneratorGUI extends JFrame
                         DateiSpeichern ds = new DateiSpeichern();
                         if (ds.speicherMassendaten(massendaten))
                         {
-                            JOptionPane.showMessageDialog(null, "Massendaten erfolgreich gespeichert!");
+                            JOptionPane.showMessageDialog(panelCentral, "Massendaten erfolgreich gespeichert!");
                         }
                         else
                         {
-                            JOptionPane.showMessageDialog(null, "Massendaten konnten nicht gespeichert werden!");
+                            JOptionPane.showMessageDialog(panelCentral, "Massendaten konnten nicht gespeichert werden!");
                         }
                         return null;
                     }
                 };
-                sw.execute();
+                swingWorker.execute();
             }
         });
         spinner.addChangeListener(new ChangeListener()
@@ -249,7 +261,16 @@ public class GeneratorGUI extends JFrame
 
                 final Generator generator = new Generator();
 
-                SwingWorker sw = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
+                if (swingWorker != null)
+                {
+                    if (!swingWorker.isDone())
+                    {
+                        JOptionPane.showMessageDialog(panelCentral, "Generierung kann aktuell nicht gestartet werden.");
+                        return;
+                    }
+                }
+
+                swingWorker = new SwingWorker<MassendatenProtos.Massendaten.Builder, Integer>()
                 {
                     @Override
                     protected MassendatenProtos.Massendaten.Builder doInBackground() throws Exception
@@ -261,16 +282,16 @@ public class GeneratorGUI extends JFrame
                         DateiSpeichern ds = new DateiSpeichern();
                         if (ds.speicherStruktdaten(struktdaten))
                         {
-                            JOptionPane.showMessageDialog(null, "Strukturdaten erfolgreich gespeichert!");
+                            JOptionPane.showMessageDialog(panelCentral, "Strukturdaten erfolgreich gespeichert!");
                         }
                         else
                         {
-                            JOptionPane.showMessageDialog(null, "Strukturdaten konnten nicht gespeichert werden!");
+                            JOptionPane.showMessageDialog(panelCentral, "Strukturdaten konnten nicht gespeichert werden!");
                         }
                         return null;
                     }
                 };
-                sw.execute();
+                swingWorker.execute();
 
             }
         });
