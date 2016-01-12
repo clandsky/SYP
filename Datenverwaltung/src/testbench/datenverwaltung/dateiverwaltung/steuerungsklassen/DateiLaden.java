@@ -19,9 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by CGrings on 07.12.2015
+ * Created by Murat Tasdemir on 07.12.2015
  */
+
+
 public class DateiLaden {
+    /**
+     * Diese Methode laedt die Massendaten aus einer spezifischen Datei auf der Festplatte,
+     * speichert diese in den Datentypen Massendaten und gibt diese zurueck.
+     * @return Die geladenen Massendaten.
+     */
     public Massendaten ladeMassendaten(int id) {
         Massendaten m;
         //Printer.println("Laden der PROTOBYTE Datei");
@@ -54,6 +61,11 @@ public class DateiLaden {
         return m;
     }
 
+    /**
+     * Diese Methode laedt die strukturierten Daten aus einer spezifischen Datei auf der Festplatte,
+     * speichert diese in den Datentypen Struktdaten und gibt diese zurueck.
+     * @return Die geladenen Struktdaten.
+     */
 
     public Struktdaten ladeStruktdaten(int id) {
         Struktdaten m;
@@ -87,6 +99,13 @@ public class DateiLaden {
         return m;
     }
 
+
+    /**
+     * Diese Methode laedt die Messendaten als Proto File aus einer spezifischen Datei auf der Festplatte,
+     * speichert diese in den Datentypen MassendatenProtos.Messdaten und gibt diese zurueck.
+     * @return Die geladenen Messdaten.
+     */
+
     public MessdatenProtos.Messdaten ladeMessdaten(int id) {
         MessdatenProtos.Messdaten m;
         //Printer.println("Laden der PROTOBYTE Datei");
@@ -117,6 +136,12 @@ public class DateiLaden {
         return m;
     }
 
+    /**
+     * Diese Methode laedt die Messendaten in eine Liste,
+     * speichert diese in einen String und gibt diese zurueck.
+     * @return Die geladenen Messdaten.
+     */
+
     public List<MessdatenProtos.Messdaten> ladeMessdatenListe() {
         File file = new File(StaticHolder.saveMessdatenDirectory);
         String[] alleMessdaten = file.list();
@@ -131,6 +156,11 @@ public class DateiLaden {
         return messdatenArrayList;
     }
 
+    /**
+     * Diese Methode laedt die Masseninfo in eine ArrayList,
+     * und gibt diese als Arraylist zurueck.
+     * @return Die Masseninfo Arraylist.
+     */
     public ArrayList<MassenInfo> ladeMassenInfo() {
         FileInputStream fin;
         File directory = new File(StaticHolder.saveMassendatenDirectory);
@@ -169,6 +199,12 @@ public class DateiLaden {
 
         return massenInfoArrayList;
     }
+
+    /**
+     * Diese Methode laedt die Struktinfo in eine ArrayList,
+     * und gibt diese als Arraylist zurueck.
+     * @return Die Struktinfo Arraylist.
+     */
     public ArrayList<StruktInfo> ladeStruktInfo() {
         FileInputStream fin;
         File directory = new File(StaticHolder.saveStruktdatenDirectory);
@@ -207,6 +243,11 @@ public class DateiLaden {
         return struktInfoArrayList;
     }
 
+    /**
+     * Diese Methode laedt die Frequenzen für die Massendaten
+     * aus einer Datei und gibt diese zurueck.
+     * @return Die Frequenzen als massenDef.
+     */
     public MassenDef ladeConfig()
     {
         MassenDef massenDef = new MassenDef();

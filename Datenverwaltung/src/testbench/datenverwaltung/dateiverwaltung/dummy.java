@@ -75,7 +75,7 @@ public class dummy
                     break;
 
                 /*
-                 * Lade aus XML
+                 * Lade Massendaten aus XML
                  */
                 case 3:
                     DateiLaden dl = new DateiLaden();
@@ -83,6 +83,26 @@ public class dummy
                     break;
 
                 case 4:
+                    System.out.println("holeMassendaten");
+                    break;
+
+                case 5:
+                    System.out.println("dummy.");;
+                    break;
+
+                case 6:
+                    System.out.println("dummy.");;
+                    break;
+
+                case 7:
+                    System.out.println("dummy.");;
+                    break;
+
+                case 8:
+                    System.out.println("dummy.");;
+                    break;
+
+                case 9:
                     System.out.println("Die Datenverwaltung wurde beendet.");
                     exit = true;
                     break;
