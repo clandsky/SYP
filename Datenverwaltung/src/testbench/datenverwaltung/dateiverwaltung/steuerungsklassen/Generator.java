@@ -260,6 +260,8 @@ public class Generator
 
             selItem.setValue(selValueExt);
             selItem.setOperator("Oper");
+
+            structBuilder.addCondSeq(selItem);
         }
 
         // Erzeugen der Informationen zu dieser Struktur
