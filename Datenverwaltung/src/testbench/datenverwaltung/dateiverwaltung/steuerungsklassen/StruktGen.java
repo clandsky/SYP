@@ -13,6 +13,7 @@ import java.util.Calendar;
 /**
  * Created by Chrizzle Manizzle on 15.12.2015.
  */
+@Deprecated
 public class StruktGen {
     public static Struktdaten erzeugeStrukt(StruktDef def){
         Builder builder = Struktdaten.newBuilder();

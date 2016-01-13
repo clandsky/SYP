@@ -1,24 +1,25 @@
 package testbench.datenverwaltung.dateiverwaltung.steuerungsklassen;
 
 import testbench.bootloader.Printer;
-
-
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten;
-import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.Frequency;
 import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenDef;
+import testbench.bootloader.protobuf.massendaten.MassendatenProtos.Massendaten.MassenInfo;
 import testbench.bootloader.protobuf.messdaten.MessdatenProtos;
 import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten;
-import testbench.bootloader.protobuf.struktdaten.StruktdatenProtos.Struktdaten.StruktInfo;
 import testbench.bootloader.service.StaticHolder;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
 public class DateiSpeichern
 {
+    /**
+     * Diese Methode speichert die Massendaten in eine spezifischen Datei auf der Festplatte,
+     * @return true wenn speichern erfolgreich war andernfalls false.
+     */
     public boolean speicherMassendaten(Massendaten massendaten)
     {
 
@@ -62,7 +63,7 @@ public class DateiSpeichern
             massenDatenFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
             massenInfoFile = new File(filePath+"/"+StaticHolder.infoFileName+".protobyte");
 
-            /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
+            // Überprüfen, ob Datei existiert ansonsten erzeuge neue Datei
             if (!massenDatenFile.exists())
             {
                 massenDatenFile.createNewFile();
@@ -75,13 +76,14 @@ public class DateiSpeichern
             /* Strings können nicht direkt in ein File geschrieben werden.
              * Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
              */
-            // schreibe massendaten datei
+
+            // schreibe Massendaten Datei
             fos = new FileOutputStream(massenDatenFile);
             fos.write(massendaten.toByteArray());
             fos.flush();
             fos.close();
 
-            //schreibe masseninfo datei
+            //schreibe Masseninfo Datei
             fos = new FileOutputStream(massenInfoFile);
             fos.write(masseninfo.toByteArray());
             fos.flush();
@@ -104,7 +106,7 @@ public class DateiSpeichern
             }
             catch (IOException ioe)
             {
-                Printer.println("Error in closing the Stream");
+                Printer.println("Der Stream konnte nicht geschlossen werden");
                 return false;
             }
         }
@@ -112,6 +114,10 @@ public class DateiSpeichern
     }
 
 
+    /**
+     * Diese Methode speichert die Strukturierten Daten in eine spezifischen Datei auf der Festplatte,
+     * @return true wenn speichern erfolgreich war andernfalls false.
+     */
     public boolean speicherStruktdaten (Struktdaten strukt)
     {
         FileOutputStream fos = null;
@@ -128,7 +134,7 @@ public class DateiSpeichern
             struktFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
             struktInfoFile = new File(filePath+"/"+StaticHolder.infoFileName+".protobyte");
 
-            // Checken ob Datei existiert ansonsten erzeuge neue Datei
+            // Überprüfen ob Datei existiert ansonsten erzeuge neue Datei
             if (!struktFile.exists())
             {
                 struktFile.createNewFile();
@@ -174,20 +180,23 @@ public class DateiSpeichern
             }
             catch (IOException ioe)
             {
-                Printer.println("Error in closing the Stream");
+                Printer.println("Der Stream konnte nicht geschlossen werden");
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Diese Methode speichert die Messdaten in eine spezifischen Datei auf der Festplatte,
+     * @return true wenn speichern erfolgreich war andernfalls false.
+     */
     public boolean speicherMessdaten(MessdatenProtos.Messdaten messdaten)
     {
         byte[] serializedMessdaten;
         FileOutputStream fos = null;
         File messDatenFile, directory;
 
-        //Printer.println("Die Massendaten werden jetzt in eine XML Datei geschrieben");
         try
         {
             serializedMessdaten = messdaten.toByteArray();
@@ -198,7 +207,7 @@ public class DateiSpeichern
 
             messDatenFile = new File(filePath+"/"+StaticHolder.fileName+".protobyte");
 
-            /* Checken ob Datei existiert ansonsten erzeuge neue Datei */
+            // Überprüfen ob Datei existiert ansonsten erzeuge neue Datei
             if (!messDatenFile.exists())
             {
                 messDatenFile.createNewFile();
@@ -207,7 +216,7 @@ public class DateiSpeichern
             /* Strings können nicht direkt in ein File geschrieben werden.
              * Deswegen muss dies in Bytes umgewandelt werden vor dem reinladen
              */
-            // schreibe massendaten datei
+            // schreibe Massendaten datei
             fos = new FileOutputStream(messDatenFile);
             fos.write(serializedMessdaten);
             fos.flush();
@@ -231,7 +240,7 @@ public class DateiSpeichern
             }
             catch (IOException ioe)
             {
-                Printer.println("Error in closing the Stream");
+                Printer.println("Der Stream konnte nicht geschlossen werden");
                 return false;
             }
         }
