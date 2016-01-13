@@ -52,6 +52,7 @@ public class ServerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tAOS.clear();
+
                 Printer.printWelcome();
 
             }
@@ -61,7 +62,11 @@ public class ServerGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!started) {
                     if (!sh.isRunning()) {
+                        tAOS.clear();
+                        Printer.printWelcome();
+                        Printer.println("Generiere neue Session...");
                         if (sh.startServer()) {
+
                             startServerButton.setText("Stop Server");
                             started = true;
                         }
@@ -98,6 +103,8 @@ public class ServerGUI extends JFrame {
                     if (port > 0) {
                         sh.setPort(port);
                         ok = true;
+                        tAOS.clear();
+                        Printer.printWelcome();
                         if (sh.isRunning())
                             Printer.println("Port wurde auf " + port + " gesetzt. \nZum Übernehmen der Änderung muss der Server neugestartet werden");
                         else
@@ -163,7 +170,7 @@ public class ServerGUI extends JFrame {
         clearButton.setVerticalAlignment(0);
         panel.add(clearButton, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel.add(spacer1, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel.add(spacer1, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         startServerButton = new JButton();
         startServerButton.setText("Start Server");
         panel.add(startServerButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -172,7 +179,7 @@ public class ServerGUI extends JFrame {
         panel.add(konfigurierenButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         datenverwaltungStartenButton = new JButton();
         datenverwaltungStartenButton.setText("Datenverwaltung starten");
-        panel.add(datenverwaltungStartenButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel.add(datenverwaltungStartenButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(-1, 500), 0, false));
     }
 
     /**
